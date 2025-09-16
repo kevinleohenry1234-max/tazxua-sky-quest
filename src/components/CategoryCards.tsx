@@ -33,9 +33,7 @@ const CategoryCards = () => {
   ];
 
   const handleCategoryClick = (link: string) => {
-    // For now, just scroll to a section or show a toast
-    console.log('Navigate to:', link);
-    // In a real app, this would use React Router
+    window.location.href = link;
   };
 
   return (
