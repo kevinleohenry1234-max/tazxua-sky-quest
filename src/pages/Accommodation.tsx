@@ -4,30 +4,73 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Wifi, Car, Coffee, Utensils } from 'lucide-react';
 import homestayImage from '@/assets/homestay-taxua.jpg';
+import luHomestayImage from '@/assets/lu-homestay-taxua.jpg';
 
 const Accommodation = () => {
+  // Hàm xử lý mở chatbot
+  const handleBookingClick = () => {
+    // Kiểm tra xem chatbot widget đã load chưa
+    if (typeof window !== 'undefined') {
+      // Tìm button chatbot và click vào nó
+      const chatButton = document.getElementById('phechat-chat-button');
+      if (chatButton) {
+        chatButton.click();
+        return;
+      }
+      
+      // Nếu không tìm thấy button, thử tìm theo class hoặc selector khác
+      const chatWidget = document.querySelector('[id*="phechat"]') || 
+                        document.querySelector('[class*="phechat"]') ||
+                        document.querySelector('[class*="chat"]');
+      
+      if (chatWidget && chatWidget instanceof HTMLElement) {
+        chatWidget.click();
+        return;
+      }
+      
+      // Fallback: thử gọi trực tiếp API nếu có
+      if (window.PheChat && typeof window.PheChat.open === 'function') {
+        window.PheChat.open();
+        return;
+      }
+      
+      // Nếu tất cả đều thất bại, hiển thị thông báo
+      console.log('Chatbot đang được khởi tạo, vui lòng thử lại sau giây lát...');
+      
+      // Thử lại sau 2 giây
+      setTimeout(() => {
+        const retryButton = document.getElementById('phechat-chat-button');
+        if (retryButton) {
+          retryButton.click();
+        } else if (window.PheChat && typeof window.PheChat.open === 'function') {
+          window.PheChat.open();
+        }
+      }, 2000);
+    }
+  };
+
   const accommodations = [
     {
       id: 1,
-      name: 'Tà Xùa Cloud Homestay',
+      name: 'Lù Homestay Tà Xùa',
       description: 'Homestay giữa lòng núi rừng với view săn mây tuyệt đẹp',
-      image: homestayImage,
+      image: luHomestayImage,
       rating: 4.8,
       price: '800.000',
-      location: 'Tà Xùa, Sơn La',
-      amenities: ['Wifi miễn phí', 'Bãi đậu xe', 'Quán cà phê', 'Nhà hàng'],
+      location: 'Bản Tà Xùa, Xã Tà Xùa, Sơn La',
+      amenities: ['Bể bơi', 'Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý'],
       features: ['View biển mây', 'Gần điểm săn mây', 'Trải nghiệm văn hóa H\'Mông']
     },
     {
       id: 2,
-      name: 'Dragon Spine Resort',
-      description: 'Resort cao cấp với thiết kế hiện đại giữa thiên nhiên hoang sơ',
-      image: homestayImage,
+      name: 'Tà Xùa Ecolodge',
+      description: 'Ecolodge cao cấp với thiết kế hiện đại giữa thiên nhiên hoang sơ',
+      image: '/Địa điểm lưu trú/Tà Xùa Ecolodge.jpg',
       rating: 4.9,
       price: '1.500.000',
-      location: 'Sống Lưng Khủng Long, Tà Xùa',
-      amenities: ['Spa & Wellness', 'Hồ bơi', 'Nhà hàng sang trọng', 'Tour guide'],
-      features: ['Vị trí độc đáo', 'Dịch vụ cao cấp', 'Trải nghiệm thiên nhiên']
+      location: 'Tà Xùa, Bắc Yên, Sơn La',
+      amenities: ['Bể bơi', 'Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý'],
+      features: ['View biển mây', 'Gần điểm săn mây', 'Trải nghiệm văn hóa H\'Mông']
     },
     {
       id: 3,
@@ -43,14 +86,12 @@ const Accommodation = () => {
   ];
 
   const amenityIcons = {
-    'Wifi miễn phí': Wifi,
-    'Bãi đậu xe': Car,
-    'Quán cà phê': Coffee,
-    'Nhà hàng': Utensils,
-    'Spa & Wellness': Star,
-    'Hồ bơi': Star,
-    'Nhà hàng sang trọng': Utensils,
-    'Tour guide': MapPin,
+    'Bể bơi': Star,
+    'Ăn sáng miễn phí': Coffee,
+    'Wi-Fi miễn phí': Wifi,
+    'Chỗ đậu xe miễn phí': Car,
+    'Quầy lễ tân 24/24': Star,
+    'Dịch vụ giữ hành lý': Star,
     'Bữa ăn truyền thống': Utensils,
     'Hoạt động văn hóa': Star,
     'Trekking guide': MapPin
@@ -142,7 +183,10 @@ const Accommodation = () => {
                       </span>
                       <span className="font-inter text-sm text-muted-foreground">/đêm</span>
                     </div>
-                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Button 
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
+                      onClick={handleBookingClick}
+                    >
                       Đặt Ngay
                     </Button>
                   </div>

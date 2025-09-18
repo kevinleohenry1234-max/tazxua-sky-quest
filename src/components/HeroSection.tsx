@@ -4,15 +4,17 @@ import { ChevronDown } from 'lucide-react';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
 import heroImage3 from '@/assets/shan-tuyet-tea.jpg';
+import { useTranslation } from '@/lib/i18n';
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { t } = useTranslation();
 
   const slides = [
     {
       image: heroImage1,
-      title: 'Tà Xùa: Chạm Vào Biển Mây',
-      subtitle: 'Khám phá vẻ đẹp hùng vĩ của núi rừng Tây Bắc',
+      title: t('hero.title'),
+      subtitle: t('hero.subtitle'),
     },
     {
       image: heroImage2,

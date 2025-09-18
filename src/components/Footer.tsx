@@ -21,11 +21,13 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">T</span>
-              </div>
+              <img 
+                src="/public/Logo/IVIET.png" 
+                alt="VIVIET Logo" 
+                className="w-12 h-12 object-cover rounded-lg"
+              />
               <div className="font-playfair font-bold text-2xl">
-                Lovable Tà Xùa
+                VIVIET Tà Xùa
               </div>
             </div>
             <p className="font-inter text-tertiary-foreground/80 leading-relaxed mb-6 max-w-md">
@@ -58,7 +60,7 @@ const Footer = () => {
                   href="#" 
                   className="font-inter hover:text-primary transition-colors duration-300"
                 >
-                  Lovable Tà Xùa
+                  VIVIET Tà Xùa
                 </a>
               </div>
               <div className="flex items-center space-x-3">
@@ -111,7 +113,7 @@ const Footer = () => {
         <div className="border-t border-tertiary-foreground/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="font-inter text-tertiary-foreground/60 text-sm">
-              © 2024 Lovable Tà Xùa. Tất cả quyền được bảo lưu.
+              © 2024 VIVIET Tà Xùa. Tất cả quyền được bảo lưu.
             </div>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a

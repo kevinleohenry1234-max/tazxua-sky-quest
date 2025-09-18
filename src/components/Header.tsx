@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, LogOut } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslation } from '@/lib/i18n';
 
 interface HeaderProps {
   isLoggedIn?: boolean;
@@ -8,6 +16,7 @@ interface HeaderProps {
   onLoginClick?: () => void;
   onRegisterClick?: () => void;
   onProfileClick?: () => void;
+  onLogoutClick?: () => void;
 }
 
 const Header = ({ 
@@ -15,15 +24,17 @@ const Header = ({
   userName,
   onLoginClick,
   onRegisterClick,
-  onProfileClick 
+  onProfileClick,
+  onLogoutClick 
 }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   const navLinks = [
-    { href: '#home', label: 'Trang Chủ' },
-    { href: '#discover', label: 'Khám Phá' },
-    { href: '#experience', label: 'Trải Nghiệm' },
-    { href: '#culture', label: 'Văn Hóa' },
+    { href: '#home', label: t('header.home') },
+    { href: '#discover', label: t('header.discover') },
+    { href: '#experience', label: t('header.experience') },
+    { href: '#culture', label: t('header.culture') },
   ];
 
   return (
@@ -33,9 +44,9 @@ const Header = ({
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img
-              src="/src/assets/viviet-logo.png"
+              src="/public/Logo/IVIET.png"
               alt="VIVIET Logo"
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full object-cover"
             />
             <div className="font-playfair font-bold text-xl text-foreground">
               Tà Xùa
@@ -56,17 +67,31 @@ const Header = ({
             ))}
           </nav>
 
-          {/* Auth Section */}
+          {/* Auth Section & Language Switcher */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSwitcher />
             {isLoggedIn ? (
-              <Button
-                variant="ghost"
-                onClick={onProfileClick}
-                className="flex items-center space-x-2 text-foreground hover:text-primary"
-              >
-                <User className="w-4 h-4" />
-                <span>Chào {userName}!</span>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="flex items-center space-x-2 text-foreground hover:text-primary"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>{t('header.welcome')} {userName}!</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={onProfileClick}>
+                    <User className="w-4 h-4 mr-2" />
+                    {t('header.profile')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={onLogoutClick}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t('header.logout')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <div className="flex items-center space-x-3">
                 <Button
@@ -74,13 +99,13 @@ const Header = ({
                   onClick={onLoginClick}
                   className="text-foreground hover:text-primary"
                 >
-                  Đăng Nhập
+                  {t('header.login')}
                 </Button>
                 <Button
                   onClick={onRegisterClick}
                   className="bg-primary text-primary-foreground hover:bg-primary/90"
                 >
-                  Đăng Ký
+                  {t('header.register')}
                 </Button>
               </div>
             )}
@@ -110,15 +135,28 @@ const Header = ({
                 </a>
               ))}
               <div className="pt-4 border-t border-border/30">
+                <div className="mb-4">
+                  <LanguageSwitcher />
+                </div>
                 {isLoggedIn ? (
-                  <Button
-                    variant="ghost"
-                    onClick={onProfileClick}
-                    className="w-full justify-start text-foreground hover:text-primary"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    Chào {userName}!
-                  </Button>
+                  <div className="flex flex-col space-y-2">
+                    <Button
+                      variant="ghost"
+                      onClick={onProfileClick}
+                      className="w-full justify-start text-foreground hover:text-primary"
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      {t('header.profile')}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={onLogoutClick}
+                      className="w-full justify-start text-foreground hover:text-primary"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t('header.logout')}
+                    </Button>
+                  </div>
                 ) : (
                   <div className="flex flex-col space-y-2">
                     <Button
@@ -126,13 +164,13 @@ const Header = ({
                       onClick={onLoginClick}
                       className="w-full justify-start text-foreground hover:text-primary"
                     >
-                      Đăng Nhập
+                      {t('header.login')}
                     </Button>
                     <Button
                       onClick={onRegisterClick}
                       className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                     >
-                      Đăng Ký
+                      {t('header.register')}
                     </Button>
                   </div>
                 )}
