@@ -4,8 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Clock, Camera, Mountain } from 'lucide-react';
 import dragonSpineImage from '@/assets/dragon-spine.jpg';
-import ShoppingAssistant from '@/components/ShoppingAssistant';
-import InteractiveSafety from '@/components/InteractiveSafety';
 
 const Attractions = () => {
   const attractions = [
@@ -185,17 +183,36 @@ const Attractions = () => {
           </div>
         </section>
 
-        {/* Shopping Assistant */}
+        {/* Planning Tips */}
         <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
-            <ShoppingAssistant />
-          </div>
-        </section>
-
-        {/* Interactive Safety Hub */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <InteractiveSafety />
+            <div className="max-w-4xl mx-auto">
+              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
+                Lưu Ý Khi Khám Phá
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <Card className="p-6">
+                  <h3 className="font-playfair text-xl font-bold text-foreground mb-4">Chuẩn Bị</h3>
+                  <ul className="space-y-2 font-inter text-muted-foreground">
+                    <li>• Giày trekking chống trượt</li>
+                    <li>• Áo ấm (nhiệt độ có thể xuống dưới 10°C)</li>
+                    <li>• Đèn pin và pin dự phòng</li>
+                    <li>• Nước uống và thức ăn nhẹ</li>
+                    <li>• Thuốc men cá nhân</li>
+                  </ul>
+                </Card>
+                <Card className="p-6">
+                  <h3 className="font-playfair text-xl font-bold text-foreground mb-4">An Toàn</h3>
+                  <ul className="space-y-2 font-inter text-muted-foreground">
+                    <li>• Di chuyển theo nhóm, không đi một mình</li>
+                    <li>• Thông báo lịch trình cho người thân</li>
+                    <li>• Kiểm tra thời tiết trước khi khởi hành</li>
+                    <li>• Thuê hướng dẫn viên địa phương</li>
+                    <li>• Mang theo máy GPS hoặc bản đồ</li>
+                  </ul>
+                </Card>
+              </div>
+            </div>
           </div>
         </section>
       </main>

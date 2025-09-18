@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, User } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
 
 interface HeaderProps {
   isLoggedIn?: boolean;
@@ -19,18 +18,13 @@ const Header = ({
   onProfileClick 
 }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   const navLinks = [
-    { href: '/', label: 'Trang Chủ' },
-    { href: '/explore', label: 'Khám Phá' },
-    { href: '/experience', label: 'Trải Nghiệm' },
-    { href: '/culture', label: 'Văn Hóa' },
+    { href: '#home', label: 'Trang Chủ' },
+    { href: '#discover', label: 'Khám Phá' },
+    { href: '#experience', label: 'Trải Nghiệm' },
+    { href: '#culture', label: 'Văn Hóa' },
   ];
-
-  const isActiveRoute = (href: string) => {
-    return location.pathname === href;
-  };
 
   return (
     <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
@@ -51,20 +45,14 @@ const Header = ({
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <Link
+              <a
                 key={link.href}
-                to={link.href}
-                className={`font-inter transition-colors duration-300 relative group ${
-                  isActiveRoute(link.href) 
-                    ? 'text-primary' 
-                    : 'text-foreground/80 hover:text-primary'
-                }`}
+                href={link.href}
+                className="font-inter text-foreground/80 hover:text-primary transition-colors duration-300 relative group"
               >
                 {link.label}
-                <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                  isActiveRoute(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
-                }`} />
-              </Link>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+              </a>
             ))}
           </nav>
 
@@ -112,18 +100,14 @@ const Header = ({
           <div className="md:hidden py-4 border-t border-border/50">
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.href}
-                  to={link.href}
-                  className={`font-inter transition-colors duration-300 ${
-                    isActiveRoute(link.href) 
-                      ? 'text-primary' 
-                      : 'text-foreground/80 hover:text-primary'
-                  }`}
+                  href={link.href}
+                  className="font-inter text-foreground/80 hover:text-primary transition-colors duration-300"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
               <div className="pt-4 border-t border-border/30">
                 {isLoggedIn ? (
