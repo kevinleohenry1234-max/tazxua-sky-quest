@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from '@/lib/i18n';
+import { Link, useLocation } from 'react-router-dom';
 
 interface HeaderProps {
   isLoggedIn?: boolean;
@@ -29,12 +30,13 @@ const Header = ({
 }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t } = useTranslation();
+  const location = useLocation();
 
   const navLinks = [
-    { href: '#home', label: t('header.home') },
-    { href: '#discover', label: t('header.discover') },
-    { href: '#experience', label: t('header.experience') },
-    { href: '#culture', label: t('header.culture') },
+    { href: '/', label: t('header.home') },
+    { href: '/experience', label: t('header.experience') },
+    { href: '/explore', label: t('header.discover') },
+    { href: '/culture', label: t('header.culture') },
   ];
 
   return (
@@ -55,16 +57,25 @@ const Header = ({
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="font-inter text-foreground/80 hover:text-primary transition-colors duration-300 relative group"
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={`font-inter transition-colors duration-300 relative group ${
+                    isActive 
+                      ? 'text-primary font-semibold' 
+                      : 'text-foreground/80 hover:text-primary'
+                  }`}
+                >
+                  {link.label}
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`} />
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Auth Section & Language Switcher */}
@@ -124,16 +135,23 @@ const Header = ({
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border/50">
             <nav className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="font-inter text-foreground/80 hover:text-primary transition-colors duration-300"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className={`font-inter transition-colors duration-300 ${
+                      isActive 
+                        ? 'text-primary font-semibold' 
+                        : 'text-foreground/80 hover:text-primary'
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <div className="pt-4 border-t border-border/30">
                 <div className="mb-4">
                   <LanguageSwitcher />
