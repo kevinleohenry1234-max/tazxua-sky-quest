@@ -56,36 +56,58 @@ const Accommodation = () => {
   const accommodations = [
     {
       id: 1,
-      name: 'Lù Homestay Tà Xùa',
-      description: 'Homestay giữa lòng núi rừng với view săn mây tuyệt đẹp',
-      image: luHomestayImage,
-      rating: 4.8,
-      price: '800.000',
-      location: 'Bản Tà Xùa, Xã Tà Xùa, Sơn La',
-      amenities: ['Bể bơi', 'Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý'],
-      features: ['View biển mây', 'Gần điểm săn mây', 'Trải nghiệm văn hóa H\'Mông']
+      name: '1941M Homestay Tà Xùa',
+      description: 'Homestay hiện đại với view núi rừng tuyệt đẹp, nằm ở độ cao 1941m so với mực nước biển',
+      image: '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Ngoại thất /1.webp',
+      rating: 4.9,
+      price: '1.200.000',
+      location: 'Tà Xùa, Bắc Yên, Sơn La',
+      amenities: ['Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý', 'Khu ăn uống', 'View núi rừng'],
+      features: ['Độ cao 1941m', 'View biển mây', 'Thiết kế hiện đại', 'Gần điểm săn mây']
     },
     {
       id: 2,
+      name: 'May Home Tà Xùa',
+      description: 'Homestay ấm cúng với không gian thoáng mát và dịch vụ chu đáo',
+      image: '/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng /may2.webp',
+      rating: 4.8,
+      price: '900.000',
+      location: 'Tà Xùa, Bắc Yên, Sơn La',
+      amenities: ['Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Khu ăn chung', 'Dịch vụ giặt ủi', 'Tư vấn tour'],
+      features: ['Không gian ấm cúng', 'Dịch vụ chu đáo', 'Giá cả hợp lý', 'Gần trung tâm']
+    },
+    {
+      id: 3,
       name: 'Tà Xùa Ecolodge',
       description: 'Ecolodge cao cấp với thiết kế hiện đại giữa thiên nhiên hoang sơ',
-      image: '/Địa điểm lưu trú/Tà Xùa Ecolodge.jpg',
+      image: '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh /Tà Xùa Ecolodge.jpg',
       rating: 4.9,
       price: '1.500.000',
       location: 'Tà Xùa, Bắc Yên, Sơn La',
       amenities: ['Bể bơi', 'Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý'],
-      features: ['View biển mây', 'Gần điểm săn mây', 'Trải nghiệm văn hóa H\'Mông']
+      features: ['Thiết kế cao cấp', 'View biển mây', 'Gần điểm săn mây', 'Dịch vụ 5 sao']
     },
     {
-      id: 3,
-      name: 'H\'Mông Village Stay',
-      description: 'Trải nghiệm đích thực cuộc sống người H\'Mông tại bản làng',
-      image: homestayImage,
+      id: 4,
+      name: 'Xoè Homestay',
+      description: 'Homestay truyền thống với phong cách kiến trúc địa phương độc đáo',
+      image: '/Địa điểm lưu trú/Xoè Homestay /Photo /10.webp',
       rating: 4.7,
-      price: '500.000',
-      location: 'Bản Púng, Tà Xùa',
-      amenities: ['Bữa ăn truyền thống', 'Hoạt động văn hóa', 'Trekking guide'],
-      features: ['Văn hóa bản địa', 'Giá cả phải chăng', 'Trải nghiệm chân thật']
+      price: '700.000',
+      location: 'Tà Xùa, Bắc Yên, Sơn La',
+      amenities: ['Bữa ăn truyền thống', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Hoạt động văn hóa', 'Trekking guide', 'Trải nghiệm địa phương'],
+      features: ['Kiến trúc truyền thống', 'Văn hóa bản địa', 'Trải nghiệm chân thật', 'Giá cả phải chăng']
+    },
+    {
+      id: 5,
+      name: 'Lù Homestay Tà Xùa',
+      description: 'Homestay giữa lòng núi rừng với view săn mây tuyệt đẹp',
+      image: '/Địa điểm lưu trú/Lù Homestay Tà Xùa.jpg',
+      rating: 4.8,
+      price: '800.000',
+      location: 'Bản Tà Xùa, Xã Tà Xùa, Sơn La',
+      amenities: ['Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý', 'View săn mây'],
+      features: ['View biển mây', 'Gần điểm săn mây', 'Trải nghiệm văn hóa H\'Mông', 'Không gian yên tĩnh']
     }
   ];
 
@@ -98,7 +120,14 @@ const Accommodation = () => {
     'Dịch vụ giữ hành lý': Star,
     'Bữa ăn truyền thống': Utensils,
     'Hoạt động văn hóa': Star,
-    'Trekking guide': MapPin
+    'Trekking guide': MapPin,
+    'Khu ăn uống': Utensils,
+    'View núi rừng': MapPin,
+    'Khu ăn chung': Utensils,
+    'Dịch vụ giặt ủi': Star,
+    'Tư vấn tour': MapPin,
+    'View săn mây': MapPin,
+    'Trải nghiệm địa phương': Star
   };
 
   return (

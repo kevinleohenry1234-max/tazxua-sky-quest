@@ -34,9 +34,8 @@ const Header = ({
 
   const navLinks = [
     { href: '/', label: t('header.home') },
-    { href: '/experience', label: t('header.experience') },
+    { href: '/experience', label: 'Triển lãm Số' },
     { href: '/explore', label: t('header.discover') },
-    { href: '/culture', label: t('header.culture') },
   ];
 
   return (
