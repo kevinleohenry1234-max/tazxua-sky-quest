@@ -29,8 +29,9 @@ const Accommodation = () => {
       }
       
       // Fallback: thử gọi trực tiếp API nếu có
-      if (window.PheChat && typeof window.PheChat.open === 'function') {
-        window.PheChat.open();
+      const pheChat = (window as any).PheChat;
+      if (pheChat && typeof pheChat.open === 'function') {
+        pheChat.open();
         return;
       }
       
@@ -42,8 +43,11 @@ const Accommodation = () => {
         const retryButton = document.getElementById('phechat-chat-button');
         if (retryButton) {
           retryButton.click();
-        } else if (window.PheChat && typeof window.PheChat.open === 'function') {
-          window.PheChat.open();
+        } else {
+          const retryPheChat = (window as any).PheChat;
+          if (retryPheChat && typeof retryPheChat.open === 'function') {
+            retryPheChat.open();
+          }
         }
       }, 2000);
     }
