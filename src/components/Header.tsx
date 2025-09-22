@@ -35,7 +35,8 @@ const Header = ({
   const navLinks = [
     { href: '/', label: t('header.home') },
     { href: '/experience', label: 'Triển lãm Số' },
-    { href: '/explore', label: t('header.discover') },
+    { href: '/safety', label: 'Trung tâm An toàn' },
+    { href: '/contact', label: 'Liên Hệ' },
   ];
 
   return (

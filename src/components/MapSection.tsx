@@ -3,21 +3,25 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Coffee, Home, Mountain, Camera, Star, Navigation, Phone, Clock, ExternalLink, QrCode, Send } from 'lucide-react';
+import { MapPin, Coffee, Home, Mountain, Camera, Star, Navigation, Phone, Clock, ExternalLink, QrCode, Send, Filter, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import styles from './MapSection.module.css';
 
 const MapSection = () => {
-  // Sử dụng token mặc định để tự động hóa bản đồ
-  const DEFAULT_MAPBOX_TOKEN = 'pk.eyJ1IjoidGF4dWEiLCJhIjoiY2x0ZXN0In0.demo_token_for_taxua';
+  // Sử dụng token Mapbox công khai hợp lệ
+  const DEFAULT_MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
   const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   const [showMobileDialog, setShowMobileDialog] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [activeFilters, setActiveFilters] = useState<string[]>(['accommodation', 'coffee', 'landmark', 'photo']);
+  const [hoveredMarker, setHoveredMarker] = useState<number | null>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<mapboxgl.Marker[]>([]);
+  const clusterMarkers = useRef<mapboxgl.Marker[]>([]);
 
   // Enhanced location data with more details
   const locations = [
@@ -97,353 +101,577 @@ const MapSection = () => {
         bestTime: 'Tháng 10 - Tháng 3',
         contact: '+84 321 654 987'
       }
+    },
+    {
+      id: 6,
+      name: 'Lù Homestay Tà Xùa',
+      type: 'accommodation',
+      icon: Home,
+      coordinates: [104.0290, 21.3345] as [number, number],
+      rating: 4.6,
+      description: 'Homestay truyền thống với kiến trúc nhà sàn độc đáo',
+      details: {
+        price: '400.000 - 600.000 VNĐ/đêm',
+        capacity: '4-8 người',
+        amenities: 'Bữa sáng, Tour guide, Xe máy thuê',
+        contact: '+84 234 567 890'
+      }
+    },
+    {
+      id: 7,
+      name: 'Quán Ăn Đặc Sản H\'Mông',
+      type: 'coffee',
+      icon: Coffee,
+      coordinates: [104.0305, 21.3362] as [number, number],
+      rating: 4.5,
+      description: 'Thưởng thức các món ăn truyền thống của người H\'Mông',
+      details: {
+        specialty: 'Thịt nướng, Cơm lam, Rượu cần',
+        openHours: '6:00 - 21:00',
+        priceRange: '50.000 - 150.000 VNĐ',
+        contact: '+84 567 890 123'
+      }
+    },
+    {
+      id: 8,
+      name: 'Điểm Ngắm Hoàng Hôn',
+      type: 'photo',
+      icon: Camera,
+      coordinates: [104.0318, 21.3355] as [number, number],
+      rating: 4.7,
+      description: 'Vị trí tuyệt vời để ngắm hoàng hôn và chụp ảnh lưu niệm',
+      details: {
+        bestTime: '17:00 - 18:30 PM',
+        equipment: 'Máy ảnh, Ghế dã ngoại',
+        difficulty: 'Dễ',
+        contact: 'Hướng dẫn viên: +84 890 123 456'
+      }
     }
   ];
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'landmark': return 'text-orange-600';
-      case 'accommodation': return 'text-blue-600';
-      case 'coffee': return 'text-amber-600';
-      case 'photo': return 'text-purple-600';
-      default: return 'text-gray-600';
-    }
+  // Filter configuration
+  const filterConfig = [
+    { type: 'accommodation', label: 'Lưu trú', icon: Home, color: 'bg-blue-500' },
+    { type: 'coffee', label: 'Ăn uống', icon: Coffee, color: 'bg-orange-500' },
+    { type: 'landmark', label: 'Điểm Check-in', icon: Mountain, color: 'bg-green-500' },
+    { type: 'photo', label: 'Chụp ảnh', icon: Camera, color: 'bg-purple-500' }
+  ];
+
+  // Get filtered locations
+  const filteredLocations = locations.filter(location => 
+    activeFilters.includes(location.type)
+  );
+
+  // Toggle filter
+  const toggleFilter = (filterType: string) => {
+    setActiveFilters(prev => 
+      prev.includes(filterType) 
+        ? prev.filter(f => f !== filterType)
+        : [...prev, filterType]
+    );
   };
 
-  const getTypeLabel = (type: string) => {
-    switch (type) {
-      case 'landmark': return 'Địa danh';
-      case 'accommodation': return 'Lưu trú';
-      case 'coffee': return 'Cà phê';
-      case 'photo': return 'Chụp ảnh';
-      default: return 'Khác';
+  // Create marker clustering logic
+  const createClusterMarkers = (locations: typeof filteredLocations, zoom: number) => {
+    // Clear existing cluster markers
+    clusterMarkers.current.forEach(marker => marker.remove());
+    clusterMarkers.current = [];
+
+    if (zoom > 12) {
+      // Show individual markers at high zoom
+      return locations;
     }
+
+    // Simple clustering algorithm - group nearby locations
+    const clusters: { [key: string]: typeof locations } = {};
+    const clusterRadius = zoom < 10 ? 0.01 : 0.005; // Adjust based on zoom
+
+    locations.forEach(location => {
+      const clusterKey = `${Math.floor(location.coordinates[0] / clusterRadius)}_${Math.floor(location.coordinates[1] / clusterRadius)}`;
+      if (!clusters[clusterKey]) {
+        clusters[clusterKey] = [];
+      }
+      clusters[clusterKey].push(location);
+    });
+
+    // Create cluster markers
+    Object.values(clusters).forEach(clusterLocations => {
+      if (clusterLocations.length > 1) {
+        // Calculate cluster center
+        const centerLng = clusterLocations.reduce((sum, loc) => sum + loc.coordinates[0], 0) / clusterLocations.length;
+        const centerLat = clusterLocations.reduce((sum, loc) => sum + loc.coordinates[1], 0) / clusterLocations.length;
+
+        // Create cluster marker element
+        const clusterEl = document.createElement('div');
+        clusterEl.className = 'cluster-marker';
+        clusterEl.innerHTML = `
+          <div class="cluster-marker-inner">
+            <span class="cluster-count">${clusterLocations.length}</span>
+          </div>
+        `;
+        clusterEl.style.cssText = `
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 14px;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+          transition: all 0.3s ease;
+          border: 3px solid white;
+        `;
+
+        // Add hover effect
+        clusterEl.addEventListener('mouseenter', () => {
+          clusterEl.style.transform = 'scale(1.1)';
+          clusterEl.style.boxShadow = '0 6px 20px rgba(59, 130, 246, 0.6)';
+        });
+
+        clusterEl.addEventListener('mouseleave', () => {
+          clusterEl.style.transform = 'scale(1)';
+          clusterEl.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.4)';
+        });
+
+        // Add click handler to zoom in
+        clusterEl.addEventListener('click', () => {
+          if (map.current) {
+            map.current.flyTo({
+              center: [centerLng, centerLat],
+              zoom: Math.min(map.current.getZoom() + 2, 16),
+              duration: 1000
+            });
+          }
+        });
+
+        const clusterMarker = new mapboxgl.Marker(clusterEl)
+          .setLngLat([centerLng, centerLat])
+          .addTo(map.current!);
+
+        clusterMarkers.current.push(clusterMarker);
+      }
+    });
+
+    // Return individual locations that are not clustered
+    return Object.values(clusters).filter(cluster => cluster.length === 1).flat();
   };
 
-  // Tự động khởi tạo bản đồ khi component mount
+  // Initialize map
   useEffect(() => {
-    if (mapContainer.current && !map.current) {
-      initializeMap(DEFAULT_MAPBOX_TOKEN);
-    }
-  }, []);
+    if (!mapContainer.current || map.current) return;
 
-  const initializeMap = (token: string) => {
-    if (!mapContainer.current) return;
+    mapboxgl.accessToken = DEFAULT_MAPBOX_TOKEN;
 
-    mapboxgl.accessToken = token;
-
-    // Create map
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/outdoors-v12',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [104.0312, 21.3358],
-      zoom: 13,
+      zoom: 11,
       pitch: 45,
-      bearing: 0
+      bearing: 0,
+      antialias: true
     });
 
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-    map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-
-    // Add markers for each location
-    locations.forEach((location) => {
-      const markerElement = document.createElement('div');
-      markerElement.className = 'custom-marker';
-      markerElement.innerHTML = `
-        <div class="w-10 h-10 bg-white rounded-full shadow-lg border-2 border-primary flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-          <svg class="w-5 h-5 ${getTypeColor(location.type)}" fill="currentColor" viewBox="0 0 24 24">
-            ${location.type === 'landmark' ? '<path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"/>' :
-              location.type === 'accommodation' ? '<path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"/>' :
-              location.type === 'coffee' ? '<path d="M2 21V19H20V21H2M20 8V5L18 5V3H4V5H2V8H4V14C4 15.1 4.9 16 6 16H18C19.1 16 20 15.1 20 14V8H20M16 10H18V12H16V10Z"/>' :
-              '<path d="M4 4H7L9 2H15L17 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4M12 7C9.24 7 7 9.24 7 12S9.24 17 12 17 17 14.76 17 12 14.76 7 12 7M12 9C13.66 9 15 10.34 15 12S13.66 15 12 15 9 13.66 9 12 10.34 9 12 9Z"/>'}
-          </svg>
-        </div>
-      `;
-
-      const marker = new mapboxgl.Marker(markerElement)
-        .setLngLat(location.coordinates)
-        .addTo(map.current!);
-
-      const popupContent = `
-        <div class="p-4 max-w-sm">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="font-bold text-lg text-gray-900">${location.name}</h3>
-            <div class="flex items-center space-x-1">
-              <svg class="w-4 h-4 text-yellow-500 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-              </svg>
-              <span class="text-sm text-gray-600">${location.rating}</span>
-            </div>
-          </div>
-          
-          <div class="mb-3">
-            <span class="inline-block px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-              ${getTypeLabel(location.type)}
-            </span>
-          </div>
-          
-          <p class="text-gray-700 text-sm mb-4">${location.description}</p>
-          
-          <div class="space-y-2 text-sm">
-            ${Object.entries(location.details).map(([key, value]) => `
-              <div class="flex justify-between">
-                <span class="text-gray-600 capitalize">${key}:</span>
-                <span class="text-gray-900 font-medium">${value}</span>
-              </div>
-            `).join('')}
-          </div>
-          
-          <div class="mt-4 flex space-x-2">
-            <button onclick="window.open('tel:${location.details.contact || ''}', '_self')" class="flex-1 bg-primary text-white px-3 py-2 rounded text-sm font-medium hover:bg-primary/90 transition-colors">
-              Liên hệ
-            </button>
-            <button onclick="navigator.geolocation.getCurrentPosition(pos => window.open(\`https://www.google.com/maps/dir/\${pos.coords.latitude},\${pos.coords.longitude}/${location.coordinates[1]},${location.coordinates[0]}\`, '_blank'))" class="flex-1 bg-gray-100 text-gray-700 px-3 py-2 rounded text-sm font-medium hover:bg-gray-200 transition-colors">
-              Chỉ đường
-            </button>
-          </div>
-        </div>
-      `;
-
-      const popup = new mapboxgl.Popup({
-        offset: 25,
-        closeButton: true,
-        closeOnClick: false,
-        maxWidth: '320px'
-      }).setHTML(popupContent);
-
-      marker.setPopup(popup);
-
-      markerElement.addEventListener('click', () => {
-        setSelectedLocation(location.id);
-        map.current?.flyTo({
-          center: location.coordinates,
-          zoom: 15,
-          duration: 1000
+    // Add 3D terrain
+    map.current.on('style.load', () => {
+      if (map.current) {
+        map.current.addSource('mapbox-dem', {
+          type: 'raster-dem',
+          url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          tileSize: 512,
+          maxzoom: 14
         });
-      });
 
-      markers.current.push(marker);
-    });
+        map.current.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 });
 
-    // Add terrain and sky layers for 3D effect
-    map.current.on('load', () => {
-      map.current?.addSource('mapbox-dem', {
-        type: 'raster-dem',
-        url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        tileSize: 512,
-        maxzoom: 14
-      });
-      
-      map.current?.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 });
-      
-      map.current?.addLayer({
-        id: 'sky',
-        type: 'sky',
-        paint: {
-          'sky-type': 'atmosphere',
-          'sky-atmosphere-sun': [0.0, 0.0],
-          'sky-atmosphere-sun-intensity': 15
-        }
-      });
-    });
-  };
-
-  const handleLocationClick = (locationId: number) => {
-    const location = locations.find(loc => loc.id === locationId);
-    if (location && map.current) {
-      setSelectedLocation(locationId);
-      map.current.flyTo({
-        center: location.coordinates,
-        zoom: 15,
-        duration: 1000
-      });
-      
-      const marker = markers.current.find((_, index) => locations[index].id === locationId);
-      if (marker) {
-        marker.togglePopup();
+        // Add sky layer
+        map.current.addLayer({
+          id: 'sky',
+          type: 'sky',
+          paint: {
+            'sky-type': 'atmosphere',
+            'sky-atmosphere-sun': [0.0, 0.0],
+            'sky-atmosphere-sun-intensity': 15
+          }
+        });
       }
-    }
-  };
+    });
 
-  const handleSendToPhone = () => {
-    const currentUrl = window.location.href;
-    
-    if (userEmail) {
-      // Simulate sending email (in real app, this would call an API)
-      alert(`Đã gửi link bản đồ đến ${userEmail}!`);
-      setShowMobileDialog(false);
-      setUserEmail('');
-    }
-  };
+    // Handle zoom changes for clustering
+    map.current.on('zoom', () => {
+      if (map.current) {
+        updateMarkers();
+      }
+    });
 
-  const generateQRCode = () => {
-    const currentUrl = window.location.href;
-    return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}`;
-  };
-
-  // Cleanup on unmount
-  useEffect(() => {
     return () => {
       if (map.current) {
         map.current.remove();
+        map.current = null;
       }
     };
   }, []);
 
+  // Update markers based on filters and zoom
+  const updateMarkers = () => {
+    if (!map.current) return;
+
+    // Clear existing markers
+    markers.current.forEach(marker => marker.remove());
+    markers.current = [];
+
+    const currentZoom = map.current.getZoom();
+    const locationsToShow = createClusterMarkers(filteredLocations, currentZoom);
+
+    // Create individual markers
+    locationsToShow.forEach((location) => {
+      const IconComponent = location.icon;
+      const filterInfo = filterConfig.find(f => f.type === location.type);
+      
+      // Create marker element with enhanced styling
+       const markerEl = document.createElement('div');
+       markerEl.className = styles.customMarker;
+       markerEl.innerHTML = `
+         <div class="${styles.markerContent} ${hoveredMarker === location.id ? styles.hovered : ''}">
+           <div class="${styles.markerIcon} ${filterInfo?.color || 'bg-gray-500'}">
+             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               ${getIconSVG(location.type)}
+             </svg>
+           </div>
+           <div class="${styles.markerLabel} ${hoveredMarker === location.id ? styles.visible : ''}">${location.name}</div>
+         </div>
+       `;
+
+      // Add styles
+      markerEl.style.cssText = `
+        cursor: pointer;
+        transition: all 0.3s ease;
+      `;
+
+      // Add hover effects
+      markerEl.addEventListener('mouseenter', () => {
+        setHoveredMarker(location.id);
+        markerEl.style.transform = 'scale(1.1)';
+      });
+
+      markerEl.addEventListener('mouseleave', () => {
+        setHoveredMarker(null);
+        markerEl.style.transform = 'scale(1)';
+      });
+
+      markerEl.addEventListener('click', () => {
+        setSelectedLocation(location.id);
+        if (map.current) {
+          map.current.flyTo({
+            center: location.coordinates,
+            zoom: 14,
+            duration: 1000
+          });
+        }
+        
+        // Tạo popup với thông tin chi tiết
+        const popup = new mapboxgl.Popup({
+          closeButton: true,
+          closeOnClick: false,
+          maxWidth: '300px',
+          className: 'custom-popup'
+        })
+        .setLngLat(location.coordinates)
+        .setHTML(`
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">${location.name}</h3>
+            <div class="flex items-center mb-2">
+              <div class="flex text-yellow-400">
+                ${'★'.repeat(Math.floor(location.rating))}${'☆'.repeat(5 - Math.floor(location.rating))}
+              </div>
+              <span class="ml-2 text-sm">${location.rating}/5</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3">${location.description}</p>
+            <div class="space-y-1 text-xs">
+              ${Object.entries(location.details).map(([key, value]) => 
+                `<div><strong>${key}:</strong> ${value}</div>`
+              ).join('')}
+            </div>
+          </div>
+        `)
+        .addTo(map.current);
+      });
+
+      const marker = new mapboxgl.Marker(markerEl)
+        .setLngLat(location.coordinates)
+        .addTo(map.current);
+
+      markers.current.push(marker);
+    });
+  };
+
+  // Helper function to get SVG paths for icons
+  const getIconSVG = (type: string) => {
+    switch (type) {
+      case 'accommodation':
+        return '<path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 14.2 0L21 21"/><path d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>';
+      case 'coffee':
+        return '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>';
+      case 'landmark':
+        return '<path d="m8 3 4 8 5-5v11H3V6l5 5 4-8Z"/>';
+      case 'photo':
+        return '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>';
+      default:
+        return '<circle cx="12" cy="12" r="10"/>';
+    }
+  };
+
+  // Update markers when filters change
+  useEffect(() => {
+    updateMarkers();
+  }, [activeFilters, hoveredMarker]);
+
+  // Generate QR code data
+  const generateQRData = () => {
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/explore?location=${selectedLocation}`;
+  };
+
+  // Send to email
+  const sendToEmail = () => {
+    if (!userEmail || !selectedLocation) return;
+    
+    const location = locations.find(l => l.id === selectedLocation);
+    if (!location) return;
+
+    const subject = encodeURIComponent(`Địa điểm thú vị tại Tà Xùa: ${location.name}`);
+    const body = encodeURIComponent(`
+Xin chào!
+
+Tôi muốn chia sẻ với bạn một địa điểm tuyệt vời tại Tà Xùa:
+
+📍 ${location.name}
+⭐ Đánh giá: ${location.rating}/5
+📝 ${location.description}
+
+🔗 Xem chi tiết: ${generateQRData()}
+
+Hẹn gặp bạn tại Tà Xùa!
+    `);
+
+    window.open(`mailto:${userEmail}?subject=${subject}&body=${body}`);
+    setShowMobileDialog(false);
+    setUserEmail('');
+  };
+
+  const selectedLocationData = selectedLocation ? locations.find(l => l.id === selectedLocation) : null;
+
   return (
-    <section className="py-20 bg-muted/20">
+    <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Bản Đồ Trải Nghiệm Tà Xùa
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Khám Phá Bản Đồ Tương Tác
           </h2>
-          <p className="font-inter text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Khám phá các địa điểm nổi bật, nơi lưu trú và trải nghiệm độc đáo tại Tà Xùa với bản đồ tương tác 3D
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Tìm hiểu các địa điểm thú vị, homestay chất lượng và trải nghiệm độc đáo tại Tà Xùa
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Filter Controls */}
+        <div className="mb-8">
+          <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700 mr-4">
+              <Filter className="w-4 h-4" />
+              Bộ lọc:
+            </div>
+            {filterConfig.map((filter) => {
+              const IconComponent = filter.icon;
+              const isActive = activeFilters.includes(filter.type);
+              return (
+                <Button
+                  key={filter.type}
+                  variant={isActive ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => toggleFilter(filter.type)}
+                  className={`flex items-center gap-2 transition-all duration-200 ${
+                    isActive 
+                      ? `${filter.color} text-white hover:opacity-90` 
+                      : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <IconComponent className="w-4 h-4" />
+                  {filter.label}
+                  {isActive ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                </Button>
+              );
+            })}
+          </div>
+          <div className="text-center mt-3 text-sm text-gray-500">
+            Hiển thị {filteredLocations.length} địa điểm
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* Map Container */}
           <div className="lg:col-span-2">
-            <Card className="shadow-soft border-0 h-[600px]">
-              <CardContent className="p-0 h-full">
-                <div ref={mapContainer} className="h-full w-full rounded-lg" />
-              </CardContent>
+            <Card className="overflow-hidden shadow-xl">
+              <div className="relative">
+                <div 
+                  ref={mapContainer} 
+                  className="w-full h-[600px] rounded-lg"
+                  style={{ minHeight: '600px' }}
+                />
+                
+                {/* Map Legend */}
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
+                  <h4 className="font-semibold text-sm mb-2">Chú thích</h4>
+                  <div className="space-y-1">
+                    {filterConfig.map((filter) => {
+                      const IconComponent = filter.icon;
+                      return (
+                        <div key={filter.type} className="flex items-center gap-2 text-xs">
+                          <div className={`w-3 h-3 rounded-full ${filter.color}`}></div>
+                          <span>{filter.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Zoom Info */}
+                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1 text-xs text-gray-600">
+                  💡 Thu nhỏ để xem cụm marker, phóng to để xem chi tiết
+                </div>
+              </div>
             </Card>
           </div>
 
-          {/* Locations List */}
-          <div className="lg:col-span-1">
-            <Card className="shadow-soft border-0">
-              <CardHeader>
-                <CardTitle className="font-playfair flex items-center">
-                  <MapPin className="w-5 h-5 mr-2 text-primary" />
-                  Địa Điểm Nổi Bật ({locations.length})
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4 max-h-[400px] overflow-y-auto">
-                  {locations.map((location) => {
-                    const Icon = location.icon;
-                    const isSelected = selectedLocation === location.id;
-                    
-                    return (
-                      <div
-                        key={location.id}
-                        onClick={() => handleLocationClick(location.id)}
-                        className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
-                          isSelected 
-                            ? 'border-primary bg-primary/5 shadow-md' 
-                            : 'border-border hover:border-primary/50'
-                        }`}
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className={`p-2 rounded-full ${
-                            isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                          }`}>
-                            <Icon className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between mb-1">
-                              <h4 className="font-medium text-sm text-foreground truncate">
-                                {location.name}
-                              </h4>
-                              <div className="flex items-center space-x-1">
-                                <Star className="w-3 h-3 text-yellow-500 fill-current" />
-                                <span className="text-xs text-muted-foreground">
-                                  {location.rating}
-                                </span>
-                              </div>
-                            </div>
-                            <Badge variant="secondary" className="text-xs mb-2">
-                              {getTypeLabel(location.type)}
-                            </Badge>
-                            <p className="text-xs text-muted-foreground line-clamp-2">
-                              {location.description}
-                            </p>
-                          </div>
+          {/* Location Details */}
+          <div className="space-y-6">
+            {selectedLocationData ? (
+              <Card className="shadow-xl">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl mb-2">{selectedLocationData.name}</CardTitle>
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <Star 
+                              key={i} 
+                              className={`w-4 h-4 ${
+                                i < Math.floor(selectedLocationData.rating) 
+                                  ? 'text-yellow-400 fill-current' 
+                                  : 'text-gray-300'
+                              }`} 
+                            />
+                          ))}
+                          <span className="ml-2 text-sm font-medium">{selectedLocationData.rating}</span>
                         </div>
+                        <Badge variant="secondary" className="ml-2">
+                          {filterConfig.find(f => f.type === selectedLocationData.type)?.label}
+                        </Badge>
                       </div>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      if (map.current) {
-                        map.current.flyTo({
-                          center: [104.0312, 21.3358],
-                          zoom: 13,
-                          duration: 1000
-                        });
-                        setSelectedLocation(null);
-                      }
-                    }}
-                    className="w-full"
-                  >
-                    Xem Toàn Cảnh
-                  </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4">{selectedLocationData.description}</p>
                   
-                  {/* Nút Gửi đến Điện thoại */}
+                  <div className="space-y-3">
+                    {Object.entries(selectedLocationData.details).map(([key, value]) => (
+                      <div key={key} className="flex items-center gap-3 text-sm">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                        <span className="text-gray-600">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Send to Phone Button */}
                   <Dialog open={showMobileDialog} onOpenChange={setShowMobileDialog}>
                     <DialogTrigger asChild>
-                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                        <Send className="w-4 h-4 mr-2" />
-                        Gửi đến Điện thoại
+                      <Button className="w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                        <Phone className="w-4 h-4 mr-2" />
+                        Gửi đến điện thoại
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-md">
                       <DialogHeader>
-                        <DialogTitle className="font-playfair">Theo dõi trên Di động</DialogTitle>
+                        <DialogTitle>Gửi thông tin đến điện thoại</DialogTitle>
                       </DialogHeader>
-                      <div className="space-y-6">
-                        {/* QR Code Section */}
+                      <div className="space-y-4">
                         <div className="text-center">
-                          <h3 className="font-medium mb-3">Quét mã QR</h3>
-                          <div className="flex justify-center mb-3">
-                            <img 
-                              src={generateQRCode()} 
-                              alt="QR Code" 
-                              className="w-48 h-48 border rounded-lg"
-                            />
+                          <div className="bg-white p-4 rounded-lg border-2 border-dashed border-gray-300 mb-4">
+                            <QrCode className="w-16 h-16 mx-auto text-gray-400 mb-2" />
+                            <p className="text-sm text-gray-600">QR Code sẽ hiển thị ở đây</p>
+                            <p className="text-xs text-gray-500 mt-1">Quét để mở trên điện thoại</p>
                           </div>
-                          <p className="text-sm text-muted-foreground">
-                            Sử dụng camera điện thoại để quét mã QR và mở bản đồ
-                          </p>
                         </div>
-
-                        {/* Email Section */}
-                        <div className="border-t pt-6">
-                          <h3 className="font-medium mb-3">Gửi link qua Email</h3>
-                          <div className="space-y-3">
-                            <Input
-                              type="email"
-                              placeholder="Nhập email của bạn"
-                              value={userEmail}
-                              onChange={(e) => setUserEmail(e.target.value)}
-                            />
-                            <Button 
-                              onClick={handleSendToPhone}
-                              disabled={!userEmail}
-                              className="w-full"
-                            >
-                              <Send className="w-4 h-4 mr-2" />
-                              Gửi Link
-                            </Button>
-                          </div>
+                        
+                        <div className="text-center text-gray-500">hoặc</div>
+                        
+                        <div className="space-y-3">
+                          <Input
+                            type="email"
+                            placeholder="Nhập email của bạn"
+                            value={userEmail}
+                            onChange={(e) => setUserEmail(e.target.value)}
+                          />
+                          <Button 
+                            onClick={sendToEmail}
+                            disabled={!userEmail}
+                            className="w-full"
+                          >
+                            <Send className="w-4 h-4 mr-2" />
+                            Gửi qua Email
+                          </Button>
                         </div>
                       </div>
                     </DialogContent>
                   </Dialog>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="shadow-xl">
+                <CardContent className="text-center py-12">
+                  <MapPin className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                    Chọn một địa điểm
+                  </h3>
+                  <p className="text-gray-500">
+                    Nhấp vào marker trên bản đồ để xem thông tin chi tiết
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Quick Stats */}
+            <Card className="shadow-xl">
+              <CardHeader>
+                <CardTitle className="text-lg">Thống kê nhanh</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  {filterConfig.map((filter) => {
+                    const count = locations.filter(l => l.type === filter.type).length;
+                    const IconComponent = filter.icon;
+                    return (
+                      <div key={filter.type} className="text-center p-3 bg-gray-50 rounded-lg">
+                        <IconComponent className={`w-6 h-6 mx-auto mb-2 text-gray-600`} />
+                        <div className="font-bold text-lg">{count}</div>
+                        <div className="text-xs text-gray-600">{filter.label}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
+
+
     </section>
   );
 };

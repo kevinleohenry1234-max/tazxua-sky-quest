@@ -1,19 +1,23 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Trophy, 
   MapPin, 
   Camera, 
   Coffee, 
   Mountain, 
-  Users, 
-  Gift,
+  Star, 
+  Gift, 
+  Trophy, 
   CheckCircle,
-  Clock,
-  Star
+  Award,
+  Crown,
+  Shield,
+  Compass,
+  Heart,
+  Users
 } from 'lucide-react';
 
 interface Challenge {
@@ -24,6 +28,16 @@ interface Challenge {
   icon: any;
   completed: boolean;
   difficulty: 'Dễ' | 'Trung bình' | 'Khó';
+}
+
+interface UserBadge {
+  id: string;
+  name: string;
+  description: string;
+  icon: any;
+  earned: boolean;
+  requirement: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
 }
 
 interface UserDashboardProps {
@@ -80,6 +94,55 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
     }
   ]);
 
+  // Badge system
+  const [badges, setBadges] = useState<UserBadge[]>([
+    {
+      id: 'newcomer',
+      name: 'Người Mới Đến',
+      description: 'Hoàn thành thử thách đầu tiên',
+      icon: Star,
+      earned: true,
+      requirement: 'Hoàn thành 1 thử thách',
+      rarity: 'common'
+    },
+    {
+      id: 'explorer',
+      name: 'Nhà Thám Hiểm',
+      description: 'Hoàn thành 3 thử thách',
+      icon: Compass,
+      earned: true,
+      requirement: 'Hoàn thành 3 thử thách',
+      rarity: 'rare'
+    },
+    {
+      id: 'photographer',
+      name: 'Nhiếp Ảnh Gia',
+      description: 'Chụp ảnh tại 5 địa điểm khác nhau',
+      icon: Camera,
+      earned: false,
+      requirement: 'Chụp ảnh tại 5 địa điểm',
+      rarity: 'epic'
+    },
+    {
+      id: 'ambassador',
+      name: 'Đại Sứ Tà Xùa',
+      description: 'Hoàn thành tất cả thử thách',
+      icon: Crown,
+      earned: false,
+      requirement: 'Hoàn thành tất cả thử thách',
+      rarity: 'legendary'
+    },
+    {
+      id: 'culture-lover',
+      name: 'Người Yêu Văn Hóa',
+      description: 'Tham gia hoạt động văn hóa địa phương',
+      icon: Heart,
+      earned: false,
+      requirement: 'Tham gia lễ hội bản làng',
+      rarity: 'rare'
+    }
+  ]);
+
   const completedChallenges = challenges.filter(c => c.completed);
   const totalPossiblePoints = challenges.reduce((sum, c) => sum + c.points, 0);
   const progressPercentage = (userPoints / totalPossiblePoints) * 100;
@@ -100,6 +163,28 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
       default: return 'bg-gray-500';
     }
   };
+
+  const getBadgeRarityColor = (rarity: string) => {
+    switch (rarity) {
+      case 'common': return 'from-gray-400 to-gray-600';
+      case 'rare': return 'from-blue-400 to-blue-600';
+      case 'epic': return 'from-purple-400 to-purple-600';
+      case 'legendary': return 'from-yellow-400 to-orange-500';
+      default: return 'from-gray-400 to-gray-600';
+    }
+  };
+
+  const getBadgeRarityBorder = (rarity: string) => {
+    switch (rarity) {
+      case 'common': return 'border-gray-300';
+      case 'rare': return 'border-blue-300';
+      case 'epic': return 'border-purple-300';
+      case 'legendary': return 'border-yellow-300';
+      default: return 'border-gray-300';
+    }
+  };
+
+  const earnedBadges = badges.filter(b => b.earned);
 
   const rewards = [
     {
@@ -157,6 +242,52 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
               </CardContent>
             </Card>
 
+            {/* Badge System */}
+            <Card className="mb-6 shadow-soft border-0">
+              <CardHeader>
+                <CardTitle className="font-playfair flex items-center">
+                  <Award className="w-5 h-5 mr-2 text-accent" />
+                  Huy Hiệu ({earnedBadges.length}/{badges.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-3">
+                  {badges.map((badge) => {
+                    const Icon = badge.icon;
+                    return (
+                      <div
+                        key={badge.id}
+                        className={`relative p-3 rounded-lg border-2 transition-all duration-300 ${
+                          badge.earned
+                            ? `${getBadgeRarityBorder(badge.rarity)} bg-gradient-to-br ${getBadgeRarityColor(badge.rarity)} text-white shadow-lg`
+                            : 'border-gray-200 bg-gray-50 text-gray-400'
+                        } ${badge.earned ? 'card-hover' : ''}`}
+                        title={badge.description}
+                      >
+                        <div className="text-center">
+                          <div className={`w-8 h-8 mx-auto mb-2 rounded-full flex items-center justify-center ${
+                            badge.earned ? 'bg-white/20' : 'bg-gray-200'
+                          }`}>
+                            <Icon className={`w-4 h-4 ${badge.earned ? 'text-white' : 'text-gray-400'}`} />
+                          </div>
+                          <h4 className="text-xs font-medium mb-1">{badge.name}</h4>
+                          <p className="text-xs opacity-80">{badge.requirement}</p>
+                        </div>
+                        {badge.earned && (
+                          <div className="absolute -top-1 -right-1">
+                            <CheckCircle className="w-4 h-4 text-green-500 bg-white rounded-full" />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-4 text-xs text-center text-muted-foreground">
+                  Hoàn thành thử thách để mở khóa huy hiệu mới!
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Rewards Section */}
             <Card className="shadow-soft border-0">
               <CardHeader>
@@ -169,7 +300,7 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
                 {rewards.map((reward, index) => (
                   <div
                     key={index}
-                    className={`p-4 rounded-lg border transition-all duration-300 ${
+                    className={`p-4 rounded-lg border transition-all duration-300 card-hover ${
                       userPoints >= reward.points
                         ? 'bg-primary/5 border-primary cursor-pointer hover:bg-primary/10'
                         : 'bg-muted/30 border-muted cursor-not-allowed'
@@ -183,7 +314,7 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
                     </div>
                     <p className="text-xs text-muted-foreground">{reward.description}</p>
                     {userPoints >= reward.points && (
-                      <Button size="sm" className="mt-2 w-full">
+                      <Button size="sm" className="mt-2 w-full btn-primary focus-ring">
                         Đổi Ngay
                       </Button>
                     )}
@@ -212,7 +343,7 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
                     return (
                       <div
                         key={challenge.id}
-                        className={`p-6 rounded-lg border transition-all duration-300 ${
+                        className={`p-6 rounded-lg border transition-all duration-300 card-hover ${
                           challenge.completed
                             ? 'bg-green-50 border-green-200'
                             : 'bg-card border-border hover:shadow-medium'
@@ -263,7 +394,7 @@ const UserDashboard = ({ userName = "Nguyễn Văn A", userPoints = 45 }: UserDa
                             <Button
                               onClick={() => handleCompleteChallenge(challenge.id)}
                               size="sm"
-                              className="ml-4"
+                              className="ml-4 btn-primary focus-ring"
                             >
                               Hoàn Thành
                             </Button>

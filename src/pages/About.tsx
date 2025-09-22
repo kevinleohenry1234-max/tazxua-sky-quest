@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import LoginModal from '@/components/LoginModal';
+import RegisterModal from '@/components/RegisterModal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Users, Mountain, Leaf, Clock, Camera } from 'lucide-react';
@@ -8,6 +11,27 @@ import shanTuyetTeaImage from '@/assets/shan-tuyet-tea.jpg';
 import localCuisineImage from '@/assets/local-cuisine.jpg';
 
 const About = () => {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  const handleLogin = async (data: { email: string; password: string }) => {
+    setIsLoggedIn(true);
+    setUserName(data.email.split('@')[0]);
+    setIsLoginModalOpen(false);
+  };
+
+  const handleRegister = async (data: { fullName: string; email: string; phone: string; password: string; confirmPassword: string }) => {
+    setIsLoggedIn(true);
+    setUserName(data.fullName);
+    setIsRegisterModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserName('');
+  };
   const culturalHighlights = [
     {
       title: 'Văn Hóa H\'Mông',
@@ -38,7 +62,33 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header
+        isLoggedIn={isLoggedIn}
+        userName={userName}
+        onLoginClick={() => setIsLoginModalOpen(true)}
+        onRegisterClick={() => setIsRegisterModalOpen(true)}
+        onLogoutClick={handleLogout}
+      />
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onLogin={handleLogin}
+        onSwitchToRegister={() => {
+          setIsLoginModalOpen(false);
+          setIsRegisterModalOpen(true);
+        }}
+      />
+
+      <RegisterModal
+        isOpen={isRegisterModalOpen}
+        onClose={() => setIsRegisterModalOpen(false)}
+        onRegister={handleRegister}
+        onSwitchToLogin={() => {
+          setIsRegisterModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
+      />
       
       <main className="pt-16">
         {/* Hero Section */}

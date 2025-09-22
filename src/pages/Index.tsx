@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import CategoryCards from '@/components/CategoryCards';
-import MapSection from '@/components/MapSection';
-import TaXuaStory from '@/components/TaXuaStory';
+import ExploreSection from '@/components/ExploreSection';
 import Footer from '@/components/Footer';
 import UserDashboard from '@/components/UserDashboard';
 import RegisterModal, { RegisterData } from '@/components/RegisterModal';
@@ -188,8 +187,7 @@ const Index = () => {
       <main>
         <HeroSection />
         <CategoryCards />
-        <MapSection />
-        <TaXuaStory />
+        <ExploreSection />
       </main>
       
       <Footer />

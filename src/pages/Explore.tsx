@@ -207,7 +207,7 @@ const Explore = () => {
                       <p className="font-inter text-muted-foreground mb-4">
                         Khám phá các địa điểm nổi bật với bản đồ tương tác chi tiết
                       </p>
-                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90 btn-primary focus-ring">
                         <Navigation className="w-4 h-4 mr-2" />
                         Xem Bản Đồ Đầy Đủ
                       </Button>
@@ -231,7 +231,7 @@ const Explore = () => {
                       key={category.id}
                       variant={selectedCategory === category.id ? 'default' : 'outline'}
                       onClick={() => setSelectedCategory(category.id)}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 btn-primary focus-ring"
                     >
                       <IconComponent className="w-4 h-4" />
                       {category.name}
@@ -243,7 +243,7 @@ const Explore = () => {
               {/* Locations Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredLocations.map((location) => (
-                  <Card key={location.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                  <Card key={location.id} className="overflow-hidden hover:shadow-lg transition-shadow group card-hover">
                     <div className={`h-48 ${location.image} flex items-end p-6`}>
                       <div className="text-white">
                         <h3 className="font-playfair text-xl font-bold mb-2">{location.name}</h3>
@@ -314,11 +314,11 @@ const Explore = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {itineraries.map((itinerary) => (
-                  <Card key={itinerary.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <Card key={itinerary.id} className="overflow-hidden hover:shadow-lg transition-shadow card-hover">
                     <div className={`h-48 ${itinerary.image} flex items-center justify-center`}>
                       <div className="text-white text-center">
                         <h3 className="font-playfair text-xl font-bold mb-2">{itinerary.title}</h3>
-                        <Badge variant="secondary" className="bg-white/20 text-white">
+                        <Badge variant="secondary" className="bg-white/20 text-white pulse-on-hover">
                           {itinerary.duration}
                         </Badge>
                       </div>
@@ -357,7 +357,7 @@ const Explore = () => {
                         </ul>
                       </div>
 
-                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 btn-primary focus-ring">
                         <Calendar className="w-4 h-4 mr-2" />
                         Đặt Lịch Trình
                       </Button>

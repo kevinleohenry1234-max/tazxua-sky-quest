@@ -4,6 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Lightbox from '@/components/Lightbox';
+import LazyImage from '@/components/LazyImage';
+import MusicPlayer from '@/components/MusicPlayer';
+import AIMusicGenerator from '@/components/AIMusicGenerator';
 import { 
   Camera, 
   Video, 
@@ -19,13 +23,17 @@ import {
   Eye,
   Clock,
   MapPin,
-  Star
+  Star,
+  Sparkles
 } from 'lucide-react';
 import { useState } from 'react';
 
 const Experience = () => {
   const [currentAudio, setCurrentAudio] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentGallery, setCurrentGallery] = useState<'photo' | 'video' | 'cuisine'>('photo');
 
   const photoGallery = [
     {
@@ -64,8 +72,8 @@ const Experience = () => {
       description: 'Khám phá vẻ đẹp huyền ảo của Tà Xùa qua góc nhìn điện ảnh',
       thumbnail: '/public/Địa điểm lưu trú/Xoè Homestay /Photo /1.webp',
       duration: '5:32',
-      views: 15420,
-      category: 'Cảnh quan'
+      category: 'Cảnh quan',
+      embedUrl: 'https://www.youtube.com/embed/elHm4l5T80M?si=p3IYgGTiWRs49wdI'
     },
     {
       id: 2,
@@ -73,8 +81,8 @@ const Experience = () => {
       description: 'Tìm hiểu về đời sống và văn hóa của người H\'Mông',
       thumbnail: '/public/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Phòng/1.webp',
       duration: '8:15',
-      views: 8930,
-      category: 'Văn hóa'
+      category: 'Văn hóa',
+      embedUrl: 'https://www.youtube.com/embed/ylDs4FdT2hk?si=hKquPG2D2rRAUXUi'
     },
     {
       id: 3,
@@ -82,8 +90,8 @@ const Experience = () => {
       description: 'Chinh phục đỉnh cao nhất Tà Xùa',
       thumbnail: '/public/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Phòng/1.jpg',
       duration: '12:45',
-      views: 12680,
-      category: 'Phiêu lưu'
+      category: 'Phiêu lưu',
+      embedUrl: 'https://www.youtube.com/embed/Ru5fFw2ZU6I?si=0Oqn6w7lKXXuLNNl'
     }
   ];
 
@@ -94,15 +102,9 @@ const Experience = () => {
       artist: 'Nghệ nhân Vàng Seo Sủ',
       duration: '4:23',
       category: 'Nhạc dân tộc',
-      description: 'Giai điệu truyền thống của người H\'Mông'
-    },
-    {
-      id: 2,
-      title: 'Âm Thanh Núi Rừng',
-      artist: 'Tự nhiên Tà Xùa',
-      duration: '15:00',
-      category: 'Thiên nhiên',
-      description: 'Tiếng chim hót, gió thổi qua rừng thông'
+      description: 'Giai điệu truyền thống của người H\'Mông vang vọng giữa núi rừng Tà Xùa, mang đến cảm giác bình yên và gần gũi với thiên nhiên.',
+      backgroundImage: '/public/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Xung quanh/1.webp',
+      audioUrl: '/music/Người Mông Cổ ( 蒙古人 ) - Tiếng Sáo Người H\'mông - Trung sáo - beat cảm âm - Sáo Trúc Tây Bắc.mp3'
     },
     {
       id: 3,
@@ -110,7 +112,9 @@ const Experience = () => {
       artist: 'Bà Vàng Thị May',
       duration: '3:45',
       category: 'Dân ca',
-      description: 'Bài hát ru truyền thống của người H\'Mông'
+      description: 'Bài hát ru truyền thống được truyền từ đời này sang đời khác, chứa đựng tình yêu thương và sự bảo vệ của người mẹ.',
+      backgroundImage: '/public/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh/1.jpg',
+      audioUrl: '/music/Tiếng hát ru con - Thu Phương (ĐTNVN).mp3'
     }
   ];
 
@@ -141,6 +145,25 @@ const Experience = () => {
     }
   ];
 
+  const openLightbox = (gallery: 'photo' | 'video' | 'cuisine', index: number) => {
+    setCurrentGallery(gallery);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const getCurrentGalleryData = () => {
+    switch (currentGallery) {
+      case 'photo':
+        return photoGallery;
+      case 'video':
+        return videoCollection;
+      case 'cuisine':
+        return cuisineGallery;
+      default:
+        return photoGallery;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -162,7 +185,7 @@ const Experience = () => {
         {/* Exhibition Tabs */}
         <section className="py-16 container mx-auto px-4">
           <Tabs defaultValue="gallery" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-8">
+            <TabsList className="grid w-full grid-cols-5 mb-8">
               <TabsTrigger value="gallery" className="flex items-center gap-2">
                 <Camera className="w-4 h-4" />
                 Thư Viện Ảnh
@@ -174,6 +197,10 @@ const Experience = () => {
               <TabsTrigger value="music" className="flex items-center gap-2">
                 <Music className="w-4 h-4" />
                 Góc Âm Nhạc
+              </TabsTrigger>
+              <TabsTrigger value="ai-music" className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                Tạo Nhạc AI
               </TabsTrigger>
               <TabsTrigger value="cuisine" className="flex items-center gap-2">
                 <Utensils className="w-4 h-4" />
@@ -188,19 +215,26 @@ const Experience = () => {
                 <p className="text-muted-foreground">Những bức ảnh đẹp nhất về Tà Xùa được chụp bởi các nhiếp ảnh gia tài năng</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {photoGallery.map((photo) => (
-                  <Card key={photo.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                    <div className="relative">
-                      <img
+                {photoGallery.map((photo, index) => (
+                  <Card key={photo.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer card-hover">
+                    <div className="relative group">
+                      <LazyImage
                         src={photo.image}
                         alt={photo.title}
-                        className="w-full h-64 object-cover"
+                        className="w-full h-64 transition-transform duration-700 group-hover:scale-105"
+                        onClick={() => openLightbox('photo', index)}
                       />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                        <div className="text-white text-center">
+                          <Camera className="w-8 h-8 mx-auto mb-2 pulse-on-hover" />
+                          <p className="text-sm font-medium">Xem chi tiết</p>
+                        </div>
+                      </div>
                       <div className="absolute top-4 right-4 flex gap-2">
-                        <Button size="sm" variant="secondary" className="bg-white/80">
+                        <Button size="sm" variant="secondary" className="bg-white/80 hover:bg-white/90 btn-primary focus-ring">
                           <Heart className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="secondary" className="bg-white/80">
+                        <Button size="sm" variant="secondary" className="bg-white/80 hover:bg-white/90 btn-primary focus-ring">
                           <Share2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -234,20 +268,37 @@ const Experience = () => {
                 <p className="text-muted-foreground">Thưởng thức những thước phim cinematic về cảnh quan và con người Tà Xùa</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {videoCollection.map((video) => (
-                  <Card key={video.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                {videoCollection.map((video, index) => (
+                  <Card key={video.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                     <div className="relative">
-                      <img
-                        src={video.thumbnail}
-                        alt={video.title}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <Button size="lg" className="rounded-full bg-white/20 hover:bg-white/30">
-                          <Play className="w-8 h-8 text-white" />
-                        </Button>
-                      </div>
-                      <Badge className="absolute top-4 left-4">{video.category}</Badge>
+                      {video.embedUrl ? (
+                        <iframe
+                          width="100%"
+                          height="192"
+                          src={video.embedUrl}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                          className="w-full h-48"
+                        />
+                      ) : (
+                        <>
+                          <LazyImage
+                            src={video.thumbnail}
+                            alt={video.title}
+                            className="w-full h-48"
+                            onClick={() => openLightbox('video', index)}
+                          />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <Button size="lg" className="rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+                              <Play className="w-8 h-8 text-white" />
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                      <Badge className="absolute top-4 left-4 bg-black/60 text-white">{video.category}</Badge>
                       <div className="absolute bottom-4 right-4 bg-black/60 text-white px-2 py-1 rounded text-sm">
                         {video.duration}
                       </div>
@@ -255,10 +306,6 @@ const Experience = () => {
                     <CardContent className="p-4">
                       <h3 className="font-semibold text-lg mb-2">{video.title}</h3>
                       <p className="text-muted-foreground text-sm mb-3">{video.description}</p>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Eye className="w-4 h-4" />
-                        <span>{video.views.toLocaleString()} lượt xem</span>
-                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -271,44 +318,22 @@ const Experience = () => {
                 <h2 className="font-playfair text-3xl font-bold mb-4">Góc Âm Nhạc</h2>
                 <p className="text-muted-foreground">Lắng nghe âm thanh đặc trưng của núi rừng và nhạc dân tộc H'Mông</p>
               </div>
-              <div className="max-w-2xl mx-auto space-y-4">
-                {audioPlaylist.map((track) => (
-                  <Card key={track.id} className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <Button
-                          size="sm"
-                          variant={currentAudio === track.id && isPlaying ? "default" : "outline"}
-                          className="rounded-full"
-                          onClick={() => {
-                            if (currentAudio === track.id) {
-                              setIsPlaying(!isPlaying);
-                            } else {
-                              setCurrentAudio(track.id);
-                              setIsPlaying(true);
-                            }
-                          }}
-                        >
-                          {currentAudio === track.id && isPlaying ? (
-                            <Pause className="w-4 h-4" />
-                          ) : (
-                            <Play className="w-4 h-4" />
-                          )}
-                        </Button>
-                        <div>
-                          <h3 className="font-semibold">{track.title}</h3>
-                          <p className="text-sm text-muted-foreground">{track.artist}</p>
-                          <p className="text-xs text-muted-foreground">{track.description}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <Badge variant="outline" className="mb-2">{track.category}</Badge>
-                        <div className="text-sm text-muted-foreground">{track.duration}</div>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+              <MusicPlayer 
+                tracks={audioPlaylist}
+                currentTrackId={currentAudio}
+                onTrackChange={setCurrentAudio}
+                isPlaying={isPlaying}
+                onPlayPause={() => setIsPlaying(!isPlaying)}
+              />
+            </TabsContent>
+
+            {/* AI Music Generator */}
+            <TabsContent value="ai-music" className="space-y-6">
+              <div className="text-center mb-8">
+                <h2 className="font-playfair text-3xl font-bold mb-4">Tạo Nhạc Cùng Nhạc Cụ Dân Tộc Bằng AI</h2>
+                <p className="text-muted-foreground">Sử dụng trí tuệ nhân tạo để sáng tác nhạc với âm thanh nhạc cụ dân tộc H'Mông</p>
               </div>
+              <AIMusicGenerator />
             </TabsContent>
 
             {/* Cuisine Space */}
@@ -318,13 +343,14 @@ const Experience = () => {
                 <p className="text-muted-foreground">Khám phá hương vị đặc sản và quy trình chế biến món ăn truyền thống</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {cuisineGallery.map((dish) => (
-                  <Card key={dish.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                {cuisineGallery.map((dish, index) => (
+                  <Card key={dish.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                     <div className="relative">
-                      <img
+                      <LazyImage
                         src={dish.image}
                         alt={dish.title}
-                        className="w-full h-48 object-cover"
+                        className="w-full h-48"
+                        onClick={() => openLightbox('cuisine', index)}
                       />
                     </div>
                     <CardContent className="p-4">
@@ -351,6 +377,23 @@ const Experience = () => {
           </Tabs>
         </section>
       </main>
+
+      {/* Lightbox Component */}
+      {lightboxOpen && (
+        <Lightbox
+          images={getCurrentGalleryData()}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+          onNext={() => {
+            const data = getCurrentGalleryData();
+            setLightboxIndex((prev) => (prev + 1) % data.length);
+          }}
+          onPrev={() => {
+            const data = getCurrentGalleryData();
+            setLightboxIndex((prev) => (prev - 1 + data.length) % data.length);
+          }}
+        />
+      )}
 
       <Footer />
     </div>

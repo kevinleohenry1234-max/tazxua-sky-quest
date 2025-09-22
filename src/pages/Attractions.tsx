@@ -6,9 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Clock, Camera, Mountain, Filter, Search, Calendar, Users, Star } from 'lucide-react';
+import { MapPin, Clock, Camera, Mountain, Filter, Search, Calendar, Users, Star, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import dragonSpineImage from '@/assets/dragon-spine.jpg';
+import SearchAutocomplete from '@/components/SearchAutocomplete';
+import RatingSystem from '@/components/RatingSystem';
+import SocialShare from '@/components/SocialShare';
 
 const Attractions = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -79,101 +82,47 @@ const Attractions = () => {
       coordinates: [21.2899, 104.4369],
       rating: 4.5,
       category: 'Thác nước',
-      highlights: ['Thác nước hùng vĩ', 'Tắm thác', 'Không khí trong lành']
-    },
-    {
-      id: 6,
-      name: 'Bản Púng',
-      description: 'Bản làng người H\'Mông truyền thống với những ngôi nhà sàn và nét văn hóa độc đáo.',
-      image: dragonSpineImage,
-      duration: 'Nửa ngày',
-      difficulty: 'Dễ',
-      bestTime: 'Cả ngày',
-      coordinates: [21.3149, 104.4619],
-      rating: 4.4,
-      category: 'Văn hóa',
-      highlights: ['Văn hóa H\'Mông', 'Làng bản truyền thống', 'Ẩm thực địa phương']
+      highlights: ['Thác cao 100m', 'Cảnh quan hùng vĩ', 'Tắm thác tự nhiên']
     }
   ];
-
-  const itineraries = [
-    {
-      id: 1,
-      title: 'Hành Trình Săn Mây 2 Ngày 1 Đêm',
-      duration: '2 ngày 1 đêm',
-      difficulty: 'Trung bình',
-      price: '1.200.000 VNĐ',
-      rating: 4.8,
-      image: dragonSpineImage,
-      highlights: ['Săn mây bình minh', 'Cắm trại trên núi', 'Sống Lưng Khủng Long'],
-      schedule: [
-        { day: 'Ngày 1', activities: ['Khởi hành sáng sớm', 'Leo Sống Lưng Khủng Long', 'Cắm trại qua đêm'] },
-        { day: 'Ngày 2', activities: ['Săn mây bình minh', 'Thăm Cây Cô Đơn', 'Về lại thị trấn'] }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Khám Phá Văn Hóa H\'Mông 3 Ngày 2 Đêm',
-      duration: '3 ngày 2 đêm',
-      difficulty: 'Dễ',
-      price: '1.800.000 VNĐ',
-      rating: 4.7,
-      image: dragonSpineImage,
-      highlights: ['Homestay bản làng', 'Học làm thủ công', 'Ẩm thực truyền thống'],
-      schedule: [
-        { day: 'Ngày 1', activities: ['Đến Bản Púng', 'Tham quan làng bản', 'Nghỉ đêm homestay'] },
-        { day: 'Ngày 2', activities: ['Học hái chè Shan Tuyết', 'Làm thủ công truyền thống', 'Tiệc văn hóa tối'] },
-        { day: 'Ngày 3', activities: ['Thăm chợ phiên', 'Mua sắm đặc sản', 'Trở về'] }
-      ]
-    },
-    {
-      id: 3,
-      title: 'Chinh Phục Đỉnh Phu Sang 4 Ngày 3 Đêm',
-      duration: '4 ngày 3 đêm',
-      difficulty: 'Khó',
-      price: '2.500.000 VNĐ',
-      rating: 4.9,
-      image: dragonSpineImage,
-      highlights: ['Đỉnh cao nhất Tà Xùa', 'Trekking thử thách', 'Cảnh quan hùng vĩ'],
-      schedule: [
-        { day: 'Ngày 1', activities: ['Chuẩn bị và khởi hành', 'Trekking đến trạm 1', 'Nghỉ đêm trạm 1'] },
-        { day: 'Ngày 2', activities: ['Tiếp tục trekking', 'Đến trạm 2', 'Nghỉ đêm trạm 2'] },
-        { day: 'Ngày 3', activities: ['Chinh phục đỉnh Phu Sang', 'Ngắm cảnh từ đỉnh', 'Xuống trạm 1'] },
-        { day: 'Ngày 4', activities: ['Trở về thị trấn', 'Nghỉ ngơi và chia sẻ'] }
-      ]
-    }
-  ];
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Dễ': return 'bg-green-100 text-green-700';
-      case 'Trung bình': return 'bg-yellow-100 text-yellow-700';
-      case 'Khó': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
-    }
-  };
 
   const filteredAttractions = attractions.filter(attraction => {
     const matchesSearch = attraction.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         attraction.description.toLowerCase().includes(searchTerm.toLowerCase());
+                         attraction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         attraction.category.toLowerCase().includes(searchTerm.toLowerCase());
+    
     const matchesDifficulty = difficultyFilter === 'all' || attraction.difficulty === difficultyFilter;
+    
     const matchesDuration = durationFilter === 'all' || 
                            (durationFilter === 'short' && attraction.duration.includes('1-2')) ||
-                           (durationFilter === 'medium' && (attraction.duration.includes('3-4') || attraction.duration.includes('2-3'))) ||
-                           (durationFilter === 'long' && (attraction.duration.includes('5-6') || attraction.duration.includes('Nửa ngày')));
+                           (durationFilter === 'medium' && (attraction.duration.includes('2-3') || attraction.duration.includes('3-4'))) ||
+                           (durationFilter === 'long' && (attraction.duration.includes('4-5') || attraction.duration.includes('5-6')));
     
     return matchesSearch && matchesDifficulty && matchesDuration;
   });
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Dễ':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Trung bình':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Khó':
+        return 'bg-red-100 text-red-800 border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="pt-16">
+      <main>
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="relative text-center text-white z-10">
+        <section className="relative h-[60vh] flex items-center justify-center bg-gradient-to-br from-primary/20 via-primary/10 to-background">
+          <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] bg-cover bg-center opacity-20" />
+          <div className="relative z-10 text-center px-4">
             <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">
               Khám Phá Tà Xùa
             </h1>
@@ -186,7 +135,7 @@ const Attractions = () => {
         {/* Main Content */}
         <section className="py-16 container mx-auto px-4">
           <Tabs defaultValue="attractions" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsList className="grid w-full grid-cols-4 mb-8">
               <TabsTrigger value="attractions" className="flex items-center gap-2">
                 <Mountain className="w-4 h-4" />
                 Địa Điểm
@@ -194,6 +143,10 @@ const Attractions = () => {
               <TabsTrigger value="map" className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
                 Bản Đồ
+              </TabsTrigger>
+              <TabsTrigger value="reviews" className="flex items-center gap-2">
+                <Star className="w-4 h-4" />
+                Đánh Giá
               </TabsTrigger>
               <TabsTrigger value="itineraries" className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
@@ -206,13 +159,37 @@ const Attractions = () => {
               {/* Filters */}
               <div className="bg-muted/30 p-6 rounded-lg">
                 <div className="flex flex-col md:flex-row gap-4 items-center">
-                  <div className="flex items-center gap-2 flex-1">
-                    <Search className="w-4 h-4 text-muted-foreground" />
-                    <Input
+                  <div className="flex-1">
+                    <SearchAutocomplete
                       placeholder="Tìm kiếm địa điểm..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="flex-1"
+                      onSearch={setSearchTerm}
+                      showFilters={true}
+                      filters={[
+                        {
+                          id: 'category',
+                          label: 'Danh mục',
+                          value: '',
+                          onChange: () => {},
+                          options: [
+                            { value: 'nui-da', label: 'Núi đá' },
+                            { value: 'dinh-nui', label: 'Đỉnh núi' },
+                            { value: 'canh-quan', label: 'Cảnh quan' },
+                            { value: 'nong-nghiep', label: 'Nông nghiệp' },
+                            { value: 'thac-nuoc', label: 'Thác nước' }
+                          ]
+                        },
+                        {
+                          id: 'difficulty',
+                          label: 'Độ khó',
+                          value: '',
+                          onChange: () => {},
+                          options: [
+                            { value: 'de', label: 'Dễ' },
+                            { value: 'trung-binh', label: 'Trung bình' },
+                            { value: 'kho', label: 'Khó' }
+                          ]
+                        }
+                      ]}
                     />
                   </div>
                   <div className="flex gap-4">
@@ -309,9 +286,22 @@ const Attractions = () => {
                         </div>
                       </div>
 
-                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                        Xem Chi Tiết
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 btn-primary focus-ring">
+                          Xem Chi Tiết
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="px-3"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Handle share action
+                          }}
+                        >
+                          <Share2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -323,120 +313,125 @@ const Attractions = () => {
               <div className="bg-muted/30 p-8 rounded-lg text-center">
                 <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
                 <h3 className="font-playfair text-2xl font-bold text-foreground mb-4">
-                  Bản Đồ Tương Tác Tà Xùa
+                  Bản Đồ Tương Tác
                 </h3>
-                <p className="font-inter text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  Khám phá vị trí các địa điểm nổi bật trên bản đồ tương tác. 
-                  Nhấp vào các điểm đánh dấu để xem thông tin chi tiết và lên kế hoạch tuyến đường.
+                <p className="font-inter text-muted-foreground max-w-md mx-auto">
+                  Bản đồ tương tác với các điểm đến sẽ được tích hợp trong phiên bản tiếp theo.
                 </p>
-                <div className="bg-white rounded-lg p-8 min-h-[400px] flex items-center justify-center border-2 border-dashed border-border">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="font-inter text-muted-foreground">
-                      Bản đồ Mapbox sẽ được tích hợp tại đây
-                    </p>
-                    <p className="font-inter text-sm text-muted-foreground mt-2">
-                      Cần cấu hình Mapbox Access Token
-                    </p>
-                  </div>
+              </div>
+            </TabsContent>
+
+            {/* Reviews Tab */}
+            <TabsContent value="reviews" className="space-y-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <RatingSystem
+                    locationId="ta-xua-general"
+                    locationName="Tà Xùa"
+                    averageRating={4.7}
+                    totalReviews={156}
+                    reviews={[
+                      {
+                        id: '1',
+                        userName: 'Minh Anh',
+                        rating: 5,
+                        comment: 'Tà Xùa thực sự là một thiên đường! Cảnh quan hùng vĩ, không khí trong lành. Đặc biệt là khoảnh khắc săn mây lúc bình minh, thật không thể nào quên được.',
+                        date: '2024-01-15',
+                        location: 'Hà Nội',
+                        helpful: 12,
+                        verified: true
+                      },
+                      {
+                        id: '2',
+                        userName: 'Thanh Hương',
+                        rating: 4,
+                        comment: 'Địa điểm rất đẹp nhưng đường đi khá khó khăn. Nên chuẩn bị kỹ lưỡng và đi theo nhóm. Cảnh quan xứng đáng với công sức bỏ ra.',
+                        date: '2024-01-10',
+                        location: 'TP.HCM',
+                        helpful: 8,
+                        verified: false
+                      },
+                      {
+                        id: '3',
+                        userName: 'Đức Minh',
+                        rating: 5,
+                        comment: 'Lần đầu tiên đến Tà Xùa và đã bị mê hoặc hoàn toàn. Sống lưng khủng long thật sự ấn tượng. Sẽ quay lại vào mùa khác để trải nghiệm.',
+                        date: '2024-01-05',
+                        location: 'Đà Nẵng',
+                        helpful: 15,
+                        verified: true
+                      }
+                    ]}
+                    onSubmitReview={(review) => {
+                      console.log('New review:', review);
+                      // Handle review submission
+                    }}
+                  />
+                </div>
+                <div className="space-y-6">
+                  <SocialShare
+                    title="Khám phá Tà Xùa - Thiên đường săn mây"
+                    description="Trải nghiệm những điểm đến tuyệt vời tại Tà Xùa cùng Sky Quest"
+                    showTitle={true}
+                  />
+                  
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Thống kê đánh giá</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span>Cảnh quan</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-2">
+                            <div className="bg-green-500 h-2 rounded-full" style={{ width: '95%' }}></div>
+                          </div>
+                          <span className="text-sm">4.8</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Dịch vụ</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-2">
+                            <div className="bg-blue-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+                          </div>
+                          <span className="text-sm">4.3</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Tiện ích</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-2">
+                            <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '75%' }}></div>
+                          </div>
+                          <span className="text-sm">3.8</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Giá trị</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-2">
+                            <div className="bg-purple-500 h-2 rounded-full" style={{ width: '90%' }}></div>
+                          </div>
+                          <span className="text-sm">4.5</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </div>
             </TabsContent>
 
             {/* Itineraries Tab */}
             <TabsContent value="itineraries" className="space-y-8">
-              <div className="text-center mb-8">
-                <h2 className="font-playfair text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  Lịch Trình Gợi Ý
-                </h2>
-                <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-                  Những hành trình được thiết kế đặc biệt để bạn trải nghiệm trọn vẹn vẻ đẹp của Tà Xùa
+              <div className="bg-muted/30 p-8 rounded-lg text-center">
+                <Calendar className="w-16 h-16 text-primary mx-auto mb-4" />
+                <h3 className="font-playfair text-2xl font-bold text-foreground mb-4">
+                  Lịch Trình Sắp Ra Mắt
+                </h3>
+                <p className="font-inter text-muted-foreground max-w-md mx-auto">
+                  Chúng tôi đang phát triển tính năng lập lịch trình tự động để giúp bạn có những chuyến đi hoàn hảo.
                 </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                {itineraries.map((itinerary) => (
-                  <Card key={itinerary.id} className="overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300">
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={itinerary.image}
-                        alt={itinerary.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge className={getDifficultyColor(itinerary.difficulty)}>
-                          {itinerary.difficulty}
-                        </Badge>
-                      </div>
-                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 text-yellow-500 fill-current" />
-                          <span className="text-xs font-semibold">{itinerary.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <CardHeader>
-                      <CardTitle className="font-playfair text-xl text-foreground">
-                        {itinerary.title}
-                      </CardTitle>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {itinerary.duration}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Users className="w-4 h-4" />
-                            2-8 người
-                          </div>
-                        </div>
-                        <div className="font-inter font-bold text-primary">
-                          {itinerary.price}
-                        </div>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="space-y-4">
-                      {/* Highlights */}
-                      <div className="space-y-2">
-                        <h4 className="font-inter font-semibold text-foreground">Điểm nổi bật:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {itinerary.highlights.map((highlight, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
-                              {highlight}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Schedule Preview */}
-                      <div className="space-y-2">
-                        <h4 className="font-inter font-semibold text-foreground">Lịch trình:</h4>
-                        <div className="space-y-2">
-                          {itinerary.schedule.slice(0, 2).map((day, index) => (
-                            <div key={index} className="text-sm">
-                              <div className="font-semibold text-primary">{day.day}:</div>
-                              <div className="text-muted-foreground ml-2">
-                                {day.activities.slice(0, 2).join(', ')}
-                                {day.activities.length > 2 && '...'}
-                              </div>
-                            </div>
-                          ))}
-                          {itinerary.schedule.length > 2 && (
-                            <div className="text-xs text-muted-foreground">
-                              +{itinerary.schedule.length - 2} ngày khác...
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                        Xem Chi Tiết & Đặt Tour
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
               </div>
             </TabsContent>
           </Tabs>
