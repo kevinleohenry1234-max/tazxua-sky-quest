@@ -40,7 +40,7 @@ const AIMusicGenerator = () => {
       const generateResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer 26651566891361849fc9cf844823f64f',
+          'Authorization': 'Bearer cf27cde4b79cf21c2a515bd4e1ccbd49',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -95,7 +95,7 @@ const AIMusicGenerator = () => {
         
         const statusResponse = await fetch(`https://api.sunoapi.org/api/v1/generate/record-info?taskId=${taskId}`, {
           headers: {
-            'Authorization': 'Bearer 26651566891361849fc9cf844823f64f',
+            'Authorization': 'Bearer cf27cde4b79cf21c2a515bd4e1ccbd49',
             'Content-Type': 'application/json'
           }
         });

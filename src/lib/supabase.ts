@@ -164,6 +164,43 @@ export const getSession = async () => {
   }
 };
 
+// Function to sign in with Google
+export const signInWithGoogle = async () => {
+  try {
+    const redirectUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+    
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: redirectUrl,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      }
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return {
+      success: true,
+      data: data,
+      message: 'Đang chuyển hướng đến Google...'
+    };
+
+  } catch (error) {
+    console.error('Google sign in error:', error);
+    throw new Error('Có lỗi xảy ra khi đăng nhập với Google.');
+  }
+};
+
+// Function to sign up with Google (same as sign in for OAuth)
+export const signUpWithGoogle = async () => {
+  return signInWithGoogle();
+};
+
 // Function to listen to auth state changes
 export const onAuthStateChange = (callback: (event: string, session: any) => void) => {
   return supabase.auth.onAuthStateChange(callback);
