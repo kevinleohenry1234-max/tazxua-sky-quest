@@ -24,15 +24,15 @@ export const homestayRealData: HomestayReal[] = [
     rating: 4.8,
     price: '500.000 - 800.000 VNĐ/đêm',
     images: [
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/1%20(1).webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/2%20(1).webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/2.webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/3%20(1).webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/3%20(2).webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/4.webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/5.webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/6.webp',
-      '/cơ%20sở%20lưu%20trú/1.%201941M%20Homestay%20Tà%20Xùa/HÌNH%20ẢNH%20/7.webp'
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/1%20(1).webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/2%20(1).webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/2.webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/3%20(1).webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/3%20(2).webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/4.webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/5.webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/6.webp',
+      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/7.webp'
     ],
     amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Nhà hàng', 'View núi', 'Phòng VIP'],
     contact: {
