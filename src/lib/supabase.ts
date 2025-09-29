@@ -6,10 +6,30 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key
 
 // Check if Supabase is properly configured
 const isSupabaseConfigured = () => {
-  return supabaseUrl !== 'https://your-project.supabase.co' && 
-         supabaseAnonKey !== 'your-anon-key' &&
-         !supabaseUrl.includes('your-actual-project-id') &&
-         !supabaseAnonKey.includes('your-actual-anon-key');
+  const url = import.meta.env.VITE_SUPABASE_URL;
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  
+  const hasValidUrl = url && 
+                      url !== 'https://your-project.supabase.co' && 
+                      !url.includes('your-actual-project-id') &&
+                      url.startsWith('https://') &&
+                      url.includes('.supabase.co');
+  
+  const hasValidKey = key && 
+                      key !== 'your-anon-key' &&
+                      !key.includes('your-actual-anon-key') &&
+                      key.length > 50; // Supabase keys are typically long
+  
+  console.log('Supabase config check:', {
+    url: url,
+    urlValid: hasValidUrl,
+    key: key ? `${key.substring(0, 20)}...` : 'missing',
+    keyLength: key?.length,
+    keyValid: hasValidKey,
+    finalResult: hasValidUrl && hasValidKey
+  });
+  
+  return hasValidUrl && hasValidKey;
 };
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -175,12 +195,21 @@ export const getSession = async () => {
 // Function to sign in with Google
 export const signInWithGoogle = async () => {
   try {
+    // Log current environment variables for debugging
+    console.log('Environment check:', {
+      url: import.meta.env.VITE_SUPABASE_URL,
+      keyExists: !!import.meta.env.VITE_SUPABASE_ANON_KEY,
+      keyLength: import.meta.env.VITE_SUPABASE_ANON_KEY?.length
+    });
+
     // Check if Supabase is properly configured
     if (!isSupabaseConfigured()) {
+      console.error('Supabase configuration failed');
       throw new Error('Supabase chưa được cấu hình. Vui lòng cập nhật thông tin Supabase trong file .env');
     }
 
     const redirectUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+    console.log('Using redirect URL:', redirectUrl);
     
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -194,6 +223,7 @@ export const signInWithGoogle = async () => {
     });
 
     if (error) {
+      console.error('OAuth error:', error);
       // Handle specific OAuth errors
       if (error.message.includes('Invalid provider')) {
         throw new Error('Google OAuth chưa được kích hoạt trong Supabase. Vui lòng kích hoạt Google provider trong Authentication > Providers.');

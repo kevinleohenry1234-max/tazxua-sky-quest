@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -58,7 +58,8 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
     { id: '8', name: 'Chụp ảnh', type: 'activity', description: 'Nhiếp ảnh phong cảnh', category: 'photography' }
   ];
 
-  const allSuggestions = [...suggestions, ...defaultSuggestions];
+  // Memoize allSuggestions to prevent infinite re-renders
+  const allSuggestions = useMemo(() => [...suggestions, ...defaultSuggestions], [suggestions]);
 
   useEffect(() => {
     if (query.trim() === '') {
@@ -72,7 +73,7 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
       setFilteredSuggestions(filtered);
     }
     setSelectedIndex(-1);
-  }, [query, suggestions]);
+  }, [query, allSuggestions]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

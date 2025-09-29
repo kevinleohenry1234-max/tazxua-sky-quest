@@ -92,10 +92,10 @@ const Footer = () => {
                   <Mail className="w-4 h-4 text-primary" />
                 </div>
                 <a 
-                  href="mailto:vivietteam.gmail.com" 
+                  href="mailto:vivietteamgmail.com" 
                   className="font-inter text-white/90 hover:text-primary transition-colors duration-300 text-sm"
                 >
-                  vivietteam.gmail.com
+                  vivietteam@gmail.com
                 </a>
               </div>
               <div className="flex items-center space-x-3 group">

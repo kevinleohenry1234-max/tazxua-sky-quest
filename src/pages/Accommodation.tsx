@@ -1,359 +1,370 @@
+import React, { useState, useEffect } from 'react';
+import Layout from '@/components/Layout';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Layout from '@/components/Layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import ImageSlider from '@/components/ImageSlider';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Star, Wifi, Car, Coffee, Utensils } from 'lucide-react';
-import LazyImage from '@/components/LazyImage';
-import homestayImage from '@/assets/homestay-taxua.jpg';
-import luHomestayImage from '@/assets/lu-homestay-taxua.jpg';
+import { MapPin, Star, Phone, Mail, Wifi, Car, Coffee, Mountain, Users, Calendar } from 'lucide-react';
+import { getSession, onAuthStateChange, signOut } from '@/lib/supabase';
+import { homestayRealData } from '@/data/homestayRealData';
+import heroImage from '@/assets/hero-taxua-clouds.jpg';
 
-const Accommodation = () => {
-  // Hàm xử lý mở chatbot
-  const handleBookingClick = () => {
-    // Kiểm tra xem chatbot widget đã load chưa
-    if (typeof window !== 'undefined') {
-      // Tìm button chatbot và click vào nó
-      const chatButton = document.getElementById('phechat-chat-button');
-      if (chatButton) {
-        chatButton.click();
-        return;
-      }
-      
-      // Nếu không tìm thấy button, thử tìm theo class hoặc selector khác
-      const chatWidget = document.querySelector('[id*="phechat"]') || 
-                        document.querySelector('[class*="phechat"]') ||
-                        document.querySelector('[class*="chat"]');
-      
-      if (chatWidget && chatWidget instanceof HTMLElement) {
-        chatWidget.click();
-        return;
-      }
-      
-      // Fallback: thử gọi trực tiếp API nếu có
-      const pheChat = (window as any).PheChat;
-      if (pheChat && typeof pheChat.open === 'function') {
-        pheChat.open();
-        return;
-      }
-      
-      // Nếu tất cả đều thất bại, hiển thị thông báo
-      console.log('Chatbot đang được khởi tạo, vui lòng thử lại sau giây lát...');
-      
-      // Thử lại sau 2 giây
-      setTimeout(() => {
-        const retryButton = document.getElementById('phechat-chat-button');
-        if (retryButton) {
-          retryButton.click();
-        } else {
-          const retryPheChat = (window as any).PheChat;
-          if (retryPheChat && typeof retryPheChat.open === 'function') {
-            retryPheChat.open();
-          }
+interface Homestay {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  rating: number;
+  price: string;
+  images: string[];
+  amenities: string[];
+  contact: {
+    phone?: string;
+    email?: string;
+  };
+  features: string[];
+}
+
+const homestayData: Homestay[] = [
+  {
+    id: '1',
+    name: '1941M Homestay Tà Xùa',
+    description: 'Homestay cao cấp với view núi tuyệt đẹp, nằm ở độ cao 1941m so với mực nước biển.',
+    location: 'Đỉnh Tà Xùa, Sơn La',
+    rating: 4.8,
+    price: '500.000 - 800.000 VNĐ/đêm',
+    images: ['/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/1.jpg'],
+    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Nhà hàng', 'View núi'],
+    contact: {
+      phone: '0987654321',
+      email: 'contact@1941homestay.com'
+    },
+    features: ['Gần đỉnh núi', 'Ngắm bình minh', 'Không khí trong lành']
+  },
+  {
+    id: '2',
+    name: 'Mayhome Tà Xùa',
+    description: 'Homestay ấm cúng với phong cách truyền thống, phù hợp cho gia đình.',
+    location: 'Tà Xùa, Sơn La',
+    rating: 4.6,
+    price: '400.000 - 600.000 VNĐ/đêm',
+    images: ['/cơ sở lưu trú/2. Mayhome Tà Xùa/1.jpg'],
+    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Bữa sáng miễn phí'],
+    contact: {
+      phone: '0912345678'
+    },
+    features: ['Phong cách truyền thống', 'Thân thiện với gia đình', 'Giá cả hợp lý']
+  },
+  {
+    id: '3',
+    name: 'Tà Xùa Ecolodge',
+    description: 'Khu nghỉ dưỡng sinh thái với thiết kế hiện đại, hòa mình với thiên nhiên.',
+    location: 'Tà Xùa, Sơn La',
+    rating: 4.9,
+    price: '800.000 - 1.200.000 VNĐ/đêm',
+    images: ['/cơ sở lưu trú/3. Tà Xùa Ecolodge/1.jpg'],
+    amenities: ['Wifi miễn phí', 'Spa', 'Nhà hàng cao cấp', 'Hồ bơi'],
+    contact: {
+      phone: '0901234567',
+      email: 'info@taxuaecolodge.com'
+    },
+    features: ['Thiết kế sinh thái', 'Dịch vụ cao cấp', 'Hòa mình với thiên nhiên']
+  }
+];
+
+const getAmenityIcon = (amenity: string) => {
+  if (amenity.includes('Wifi')) return <Wifi className="w-4 h-4" />;
+  if (amenity.includes('xe')) return <Car className="w-4 h-4" />;
+  if (amenity.includes('hàng') || amenity.includes('sáng')) return <Coffee className="w-4 h-4" />;
+  if (amenity.includes('núi') || amenity.includes('View')) return <Mountain className="w-4 h-4" />;
+  return <Star className="w-4 h-4" />;
+};
+
+const Accommodation: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check for existing session on component mount
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const session = await getSession();
+        if (session?.user) {
+          setIsLoggedIn(true);
+          setUserName(session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Người dùng');
+          setUserEmail(session.user.email || '');
         }
-      }, 2000);
+      } catch (error) {
+        console.error('Error checking session:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        setIsLoggedIn(true);
+        setUserName(session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Người dùng');
+        setUserEmail(session.user.email || '');
+      } else if (event === 'SIGNED_OUT') {
+        setIsLoggedIn(false);
+        setUserName('');
+        setUserEmail('');
+        setShowDashboard(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setIsLoggedIn(false);
+      setUserName('');
+      setUserEmail('');
+      setShowDashboard(false);
+    } catch (error) {
+      console.error('Error signing out:', error);
     }
   };
 
-  const accommodations = [
-    {
-      id: 1,
-      name: '1941M Homestay Tà Xùa',
-      description: 'Homestay hiện đại với view núi rừng tuyệt đẹp, nằm ở độ cao 1941m so với mực nước biển. Không gian thoáng mát với thiết kế hiện đại, phù hợp cho những ai yêu thích sự tiện nghi và muốn trải nghiệm săn mây tại Tà Xùa.',
-      image: homestayImage,
-      gallery: [
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Ngoại thất /1.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Ngoại thất /2.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Phòng /1.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Phòng /2.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Phòng /3.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Phòng /KHU ĂN UỐNG_.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /1.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /2.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /3.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /4.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /5.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /6.webp',
-        '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /7.webp'
-      ],
-      rating: 4.9,
-      price: '1.200.000',
-      location: 'Tà Xùa, Bắc Yên, Sơn La',
-      contact: {
-        phone: '+84 987 654 321',
-        email: '1941m@taxua.com',
-        address: 'Bản Tà Xùa, Xã Tà Xùa, Huyện Bắc Yên, Tỉnh Sơn La'
-      },
-      amenities: ['Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý', 'Khu ăn uống', 'View núi rừng', 'Điều hòa', 'Tivi', 'Tủ lạnh mini'],
-      features: ['Độ cao 1941m', 'View biển mây', 'Thiết kế hiện đại', 'Gần điểm săn mây', 'Phòng rộng rãi', 'Nội thất cao cấp'],
-      roomTypes: [
-        { name: 'Phòng Standard', capacity: '2 người', price: '1.000.000', amenities: ['Giường đôi', 'Phòng tắm riêng', 'View núi'] },
-        { name: 'Phòng Deluxe', capacity: '2-3 người', price: '1.200.000', amenities: ['Giường đôi + giường đơn', 'Phòng tắm riêng', 'Ban công view biển mây'] },
-        { name: 'Phòng Family', capacity: '4-5 người', price: '1.500.000', amenities: ['2 giường đôi', 'Phòng tắm riêng', 'Khu vực sinh hoạt chung'] }
-      ],
-      policies: {
-        checkIn: '14:00',
-        checkOut: '12:00',
-        cancellation: 'Miễn phí hủy trước 24h',
-        deposit: '50% tổng tiền phòng'
-      }
-    },
-    {
-      id: 2,
-      name: 'May Home Tà Xùa',
-      description: 'Homestay ấm cúng với không gian thoáng mát và dịch vụ chu đáo. Được thiết kế theo phong cách hiện đại nhưng vẫn giữ được nét truyền thống, tạo cảm giác gần gũi và thân thiện cho du khách.',
-      image: '/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng /may2.webp',
-      gallery: [
-        '/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng /may2.webp',
-        '/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng /may3.webp',
-        '/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng /may4.webp',
-        '/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng /may5.webp'
-      ],
-      rating: 4.8,
-      price: '900.000',
-      location: 'Tà Xùa, Bắc Yên, Sơn La',
-      contact: {
-        phone: '+84 976 543 210',
-        email: 'mayhome@taxua.com',
-        address: 'Bản Tà Xùa, Xã Tà Xùa, Huyện Bắc Yên, Tỉnh Sơn La'
-      },
-      amenities: ['Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Khu ăn chung', 'Dịch vụ giặt ủi', 'Tư vấn tour', 'Cho thuê xe máy', 'Bếp chung'],
-      features: ['Không gian ấm cúng', 'Dịch vụ chu đáo', 'Giá cả hợp lý', 'Gần trung tâm', 'Chủ nhà thân thiện', 'Môi trường sạch sẽ'],
-      roomTypes: [
-        { name: 'Phòng đơn', capacity: '1-2 người', price: '700.000', amenities: ['Giường đôi', 'Phòng tắm chung', 'Tủ quần áo'] },
-        { name: 'Phòng đôi', capacity: '2-3 người', price: '900.000', amenities: ['Giường đôi', 'Phòng tắm riêng', 'Ban công nhỏ'] },
-        { name: 'Phòng gia đình', capacity: '4 người', price: '1.200.000', amenities: ['2 giường đôi', 'Phòng tắm riêng', 'Khu vực ngồi'] }
-      ],
-      policies: {
-        checkIn: '14:00',
-        checkOut: '11:00',
-        cancellation: 'Miễn phí hủy trước 48h',
-        deposit: '30% tổng tiền phòng'
-      }
-    },
-    {
-      id: 3,
-      name: 'Tà Xùa Ecolodge',
-      description: 'Ecolodge cao cấp với thiết kế hiện đại giữa thiên nhiên hoang sơ. Kết hợp hoàn hảo giữa sự tiện nghi hiện đại và vẻ đẹp tự nhiên của núi rừng Tà Xùa, mang đến trải nghiệm nghỉ dưỡng đẳng cấp.',
-      image: '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh /Tà Xùa Ecolodge.jpg',
-      gallery: [
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất /1.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất /2.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Phòng /1.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Phòng /2.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Phòng /3.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Khu vực công cộng /1.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Khu vực công cộng /2.webp',
-        '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh /Tà Xùa Ecolodge.jpg'
-      ],
-      rating: 4.9,
-      price: '1.500.000',
-      location: 'Tà Xùa, Bắc Yên, Sơn La',
-      contact: {
-        phone: '+84 965 432 109',
-        email: 'ecolodge@taxua.com',
-        address: 'Đỉnh Tà Xùa, Xã Tà Xùa, Huyện Bắc Yên, Tỉnh Sơn La'
-      },
-      amenities: ['Bể bơi', 'Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý', 'Spa', 'Nhà hàng', 'Bar', 'Gym'],
-      features: ['Thiết kế cao cấp', 'View biển mây', 'Gần điểm săn mây', 'Dịch vụ 5 sao', 'Kiến trúc sinh thái', 'Không gian riêng tư'],
-      roomTypes: [
-        { name: 'Superior Room', capacity: '2 người', price: '1.200.000', amenities: ['Giường king size', 'Phòng tắm cao cấp', 'Ban công view núi'] },
-        { name: 'Deluxe Room', capacity: '2-3 người', price: '1.500.000', amenities: ['Giường king size', 'Phòng tắm jacuzzi', 'Ban công view biển mây'] },
-        { name: 'Suite Room', capacity: '4 người', price: '2.000.000', amenities: ['Phòng khách riêng', 'Phòng tắm cao cấp', 'Sân hiên rộng'] }
-      ],
-      policies: {
-        checkIn: '15:00',
-        checkOut: '12:00',
-        cancellation: 'Miễn phí hủy trước 72h',
-        deposit: '50% tổng tiền phòng'
-      }
-    },
-    {
-      id: 4,
-      name: 'Xoè Homestay',
-      description: 'Homestay truyền thống với phong cách kiến trúc địa phương độc đáo. Được xây dựng theo lối kiến trúc nhà sàn truyền thống của người H\'Mông, mang đến trải nghiệm văn hóa chân thật và gần gũi với thiên nhiên.',
-      image: '/Địa điểm lưu trú/Xoè Homestay /Photo /10.webp',
-      gallery: [
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /10.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /12.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /13.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /14.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /15.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /16.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /18.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /19.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /20.webp',
-        '/Địa điểm lưu trú/Xoè Homestay /Photo /22.webp'
-      ],
-      rating: 4.7,
-      price: '700.000',
-      location: 'Tà Xùa, Bắc Yên, Sơn La',
-      contact: {
-        phone: '+84 954 321 098',
-        email: 'xoe@taxua.com',
-        address: 'Bản Tà Xùa, Xã Tà Xùa, Huyện Bắc Yên, Tỉnh Sơn La'
-      },
-      amenities: ['Bữa ăn truyền thống', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Hoạt động văn hóa', 'Trekking guide', 'Trải nghiệm địa phương', 'Lửa trại', 'Nhạc dân gian'],
-      features: ['Kiến trúc truyền thống', 'Văn hóa bản địa', 'Trải nghiệm chân thật', 'Giá cả phải chăng', 'Nhà sàn H\'Mông', 'Không gian cộng đồng'],
-      roomTypes: [
-        { name: 'Phòng nhà sàn', capacity: '2-3 người', price: '600.000', amenities: ['Giường truyền thống', 'Phòng tắm chung', 'Không gian mở'] },
-        { name: 'Phòng gia đình', capacity: '4-6 người', price: '700.000', amenities: ['Nhiều giường', 'Phòng tắm riêng', 'Khu vực sinh hoạt'] },
-        { name: 'Nhà sàn riêng', capacity: '6-8 người', price: '1.000.000', amenities: ['Toàn bộ nhà sàn', 'Bếp riêng', 'Sân hiên rộng'] }
-      ],
-      policies: {
-        checkIn: '14:00',
-        checkOut: '11:00',
-        cancellation: 'Miễn phí hủy trước 24h',
-        deposit: '20% tổng tiền phòng'
-      }
-    },
-    {
-      id: 5,
-      name: 'Lù Homestay Tà Xùa',
-      description: 'Homestay giữa lòng núi rừng với view săn mây tuyệt đẹp',
-      image: '/Địa điểm lưu trú/Lù Homestay Tà Xùa.jpg',
-      rating: 4.8,
-      price: '800.000',
-      location: 'Bản Tà Xùa, Xã Tà Xùa, Sơn La',
-      amenities: ['Ăn sáng miễn phí', 'Wi-Fi miễn phí', 'Chỗ đậu xe miễn phí', 'Quầy lễ tân 24/24', 'Dịch vụ giữ hành lý', 'View săn mây'],
-      features: ['View biển mây', 'Gần điểm săn mây', 'Trải nghiệm văn hóa H\'Mông', 'Không gian yên tĩnh']
-    }
-  ];
-
-  const amenityIcons = {
-    'Bể bơi': Star,
-    'Ăn sáng miễn phí': Coffee,
-    'Wi-Fi miễn phí': Wifi,
-    'Chỗ đậu xe miễn phí': Car,
-    'Quầy lễ tân 24/24': Star,
-    'Dịch vụ giữ hành lý': Star,
-    'Bữa ăn truyền thống': Utensils,
-    'Hoạt động văn hóa': Star,
-    'Trekking guide': MapPin,
-    'Khu ăn uống': Utensils,
-    'View núi rừng': MapPin,
-    'Khu ăn chung': Utensils,
-    'Dịch vụ giặt ủi': Star,
-    'Tư vấn tour': MapPin,
-    'View săn mây': MapPin,
-    'Trải nghiệm địa phương': Star
+  const getAmenityIcon = (amenity: string) => {
+    if (amenity.includes('Wifi')) return <Wifi className="w-4 h-4" />;
+    if (amenity.includes('xe')) return <Car className="w-4 h-4" />;
+    if (amenity.includes('hàng') || amenity.includes('sáng') || amenity.includes('Café')) return <Coffee className="w-4 h-4" />;
+    if (amenity.includes('núi') || amenity.includes('View') || amenity.includes('view')) return <Mountain className="w-4 h-4" />;
+    if (amenity.includes('gia đình') || amenity.includes('phòng')) return <Users className="w-4 h-4" />;
+    return <Star className="w-4 h-4" />;
   };
 
   return (
-    <Layout>
-      <Header />
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${heroImage})`
+      }}
+    >
+      <Header
+        isLoggedIn={isLoggedIn}
+        userName={userName}
+        onLoginClick={() => setShowLoginModal(true)}
+        onRegisterClick={() => setShowRegisterModal(true)}
+        onProfileClick={() => setShowDashboard(true)}
+        onLogoutClick={handleLogout}
+      />
       
-      <main className="pt-16">
+      <div className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
-          <div className="relative text-center text-white z-10">
-            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
-              Lưu Trú Tà Xùa
-            </h1>
-            <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
-              Khám phá những nơi nghỉ dưỡng tuyệt vời giữa lòng núi rừng
-            </p>
+        <div className="relative py-24 text-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+                Địa Điểm Lưu Trú Tà Xùa
+              </h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-md">
+                Khám phá những homestay tuyệt vời giữa núi rừng Tà Xùa
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 text-white/80">
+                <div className="flex items-center gap-2">
+                  <Mountain className="w-5 h-5" />
+                  <span>15+ Homestay</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5" />
+                  <span>Đánh giá cao</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5" />
+                  <span>Phù hợp mọi gia đình</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
 
-        {/* Accommodations Grid */}
-        <section className="py-20 container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            {accommodations.map((place) => (
-              <Card key={place.id} className="group overflow-hidden bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] card-hover">
-                <div className="relative overflow-hidden">
-                  <LazyImage
-                    src={place.image}
-                    alt={place.name}
-                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-4 right-4">
-                    <div className="bg-primary/90 text-white border-0 backdrop-blur-sm pulse-on-hover px-3 py-1 rounded-full flex items-center space-x-1">
-                      ⭐ {place.rating}
+        {/* Content Section */}
+        <div className="bg-white/95 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-16">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">
+                Chọn Nơi Nghỉ Ngơi Lý Tưởng
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Từ những homestay ấm cúng đến các khu nghỉ dưỡng cao cấp, 
+                Tà Xùa có nhiều lựa chọn phù hợp với mọi nhu cầu và ngân sách.
+                Mỗi nơi đều mang một câu chuyện riêng và trải nghiệm độc đáo.
+              </p>
+            </div>
+
+            {/* Homestay Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {homestayRealData.map((homestay) => (
+                <Card key={homestay.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white/90 backdrop-blur-sm border-0">
+                  <div className="relative h-64">
+                    <ImageSlider
+                      images={homestay.images}
+                      alt={homestay.name}
+                      className="w-full h-full"
+                      autoPlay={true}
+                      autoPlayInterval={4000}
+                    />
+                    <div className="absolute top-4 right-4">
+                      <Badge className="bg-white/90 text-gray-800 flex items-center gap-1 shadow-lg">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        {homestay.rating}
+                      </Badge>
+                    </div>
+                    <div className="absolute bottom-4 left-4">
+                      <Badge variant="secondary" className="bg-black/70 text-white border-0">
+                        {homestay.images.length} ảnh
+                      </Badge>
                     </div>
                   </div>
-                </div>
-                
-                <div className="p-6 space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-300">
-                      {place.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                      {place.description}
+
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-xl font-bold text-gray-800 line-clamp-1">
+                      {homestay.name}
+                    </CardTitle>
+                    <CardDescription className="flex items-center gap-1 text-gray-600">
+                      <MapPin className="w-4 h-4 text-blue-600" />
+                      {homestay.location}
+                    </CardDescription>
+                  </CardHeader>
+
+                  <CardContent className="space-y-4">
+                    <p className="text-gray-700 text-sm line-clamp-3 leading-relaxed">
+                      {homestay.description}
                     </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <MapPin className="w-4 h-4 text-primary" />
-                    <span>{place.location}</span>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Tiện ích nổi bật</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {place.features.slice(0, 3).map((feature, index) => (
-                          <span key={index} className="text-xs bg-secondary/10 text-secondary border-secondary/20 stagger-animation px-2 py-1 rounded-full">
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Dịch vụ</h4>
-                      <div className="grid grid-cols-2 gap-2">
-                        {place.amenities.slice(0, 4).map((amenity, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs text-gray-600 stagger-animation">
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                            <span>{amenity}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <div className="space-y-1">
-                      <p className="text-2xl font-bold text-primary gradient-text">
-                        {parseInt(place.price).toLocaleString()}₫
-                      </p>
-                      <p className="text-xs text-gray-500">/ đêm</p>
-                    </div>
                     
-                    <Button 
-                      onClick={handleBookingClick}
-                      className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white border-0 px-6 py-2 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105 btn-primary focus-ring"
-                    >
-                      Đặt phòng
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </section>
+                    <div className="flex flex-wrap gap-2">
+                      {homestay.amenities.slice(0, 4).map((amenity, index) => (
+                        <Badge key={index} variant="outline" className="flex items-center gap-1 text-xs border-blue-200 text-blue-700">
+                          {getAmenityIcon(amenity)}
+                          <span>{amenity}</span>
+                        </Badge>
+                      ))}
+                      {homestay.amenities.length > 4 && (
+                        <Badge variant="outline" className="text-xs text-gray-500">
+                          +{homestay.amenities.length - 4} khác
+                        </Badge>
+                      )}
+                    </div>
 
-        {/* Call to Action */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Không Tìm Thấy Nơi Phù Hợp?
-            </h2>
-            <p className="font-inter text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Liên hệ với chúng tôi để được tư vấn và hỗ trợ tìm kiếm địa điểm lưu trú phù hợp với nhu cầu của bạn
-            </p>
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Liên Hệ Tư Vấn
-            </Button>
-          </div>
-        </section>
-      </main>
+                    <div className="flex flex-wrap gap-1">
+                      {homestay.features.slice(0, 3).map((feature, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs bg-green-100 text-green-700 border-green-200">
+                          {feature}
+                        </Badge>
+                      ))}
+                    </div>
 
+                    <div className="border-t pt-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-lg text-blue-600">
+                          {homestay.price}
+                        </span>
+                        <Badge className="bg-orange-100 text-orange-700 border-orange-200">
+                          <Calendar className="w-3 h-3 mr-1" />
+                          /đêm
+                        </Badge>
+                      </div>
+
+                      <div className="space-y-2">
+                        {homestay.contact.phone && (
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <Phone className="w-4 h-4 text-green-600" />
+                            <a 
+                              href={`tel:${homestay.contact.phone}`} 
+                              className="hover:text-blue-600 transition-colors"
+                            >
+                              {homestay.contact.phone}
+                            </a>
+                          </div>
+                        )}
+                        {homestay.contact.email && (
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <Mail className="w-4 h-4 text-blue-600" />
+                            <a 
+                              href={`mailto:${homestay.contact.email}`} 
+                              className="hover:text-blue-600 transition-colors"
+                            >
+                              {homestay.contact.email}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" size="sm">
+                          Xem Chi Tiết
+                        </Button>
+                        <Button variant="outline" size="sm" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+                          Đặt Ngay
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Statistics Section */}
+            <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
+                <div className="text-gray-600">Homestay & Resort</div>
+              </div>
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                <div className="text-3xl font-bold text-green-600 mb-2">4.6</div>
+                <div className="text-gray-600">Đánh giá trung bình</div>
+              </div>
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                <div className="text-3xl font-bold text-orange-600 mb-2">1000+</div>
+                <div className="text-gray-600">Khách hài lòng</div>
+              </div>
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                <div className="text-3xl font-bold text-purple-600 mb-2">24/7</div>
+                <div className="text-gray-600">Hỗ trợ khách hàng</div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="mt-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center text-white shadow-2xl">
+              <h3 className="text-3xl font-bold mb-4">
+                Cần Hỗ Trợ Đặt Phòng?
+              </h3>
+              <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
+                Liên hệ với chúng tôi để được tư vấn và hỗ trợ đặt phòng tại các homestay tốt nhất Tà Xùa. 
+                Đội ngũ chuyên viên sẽ giúp bạn tìm được nơi lưu trú phù hợp nhất.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 flex items-center gap-2 font-semibold">
+                  <Phone className="w-5 h-5" />
+                  Gọi Ngay: 1900-xxxx
+                </Button>
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 transition-colors flex items-center gap-2 font-semibold">
+                  <Mail className="w-5 h-5" />
+                  Email: info@taxua.com
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <Footer />
-    </Layout>
+    </div>
   );
 };
 
