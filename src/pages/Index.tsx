@@ -7,7 +7,11 @@ import Footer from '@/components/Footer';
 import UserDashboard from '@/components/UserDashboard';
 import RegisterModal, { RegisterData } from '@/components/RegisterModal';
 import LoginModal, { LoginData } from '@/components/LoginModal';
+import ImagePreloader from '@/components/ImagePreloader';
 import { registerUser, signInUser, signOut, getSession, onAuthStateChange } from '@/lib/supabase';
+import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
+import heroImage2 from '@/assets/hmong-culture.jpg';
+import heroImage3 from '@/assets/shan-tuyet-tea.jpg';
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -159,38 +163,65 @@ const Index = () => {
     );
   }
 
-  if (showDashboard) {
-    return (
-      <div className="min-h-screen">
-        <Header 
-          isLoggedIn={isLoggedIn}
-          userName={userName}
-          onProfileClick={handleBackToHome}
-          onLogoutClick={handleLogout}
-        />
-        <UserDashboard userName={userName} userPoints={45} />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-background">
-      <Header 
-        isLoggedIn={isLoggedIn}
-        userName={userName}
-        onLoginClick={handleLogin}
-        onRegisterClick={handleRegister}
-        onProfileClick={handleProfile}
-        onLogoutClick={handleLogout}
+    <div className="min-h-screen relative">
+      {/* Preload critical hero images */}
+      <ImagePreloader 
+        images={[heroImage1, heroImage2, heroImage3]} 
+        priority={true} 
       />
       
-      <main>
-        <HeroSection />
-        <CategoryCards />
-        <ExploreSection />
-      </main>
-      
-      <Footer />
+      {showDashboard ? (
+        <div className="min-h-screen">
+          <Header 
+            isLoggedIn={isLoggedIn}
+            userName={userName}
+            onProfileClick={handleBackToHome}
+            onLogoutClick={handleLogout}
+          />
+          <UserDashboard userName={userName} userPoints={45} />
+        </div>
+      ) : (
+        <>
+          {/* Background with real Tà Xùa mountain scenery */}
+          <div 
+            className="fixed inset-0 z-0"
+            style={{
+              backgroundImage: `url('/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /1.webp'), url('/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất /1.webp')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+              backgroundBlendMode: 'overlay'
+            }}
+          />
+          
+          {/* Light overlay to ensure text readability while preserving scenery */}
+          <div className="fixed inset-0 z-1 bg-gradient-to-b from-black/10 via-black/20 to-black/40" />
+          
+          <div className="relative z-10">
+            <Header 
+              isLoggedIn={isLoggedIn}
+              userName={userName}
+              onLoginClick={handleLogin}
+              onRegisterClick={handleRegister}
+              onProfileClick={handleProfile}
+              onLogoutClick={handleLogout}
+            />
+            
+            <main>
+              <HeroSection />
+              
+              {/* Seamless transition section */}
+              <div className="bg-gradient-to-b from-black/90 via-black/95 to-background">
+                <CategoryCards />
+                <ExploreSection />
+              </div>
+            </main>
+            
+            <Footer />
+          </div>
+        </>
+      )}
       
       {/* Authentication Modals */}
       <LoginModal 

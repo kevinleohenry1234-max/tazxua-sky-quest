@@ -1,8 +1,10 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Wifi, Car, Coffee, Utensils } from 'lucide-react';
+import LazyImage from '@/components/LazyImage';
 import homestayImage from '@/assets/homestay-taxua.jpg';
 import luHomestayImage from '@/assets/lu-homestay-taxua.jpg';
 
@@ -58,7 +60,7 @@ const Accommodation = () => {
       id: 1,
       name: '1941M Homestay Tà Xùa',
       description: 'Homestay hiện đại với view núi rừng tuyệt đẹp, nằm ở độ cao 1941m so với mực nước biển. Không gian thoáng mát với thiết kế hiện đại, phù hợp cho những ai yêu thích sự tiện nghi và muốn trải nghiệm săn mây tại Tà Xùa.',
-      image: '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Ngoại thất /1.webp',
+      image: homestayImage,
       gallery: [
         '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Ngoại thất /1.webp',
         '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Ngoại thất /2.webp',
@@ -238,19 +240,18 @@ const Accommodation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <Layout>
       <Header />
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40" />
+        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">
-            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">
-              Địa Điểm Lưu Trú
+            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
+              Lưu Trú Tà Xùa
             </h1>
-            <p className="font-inter text-xl md:text-2xl max-w-2xl mx-auto">
-              Khám phá những nơi nghỉ dưỡng tuyệt vời giữa lòng núi rừng Tà Xùa
+            <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
+              Khám phá những nơi nghỉ dưỡng tuyệt vời giữa lòng núi rừng
             </p>
           </div>
         </section>
@@ -261,11 +262,10 @@ const Accommodation = () => {
             {accommodations.map((place) => (
               <Card key={place.id} className="group overflow-hidden bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] card-hover">
                 <div className="relative overflow-hidden">
-                  <img
+                  <LazyImage
                     src={place.image}
                     alt={place.name}
                     className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute top-4 right-4">
@@ -353,7 +353,7 @@ const Accommodation = () => {
       </main>
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

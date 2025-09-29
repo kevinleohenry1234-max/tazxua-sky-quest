@@ -1,21 +1,21 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import SafetyCenter from '@/components/SafetyCenter';
 
 const Safety = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <Layout>
       <Header />
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-64 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40" />
+        <section className="relative h-64 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">
-            <h1 className="font-playfair text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="font-playfair text-4xl md:text-5xl font-bold mb-4 drop-shadow-2xl">
               An Toàn Tà Xùa
             </h1>
-            <p className="font-inter text-lg md:text-xl max-w-2xl mx-auto">
+            <p className="font-inter text-lg md:text-xl max-w-2xl mx-auto drop-shadow-lg">
               Thông tin và hướng dẫn để đảm bảo chuyến khám phá của bạn an toàn và trọn vẹn
             </p>
           </div>
@@ -28,7 +28,7 @@ const Safety = () => {
       </main>
       
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

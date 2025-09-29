@@ -1,5 +1,7 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
+import GoogleMapSection from '@/components/GoogleMapSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -162,19 +164,18 @@ const Explore = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <Layout>
       <Header />
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40" />
+        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">
-            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">
+            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
               Khám Phá Tà Xùa
             </h1>
-            <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto">
-              Bản đồ tương tác và hướng dẫn chi tiết về tất cả địa điểm nổi bật tại Tà Xùa
+            <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
+              Lên kế hoạch cho chuyến phiêu lưu hoàn hảo của bạn
             </p>
           </div>
         </section>
@@ -195,32 +196,8 @@ const Explore = () => {
 
             {/* Locations Tab */}
             <TabsContent value="locations" className="space-y-8">
-              {/* Interactive Map Placeholder */}
-              <Card className="overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="h-96 bg-gradient-to-br from-green-100 via-blue-50 to-purple-100 flex items-center justify-center relative">
-                    <div className="text-center">
-                      <Compass className="w-16 h-16 text-primary mx-auto mb-4" />
-                      <h3 className="font-playfair text-2xl font-bold text-foreground mb-2">
-                        Bản Đồ Tương Tác Tà Xùa
-                      </h3>
-                      <p className="font-inter text-muted-foreground mb-4">
-                        Khám phá các địa điểm nổi bật với bản đồ tương tác chi tiết
-                      </p>
-                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90 btn-primary focus-ring">
-                        <Navigation className="w-4 h-4 mr-2" />
-                        Xem Bản Đồ Đầy Đủ
-                      </Button>
-                    </div>
-                    
-                    {/* Map Pins Simulation */}
-                    <div className="absolute top-20 left-32 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                    <div className="absolute top-40 right-20 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
-                    <div className="absolute bottom-32 left-20 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
-                    <div className="absolute bottom-20 right-32 w-4 h-4 bg-purple-500 rounded-full animate-pulse"></div>
-                  </div>
-                </CardContent>
-              </Card>
+              {/* Interactive Google Map */}
+              <GoogleMapSection />
 
               {/* Category Filters */}
               <div className="flex flex-wrap gap-4 justify-center">
@@ -387,7 +364,7 @@ const Explore = () => {
       </main>
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

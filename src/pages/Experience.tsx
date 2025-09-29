@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -40,7 +41,7 @@ const Experience = () => {
       id: 1,
       title: 'Biển Mây Bình Minh',
       description: 'Khoảnh khắc bình minh tuyệt đẹp trên đỉnh Tà Xùa',
-      image: '/public/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Xung quanh/1.webp',
+      image: '/images/taxua-sunrise.svg',
       photographer: 'Nguyễn Văn A',
       views: 1250,
       likes: 89
@@ -49,7 +50,7 @@ const Experience = () => {
       id: 2,
       title: 'Sống Lưng Khủng Long',
       description: 'Dãy núi hùng vĩ với hình dáng độc đáo',
-      image: '/public/Địa điểm lưu trú/May Home Tà Xùa /Photo/Xung quanh/1.jpg',
+      image: '/images/taxua-dragon-spine.svg',
       photographer: 'Trần Thị B',
       views: 980,
       likes: 67
@@ -58,7 +59,7 @@ const Experience = () => {
       id: 3,
       title: 'Homestay Giữa Mây',
       description: 'Không gian nghỉ dưỡng thơ mộng',
-      image: '/public/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh/1.jpg',
+      image: '/images/taxua-homestay.svg',
       photographer: 'Lê Văn C',
       views: 756,
       likes: 45
@@ -70,7 +71,7 @@ const Experience = () => {
       id: 1,
       title: 'Tà Xùa - Thiên Đường Săn Mây',
       description: 'Khám phá vẻ đẹp huyền ảo của Tà Xùa qua góc nhìn điện ảnh',
-      thumbnail: '/public/Địa điểm lưu trú/Xoè Homestay /Photo /1.webp',
+      thumbnail: '/Địa điểm lưu trú/Xoè Homestay /Photo /1.webp',
       duration: '5:32',
       category: 'Cảnh quan',
       embedUrl: 'https://www.youtube.com/embed/elHm4l5T80M?si=p3IYgGTiWRs49wdI'
@@ -79,7 +80,7 @@ const Experience = () => {
       id: 2,
       title: 'Văn Hóa H\'Mông Tà Xùa',
       description: 'Tìm hiểu về đời sống và văn hóa của người H\'Mông',
-      thumbnail: '/public/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Phòng/1.webp',
+      thumbnail: '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Phòng/1.webp',
       duration: '8:15',
       category: 'Văn hóa',
       embedUrl: 'https://www.youtube.com/embed/ylDs4FdT2hk?si=hKquPG2D2rRAUXUi'
@@ -88,7 +89,7 @@ const Experience = () => {
       id: 3,
       title: 'Hành Trình Trekking Đỉnh Phu Sang',
       description: 'Chinh phục đỉnh cao nhất Tà Xùa',
-      thumbnail: '/public/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Phòng/1.jpg',
+      thumbnail: '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Phòng/1.jpg',
       duration: '12:45',
       category: 'Phiêu lưu',
       embedUrl: 'https://www.youtube.com/embed/Ru5fFw2ZU6I?si=0Oqn6w7lKXXuLNNl'
@@ -103,8 +104,8 @@ const Experience = () => {
       duration: '4:23',
       category: 'Nhạc dân tộc',
       description: 'Giai điệu truyền thống của người H\'Mông vang vọng giữa núi rừng Tà Xùa, mang đến cảm giác bình yên và gần gũi với thiên nhiên.',
-      backgroundImage: '/public/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Xung quanh/1.webp',
-      audioUrl: '/music/Người Mông Cổ ( 蒙古人 ) - Tiếng Sáo Người H\'mông - Trung sáo - beat cảm âm - Sáo Trúc Tây Bắc.mp3'
+      backgroundImage: '/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO/Xung quanh/1.webp',
+      audioUrl: '/music/Ng%C6%B0%E1%BB%9Di%20M%C3%B4ng%20C%E1%BB%95%20(%20%E8%92%99%E5%8F%A4%E4%BA%BA%20)%20-%20Ti%E1%BA%BFng%20S%C3%A1o%20Ng%C6%B0%E1%BB%9Di%20H\'m%C3%B4ng%20-%20Trung%20s%C3%A1o%20-%20beat%20c%E1%BA%A3m%20%C3%A2m%20-%20S%C3%A1o%20Tr%C3%BAc%20T%C3%A2y%20B%E1%BA%AFc.mp3'
     },
     {
       id: 3,
@@ -113,7 +114,7 @@ const Experience = () => {
       duration: '3:45',
       category: 'Dân ca',
       description: 'Bài hát ru truyền thống được truyền từ đời này sang đời khác, chứa đựng tình yêu thương và sự bảo vệ của người mẹ.',
-      backgroundImage: '/public/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh/1.jpg',
+      backgroundImage: '/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Xung quanh/1.jpg',
       audioUrl: '/music/Tiếng hát ru con - Thu Phương (ĐTNVN).mp3'
     }
   ];
@@ -123,7 +124,7 @@ const Experience = () => {
       id: 1,
       title: 'Thịt Lợn Cắp Nách',
       description: 'Món ăn đặc sản được nướng trên than hồng',
-      image: '/public/Địa điểm lưu trú/May Home Tà Xùa /Photo/Phòng/1.jpg',
+      image: '/images/thit-lon-cap-nach.svg',
       ingredients: ['Thịt lợn', 'Gia vị địa phương', 'Lá chuối'],
       cookingTime: '2-3 giờ'
     },
@@ -131,7 +132,7 @@ const Experience = () => {
       id: 2,
       title: 'Chè Shan Tuyết Cổ Thụ',
       description: 'Loại chè quý hiếm với hương vị đặc biệt',
-      image: '/public/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất/1.jpg',
+      image: '/images/che-shan-tuyet.svg',
       ingredients: ['Lá chè cổ thụ', 'Nước suối núi'],
       cookingTime: '5-7 phút'
     },
@@ -139,7 +140,7 @@ const Experience = () => {
       id: 3,
       title: 'Cơm Lam',
       description: 'Cơm nướng trong ống tre thơm ngon',
-      image: '/public/Địa điểm lưu trú/Xoè Homestay /Photo /2.webp',
+      image: '/images/com-lam.svg',
       ingredients: ['Gạo tẻ', 'Ống tre', 'Lá chuối'],
       cookingTime: '45 phút'
     }
@@ -165,19 +166,18 @@ const Experience = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <Layout>
       <Header />
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/60" />
+        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">
-            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">
-              Triển Lãm Số: Hồn Tà Xùa
+            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
+              Trải Nghiệm Tà Xùa
             </h1>
-            <p className="font-inter text-xl md:text-2xl max-w-4xl mx-auto">
-              Khám phá vẻ đẹp Tà Xùa qua nghệ thuật số - Nơi hội tụ của hình ảnh, âm thanh và văn hóa
+            <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
+              Khám phá những trải nghiệm độc đáo qua ảnh, video và âm thanh
             </p>
           </div>
         </section>
@@ -396,7 +396,7 @@ const Experience = () => {
       )}
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

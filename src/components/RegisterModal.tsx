@@ -1,25 +1,91 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { signUpWithGoogle } from '@/lib/supabase';
 
+export interface RegisterData {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+}
+
 interface RegisterModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToLogin?: () => void;
+  onRegister?: (data: RegisterData) => Promise<void>;
 }
 
-const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps) => {
+const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegister }: RegisterModalProps) => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: ''
+  });
 
   const handleClose = () => {
-    if (!isGoogleLoading) {
+    if (!isGoogleLoading && !isEmailLoading) {
       setError('');
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: ''
+      });
       onClose();
+    }
+  };
+
+  const handleInputChange = (field: keyof RegisterData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: e.target.value
+    }));
+  };
+
+  const handleEmailRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.password || !formData.confirmPassword) {
+      setError('Vui lòng điền đầy đủ thông tin');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Mật khẩu xác nhận không khớp');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Mật khẩu phải có ít nhất 6 ký tự');
+      return;
+    }
+
+    try {
+      setIsEmailLoading(true);
+      setError('');
+      
+      if (onRegister) {
+        await onRegister(formData);
+        handleClose();
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi khi đăng ký');
+    } finally {
+      setIsEmailLoading(false);
     }
   };
 
@@ -28,16 +94,16 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps)
       setIsGoogleLoading(true);
       setError('');
       
-      const { error } = await signUpWithGoogle();
+      const result = await signUpWithGoogle();
       
-      if (error) {
-        setError(error.message || 'Đã xảy ra lỗi khi đăng ký với Google');
+      if (!result.success) {
+        setError('Đã xảy ra lỗi khi đăng ký với Google');
       } else {
         // Đăng ký thành công, đóng modal
         handleClose();
       }
     } catch (err) {
-      setError('Đã xảy ra lỗi khi đăng ký với Google');
+      setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi khi đăng ký với Google');
     } finally {
       setIsGoogleLoading(false);
     }
@@ -59,13 +125,100 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps)
             </Alert>
           )}
 
+          <form onSubmit={handleEmailRegister} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="fullName">Họ và tên</Label>
+              <Input
+                id="fullName"
+                type="text"
+                value={formData.fullName}
+                onChange={handleInputChange('fullName')}
+                placeholder="Nhập họ và tên"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange('email')}
+                placeholder="Nhập email của bạn"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone">Số điện thoại</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange('phone')}
+                placeholder="Nhập số điện thoại"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange('password')}
+                placeholder="Nhập mật khẩu (ít nhất 6 ký tự)"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Xác nhận mật khẩu</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleInputChange('confirmPassword')}
+                placeholder="Nhập lại mật khẩu"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-12 text-base font-medium"
+              disabled={isGoogleLoading || isEmailLoading}
+            >
+              {isEmailLoading ? (
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              ) : null}
+              {isEmailLoading ? 'Đang đăng ký...' : 'Đăng ký'}
+            </Button>
+          </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">Hoặc</span>
+            </div>
+          </div>
+
           <div className="space-y-4">
             <Button
               type="button"
               variant="outline"
               className="w-full h-12 text-base font-medium border-2 hover:bg-gray-50"
               onClick={handleGoogleRegister}
-              disabled={isGoogleLoading}
+              disabled={isGoogleLoading || isEmailLoading}
             >
               {isGoogleLoading ? (
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -99,7 +252,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps)
               variant="outline"
               onClick={handleClose}
               className="flex-1"
-              disabled={isGoogleLoading}
+              disabled={isGoogleLoading || isEmailLoading}
             >
               Hủy
             </Button>
@@ -110,7 +263,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps)
                 variant="ghost"
                 onClick={onSwitchToLogin}
                 className="flex-1 text-blue-600 hover:text-blue-700"
-                disabled={isGoogleLoading}
+                disabled={isGoogleLoading || isEmailLoading}
               >
                 Đã có tài khoản? Đăng nhập
               </Button>

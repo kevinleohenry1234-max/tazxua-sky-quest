@@ -1,25 +1,61 @@
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { signInWithGoogle } from '@/lib/supabase';
 
+export interface LoginData {
+  email: string;
+  password: string;
+}
+
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToRegister?: () => void;
+  onLogin?: (data: LoginData) => Promise<void>;
 }
 
-const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) => {
+const LoginModal = ({ isOpen, onClose, onSwitchToRegister, onLogin }: LoginModalProps) => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleClose = () => {
-    if (!isGoogleLoading) {
+    if (!isGoogleLoading && !isEmailLoading) {
       setError('');
+      setEmail('');
+      setPassword('');
       onClose();
+    }
+  };
+
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !password) {
+      setError('Vui lòng nhập đầy đủ email và mật khẩu');
+      return;
+    }
+
+    try {
+      setIsEmailLoading(true);
+      setError('');
+      
+      if (onLogin) {
+        await onLogin({ email, password });
+        handleClose();
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi khi đăng nhập');
+    } finally {
+      setIsEmailLoading(false);
     }
   };
 
@@ -28,16 +64,16 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
       setIsGoogleLoading(true);
       setError('');
       
-      const { error } = await signInWithGoogle();
+      const result = await signInWithGoogle();
       
-      if (error) {
-        setError(error.message || 'Đã xảy ra lỗi khi đăng nhập với Google');
+      if (!result.success) {
+        setError('Đã xảy ra lỗi khi đăng nhập với Google');
       } else {
         // Đăng nhập thành công, đóng modal
         handleClose();
       }
     } catch (err) {
-      setError('Đã xảy ra lỗi khi đăng nhập với Google');
+      setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi khi đăng nhập với Google');
     } finally {
       setIsGoogleLoading(false);
     }
@@ -59,13 +95,61 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
             </Alert>
           )}
 
+          <form onSubmit={handleEmailLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Nhập email của bạn"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Nhập mật khẩu"
+                disabled={isGoogleLoading || isEmailLoading}
+                required
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-12 text-base font-medium"
+              disabled={isGoogleLoading || isEmailLoading}
+            >
+              {isEmailLoading ? (
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              ) : null}
+              {isEmailLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+            </Button>
+          </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">Hoặc</span>
+            </div>
+          </div>
+
           <div className="space-y-4">
             <Button
               type="button"
               variant="outline"
               className="w-full h-12 text-base font-medium border-2 hover:bg-gray-50"
               onClick={handleGoogleLogin}
-              disabled={isGoogleLoading}
+              disabled={isGoogleLoading || isEmailLoading}
             >
               {isGoogleLoading ? (
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -99,7 +183,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
               variant="outline"
               onClick={handleClose}
               className="flex-1"
-              disabled={isGoogleLoading}
+              disabled={isGoogleLoading || isEmailLoading}
             >
               Hủy
             </Button>
@@ -110,7 +194,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
                 variant="ghost"
                 onClick={onSwitchToRegister}
                 className="flex-1 text-blue-600 hover:text-blue-700"
-                disabled={isGoogleLoading}
+                disabled={isGoogleLoading || isEmailLoading}
               >
                 Chưa có tài khoản? Đăng ký
               </Button>

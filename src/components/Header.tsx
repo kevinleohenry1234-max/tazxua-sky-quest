@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import LazyImage from '@/components/LazyImage';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from '@/lib/i18n';
 import { Link, useLocation } from 'react-router-dom';
@@ -45,8 +46,8 @@ const Header = ({
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <img
-              src="/public/Logo/IVIET.png"
+            <LazyImage
+              src="/Logo/IVIET.png"
               alt="VIVIET Logo"
               className="w-10 h-10 rounded-full object-cover"
             />

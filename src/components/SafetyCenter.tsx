@@ -316,39 +316,93 @@ const SafetyCenter = () => {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Emergency Contacts */}
+        {/* Government Safety Monitoring */}
         <Card className="shadow-soft border-0 card-hover">
           <CardHeader>
             <CardTitle className="font-playfair flex items-center gap-2">
-              <Phone className="w-5 h-5 text-primary pulse-on-hover" />
-              Liên Hệ Khẩn Cấp
+              <Shield className="w-5 h-5 text-primary pulse-on-hover" />
+              Cơ Quan Giám Sát An Toàn
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {emergencyContacts.map((contact, index) => {
-              const IconComponent = getContactIcon(contact.type);
-              return (
-                <div key={index} className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors card-hover">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <IconComponent className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-inter font-semibold text-foreground">{contact.name}</h4>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">{contact.phone}</span>
-                        {contact.available24h && (
-                          <Badge variant="secondary" className="text-xs pulse-on-hover">24/7</Badge>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <Button size="sm" className="btn-primary focus-ring">
-                    <Phone className="w-4 h-4" />
-                  </Button>
-                </div>
-              );
-            })}
+            <Alert className="border-blue-200 bg-blue-50">
+              <Shield className="h-4 w-4 text-blue-600" />
+              <AlertDescription className="text-blue-800">
+                <strong>Thông tin quan trọng:</strong> Các cơ quan giám sát an toàn du lịch tại khu vực Tà Xùa luôn sẵn sàng hỗ trợ du khách 24/7.
+              </AlertDescription>
+            </Alert>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 border rounded-lg bg-gray-50">
+                <h4 className="font-semibold text-blue-700 mb-2">Trạm Kiểm Soát Chính Phủ</h4>
+                <p className="text-sm text-muted-foreground mb-2">Giám sát an toàn khu vực núi Tà Xùa</p>
+                <Badge variant="secondary" className="text-xs">24/7</Badge>
+              </div>
+              
+              <div className="p-4 border rounded-lg bg-gray-50">
+                <h4 className="font-semibold text-blue-700 mb-2">Đội Cứu Hộ Địa Phương</h4>
+                <p className="text-sm text-muted-foreground mb-2">Hỗ trợ khẩn cấp tại các điểm du lịch</p>
+                <Badge variant="secondary" className="text-xs">24/7</Badge>
+              </div>
+              
+              <div className="p-4 border rounded-lg bg-gray-50">
+                <h4 className="font-semibold text-blue-700 mb-2">Trung Tâm Y Tế</h4>
+                <p className="text-sm text-muted-foreground mb-2">Chăm sóc y tế khẩn cấp</p>
+                <Badge variant="secondary" className="text-xs">24/7</Badge>
+              </div>
+              
+              <div className="p-4 border rounded-lg bg-gray-50">
+                <h4 className="font-semibold text-blue-700 mb-2">Công An Địa Phương</h4>
+                <p className="text-sm text-muted-foreground mb-2">Đảm bảo an ninh trật tự</p>
+                <Badge variant="secondary" className="text-xs">24/7</Badge>
+              </div>
+            </div>
+            
+            <Button 
+              className="w-full bg-blue-600 hover:bg-blue-700"
+              onClick={() => {
+                const contactInfo = `
+THÔNG TIN LIÊN HỆ KHẨN CẤP - TÀ XÙA
+
+🏛️ TRẠM KIỂM SOÁT CHÍNH PHỦ
+📞 Hotline: 113 (Miễn phí)
+📍 Địa chỉ: Xã Tà Xùa, Bắc Yên, Sơn La
+
+🚑 ĐỘI CỨU HỘ ĐỊA PHƯƠNG  
+📞 Hotline: 115 (Miễn phí)
+📍 Trạm cứu hộ: Km 15, đường lên đỉnh Tà Xùa
+
+🏥 TRUNG TÂM Y TẾ
+📞 Hotline: 114 (Miễn phí)  
+📍 Trạm y tế xã Tà Xùa
+
+👮 CÔNG AN ĐỊA PHƯƠNG
+📞 Hotline: 113 (Miễn phí)
+📍 Công an xã Tà Xùa
+
+⚠️ LƯU Ý QUAN TRỌNG:
+- Tất cả đường dây nóng hoạt động 24/7
+- Khi gọi, hãy cung cấp vị trí chính xác
+- Giữ bình tĩnh và làm theo hướng dẫn
+- Có thể gọi từ điện thoại di động hoặc cố định
+
+📱 Lưu thông tin này vào điện thoại để sử dụng khi cần thiết!
+                `;
+                
+                const blob = new Blob([contactInfo], { type: 'text/plain;charset=utf-8' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'Thong-tin-lien-he-khan-cap-Ta-Xua.txt';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+              }}
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Tải thông tin liên hệ khẩn cấp
+            </Button>
           </CardContent>
         </Card>
 
@@ -394,272 +448,49 @@ const SafetyCenter = () => {
         </Card>
       </div>
 
-      {/* Quick Actions */}
+      {/* Weather Information */}
       <Card className="shadow-soft border-0 card-hover">
         <CardHeader>
           <CardTitle className="font-playfair flex items-center gap-2">
-            <Navigation className="w-5 h-5 text-primary" />
-            Hành Động Nhanh
+            <Cloud className="w-5 h-5 text-primary pulse-on-hover" />
+            Thông Tin Thời Tiết
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Dialog open={shareLocationDialogOpen} onOpenChange={setShareLocationDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="h-auto p-4 flex flex-col items-center gap-2 btn-primary focus-ring">
-                  <MapPin className="w-6 h-6" />
-                  <div className="text-center">
-                    <div className="font-semibold">Chia Sẻ Vị Trí</div>
-                    <div className="text-xs opacity-80">Gửi tọa độ hiện tại</div>
-                  </div>
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Chia Sẻ Vị Trí Hiện Tại</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <Alert>
-                    <MapPin className="h-4 w-4" />
-                    <AlertDescription>
-                      Tính năng này sẽ chia sẻ vị trí GPS hiện tại của bạn với các liên hệ khẩn cấp và dịch vụ cứu hộ.
-                    </AlertDescription>
-                  </Alert>
-                  <div className="flex gap-2">
-                    <Button onClick={handleShareLocation} className="flex-1">
-                      <Share2 className="w-4 h-4 mr-2" />
-                      Bắt Đầu Chia Sẻ
-                    </Button>
-                    <Button variant="outline" onClick={() => setShareLocationDialogOpen(false)}>
-                      Hủy
-                    </Button>
-                  </div>
-                  {locationShared && (
-                    <Alert className="border-green-200 bg-green-50">
-                      <Check className="h-4 w-4 text-green-600" />
-                      <AlertDescription className="text-green-800">
-                        Vị trí đã được chia sẻ thành công!
-                      </AlertDescription>
-                    </Alert>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
-            
-            <Dialog open={findSignalDialogOpen} onOpenChange={setFindSignalDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2 btn-primary focus-ring">
-                  <Wifi className="w-6 h-6" />
-                  <div className="text-center">
-                    <div className="font-semibold">Tìm Sóng</div>
-                    <div className="text-xs opacity-80">Vị trí có sóng gần nhất</div>
-                  </div>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-2">
-                    <Wifi className="w-5 h-5 text-primary" />
-                    Tìm Sóng Điện Thoại & WiFi
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card className="p-4">
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <Signal className="w-4 h-4 text-green-500" />
-                        Sóng Điện Thoại
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center p-2 bg-green-50 rounded">
-                          <div>
-                            <div className="font-medium">Viettel</div>
-                            <div className="text-sm text-muted-foreground">4G LTE</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-4 bg-green-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-green-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-green-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-green-300 rounded-sm"></div>
-                            <span className="text-xs ml-1">Mạnh</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
-                          <div>
-                            <div className="font-medium">Vinaphone</div>
-                            <div className="text-sm text-muted-foreground">3G</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-4 bg-yellow-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-yellow-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <span className="text-xs ml-1">Trung bình</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center p-2 bg-red-50 rounded">
-                          <div>
-                            <div className="font-medium">Mobifone</div>
-                            <div className="text-sm text-muted-foreground">2G</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-4 bg-red-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <span className="text-xs ml-1">Yếu</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                    <Card className="p-4">
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <Wifi className="w-4 h-4 text-blue-500" />
-                        Mạng WiFi
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
-                          <div>
-                            <div className="font-medium">TaXua_Homestay</div>
-                            <div className="text-sm text-muted-foreground">Có bảo mật</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-4 bg-blue-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-blue-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-blue-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-blue-500 rounded-sm"></div>
-                            <span className="text-xs ml-1">Mạnh</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center p-2 bg-green-50 rounded">
-                          <div>
-                            <div className="font-medium">Valley_Guest</div>
-                            <div className="text-sm text-muted-foreground">Mở</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-4 bg-green-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-green-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-green-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <span className="text-xs ml-1">Tốt</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
-                          <div>
-                            <div className="font-medium">Mountain_View</div>
-                            <div className="text-sm text-muted-foreground">Có bảo mật</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-4 bg-yellow-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-yellow-500 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <div className="w-2 h-4 bg-gray-300 rounded-sm"></div>
-                            <span className="text-xs ml-1">Trung bình</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  </div>
-                  <Alert>
-                    <Wifi className="h-4 w-4" />
-                    <AlertDescription>
-                      <strong>Khuyến nghị:</strong> Sử dụng mạng Viettel 4G hoặc WiFi TaXua_Homestay để có kết nối tốt nhất. Tránh sử dụng mạng yếu khi ở vùng núi cao.
-                    </AlertDescription>
-                  </Alert>
-                  <Button onClick={() => setFindSignalDialogOpen(false)} className="w-full">
-                    <Map className="w-4 h-4 mr-2" />
-                    Xem Bản Đồ Chi Tiết
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-            
-            <Dialog open={batterySaveDialogOpen} onOpenChange={setBatterySaveDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2 btn-primary focus-ring">
-                  <Battery className="w-6 h-6" />
-                  <div className="text-center">
-                    <div className="font-semibold">Tiết Kiệm Pin</div>
-                    <div className="text-xs opacity-80">Bật chế độ khẩn cấp</div>
-                  </div>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-lg">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-2 text-orange-600">
-                    <AlertTriangle className="w-5 h-5" />
-                    Chế Độ Tiết Kiệm Pin Khẩn Cấp
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <Alert className="border-orange-200 bg-orange-50">
-                    <AlertTriangle className="h-4 w-4 text-orange-600" />
-                    <AlertDescription className="text-orange-800">
-                      <strong>Cảnh báo:</strong> Chế độ này sẽ ngắt kết nối internet và gửi vị trí cuối cùng của bạn đến trạm kiểm soát.
-                    </AlertDescription>
-                  </Alert>
-                  
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-sm">Khi kích hoạt chế độ này:</h4>
-                    <ul className="text-sm space-y-2 text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Vị trí hiện tại sẽ được gửi đến trạm kiểm soát chính phủ</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Tất cả kết nối mạng sẽ bị ngắt để tiết kiệm pin</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Điện thoại chuyển sang chế độ máy bay</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Đội cứu hộ sẽ được thông báo về vị trí của bạn</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <Alert className="border-red-200 bg-red-50">
-                    <Heart className="h-4 w-4 text-red-600" />
-                    <AlertDescription className="text-red-800">
-                      <strong>Quan trọng:</strong> Sau khi kích hoạt, hãy tìm nơi trú ẩn an toàn, hạn chế di chuyển và chờ đợi đội cứu hộ.
-                    </AlertDescription>
-                  </Alert>
-
-                  {batterySaveMode ? (
-                    <div className="space-y-3">
-                      <Alert className="border-green-200 bg-green-50">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <AlertDescription className="text-green-800">
-                          <strong>Đã kích hoạt:</strong> Vị trí của bạn đã được gửi đến trạm kiểm soát. Đội cứu hộ đang trên đường đến.
-                        </AlertDescription>
-                      </Alert>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600 mb-2">✓ Hoàn tất</div>
-                        <p className="text-sm text-muted-foreground">
-                          Hãy giữ bình tĩnh và chờ đợi cứu hộ tại vị trí hiện tại
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex gap-2">
-                      <Button 
-                        onClick={handleBatterySave} 
-                        className="flex-1 bg-orange-600 hover:bg-orange-700"
-                      >
-                        <Battery className="w-4 h-4 mr-2" />
-                        Xác Nhận Kích Hoạt
-                      </Button>
-                      <Button variant="outline" onClick={() => setBatterySaveDialogOpen(false)}>
-                        Hủy
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <currentWeather.icon className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-foreground">{currentWeather.temperature}°C</div>
+                <div className="text-sm text-muted-foreground">{currentWeather.condition}</div>
+              </div>
+            </div>
+            <Badge variant="outline" className="pulse-on-hover">Hiện tại</Badge>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center p-3 rounded-lg bg-muted/30">
+              <Droplets className="w-4 h-4 mx-auto mb-1 text-blue-500" />
+              <div className="text-xs text-muted-foreground">Độ ẩm</div>
+              <div className="font-semibold">{currentWeather.humidity}%</div>
+            </div>
+            <div className="text-center p-3 rounded-lg bg-muted/30">
+              <Wind className="w-4 h-4 mx-auto mb-1 text-green-500" />
+              <div className="text-xs text-muted-foreground">Gió</div>
+              <div className="font-semibold">{currentWeather.windSpeed} km/h</div>
+            </div>
+            <div className="text-center p-3 rounded-lg bg-muted/30">
+              <Eye className="w-4 h-4 mx-auto mb-1 text-purple-500" />
+              <div className="text-xs text-muted-foreground">Tầm nhìn</div>
+              <div className="font-semibold">{currentWeather.visibility} km</div>
+            </div>
+            <div className="text-center p-3 rounded-lg bg-muted/30">
+              <Mountain className="w-4 h-4 mx-auto mb-1 text-orange-500" />
+              <div className="text-xs text-muted-foreground">Độ cao</div>
+              <div className="font-semibold">2865m</div>
+            </div>
           </div>
         </CardContent>
       </Card>

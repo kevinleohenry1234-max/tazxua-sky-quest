@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
+import { getOptimizedImageUrl, preloadImage } from '@/utils/imageOptimizer';
+import { trackImageLoad } from '@/utils/performanceMonitor';
 
 interface LazyImageProps {
   src: string;
@@ -8,6 +10,8 @@ interface LazyImageProps {
   placeholder?: string;
   onLoad?: () => void;
   onClick?: () => void;
+  priority?: boolean; // For above-the-fold images
+  quality?: number; // WebP quality
 }
 
 const LazyImage = ({ 
@@ -16,14 +20,38 @@ const LazyImage = ({
   className = '', 
   placeholder = '/api/placeholder/400/300',
   onLoad,
-  onClick 
+  onClick,
+  priority = false,
+  quality = 0.8
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  const [isInView, setIsInView] = useState(priority); // Priority images start as "in view"
   const [hasError, setHasError] = useState(false);
+  const [optimizedSrc, setOptimizedSrc] = useState<string>(src);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    // Optimize image source
+    const optimizeImage = async () => {
+      try {
+        const optimized = await getOptimizedImageUrl(src, { quality });
+        setOptimizedSrc(optimized);
+      } catch (error) {
+        console.warn('Image optimization failed:', error);
+        setOptimizedSrc(src);
+      }
+    };
+
+    optimizeImage();
+  }, [src, quality]);
+
+  useEffect(() => {
+    // Skip intersection observer for priority images
+    if (priority) {
+      setIsInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -42,16 +70,31 @@ const LazyImage = ({
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [priority]);
+
+  // Preload critical images
+  useEffect(() => {
+    if (priority && optimizedSrc) {
+      preloadImage(optimizedSrc);
+    }
+  }, [priority, optimizedSrc]);
 
   const handleLoad = () => {
     setIsLoaded(true);
     onLoad?.();
+    
+    // Track performance
+    const tracker = trackImageLoad(optimizedSrc);
+    tracker.onLoad();
   };
 
   const handleError = () => {
     setHasError(true);
     setIsLoaded(true);
+    
+    // Track performance
+    const tracker = trackImageLoad(optimizedSrc);
+    tracker.onError();
   };
 
   return (
@@ -70,14 +113,14 @@ const LazyImage = ({
       {/* Actual image */}
       {isInView && (
         <img
-          src={hasError ? placeholder : src}
+          src={hasError ? placeholder : optimizedSrc}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-300 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={handleLoad}
           onError={handleError}
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
         />
       )}
 

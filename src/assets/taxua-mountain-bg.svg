@@ -1,0 +1,82 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#B0E0E6;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#F0F8FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFFAF0;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Mountain gradients -->
+    <linearGradient id="mountain1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2F4F4F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#556B2F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#228B22;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="mountain2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#483D8B;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6B8E23;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#32CD32;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="mountain3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4682B4;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#708090;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#9ACD32;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <!-- Cloud gradient -->
+    <radialGradient id="cloudGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#F0F8FF;stop-opacity:0.6" />
+    </radialGradient>
+    
+    <!-- Mist gradient -->
+    <linearGradient id="mistGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0" />
+      <stop offset="30%" style="stop-color:#F0F8FF;stop-opacity:0.4" />
+      <stop offset="70%" style="stop-color:#F0F8FF;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1200" height="600" fill="url(#skyGradient)"/>
+  
+  <!-- Far mountains (background layer) -->
+  <path d="M0,400 Q200,300 400,350 Q600,280 800,320 Q1000,260 1200,300 L1200,600 L0,600 Z" fill="url(#mountain3)"/>
+  
+  <!-- Middle mountains -->
+  <path d="M0,450 Q150,350 300,380 Q450,320 600,360 Q750,300 900,340 Q1050,280 1200,320 L1200,600 L0,600 Z" fill="url(#mountain2)"/>
+  
+  <!-- Foreground mountains -->
+  <path d="M0,500 Q100,400 250,430 Q400,370 550,410 Q700,350 850,390 Q1000,330 1200,370 L1200,600 L0,600 Z" fill="url(#mountain1)"/>
+  
+  <!-- Mist layers -->
+  <ellipse cx="300" cy="380" rx="150" ry="30" fill="url(#mistGradient)" opacity="0.6"/>
+  <ellipse cx="700" cy="340" rx="200" ry="25" fill="url(#mistGradient)" opacity="0.5"/>
+  <ellipse cx="1000" cy="360" rx="120" ry="20" fill="url(#mistGradient)" opacity="0.7"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="200" cy="150" rx="80" ry="30" fill="url(#cloudGradient)"/>
+  <ellipse cx="180" cy="140" rx="60" ry="25" fill="url(#cloudGradient)"/>
+  <ellipse cx="220" cy="140" rx="50" ry="20" fill="url(#cloudGradient)"/>
+  
+  <ellipse cx="600" cy="120" rx="100" ry="35" fill="url(#cloudGradient)"/>
+  <ellipse cx="580" cy="110" rx="70" ry="28" fill="url(#cloudGradient)"/>
+  <ellipse cx="620" cy="110" rx="60" ry="22" fill="url(#cloudGradient)"/>
+  
+  <ellipse cx="950" cy="180" rx="90" ry="32" fill="url(#cloudGradient)"/>
+  <ellipse cx="930" cy="170" rx="65" ry="26" fill="url(#cloudGradient)"/>
+  <ellipse cx="970" cy="170" rx="55" ry="20" fill="url(#cloudGradient)"/>
+  
+  <!-- Sun rays effect -->
+  <path d="M800,80 L820,200 L780,200 Z" fill="#FFD700" opacity="0.3"/>
+  <path d="M850,90 L870,210 L830,210 Z" fill="#FFD700" opacity="0.2"/>
+  <path d="M750,85 L770,205 L730,205 Z" fill="#FFD700" opacity="0.25"/>
+  
+  <!-- Subtle texture overlay -->
+  <rect width="1200" height="600" fill="url(#skyGradient)" opacity="0.1"/>
+</svg>

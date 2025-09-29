@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import RegisterModal from '@/components/RegisterModal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Users, Mountain, Leaf, Clock, Camera } from 'lucide-react';
+import LazyImage from '@/components/LazyImage';
 import hmongCultureImage from '@/assets/hmong-culture.jpg';
 import shanTuyetTeaImage from '@/assets/shan-tuyet-tea.jpg';
 import localCuisineImage from '@/assets/local-cuisine.jpg';
+import taxuaMountainBg from '@/assets/taxua-mountain-bg.svg';
 
 const About = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -61,7 +64,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <Layout>
       <Header
         isLoggedIn={isLoggedIn}
         userName={userName}
@@ -92,10 +95,9 @@ const About = () => {
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/40" />
+        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">
-            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">
+            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
               Về Tà Xùa
             </h1>
             <p className="font-inter text-xl md:text-2xl max-w-2xl mx-auto">
@@ -124,7 +126,7 @@ const About = () => {
                 </p>
               </div>
               <div className="relative">
-                <img
+                <LazyImage
                   src={hmongCultureImage}
                   alt="Văn hóa Tà Xùa"
                   className="w-full h-96 object-cover rounded-lg shadow-soft"
@@ -136,9 +138,18 @@ const About = () => {
         </section>
 
         {/* Statistics */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
+        <section 
+          className="py-16 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${taxuaMountainBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
+          <div className="absolute inset-0 bg-black/25"></div>
+          <div className="container mx-auto px-4 relative z-10">
+            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white mb-12 text-center drop-shadow-lg">
               Tà Xùa Trong Những Con Số
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -167,7 +178,7 @@ const About = () => {
               return (
                 <Card key={index} className="group overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-2">
                   <div className="relative h-48 overflow-hidden">
-                    <img
+                    <LazyImage
                       src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -196,12 +207,21 @@ const About = () => {
         </section>
 
         {/* Geography & Climate */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
+        <section 
+          className="py-16 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${taxuaMountainBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
+          <div className="absolute inset-0 bg-black/25"></div>
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
-              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-                Địa Lý & Khí Hậu
-              </h2>
+                <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white mb-12 text-center drop-shadow-lg">
+                  Địa Lý & Khí Hậu
+                </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Card className="p-6">
                   <CardHeader className="pb-4">
@@ -296,7 +316,7 @@ const About = () => {
       </main>
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

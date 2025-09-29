@@ -4,6 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
 
+// Check if Supabase is properly configured
+const isSupabaseConfigured = () => {
+  return supabaseUrl !== 'https://your-project.supabase.co' && 
+         supabaseAnonKey !== 'your-anon-key' &&
+         !supabaseUrl.includes('your-actual-project-id') &&
+         !supabaseAnonKey.includes('your-actual-anon-key');
+};
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Types for user registration
@@ -167,6 +175,11 @@ export const getSession = async () => {
 // Function to sign in with Google
 export const signInWithGoogle = async () => {
   try {
+    // Check if Supabase is properly configured
+    if (!isSupabaseConfigured()) {
+      throw new Error('Supabase chưa được cấu hình. Vui lòng cập nhật thông tin Supabase trong file .env');
+    }
+
     const redirectUrl = import.meta.env.VITE_APP_URL || window.location.origin;
     
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -181,6 +194,12 @@ export const signInWithGoogle = async () => {
     });
 
     if (error) {
+      // Handle specific OAuth errors
+      if (error.message.includes('Invalid provider')) {
+        throw new Error('Google OAuth chưa được kích hoạt trong Supabase. Vui lòng kích hoạt Google provider trong Authentication > Providers.');
+      } else if (error.message.includes('redirect_uri_mismatch')) {
+        throw new Error('URL chuyển hướng không khớp. Vui lòng kiểm tra cấu hình OAuth trong Supabase.');
+      }
       throw new Error(error.message);
     }
 
@@ -192,6 +211,9 @@ export const signInWithGoogle = async () => {
 
   } catch (error) {
     console.error('Google sign in error:', error);
+    if (error instanceof Error) {
+      throw error;
+    }
     throw new Error('Có lỗi xảy ra khi đăng nhập với Google.');
   }
 };

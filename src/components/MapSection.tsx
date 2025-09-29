@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styles from './MapSection.module.css';
+import taxuaMountainBg from '@/assets/taxua-mountain-bg.svg';
 
 const MapSection = () => {
   // Sử dụng token Mapbox công khai hợp lệ
@@ -466,13 +467,22 @@ Hẹn gặp bạn tại Tà Xùa!
   const selectedLocationData = selectedLocation ? locations.find(l => l.id === selectedLocation) : null;
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container mx-auto px-4">
+    <section 
+      className="py-16 relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${taxuaMountainBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
             Khám Phá Bản Đồ Tương Tác
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-white/90 max-w-3xl mx-auto drop-shadow-md">
             Tìm hiểu các địa điểm thú vị, homestay chất lượng và trải nghiệm độc đáo tại Tà Xùa
           </p>
         </div>

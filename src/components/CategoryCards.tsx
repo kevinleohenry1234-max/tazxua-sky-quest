@@ -1,8 +1,10 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';
+import LazyImage from '@/components/LazyImage';
 import homestayImage from '@/assets/homestay-taxua.jpg';
 import dragonSpineImage from '@/assets/dragon-spine.jpg';
 import localCuisineImage from '@/assets/local-cuisine.jpg';
+import taxuaMountainBg from '@/assets/taxua-mountain-bg.svg';
 
 const CategoryCards = () => {
   const categories = [
@@ -37,13 +39,23 @@ const CategoryCards = () => {
   };
 
   return (
-    <section id="discover" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section 
+      id="discover" 
+      className="py-20 relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${taxuaMountainBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="absolute inset-0 bg-black/20"></div>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 drop-shadow-lg">
             Khám Phá Tà Xùa
           </h2>
-          <p className="font-inter text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="font-inter text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-md">
             Hãy cùng chúng tôi khám phá những điều kỳ diệu mà Tà Xùa mang lại
           </p>
         </div>
@@ -56,7 +68,7 @@ const CategoryCards = () => {
               onClick={() => handleCategoryClick(category.link)}
             >
               <div className="relative h-64 overflow-hidden">
-                <img
+                <LazyImage
                   src={category.image}
                   alt={category.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ContactForm from '@/components/ContactForm';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
 import RegisterModal from '@/components/RegisterModal';
 import { MapPin, Mail, Phone, Clock, Facebook } from 'lucide-react';
@@ -32,7 +33,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20">
+    <Layout>
       <Header
         isLoggedIn={isLoggedIn}
         userName={userName}
@@ -216,7 +217,7 @@ const Contact = () => {
       </section>
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

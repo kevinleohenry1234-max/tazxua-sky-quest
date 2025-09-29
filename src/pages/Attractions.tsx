@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MapPin, Clock, Camera, Mountain, Filter, Search, Calendar, Users, Star, Share2 } from 'lucide-react';
 import { useState } from 'react';
+import LazyImage from '@/components/LazyImage';
 import dragonSpineImage from '@/assets/dragon-spine.jpg';
 import SearchAutocomplete from '@/components/SearchAutocomplete';
 import RatingSystem from '@/components/RatingSystem';
@@ -115,19 +117,18 @@ const Attractions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <Layout>
       <Header />
       
-      <main>
+      <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-[60vh] flex items-center justify-center bg-gradient-to-br from-primary/20 via-primary/10 to-background">
-          <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] bg-cover bg-center opacity-20" />
-          <div className="relative z-10 text-center px-4">
-            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">
-              Khám Phá Tà Xùa
+        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
+          <div className="relative text-center text-white z-10">
+            <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
+              Điểm Tham Quan
             </h1>
-            <p className="font-inter text-xl md:text-2xl max-w-2xl mx-auto">
-              Lên kế hoạch cho chuyến phiêu lưu hoàn hảo của bạn
+            <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
+              Khám phá những địa điểm tuyệt đẹp và độc đáo của Tà Xùa
             </p>
           </div>
         </section>
@@ -224,7 +225,7 @@ const Attractions = () => {
                 {filteredAttractions.map((attraction) => (
                   <Card key={attraction.id} className="group overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-2">
                     <div className="relative h-64 overflow-hidden">
-                      <img
+                      <LazyImage
                         src={attraction.image}
                         alt={attraction.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -472,7 +473,7 @@ const Attractions = () => {
       </main>
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

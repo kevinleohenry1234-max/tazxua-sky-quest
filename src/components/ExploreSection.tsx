@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import taxuaMountainBg from '@/assets/taxua-mountain-bg.svg';
 
 const ExploreSection = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -166,14 +167,23 @@ const ExploreSection = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4">
+    <section 
+      className="py-16 relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${taxuaMountainBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="absolute inset-0 bg-black/25"></div>
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
             Khám Phá Tà Xùa
           </h2>
-          <p className="font-inter text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="font-inter text-xl text-white/90 max-w-3xl mx-auto drop-shadow-md">
             Khám phá các địa điểm nổi bật và lịch trình du lịch tuyệt vời tại Tà Xùa
           </p>
         </div>
