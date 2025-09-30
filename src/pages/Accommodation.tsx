@@ -27,52 +27,7 @@ interface Homestay {
   features: string[];
 }
 
-const homestayData: Homestay[] = [
-  {
-    id: '1',
-    name: '1941M Homestay Tà Xùa',
-    description: 'Homestay cao cấp với view núi tuyệt đẹp, nằm ở độ cao 1941m so với mực nước biển.',
-    location: 'Đỉnh Tà Xùa, Sơn La',
-    rating: 4.8,
-    price: '500.000 - 800.000 VNĐ/đêm',
-    images: ['/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/1.jpg'],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Nhà hàng', 'View núi'],
-    contact: {
-      phone: '0987654321',
-      email: 'contact@1941homestay.com'
-    },
-    features: ['Gần đỉnh núi', 'Ngắm bình minh', 'Không khí trong lành']
-  },
-  {
-    id: '2',
-    name: 'Mayhome Tà Xùa',
-    description: 'Homestay ấm cúng với phong cách truyền thống, phù hợp cho gia đình.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.6,
-    price: '400.000 - 600.000 VNĐ/đêm',
-    images: ['/cơ sở lưu trú/2. Mayhome Tà Xùa/1.jpg'],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Bữa sáng miễn phí'],
-    contact: {
-      phone: '0912345678'
-    },
-    features: ['Phong cách truyền thống', 'Thân thiện với gia đình', 'Giá cả hợp lý']
-  },
-  {
-    id: '3',
-    name: 'Tà Xùa Ecolodge',
-    description: 'Khu nghỉ dưỡng sinh thái với thiết kế hiện đại, hòa mình với thiên nhiên.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.9,
-    price: '800.000 - 1.200.000 VNĐ/đêm',
-    images: ['/cơ sở lưu trú/3. Tà Xùa Ecolodge/1.jpg'],
-    amenities: ['Wifi miễn phí', 'Spa', 'Nhà hàng cao cấp', 'Hồ bơi'],
-    contact: {
-      phone: '0901234567',
-      email: 'info@taxuaecolodge.com'
-    },
-    features: ['Thiết kế sinh thái', 'Dịch vụ cao cấp', 'Hòa mình với thiên nhiên']
-  }
-];
+const homestayData: Homestay[] = homestayRealData;
 
 const getAmenityIcon = (amenity: string) => {
   if (amenity.includes('Wifi')) return <Wifi className="w-4 h-4" />;

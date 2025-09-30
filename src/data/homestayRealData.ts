@@ -17,275 +17,362 @@ export interface HomestayReal {
 
 export const homestayRealData: HomestayReal[] = [
   {
-    id: '1',
-    name: '1941M Homestay Tà Xùa',
-    description: 'Homestay cao cấp với view núi tuyệt đẹp, nằm ở độ cao 1941m so với mực nước biển. Không gian hiện đại hòa quyện với thiên nhiên hoang sơ.',
-    location: 'Đỉnh Tà Xùa, Sơn La',
-    rating: 4.8,
-    price: '500.000 - 800.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/1%20(1).webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/2%20(1).webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/2.webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/3%20(1).webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/3%20(2).webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/4.webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/5.webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/6.webp',
-      '/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Tà_Xùa/HINH_ANH/7.webp'
+    "id": "1",
+    "name": "1\\. 1941M Homestay Tà Xùa",
+    "description": "1\\. 1941M Homestay Tà Xùa - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 8.7,
+    "price": "1.161.483đ",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/1%20(1).png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/2%20(1).png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/2.png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/3%20(1).png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/3%20(2).png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/4.png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/5.png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/6.png",
+      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/7.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Nhà hàng', 'View núi', 'Phòng VIP'],
-    contact: {
-      phone: '0987654321',
-      email: 'contact@1941homestay.com'
+    "amenities": [
+      "Wifi miễn phí",
+      "Dịch vụ lễ tân 24 giờ",
+      "Chỗ đậu xe miễn phí",
+      "Nhà hàng"
+    ],
+    "contact": {
+      "phone": "0869221941"
     },
-    features: ['Gần đỉnh núi', 'Ngắm bình minh', 'Không khí trong lành', 'Thiết kế hiện đại'],
-    folder: '1.%201941M Homestay Tà Xùa'
+    "features": [
+      "Điểm trekking sống lưng khủng long (1,1km)",
+      "Thác phun sương (750m)"
+    ],
+    "folder": "1._1941M_Homestay_Tà_Xùa"
   },
   {
-    id: '2',
-    name: 'Mayhome Tà Xùa',
-    description: 'Homestay ấm cúng với phong cách truyền thống, phù hợp cho gia đình. Không gian rộng rãi với nhiều loại phòng khác nhau.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.6,
-    price: '400.000 - 600.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/khu-phong-may-hill-moi-va-dep.jpg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/khu-phong-stone-hien-dai.jpg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/khu-phong-wood-co-kinh.jpg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/nha-hang-cua-may-home-ta-xua-rong-rai-va-sach-se.jpg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/phong-tap-the-voi-khu-ve-sinh-ben-ngoai.jpg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/67860701-18d18be4c6b120f8ca5f0e0d411757e0.jpeg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/67860701-60387cfba1b9871745e7a323b965fe7f.jpeg',
-      '/cơ%20sở%20lưu%20trú/2.%20Mayhome Tà Xùa/HÌNH%20ẢNH%20/67860701-682e754fb162a6b32f39bb7c4fe54f88.jpeg'
+    "id": "2",
+    "name": "TÀ XÙA HILLS HOMESTAY",
+    "description": "TÀ XÙA HILLS HOMESTAY - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-1-1729727990.png",
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-3-1729727990.png",
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-4-1729727990.png",
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-5-1729727990.png",
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-6-1729727990.png",
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-7-1729727990.png",
+      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-8-1729727990.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Bữa sáng miễn phí', 'Nhà hàng rộng rãi'],
-    contact: {
-      phone: '0912345678'
-    },
-    features: ['Phong cách truyền thống', 'Thân thiện với gia đình', 'Giá cả hợp lý', 'Nhiều loại phòng'],
-    folder: '2.%20Mayhome Tà Xùa'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "10._Tà_Xùa_HillsHomestay"
   },
   {
-    id: '3',
-    name: 'Tà Xùa Ecolodge',
-    description: 'Khu nghỉ dưỡng sinh thái với thiết kế hiện đại, hòa mình với thiên nhiên. Dịch vụ cao cấp trong không gian xanh mát.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.9,
-    price: '800.000 - 1.200.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/3.%20Tà Xùa Ecolodge/HÌNH%20ẢNH%20/1.jpg'
+    "id": "3",
+    "name": "TÁO HOMESTAY",
+    "description": "TÁO HOMESTAY - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/493413735_1166000528872653_3984986787721757935_n.png",
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/493699503_1166001178872588_2879077469939897091_n.png",
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/493863613_1166001828872523_4434905026459618602_n.png",
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/515436207_1216718253800880_497438973200876913_n.png",
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/545973872_1277607707711934_7752221969796136004_n.png",
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/546512388_1277607627711942_41400486701659528_n.png",
+      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20132045.png"
     ],
-    amenities: ['Wifi miễn phí', 'Spa', 'Nhà hàng cao cấp', 'Hồ bơi', 'Dịch vụ phòng 24/7'],
-    contact: {
-      phone: '0901234567',
-      email: 'info@taxuaecolodge.com'
-    },
-    features: ['Thiết kế sinh thái', 'Dịch vụ cao cấp', 'Hòa mình với thiên nhiên', 'Resort 5 sao'],
-    folder: '3.%20Tà Xùa Ecolodge'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "11._Táo_Homestay"
   },
   {
-    id: '4',
-    name: 'Xoè Homestay',
-    description: 'Homestay mang đậm bản sắc văn hóa dân tộc với không gian ấm cúng, gần gũi. Trải nghiệm văn hóa bản địa độc đáo.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.5,
-    price: '350.000 - 500.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/4.%20Xoè Homestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "4",
+    "name": "NGỖNG TÀ XÙA HOMESTAY",
+    "description": "NGỖNG TÀ XÙA HOMESTAY - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/12._Ngo%CC%82%CC%83ng_Ta%CC%80_Xu%CC%80a_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20171927.png",
+      "/cơ%20sở%20lưu%20trú/12._Ngo%CC%82%CC%83ng_Ta%CC%80_Xu%CC%80a_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20171950.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Trải nghiệm văn hóa', 'Ẩm thực dân tộc'],
-    contact: {
-      phone: '0923456789'
-    },
-    features: ['Văn hóa dân tộc', 'Gần gũi thiên nhiên', 'Giá cả phải chăng', 'Trải nghiệm độc đáo'],
-    folder: '4.%20Xoè Homestay'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "12._Ngỗng_Tà_Xùa_Homestay"
   },
   {
-    id: '5',
-    name: 'Tà Xùa Cloud Homestay',
-    description: 'Homestay trên mây với view tuyệt đẹp, không gian thơ mộng giữa biển mây bồng bềnh. Trải nghiệm sống giữa mây trời.',
-    location: 'Đỉnh Tà Xùa, Sơn La',
-    rating: 4.7,
-    price: '450.000 - 700.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/5.%20Tà Xùa Cloud Homestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "5",
+    "name": "TÚ MỶ",
+    "description": "TÚ MỶ - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/13._Tu%CC%81_Mi%CC%89/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20172752.png",
+      "/cơ%20sở%20lưu%20trú/13._Tu%CC%81_Mi%CC%89/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20172813.png"
     ],
-    amenities: ['Wifi miễn phí', 'View mây', 'Bãi đỗ xe', 'Café sáng'],
-    contact: {
-      phone: '0934567890'
-    },
-    features: ['Sống giữa mây', 'View tuyệt đẹp', 'Không gian thơ mộng', 'Gần đỉnh núi'],
-    folder: '5.%20Tà Xùa Cloud Homestay'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "13._Tú_Mỉ"
   },
   {
-    id: '6',
-    name: 'Mùa Homestay Tà Xùa',
-    description: 'Homestay theo phong cách rustic với không gian mở, hòa quyện với thiên nhiên. Cảm giác như về nhà giữa núi rừng.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.4,
-    price: '380.000 - 550.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/6.%20Mùa Homestay Tà Xùa/HÌNH%20ẢNH%20/1.jpg'
+    "id": "6",
+    "name": "HOMESTAY COFFEE ĐỈNH NÚI TÀ XÙA",
+    "description": "HOMESTAY COFFEE ĐỈNH NÚI TÀ XÙA - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/14._Homestay_Coffee_%C4%90i%CC%89nh_Nu%CC%81i_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173040.png",
+      "/cơ%20sở%20lưu%20trú/14._Homestay_Coffee_%C4%90i%CC%89nh_Nu%CC%81i_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173100.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Khu vườn', 'BBQ ngoài trời'],
-    contact: {
-      phone: '0945678901'
-    },
-    features: ['Phong cách rustic', 'Không gian mở', 'Gần gũi thiên nhiên', 'BBQ ngoài trời'],
-    folder: '6.%20Mùa Homestay Tà Xùa'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "14._Homestay_Coffee_Đỉnh_Núi_Tà_Xùa"
   },
   {
-    id: '7',
-    name: 'Mando Homestay Tà Xùa',
-    description: 'Homestay hiện đại với thiết kế độc đáo, kết hợp giữa truyền thống và hiện đại. Dịch vụ chuyên nghiệp, thân thiện.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.6,
-    price: '420.000 - 650.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/7.%20Mando Homestay Tà Xùa/HÌNH%20ẢNH%20/1.jpg'
+    "id": "7",
+    "name": "ANH TÀI MÂY HOMESTAY",
+    "description": "ANH TÀI MÂY HOMESTAY - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/15._Anh_Ta%CC%80i_Ma%CC%82y_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173649.png",
+      "/cơ%20sở%20lưu%20trú/15._Anh_Ta%CC%80i_Ma%CC%82y_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173713.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Nhà hàng', 'Dịch vụ tour'],
-    contact: {
-      phone: '0956789012'
-    },
-    features: ['Thiết kế độc đáo', 'Dịch vụ chuyên nghiệp', 'Kết hợp truyền thống-hiện đại', 'Tour du lịch'],
-    folder: '7.%20Mando Homestay Tà Xùa'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "15._Anh_Tài_Mây_Homestay"
   },
   {
-    id: '8',
-    name: 'Tà Xùa Mây Homestay',
-    description: 'Homestay nằm giữa biển mây, mang đến trải nghiệm sống ảo diệu. Không gian yên tĩnh, thích hợp nghỉ dưỡng.',
-    location: 'Đỉnh Tà Xùa, Sơn La',
-    rating: 4.8,
-    price: '480.000 - 750.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/8.%20Tà Xùa Mây Homestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "8",
+    "name": "May Home Tà Xùa",
+    "description": "May Home Tà Xùa - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 8.7,
+    "price": "1.309.694đ",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-18d18be4c6b120f8ca5f0e0d411757e0.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-60387cfba1b9871745e7a323b965fe7f.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-682e754fb162a6b32f39bb7c4fe54f88.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-8c08e19834a05bef5d2fc3318718b348.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-962500f35ae7a1760fef5f50d292a3c8.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-a29f46896fb496114c44bbf559c54e1c.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-b60a16fd9f8b854598fd6afe302a5412.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-b63b55d0627f0bfee29b985c39bc24e2.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-d428b1b247b1217df23cc781d44f0709.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/khu-phong-may-hill-moi-va-dep.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/khu-phong-stone-hien-dai.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/khu-phong-wood-co-kinh.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/nha-hang-cua-may-home-ta-xua-rong-rai-va-sach-se.png",
+      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/phong-tap-the-voi-khu-ve-sinh-ben-ngoai.png"
     ],
-    amenities: ['Wifi miễn phí', 'View biển mây', 'Bãi đỗ xe', 'Không gian yên tĩnh'],
-    contact: {
-      phone: '0967890123'
+    "amenities": [
+      "Wifi miễn phí",
+      "Dịch vụ lễ tân 24 giờ",
+      "Có chỗ đậu xe",
+      "Cà phê"
+    ],
+    "contact": {
+      "phone": "0774262626"
     },
-    features: ['Giữa biển mây', 'Trải nghiệm ảo diệu', 'Yên tĩnh', 'Nghỉ dưỡng lý tưởng'],
-    folder: '8.%20Tà Xùa Mây Homestay'
+    "features": [
+      "Nhà văn hoá xã Tà Xùa (130m)",
+      "Thiên đường mây Tà Xùa (190m)",
+      "Trạm Mây (1,3km)"
+    ],
+    "folder": "2._Mayhome_Tà_Xùa"
   },
   {
-    id: '9',
-    name: 'Mây Mơ Màng Homestay Tà Xùa',
-    description: 'Homestay thơ mộng với tên gọi đầy chất thơ, mang đến không gian lãng mạn giữa núi rừng Tà Xùa.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.5,
-    price: '400.000 - 600.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/9.%20Mây Mơ Màng Homestay Tà Xùa/HÌNH%20ẢNH%20/1.jpg'
+    "id": "9",
+    "name": "Tà Xùa ECOLODGE",
+    "description": "Tà Xùa ECOLODGE - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 8.4,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/1%20(2).png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/10.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/11.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/12.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/13.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/14.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/15.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/16.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/17.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/18.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/19.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/2%20(2).png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/20.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/21.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/3%20(2).png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/6%20(1).png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/7%20(1).png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/8.png",
+      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/9.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Không gian lãng mạn', 'Café sáng'],
-    contact: {
-      phone: '0978901234'
+    "amenities": [
+      "Wifi miễn phí",
+      "Dịch vụ lễ tân 24 giờ",
+      "Có chỗ đậu xe",
+      "Bể bơi ngoài trời",
+      "Phòng chờ cao cấp",
+      "Khu vực tắm nắng",
+      "Phòng bia",
+      "Thuê xe đạp",
+      "Điểm ngắm mây Tà Xùa (1,6km)",
+      "Thiên đường mây Tà Xùa (2,3km)",
+      "Nhà văn hoá xã Tà Xùa (2,6km)"
+    ],
+    "contact": {
+      "phone": "0989345302"
     },
-    features: ['Thơ mộng', 'Lãng mạn', 'Chất thơ', 'Không gian đẹp'],
-    folder: '9.%20Mây Mơ Màng Homestay Tà Xùa'
+    "features": [
+      "Điểm ngắm mây Tà Xùa (1,6km)",
+      "Thiên đường mây Tà Xùa (2,3km)",
+      "Nhà văn hoá xã Tà Xùa (2,6km)"
+    ],
+    "folder": "3._Tà_Xùa_Ecolodge"
   },
   {
-    id: '10',
-    name: 'Tà Xùa Hills Homestay',
-    description: 'Homestay nằm trên đồi với view panoramic tuyệt đẹp, không gian rộng rãi và thoáng mát.',
-    location: 'Đồi Tà Xùa, Sơn La',
-    rating: 4.7,
-    price: '460.000 - 720.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/10.%20Tà Xùa HillsHomestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "10",
+    "name": "Xoè Homestay",
+    "description": "Xoè Homestay - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 7.6,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/10%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/12%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/13%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/14%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/15%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/16%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/18%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/19%20(1).png",
+      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/20%20(1).png"
     ],
-    amenities: ['Wifi miễn phí', 'View panoramic', 'Bãi đỗ xe', 'Không gian rộng rãi'],
-    contact: {
-      phone: '0989012345'
+    "amenities": [
+      "Wifi miễn phí",
+      "Dịch vụ lễ tân 24 giờ",
+      "Có vườn"
+    ],
+    "contact": {
+      "phone": "0902229428"
     },
-    features: ['Trên đồi cao', 'View panoramic', 'Rộng rãi', 'Thoáng mát'],
-    folder: '10.%20Tà Xùa HillsHomestay'
+    "features": [
+      "Đồi thông eo gió (2,7 km)",
+      "Mâm xôi Trạm Tấu (1,9km)"
+    ],
+    "folder": "4._Xoè_Homestay"
   },
   {
-    id: '11',
-    name: 'Táo Homestay',
-    description: 'Homestay mang tên loại quả đặc sản của vùng, không gian giản dị nhưng ấm cúng, gần gũi với thiên nhiên.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.3,
-    price: '320.000 - 480.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/11.%20Táo Homestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "11",
+    "name": "TÀ XÙA CLOUDS HOMESTAY",
+    "description": "TÀ XÙA CLOUDS HOMESTAY - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/OIP%20(1).png",
+      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/OIP%20(2).png",
+      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-clouds-homestay-2-7.png",
+      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-clouds-homestay-2.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Vườn táo', 'Ẩm thực địa phương'],
-    contact: {
-      phone: '0990123456'
-    },
-    features: ['Đặc sản táo', 'Giản dị', 'Ấm cúng', 'Gần thiên nhiên'],
-    folder: '11.%20Táo Homestay'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "5._Tà_Xùa_Cloud_Homestay"
   },
   {
-    id: '12',
-    name: 'Ngỗng Tà Xùa Homestay',
-    description: 'Homestay độc đáo với tên gọi thú vị, mang đến trải nghiệm khác biệt giữa núi rừng Tà Xùa.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.4,
-    price: '360.000 - 520.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/12.%20Ngỗng Tà Xùa Homestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "12",
+    "name": "MÙA HOMESTAY TÀ XÙA",
+    "description": "MÙA HOMESTAY TÀ XÙA - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481313874_1046416277503557_4466335499524853921_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481770673_1046416127503572_3855041398076964493_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481962814_1046416027503582_7887794603104461349_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481982148_1046416187503566_4571624593458799346_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482007406_1046416347503550_490472752100543593_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482025098_1046416067503578_5120704064416439771_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482122221_1046416037503581_2293804857776335306_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482211904_1046416144170237_2901139029293166609_n.png",
+      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/487857795_1070740248404493_2307201624039183698_n.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Trải nghiệm độc đáo', 'Ẩm thực đặc sắc'],
-    contact: {
-      phone: '0901234567'
-    },
-    features: ['Tên gọi độc đáo', 'Trải nghiệm khác biệt', 'Thú vị', 'Đặc sắc'],
-    folder: '12.%20Ngỗng Tà Xùa Homestay'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "6._Mùa_Homestay_Tà_Xùa"
   },
   {
-    id: '13',
-    name: 'Tú Mỉ Homestay',
-    description: 'Homestay mang tên đậm chất dân gian, không gian truyền thống với lòng hiếu khách của người dân bản địa.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.2,
-    price: '300.000 - 450.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/13.%20Tú Mỉ/HÌNH%20ẢNH%20/1.jpg'
+    "id": "13",
+    "name": "MANDO HOMESTAY TÀ XÙA",
+    "description": "MANDO HOMESTAY TÀ XÙA - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-1-1711325629.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-2-1711325629.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-3-1711325629.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-4-1711325629.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-5-1711325629.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-6-1711325624.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-7-1711325624.png",
+      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-8-1711325624.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Văn hóa truyền thống', 'Lòng hiếu khách'],
-    contact: {
-      phone: '0912345678'
-    },
-    features: ['Chất dân gian', 'Truyền thống', 'Hiếu khách', 'Bản địa'],
-    folder: '13.%20Tú Mỉ'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "7._Mando_Homestay_Tà_Xùa"
   },
   {
-    id: '14',
-    name: 'Homestay Coffee Đỉnh Núi Tà Xùa',
-    description: 'Homestay kết hợp quán cà phê trên đỉnh núi, thưởng thức cà phê thơm ngon giữa không gian núi rừng hùng vĩ.',
-    location: 'Đỉnh Tà Xùa, Sơn La',
-    rating: 4.6,
-    price: '440.000 - 680.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/14.%20Homestay Coffee Đỉnh Núi Tà Xùa/HÌNH%20ẢNH%20/1.jpg'
+    "id": "14",
+    "name": "Tà Xùa Mây Homestay",
+    "description": "Tà Xùa Mây Homestay - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/8._Ta%CC%80_Xu%CC%80a_Ma%CC%82y_Homestay/H%C3%8CNH%20%E1%BA%A2NH/Screenshot%202025-09-24%20131759.png"
     ],
-    amenities: ['Wifi miễn phí', 'Quán cà phê', 'View đỉnh núi', 'Cà phê đặc sản'],
-    contact: {
-      phone: '0923456789'
-    },
-    features: ['Kết hợp cà phê', 'Trên đỉnh núi', 'Cà phê thơm ngon', 'Không gian hùng vĩ'],
-    folder: '14.%20Homestay Coffee Đỉnh Núi Tà Xùa'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "8._Tà_Xùa_Mây_Homestay"
   },
   {
-    id: '15',
-    name: 'Anh Tài Mây Homestay',
-    description: 'Homestay mang tên chủ nhân với không gian ấm áp, thân thiện. Dịch vụ tận tình như người thân trong gia đình.',
-    location: 'Tà Xùa, Sơn La',
-    rating: 4.5,
-    price: '390.000 - 580.000 VNĐ/đêm',
-    images: [
-      '/cơ%20sở%20lưu%20trú/15.%20Anh Tài Mây Homestay/HÌNH%20ẢNH%20/1.jpg'
+    "id": "15",
+    "name": "Mây MƠ MÀNG Homestay TÀ XÙA",
+    "description": "Mây MƠ MÀNG Homestay TÀ XÙA - Cơ sở lưu trú chất lượng cao tại Tà Xùa với đầy đủ tiện nghi hiện đại và view thiên nhiên tuyệt đẹp.",
+    "location": "Tà Xùa, Sơn La",
+    "rating": 0,
+    "price": "",
+    "images": [
+      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/222.png",
+      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/333.png",
+      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/444.png",
+      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/555.png",
+      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/666.png",
+      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/777.png"
     ],
-    amenities: ['Wifi miễn phí', 'Bãi đỗ xe', 'Dịch vụ tận tình', 'Không gian ấm áp'],
-    contact: {
-      phone: '0934567890'
-    },
-    features: ['Thân thiện', 'Ấm áp', 'Tận tình', 'Như gia đình'],
-    folder: '15.%20Anh Tài Mây Homestay'
+    "amenities": [],
+    "contact": {},
+    "features": [],
+    "folder": "9._Mây_Mơ_Màng_Homestay_Tà_Xùa"
   }
 ];

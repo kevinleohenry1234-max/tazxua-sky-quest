@@ -72,22 +72,39 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
  * Inner provider that uses SWR hooks and provides data context
  */
 const DataProviderInner: React.FC<DataProviderProps> = ({ children }) => {
-  // Use SWR hooks for data fetching
-  const attractions = useAttractions();
-  const accommodations = useAccommodations();
-  const weather = useWeather('Ta Xua');
+  try {
+    // Use SWR hooks for data fetching with error handling
+    const attractions = useAttractions();
+    const accommodations = useAccommodations();
+    const weather = useWeather('Ta Xua');
 
-  const contextValue: DataContextType = {
-    attractions,
-    accommodations,
-    weather,
-  };
+    const contextValue: DataContextType = {
+      attractions: attractions || { data: [], isLoading: false, error: null },
+      accommodations: accommodations || { data: [], isLoading: false, error: null },
+      weather: weather || { data: null, isLoading: false, error: null },
+    };
 
-  return (
-    <DataContext.Provider value={contextValue}>
-      {children}
-    </DataContext.Provider>
-  );
+    return (
+      <DataContext.Provider value={contextValue}>
+        {children}
+      </DataContext.Provider>
+    );
+  } catch (error) {
+    console.error('DataProviderInner error:', error);
+    
+    // Fallback context value
+    const fallbackContextValue: DataContextType = {
+      attractions: { data: [], isLoading: false, error: error as Error },
+      accommodations: { data: [], isLoading: false, error: error as Error },
+      weather: { data: null, isLoading: false, error: error as Error },
+    };
+
+    return (
+      <DataContext.Provider value={fallbackContextValue}>
+        {children}
+      </DataContext.Provider>
+    );
+  }
 };
 
 /**
@@ -95,8 +112,14 @@ const DataProviderInner: React.FC<DataProviderProps> = ({ children }) => {
  */
 export const useAppData = (): DataContextType => {
   const context = useContext(DataContext);
-  if (context === undefined) {
-    throw new Error('useAppData must be used within a DataProvider');
+  if (context === undefined || context === null) {
+    console.warn('useAppData called outside of DataProvider, returning fallback data');
+    // Return fallback data instead of throwing error
+    return {
+      attractions: { data: [], isLoading: false, error: new Error('DataProvider not found') },
+      accommodations: { data: [], isLoading: false, error: new Error('DataProvider not found') },
+      weather: { data: null, isLoading: false, error: new Error('DataProvider not found') },
+    };
   }
   return context;
 };

@@ -3,7 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Music, Loader2, Download, Play, Pause } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Music, Download, Play, Pause, Loader2, Sparkles, Wand2 } from 'lucide-react';
+import AIPromptGenerator from './AIPromptGenerator';
 
 interface GeneratedMusic {
   id: string;
@@ -19,6 +21,7 @@ const AIMusicGenerator = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedMusic, setGeneratedMusic] = useState<GeneratedMusic[]>([]);
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [generationProgress, setGenerationProgress] = useState(0);
 
   const generateMusic = async () => {
     if (!prompt.trim()) return;
@@ -34,6 +37,7 @@ const AIMusicGenerator = () => {
 
     setGeneratedMusic(prev => [newMusic, ...prev]);
     setIsGenerating(true);
+    setGenerationProgress(0);
 
     try {
       // Step 1: Generate music using Suno API
@@ -92,6 +96,8 @@ const AIMusicGenerator = () => {
       
       while (attempts < maxAttempts) {
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+        attempts++;
+        setGenerationProgress(attempts * 10000); // Update progress (10 seconds per attempt)
         
         const statusResponse = await fetch(`https://api.sunoapi.org/api/v1/generate/record-info?taskId=${taskId}`, {
           headers: {
@@ -101,7 +107,6 @@ const AIMusicGenerator = () => {
         });
 
         if (!statusResponse.ok) {
-          attempts++;
           if (attempts >= maxAttempts) {
             throw new Error(`Status check failed: ${statusResponse.status}`);
           }
@@ -162,6 +167,7 @@ const AIMusicGenerator = () => {
       );
     } finally {
       setIsGenerating(false);
+      setGenerationProgress(0);
       setPrompt('');
     }
   };
@@ -199,116 +205,181 @@ const AIMusicGenerator = () => {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <Tabs defaultValue="generator" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 h-12">
+          <TabsTrigger value="generator" className="flex items-center gap-2 text-base">
             <Music className="w-5 h-5" />
-            Tạo Nhạc Cùng Nhạc Cụ Dân Tộc Bằng AI
-          </CardTitle>
-          <p className="text-muted-foreground text-sm">
-            Mô tả âm nhạc bạn muốn tạo, AI sẽ sáng tác nhạc với âm thanh nhạc cụ dân tộc H'Mông
-          </p>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Textarea
-            placeholder="Ví dụ: Một bản nhạc du dương với tiếng sáo H'Mông, thể hiện sự bình yên của núi rừng Tà Xùa vào buổi sáng sớm..."
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            rows={4}
-            className="resize-none"
-          />
-          <Button 
-            onClick={generateMusic}
-            disabled={!prompt.trim() || isGenerating}
-            className="w-full"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Đang tạo nhạc...
-              </>
-            ) : (
-              <>
-                <Music className="w-4 h-4 mr-2" />
-                Tạo Nhạc
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
+            Tạo Nhạc
+          </TabsTrigger>
+          <TabsTrigger value="prompt-ai" className="flex items-center gap-2 text-base">
+            <Wand2 className="w-5 h-5" />
+            AI Tạo Prompt
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Generated Music List */}
-      {generatedMusic.length > 0 && (
-        <div className="space-y-4">
-          <h3 className="font-semibold text-lg">Nhạc Đã Tạo</h3>
-          {generatedMusic.map((music) => (
-            <Card key={music.id}>
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-muted-foreground mb-2">
-                      {music.createdAt.toLocaleString('vi-VN')}
-                    </p>
-                    <p className="text-sm line-clamp-3">{music.prompt}</p>
-                    <div className="mt-2">
-                      {music.status === 'generating' && (
-                        <Badge variant="secondary" className="text-xs">
-                          <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                          Đang tạo...
-                        </Badge>
-                      )}
-                      {music.status === 'completed' && (
-                        <Badge variant="default" className="text-xs">
-                          Hoàn thành
-                        </Badge>
-                      )}
-                      {music.status === 'error' && (
-                        <div>
-                          <Badge variant="destructive" className="text-xs">
-                            Lỗi
-                          </Badge>
-                          {music.errorMessage && (
-                            <p className="text-xs text-red-600 mt-1">{music.errorMessage}</p>
+        <TabsContent value="generator" className="space-y-6">
+          <Card className="border-2 border-primary/20 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10">
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Sparkles className="w-6 h-6 text-primary" />
+                Tạo Nhạc Dân Tộc Bằng AI
+              </CardTitle>
+              <p className="text-muted-foreground">
+                Nhập mô tả để tạo nhạc không lời với nhạc cụ dân tộc Việt Nam
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-3">
+                <label htmlFor="prompt" className="text-base font-medium">
+                  Mô tả nhạc bạn muốn tạo
+                </label>
+                <Textarea
+                  id="prompt"
+                  placeholder="Ví dụ: A peaceful instrumental piece featuring traditional Vietnamese ethnic instruments that captures the essence of Tà Xùa mountains at dawn..."
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  rows={4}
+                  className="resize-none text-base leading-relaxed"
+                />
+                <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <Wand2 className="w-4 h-4 text-blue-600" />
+                  <p className="text-sm text-blue-700">
+                    Mẹo: Sử dụng tab "AI Tạo Prompt" để tạo mô tả chi tiết bằng AI
+                  </p>
+                </div>
+              </div>
+
+              <Button 
+                 onClick={generateMusic}
+                 disabled={!prompt.trim() || isGenerating}
+                 className="w-full h-12 text-base font-medium"
+                 size="lg"
+               >
+                 {isGenerating ? (
+                   <>
+                     <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                     Đang tạo nhạc... ({Math.floor(generationProgress / 1000)}s)
+                   </>
+                 ) : (
+                   <>
+                     <Music className="w-5 h-5 mr-2" />
+                     Tạo Nhạc AI
+                   </>
+                 )}
+               </Button>
+
+               {isGenerating && (
+                 <div className="space-y-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                   <div className="flex justify-between text-sm font-medium">
+                     <span>Tiến độ tạo nhạc</span>
+                     <span className="text-primary">{Math.floor(generationProgress / 1000)}s / 300s</span>
+                   </div>
+                   <div className="w-full bg-secondary rounded-full h-3">
+                     <div 
+                       className="bg-primary h-3 rounded-full transition-all duration-1000 shadow-sm"
+                       style={{ width: `${Math.min((generationProgress / 300000) * 100, 100)}%` }}
+                     />
+                   </div>
+                   <p className="text-xs text-muted-foreground text-center">
+                     Quá trình tạo nhạc có thể mất vài phút. Vui lòng chờ đợi...
+                   </p>
+                 </div>
+               )}
+             </CardContent>
+           </Card>
+
+          {/* Generated Music List */}
+          {generatedMusic.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Music className="w-5 h-5" />
+                  Nhạc Đã Tạo ({generatedMusic.length})
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Danh sách các bản nhạc đã được tạo bởi AI
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {generatedMusic.map((music) => (
+                  <Card key={music.id} className="border-l-4 border-l-primary/30">
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2">
+                            <p className="text-xs text-muted-foreground">
+                              {music.createdAt.toLocaleString('vi-VN')}
+                            </p>
+                            {music.status === 'generating' && (
+                              <Badge variant="secondary" className="text-xs">
+                                <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                                Đang tạo...
+                              </Badge>
+                            )}
+                            {music.status === 'completed' && (
+                              <Badge variant="default" className="text-xs bg-green-100 text-green-800 border-green-200">
+                                Hoàn thành
+                              </Badge>
+                            )}
+                            {music.status === 'error' && (
+                              <Badge variant="destructive" className="text-xs">
+                                Lỗi
+                              </Badge>
+                            )}
+                          </div>
+                          
+                          <p className="text-sm leading-relaxed line-clamp-3 mb-3">{music.prompt}</p>
+                          
+                          {music.status === 'error' && music.errorMessage && (
+                            <div className="p-2 bg-red-50 border border-red-200 rounded text-xs text-red-600">
+                              {music.errorMessage}
+                            </div>
                           )}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {music.status === 'completed' && music.audioUrl && (
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => togglePlay(music.id, music.audioUrl)}
-                      >
-                        {playingId === music.id ? (
-                          <Pause className="w-4 h-4" />
-                        ) : (
-                          <Play className="w-4 h-4" />
+                        
+                        {music.status === 'completed' && music.audioUrl && (
+                          <div className="flex items-center gap-2 shrink-0">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => togglePlay(music.id, music.audioUrl)}
+                              className="h-10 w-10 p-0"
+                            >
+                              {playingId === music.id ? (
+                                <Pause className="w-4 h-4" />
+                              ) : (
+                                <Play className="w-4 h-4" />
+                              )}
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => downloadMusic(music.audioUrl, music.prompt)}
+                              className="h-10 w-10 p-0"
+                            >
+                              <Download className="w-4 h-4" />
+                            </Button>
+                            <audio
+                              id={`audio-${music.id}`}
+                              src={music.audioUrl}
+                              onEnded={() => setPlayingId(null)}
+                              preload="metadata"
+                            />
+                          </div>
                         )}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => downloadMusic(music.audioUrl, music.prompt)}
-                      >
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <audio
-                        id={`audio-${music.id}`}
-                        src={music.audioUrl}
-                        onEnded={() => setPlayingId(null)}
-                        preload="metadata"
-                      />
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </CardContent>
             </Card>
-          ))}
-        </div>
-      )}
+          )}
+        </TabsContent>
+
+        <TabsContent value="prompt-ai">
+          <AIPromptGenerator />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
