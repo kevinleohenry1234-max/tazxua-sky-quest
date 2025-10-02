@@ -73,7 +73,7 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
       setFilteredSuggestions(filtered);
     }
     setSelectedIndex(-1);
-  }, [query, allSuggestions]);
+  }, [query, suggestions]); // Use suggestions directly instead of allSuggestions
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

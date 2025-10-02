@@ -6,7 +6,7 @@ import ImageSlider from '@/components/ImageSlider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Star, Phone, Mail, Wifi, Car, Coffee, Mountain, Users, Calendar } from 'lucide-react';
+import { MapPin, Star, Phone, Mail, Wifi, Car, Coffee, Mountain, Users, Calendar, X, Eye, MessageCircle } from 'lucide-react';
 import { getSession, onAuthStateChange, signOut } from '@/lib/supabase';
 import { homestayRealData } from '@/data/homestayRealData';
 import heroImage from '@/assets/hero-taxua-clouds.jpg';
@@ -29,14 +29,6 @@ interface Homestay {
 
 const homestayData: Homestay[] = homestayRealData;
 
-const getAmenityIcon = (amenity: string) => {
-  if (amenity.includes('Wifi')) return <Wifi className="w-4 h-4" />;
-  if (amenity.includes('xe')) return <Car className="w-4 h-4" />;
-  if (amenity.includes('hàng') || amenity.includes('sáng')) return <Coffee className="w-4 h-4" />;
-  if (amenity.includes('núi') || amenity.includes('View')) return <Mountain className="w-4 h-4" />;
-  return <Star className="w-4 h-4" />;
-};
-
 const Accommodation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
@@ -45,6 +37,10 @@ const Accommodation: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedHomestay, setSelectedHomestay] = useState<Homestay | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [homestayDetails, setHomestayDetails] = useState<string>('');
 
   // Check for existing session on component mount
   useEffect(() => {
@@ -92,6 +88,70 @@ const Accommodation: React.FC = () => {
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  // Hàm để lấy thông tin chi tiết từ file markdown
+  const fetchHomestayDetails = async (homestayName: string) => {
+    try {
+      // Tìm thư mục tương ứng với homestay
+      const homestayFolders = [
+        '1._1941M_Homestay_Tà_Xùa',
+        '2._Mayhome_Tà_Xùa',
+        '3._Tà_Xùa_Ecolodge',
+        '4._Xoè_Homestay',
+        '5._Tà_Xùa_Cloud_Homestay',
+        '6._Mùa_Homestay_Tà_Xùa',
+        '7._Mando_Homestay_Tà_Xùa',
+        '8._Tà_Xùa_Mây_Homestay',
+        '9._Mây_Mơ_Màng_Homestay_Tà_Xùa',
+        '10._Tà_Xùa_HillsHomestay',
+        '11._Táo_Homestay',
+        '12._Ngỗng_Tà_Xùa_Homestay',
+        '13._Tú_Mỉ',
+        '14._Homestay_Coffee_Đỉnh_Núi_Tà_Xùa',
+        '15._Anh_Tài_Mây_Homestay'
+      ];
+
+      // Tìm folder phù hợp dựa trên tên homestay
+      const matchingFolder = homestayFolders.find(folder => 
+        folder.toLowerCase().includes(homestayName.toLowerCase().replace(/\s+/g, '_')) ||
+        homestayName.toLowerCase().includes(folder.toLowerCase().split('_')[1] || '')
+      );
+
+      if (matchingFolder) {
+        const response = await fetch(`/cơ sở lưu trú/${matchingFolder}/Thông tin chi tiết/`);
+        if (response.ok) {
+          const text = await response.text();
+          return text;
+        }
+      }
+      
+      return 'Thông tin chi tiết đang được cập nhật...';
+    } catch (error) {
+      console.error('Error fetching homestay details:', error);
+      return 'Không thể tải thông tin chi tiết. Vui lòng thử lại sau.';
+    }
+  };
+
+  const handleViewDetails = async (homestay: Homestay) => {
+    setSelectedHomestay(homestay);
+    setShowDetailModal(true);
+    
+    // Fetch chi tiết từ file markdown
+    const details = await fetchHomestayDetails(homestay.name);
+    setHomestayDetails(details);
+  };
+
+  const handleBookNow = (homestay: Homestay) => {
+    setSelectedHomestay(homestay);
+    setShowBookingModal(true);
+  };
+
+  const closeModals = () => {
+    setShowDetailModal(false);
+    setShowBookingModal(false);
+    setSelectedHomestay(null);
+    setHomestayDetails('');
   };
 
   const getAmenityIcon = (amenity: string) => {
@@ -261,13 +321,24 @@ const Accommodation: React.FC = () => {
                       </div>
 
                       <div className="flex gap-2">
-                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" size="sm">
-                          Xem Chi Tiết
-                        </Button>
-                        <Button variant="outline" size="sm" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-                          Đặt Ngay
-                        </Button>
-                      </div>
+                    <Button 
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" 
+                      size="sm"
+                      onClick={() => handleViewDetails(homestay)}
+                    >
+                      <Eye className="w-4 h-4 mr-2" />
+                      Xem Chi Tiết
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                      onClick={() => handleBookNow(homestay)}
+                    >
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Đặt Ngay
+                    </Button>
+                  </div>
                     </div>
                   </CardContent>
                 </Card>
