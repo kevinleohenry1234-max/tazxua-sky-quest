@@ -5,21 +5,21 @@ interface LayoutProps {
   className?: string;
 }
 
-// Danh sách hình nền từ thư mục public/images/website background - moved outside component
-const backgroundImages = [
-  '/images/website background/Tà Xùa 1.png',
-  '/images/website background/Tà Xùa 3.png',
-  '/images/website background/Tà Xùa 4.png',
-  '/images/website background/Tà Xùa 5.png',
-  '/images/website background/Tà Xùa 6.png',
-  '/images/website background/Tà Xùa 7.png',
-  '/images/website background/Tà Xùa 8.png',
-  '/images/website background/Tà Xùa 9.png',
-  '/images/website background/Tà Xùa 10.png'
-];
-
 const Layout = ({ children, className = '' }: LayoutProps) => {
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  
+  // Danh sách hình nền từ thư mục public/images/website background
+  const backgroundImages = [
+    '/images/website background/Tà Xùa 1.png',
+    '/images/website background/Tà Xùa 3.png',
+    '/images/website background/Tà Xùa 4.png',
+    '/images/website background/Tà Xùa 5.png',
+    '/images/website background/Tà Xùa 6.png',
+    '/images/website background/Tà Xùa 7.png',
+    '/images/website background/Tà Xùa 8.png',
+    '/images/website background/Tà Xùa 9.png',
+    '/images/website background/Tà Xùa 10.png'
+  ];
 
   // Tự động thay đổi hình nền mỗi 10 giây
   useEffect(() => {
@@ -30,7 +30,7 @@ const Layout = ({ children, className = '' }: LayoutProps) => {
     }, 10000); // 10 giây
 
     return () => clearInterval(interval);
-  }, []); // Now safe since backgroundImages is stable
+  }, []); // Loại bỏ backgroundImages.length khỏi dependency array
 
   const currentImage = backgroundImages[currentBgIndex];
 

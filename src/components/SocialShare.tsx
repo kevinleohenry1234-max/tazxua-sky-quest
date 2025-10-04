@@ -96,7 +96,6 @@ const SocialShare: React.FC<SocialShareProps> = ({
             onClick={() => setIsOpen(!isOpen)}
             size="sm"
             className="rounded-full w-12 h-12 shadow-lg"
-            aria-label="Chia sẻ trang này"
           >
             <Share2 className="w-4 h-4" />
           </Button>

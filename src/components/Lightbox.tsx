@@ -125,7 +125,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
               className="text-white hover:bg-white/20"
               onClick={handleZoomOut}
               disabled={zoom <= 0.5}
-              aria-label="Thu nhỏ ảnh"
             >
               <ZoomOut className="w-4 h-4" />
             </Button>
@@ -135,7 +134,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
               className="text-white hover:bg-white/20"
               onClick={handleZoomIn}
               disabled={zoom >= 3}
-              aria-label="Phóng to ảnh"
             >
               <ZoomIn className="w-4 h-4" />
             </Button>
@@ -143,7 +141,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
               variant="ghost"
               size="sm"
               className="text-white hover:bg-white/20"
-              aria-label="Tải xuống ảnh"
             >
               <Download className="w-4 h-4" />
             </Button>
@@ -151,7 +148,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
               variant="ghost"
               size="sm"
               className="text-white hover:bg-white/20"
-              aria-label="Chia sẻ ảnh"
             >
               <Share2 className="w-4 h-4" />
             </Button>
@@ -159,7 +155,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
               variant="ghost"
               size="sm"
               className="text-white hover:bg-white/20"
-              aria-label="Thích ảnh"
             >
               <Heart className="w-4 h-4" />
             </Button>
@@ -168,7 +163,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
               size="sm"
               className="text-white hover:bg-white/20"
               onClick={onClose}
-              aria-label="Đóng lightbox"
             >
               <X className="w-4 h-4" />
             </Button>
@@ -182,7 +176,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
         size="lg"
         className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20 rounded-full w-12 h-12"
         onClick={handlePrevClick}
-        aria-label="Ảnh trước"
       >
         <ChevronLeft className="w-6 h-6" />
       </Button>
@@ -192,7 +185,6 @@ const Lightbox = ({ images, currentIndex, onClose, onNext, onPrev }: LightboxPro
         size="lg"
         className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20 rounded-full w-12 h-12"
         onClick={handleNextClick}
-        aria-label="Ảnh tiếp theo"
       >
         <ChevronRight className="w-6 h-6" />
       </Button>

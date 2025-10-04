@@ -18,7 +18,6 @@ export default function LanguageSwitcher() {
           variant="ghost"
           size="sm"
           className="flex items-center space-x-2 text-foreground hover:text-primary"
-          aria-label="Chọn ngôn ngữ"
         >
           <Globe className="w-4 h-4" />
           <span className="hidden sm:inline">

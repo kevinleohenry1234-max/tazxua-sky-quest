@@ -14,7 +14,7 @@ const CategoryCards = () => {
       description: 'Khám phá những homestay và resort tuyệt đẹp giữa lòng núi rừng Tà Xùa',
       image: homestayImage,
       link: '/accommodation',
-      color: 'from-primary to-primary/80',
+      color: 'from-blue-600/80 to-purple-600/80',
     },
     {
       id: 'attractions',
@@ -22,7 +22,7 @@ const CategoryCards = () => {
       description: 'Tham quan các danh lam thắng cảnh nổi tiếng như Sống Lưng Khủng Long',
       image: dragonSpineImage,
       link: '/attractions',
-      color: 'from-secondary to-secondary/80',
+      color: 'from-purple-600/80 to-slate-700/80',
     },
     {
       id: 'culture',
@@ -30,7 +30,7 @@ const CategoryCards = () => {
       description: 'Tìm hiểu về văn hóa, lịch sử và ẩm thực đặc sắc của vùng đất Tà Xùa',
       image: localCuisineImage,
       link: '/about',
-      color: 'from-accent to-accent/80',
+      color: 'from-slate-700/80 to-blue-600/80',
     },
   ];
 

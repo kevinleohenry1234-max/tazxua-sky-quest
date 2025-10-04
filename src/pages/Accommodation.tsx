@@ -533,32 +533,30 @@ const Accommodation: React.FC = () => {
               
               <div className="space-y-4 mb-6">
                 <div>
-                  <label htmlFor="checkin-date" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Ngày nhận phòng
                   </label>
                   <input 
-                    id="checkin-date"
                     type="date" 
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="checkout-date" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Ngày trả phòng
                   </label>
                   <input 
-                    id="checkout-date"
                     type="date" 
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="guest-count" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Số khách
                   </label>
-                  <select id="guest-count" className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <option value="1">1 khách</option>
                     <option value="2">2 khách</option>
                     <option value="3">3 khách</option>

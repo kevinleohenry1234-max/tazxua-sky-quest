@@ -88,7 +88,6 @@ const Header = ({
                   <Button
                     variant="ghost"
                     className="flex items-center space-x-2 text-foreground hover:text-primary"
-                    aria-label="Menu tài khoản"
                   >
                     <User className="w-4 h-4" />
                     <span>{t('header.welcome')} {userName}!</span>
@@ -128,7 +127,6 @@ const Header = ({
           <button
             className="md:hidden text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Mở menu di động"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

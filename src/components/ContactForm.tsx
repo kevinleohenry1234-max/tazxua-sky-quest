@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Mail, Phone, User, MessageSquare, Send, CheckCircle, Loader2, Upload, X, FileText } from 'lucide-react';
-import { useErrorToast } from '@/hooks/useErrorToast';
 
 interface ContactFormData {
   name: string;
@@ -37,7 +36,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
-  const { showNetworkError, showError: showErrorToast } = useErrorToast();
 
   // Use useEffect to handle success message timeout
   useEffect(() => {
@@ -206,16 +204,7 @@ ${data.message}
       });
       
     } catch (err) {
-      console.error('Error sending message:', err);
-      const errorMessage = 'Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.';
-      setError(errorMessage);
-      
-      // Show user-friendly error toast
-      if (err instanceof Error && err.message.includes('fetch')) {
-        showNetworkError();
-      } else {
-        showErrorToast('Không thể gửi tin nhắn. Vui lòng kiểm tra kết nối và thử lại.');
-      }
+      setError('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.');
     } finally {
       setIsLoading(false);
     }

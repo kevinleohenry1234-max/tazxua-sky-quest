@@ -170,13 +170,23 @@ const ExploreSection = () => {
     <section 
       className="py-16 relative overflow-hidden"
       style={{
-        backgroundImage: `url(${taxuaMountainBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundImage: `
+          linear-gradient(135deg, 
+            rgba(30, 58, 138, 0.25) 0%, 
+            rgba(79, 70, 229, 0.20) 25%, 
+            rgba(147, 51, 234, 0.15) 50%, 
+            rgba(30, 41, 59, 0.30) 75%, 
+            rgba(15, 23, 42, 0.40) 100%
+          ),
+          url(${taxuaMountainBg})
+        `,
+        backgroundSize: 'cover, cover',
+        backgroundPosition: 'center, center',
+        backgroundRepeat: 'no-repeat, no-repeat',
+        backgroundBlendMode: 'overlay, normal'
       }}
     >
-      <div className="absolute inset-0 bg-black/25"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-blue-950/20 to-slate-900/50"></div>
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">

@@ -73,7 +73,7 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
       setFilteredSuggestions(filtered);
     }
     setSelectedIndex(-1);
-  }, [query, allSuggestions]); // Use allSuggestions which is memoized
+  }, [query, suggestions]); // Use suggestions directly instead of allSuggestions
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -185,7 +185,6 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(true)}
           className="pl-10 pr-10"
-          aria-label="Tìm kiếm địa điểm và hoạt động"
         />
         {query && (
           <Button

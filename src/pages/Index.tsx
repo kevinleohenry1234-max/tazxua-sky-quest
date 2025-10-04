@@ -165,20 +165,35 @@ const Index = () => {
         </div>
       ) : (
         <>
-          {/* Background with real Tà Xùa mountain scenery */}
+          {/* Enhanced Background with Tà Xùa mountain scenery and hero-inspired gradient */}
           <div 
             className="fixed inset-0 z-0"
             style={{
-              backgroundImage: `url('/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /1.webp'), url('/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất /1.webp')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundImage: `
+                linear-gradient(135deg, 
+                  rgba(30, 58, 138, 0.15) 0%, 
+                  rgba(79, 70, 229, 0.12) 25%, 
+                  rgba(147, 51, 234, 0.10) 50%, 
+                  rgba(30, 41, 59, 0.20) 75%, 
+                  rgba(15, 23, 42, 0.30) 100%
+                ),
+                linear-gradient(to bottom, 
+                  rgba(0, 0, 0, 0.1) 0%, 
+                  rgba(0, 0, 0, 0.3) 50%, 
+                  rgba(15, 23, 42, 0.8) 100%
+                ),
+                url('/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /1.webp'), 
+                url('/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất /1.webp')
+              `,
+              backgroundSize: 'cover, cover, cover, cover',
+              backgroundPosition: 'center, center, center, center',
               backgroundAttachment: 'fixed',
-              backgroundBlendMode: 'overlay'
+              backgroundBlendMode: 'overlay, multiply, normal, normal'
             }}
           />
           
-          {/* Light overlay to ensure text readability while preserving scenery */}
-          <div className="fixed inset-0 z-1 bg-gradient-to-b from-black/10 via-black/20 to-black/40" />
+          {/* Dynamic gradient overlay that matches hero section colors */}
+          <div className="fixed inset-0 z-1 bg-gradient-to-b from-slate-900/20 via-blue-900/10 to-slate-900/60" />
           
           <div className="relative z-10">
             <Header 
@@ -190,11 +205,11 @@ const Index = () => {
               onLogoutClick={handleLogout}
             />
             
-            <main id="main-content" tabIndex={-1}>
+            <main>
               <HeroSection />
               
-              {/* Seamless transition section */}
-              <div className="bg-gradient-to-b from-black/90 via-black/95 to-background">
+              {/* Enhanced seamless transition section with hero-inspired gradients */}
+              <div className="bg-gradient-to-b from-slate-900/95 via-blue-950/90 to-slate-950/95 backdrop-blur-sm">
                 <CategoryCards />
                 <ExploreSection />
               </div>
