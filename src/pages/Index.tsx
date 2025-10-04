@@ -66,15 +66,6 @@ const Index = () => {
 
   const handleLoginSubmit = async (loginData: LoginData) => {
     try {
-      // Check for demo account
-      if (loginData.email === 'demo@taxua.com' && loginData.password === 'demo123') {
-        setIsLoggedIn(true);
-        setUserName('Nguyễn Minh Đức (Demo)');
-        setUserEmail('demo@taxua.com');
-        setShowLoginModal(false);
-        return;
-      }
-
       const result = await signInUser(loginData.email, loginData.password);
       
       if (result.success) {
@@ -116,15 +107,6 @@ const Index = () => {
 
   const handleLogout = async () => {
     try {
-      // Handle demo account logout
-      if (userEmail === 'demo@taxua.com') {
-        setIsLoggedIn(false);
-        setUserName('');
-        setUserEmail('');
-        setShowDashboard(false);
-        return;
-      }
-
       await signOut();
       // State will be updated by the auth state change listener
     } catch (error) {
@@ -208,7 +190,7 @@ const Index = () => {
               onLogoutClick={handleLogout}
             />
             
-            <main>
+            <main id="main-content" tabIndex={-1}>
               <HeroSection />
               
               {/* Seamless transition section */}

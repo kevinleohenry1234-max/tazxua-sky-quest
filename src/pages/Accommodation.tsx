@@ -390,6 +390,249 @@ const Accommodation: React.FC = () => {
       </div>
       
       <Footer />
+
+      {/* Detail Modal */}
+      {showDetailModal && selectedHomestay && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-gray-800">{selectedHomestay.name}</h2>
+              <Button variant="ghost" size="sm" onClick={closeModals}>
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+            
+            <div className="p-6">
+              {/* Image Gallery */}
+               <div className="mb-6">
+                 <ImageSlider images={selectedHomestay.images} alt={selectedHomestay.name} />
+               </div>
+              
+              {/* Basic Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Thông tin cơ bản</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-blue-600" />
+                      <span className="text-gray-700">{selectedHomestay.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Star className="w-4 h-4 text-yellow-500" />
+                      <span className="text-gray-700">{selectedHomestay.rating}/5</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-green-600" />
+                      <span className="text-lg font-bold text-blue-600">{selectedHomestay.price}/đêm</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Liên hệ</h3>
+                  <div className="space-y-2">
+                    {selectedHomestay.contact.phone && (
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-green-600" />
+                        <a href={`tel:${selectedHomestay.contact.phone}`} className="text-blue-600 hover:underline">
+                          {selectedHomestay.contact.phone}
+                        </a>
+                      </div>
+                    )}
+                    {selectedHomestay.contact.email && (
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-blue-600" />
+                        <a href={`mailto:${selectedHomestay.contact.email}`} className="text-blue-600 hover:underline">
+                          {selectedHomestay.contact.email}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Description */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3 text-gray-800">Mô tả</h3>
+                <p className="text-gray-700 leading-relaxed">{selectedHomestay.description}</p>
+              </div>
+              
+              {/* Amenities */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3 text-gray-800">Tiện nghi</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedHomestay.amenities.map((amenity, index) => (
+                    <Badge key={index} variant="outline" className="flex items-center gap-1 border-blue-200 text-blue-700">
+                      {getAmenityIcon(amenity)}
+                      <span>{amenity}</span>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Features */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3 text-gray-800">Đặc điểm nổi bật</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedHomestay.features.map((feature, index) => (
+                    <Badge key={index} variant="secondary" className="bg-green-100 text-green-700 border-green-200">
+                      {feature}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Detailed Information */}
+              {homestayDetails && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Thông tin chi tiết</h3>
+                  <div className="prose max-w-none text-gray-700 bg-gray-50 p-4 rounded-lg">
+                    <pre className="whitespace-pre-wrap font-sans">{homestayDetails}</pre>
+                  </div>
+                </div>
+              )}
+              
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-4 border-t">
+                <Button 
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => {
+                    closeModals();
+                    handleBookNow(selectedHomestay);
+                  }}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Đặt Ngay
+                </Button>
+                <Button variant="outline" onClick={closeModals}>
+                  Đóng
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Booking Modal */}
+      {showBookingModal && selectedHomestay && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-md w-full">
+            <div className="p-4 border-b flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-800">Đặt phòng</h2>
+              <Button variant="ghost" size="sm" onClick={closeModals}>
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-4">
+                <h3 className="font-semibold text-gray-800 mb-2">{selectedHomestay.name}</h3>
+                <p className="text-gray-600 text-sm mb-2">{selectedHomestay.location}</p>
+                <p className="text-lg font-bold text-blue-600">{selectedHomestay.price}/đêm</p>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label htmlFor="checkin-date" className="block text-sm font-medium text-gray-700 mb-1">
+                    Ngày nhận phòng
+                  </label>
+                  <input 
+                    id="checkin-date"
+                    type="date" 
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="checkout-date" className="block text-sm font-medium text-gray-700 mb-1">
+                    Ngày trả phòng
+                  </label>
+                  <input 
+                    id="checkout-date"
+                    type="date" 
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="guest-count" className="block text-sm font-medium text-gray-700 mb-1">
+                    Số khách
+                  </label>
+                  <select id="guest-count" className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="1">1 khách</option>
+                    <option value="2">2 khách</option>
+                    <option value="3">3 khách</option>
+                    <option value="4">4 khách</option>
+                    <option value="5">5+ khách</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Ghi chú
+                  </label>
+                  <textarea 
+                    rows={3}
+                    placeholder="Yêu cầu đặc biệt hoặc ghi chú..."
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+              
+              <div className="bg-blue-50 p-4 rounded-lg mb-6">
+                <h4 className="font-semibold text-blue-800 mb-2">Thông tin liên hệ</h4>
+                <div className="space-y-1 text-sm">
+                  {selectedHomestay.contact.phone && (
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-blue-600" />
+                      <a href={`tel:${selectedHomestay.contact.phone}`} className="text-blue-600 hover:underline">
+                        {selectedHomestay.contact.phone}
+                      </a>
+                    </div>
+                  )}
+                  {selectedHomestay.contact.email && (
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-blue-600" />
+                      <a href={`mailto:${selectedHomestay.contact.email}`} className="text-blue-600 hover:underline">
+                        {selectedHomestay.contact.email}
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-blue-600 mt-2">
+                  Vui lòng liên hệ trực tiếp để xác nhận đặt phòng và thanh toán.
+                </p>
+              </div>
+              
+              <div className="flex gap-3">
+                <Button 
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                  onClick={() => {
+                    if (selectedHomestay.contact.phone) {
+                      window.open(`tel:${selectedHomestay.contact.phone}`, '_self');
+                    }
+                  }}
+                >
+                  <Phone className="w-4 h-4 mr-2" />
+                  Gọi ngay
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => {
+                    if (selectedHomestay.contact.email) {
+                      window.open(`mailto:${selectedHomestay.contact.email}?subject=Đặt phòng ${selectedHomestay.name}`, '_blank');
+                    }
+                  }}
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  Email
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

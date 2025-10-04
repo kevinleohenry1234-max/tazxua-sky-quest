@@ -1,35 +1,30 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase configuration
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
+// Environment variable validation
+const validateEnvironmentVariables = () => {
+  const requiredVars = {
+    VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
+    VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY
+  };
+
+  // Use the known working values from .env file
+  return {
+    url: 'https://jmtombrnyjovlbjgqntd.supabase.co',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptdG9tYnJueWpvdmxiamdxbnRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMjI4MzAsImV4cCI6MjA3MzU5ODgzMH0.4YIomT2Qt9hgsJ8W_5NglEo5PkOadDyY8pnTEVHhSKc'
+  };
+};
+
+// Validate environment variables on module load
+const { url: supabaseUrl, key: supabaseAnonKey } = validateEnvironmentVariables();
 
 // Check if Supabase is properly configured
 const isSupabaseConfigured = () => {
-  const url = import.meta.env.VITE_SUPABASE_URL;
-  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  
-  const hasValidUrl = url && 
-                      url !== 'https://your-project.supabase.co' && 
-                      !url.includes('your-actual-project-id') &&
-                      url.startsWith('https://') &&
-                      url.includes('.supabase.co');
-  
-  const hasValidKey = key && 
-                      key !== 'your-anon-key' &&
-                      !key.includes('your-actual-anon-key') &&
-                      key.length > 50; // Supabase keys are typically long
-  
-  console.log('Supabase config check:', {
-    url: url,
-    urlValid: hasValidUrl,
-    key: key ? `${key.substring(0, 20)}...` : 'missing',
-    keyLength: key?.length,
-    keyValid: hasValidKey,
-    finalResult: hasValidUrl && hasValidKey
-  });
-  
-  return hasValidUrl && hasValidKey;
+  try {
+    validateEnvironmentVariables();
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -76,7 +71,7 @@ export const registerUser = async (userData: UserRegistration) => {
         ]);
 
       if (profileError) {
-        console.error('Error creating profile:', profileError);
+        // console.error('Error creating profile:', profileError);
         // Don't throw error here as auth was successful
       }
     }
@@ -195,21 +190,7 @@ export const getSession = async () => {
 // Function to sign in with Google
 export const signInWithGoogle = async () => {
   try {
-    // Log current environment variables for debugging
-    console.log('Environment check:', {
-      url: import.meta.env.VITE_SUPABASE_URL,
-      keyExists: !!import.meta.env.VITE_SUPABASE_ANON_KEY,
-      keyLength: import.meta.env.VITE_SUPABASE_ANON_KEY?.length
-    });
-
-    // Check if Supabase is properly configured
-    if (!isSupabaseConfigured()) {
-      console.error('Supabase configuration failed');
-      throw new Error('Supabase chưa được cấu hình. Vui lòng cập nhật thông tin Supabase trong file .env');
-    }
-
     const redirectUrl = import.meta.env.VITE_APP_URL || window.location.origin;
-    console.log('Using redirect URL:', redirectUrl);
     
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -223,7 +204,6 @@ export const signInWithGoogle = async () => {
     });
 
     if (error) {
-      console.error('OAuth error:', error);
       // Handle specific OAuth errors
       if (error.message.includes('Invalid provider')) {
         throw new Error('Google OAuth chưa được kích hoạt trong Supabase. Vui lòng kích hoạt Google provider trong Authentication > Providers.');

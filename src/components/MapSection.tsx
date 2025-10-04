@@ -627,6 +627,7 @@ Hẹn gặp bạn tại Tà Xùa!
                             placeholder="Nhập email của bạn"
                             value={userEmail}
                             onChange={(e) => setUserEmail(e.target.value)}
+                            aria-label="Email để nhận thông tin bản đồ"
                           />
                           <Button 
                             onClick={sendToEmail}

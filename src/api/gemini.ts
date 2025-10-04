@@ -48,13 +48,17 @@ export const generatePromptWithGemini = async (systemPrompt: string, context: an
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Gemini API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+      const errorMessage = `Gemini API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`;
+      console.error('Gemini API Error:', errorMessage);
+      throw new Error(errorMessage);
     }
 
     const data: GeminiResponse = await response.json();
     
     if (!data.candidates || data.candidates.length === 0) {
-      throw new Error('No response generated from Gemini API');
+      const errorMessage = 'No response generated from Gemini API';
+      console.error('Gemini API Error:', errorMessage);
+      throw new Error(errorMessage);
     }
 
     const generatedText = data.candidates[0].content.parts[0].text;

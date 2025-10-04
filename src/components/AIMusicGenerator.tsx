@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Music, Download, Play, Pause, Loader2, Sparkles, Wand2 } from 'lucide-react';
 import AIPromptGenerator from './AIPromptGenerator';
+import { useErrorToast } from '@/hooks/useErrorToast';
 
 interface GeneratedMusic {
   id: string;
@@ -22,6 +23,7 @@ const AIMusicGenerator = () => {
   const [generatedMusic, setGeneratedMusic] = useState<GeneratedMusic[]>([]);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const { showNetworkError, showError } = useErrorToast();
 
   const generateMusic = async () => {
     if (!prompt.trim()) return;
@@ -158,6 +160,14 @@ const AIMusicGenerator = () => {
     } catch (error) {
       console.error('Error generating music:', error);
       const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi tạo nhạc';
+      
+      // Show user-friendly error toast
+      if (error instanceof Error && error.message.includes('fetch')) {
+        showNetworkError();
+      } else {
+        showError('Không thể tạo nhạc. Vui lòng thử lại sau.');
+      }
+      
       setGeneratedMusic(prev => 
         prev.map(music => 
           music.id === tempId 

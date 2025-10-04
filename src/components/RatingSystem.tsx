@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Star, User, ThumbsUp, MessageCircle, Calendar, MapPin } from 'lucide-react';
 
@@ -191,20 +192,22 @@ const RatingSystem: React.FC<RatingSystemProps> = ({
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <Label htmlFor="userName" className="block text-sm font-medium mb-2">
                   Tên của bạn *
-                </label>
+                </Label>
                 <Input
+                  id="userName"
                   placeholder="Nhập tên của bạn"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <Label htmlFor="userLocation" className="block text-sm font-medium mb-2">
                   Đến từ
-                </label>
+                </Label>
                 <Input
+                  id="userLocation"
                   placeholder="Thành phố, tỉnh"
                   value={userLocation}
                   onChange={(e) => setUserLocation(e.target.value)}

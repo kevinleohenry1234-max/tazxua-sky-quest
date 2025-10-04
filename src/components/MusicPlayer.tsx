@@ -116,6 +116,7 @@ const MusicPlayer = ({
                       onTrackChange(track.id);
                       onPlayPause();
                     }}
+                    aria-label={`Phát ${track.title}`}
                   >
                     <Play className="w-4 h-4" />
                   </Button>
@@ -189,6 +190,7 @@ const MusicPlayer = ({
               size="sm"
               onClick={handlePrevious}
               className="text-white hover:bg-white/20"
+              aria-label="Bài trước"
             >
               <SkipBack className="w-5 h-5" />
             </Button>
@@ -198,6 +200,7 @@ const MusicPlayer = ({
               size="lg"
               onClick={onPlayPause}
               className="text-white hover:bg-white/20 rounded-full w-12 h-12"
+              aria-label={isPlaying ? "Tạm dừng" : "Phát nhạc"}
             >
               {isPlaying ? (
                 <Pause className="w-6 h-6" />
@@ -211,6 +214,7 @@ const MusicPlayer = ({
               size="sm"
               onClick={handleNext}
               className="text-white hover:bg-white/20"
+              aria-label="Bài tiếp theo"
             >
               <SkipForward className="w-5 h-5" />
             </Button>
@@ -223,6 +227,7 @@ const MusicPlayer = ({
               size="sm"
               onClick={() => setIsMuted(!isMuted)}
               className="text-white hover:bg-white/20"
+              aria-label={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
             >
               {isMuted ? (
                 <VolumeX className="w-4 h-4" />
