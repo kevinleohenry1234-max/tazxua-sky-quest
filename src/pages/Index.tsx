@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import CategoryCards from '@/components/CategoryCards';
@@ -8,6 +9,7 @@ import UserDashboard from '@/components/UserDashboard';
 import RegisterModal, { RegisterData } from '@/components/RegisterModal';
 import LoginModal, { LoginData } from '@/components/LoginModal';
 import ImagePreloader from '@/components/ImagePreloader';
+import BackgroundSlider from '@/components/BackgroundSlider';
 import { registerUser, signInUser, signOut, getSession, onAuthStateChange } from '@/lib/supabase';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
@@ -165,35 +167,8 @@ const Index = () => {
         </div>
       ) : (
         <>
-          {/* Enhanced Background with Tà Xùa mountain scenery and hero-inspired gradient */}
-          <div 
-            className="fixed inset-0 z-0"
-            style={{
-              backgroundImage: `
-                linear-gradient(135deg, 
-                  rgba(30, 58, 138, 0.15) 0%, 
-                  rgba(79, 70, 229, 0.12) 25%, 
-                  rgba(147, 51, 234, 0.10) 50%, 
-                  rgba(30, 41, 59, 0.20) 75%, 
-                  rgba(15, 23, 42, 0.30) 100%
-                ),
-                linear-gradient(to bottom, 
-                  rgba(0, 0, 0, 0.1) 0%, 
-                  rgba(0, 0, 0, 0.3) 50%, 
-                  rgba(15, 23, 42, 0.8) 100%
-                ),
-                url('/Địa điểm lưu trú/1941M Homestay Tà Xùa/PHOTO /Xung quanh /1.webp'), 
-                url('/Địa điểm lưu trú/Tà Xùa Ecolodge /Photo/Ngoại thất /1.webp')
-              `,
-              backgroundSize: 'cover, cover, cover, cover',
-              backgroundPosition: 'center, center, center, center',
-              backgroundAttachment: 'fixed',
-              backgroundBlendMode: 'overlay, multiply, normal, normal'
-            }}
-          />
-          
-          {/* Dynamic gradient overlay that matches hero section colors */}
-          <div className="fixed inset-0 z-1 bg-gradient-to-b from-slate-900/20 via-blue-900/10 to-slate-900/60" />
+          {/* Dynamic Background Slider with Tà Xùa Images */}
+          <BackgroundSlider autoPlay={true} interval={8000} />
           
           <div className="relative z-10">
             <Header 
