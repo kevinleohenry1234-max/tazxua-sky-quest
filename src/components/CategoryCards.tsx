@@ -1,101 +1,104 @@
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight } from 'lucide-react';
-import LazyImage from '@/components/LazyImage';
-import homestayImage from '@/assets/homestay-taxua.jpg';
-import dragonSpineImage from '@/assets/dragon-spine.jpg';
-import localCuisineImage from '@/assets/local-cuisine.jpg';
-import taxuaMountainBg from '@/assets/taxua-mountain-bg.svg';
+import { Button } from '@/components/ui/button';
+import { 
+  Mountain, 
+  Home, 
+  Coffee, 
+  Camera, 
+  TreePine, 
+  MapPin,
+  Compass,
+  Users
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CategoryCards = () => {
+  const navigate = useNavigate();
+
   const categories = [
     {
-      id: 'accommodation',
-      title: 'Địa Điểm Lưu Trú',
-      description: 'Khám phá những homestay và resort tuyệt đẹp giữa lòng núi rừng Tà Xùa',
-      image: homestayImage,
-      link: '/accommodation',
-      color: 'from-blue-600/80 to-purple-600/80',
-    },
-    {
       id: 'attractions',
-      title: 'Địa Điểm Nổi Bật',
-      description: 'Tham quan các danh lam thắng cảnh nổi tiếng như Sống Lưng Khủng Long',
-      image: dragonSpineImage,
-      link: '/attractions',
-      color: 'from-purple-600/80 to-slate-700/80',
+      title: 'Điểm Tham Quan',
+      description: 'Khám phá những cảnh đẹp nổi tiếng của Tà Xùa',
+      icon: Mountain,
+      color: 'bg-gradient-to-br from-blue-500 to-blue-600',
+      path: '/attractions'
     },
     {
-      id: 'culture',
-      title: 'Thông Tin Chung',
-      description: 'Tìm hiểu về văn hóa, lịch sử và ẩm thực đặc sắc của vùng đất Tà Xùa',
-      image: localCuisineImage,
-      link: '/about',
-      color: 'from-slate-700/80 to-blue-600/80',
+      id: 'accommodation',
+      title: 'Lưu Trú',
+      description: 'Homestay và khách sạn chất lượng cao',
+      icon: Home,
+      color: 'bg-gradient-to-br from-green-500 to-green-600',
+      path: '/accommodation'
     },
+    {
+      id: 'experience',
+      title: 'Trải Nghiệm',
+      description: 'Hoạt động và văn hóa địa phương',
+      icon: Camera,
+      color: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      path: '/experience'
+    },
+    {
+      id: 'explore',
+      title: 'Khám Phá',
+      description: 'Tìm hiểu sâu về vùng đất Tà Xùa',
+      icon: Compass,
+      color: 'bg-gradient-to-br from-orange-500 to-orange-600',
+      path: '/explore'
+    }
   ];
 
-  const handleCategoryClick = (link: string) => {
-    window.location.href = link;
+  const handleCategoryClick = (path: string) => {
+    navigate(path);
   };
 
   return (
-    <section 
-      id="discover" 
-      className="py-20 relative overflow-hidden"
-      style={{
-        backgroundImage: `url(${taxuaMountainBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 drop-shadow-lg">
+    <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white mb-4">
             Khám Phá Tà Xùa
           </h2>
-          <p className="font-inter text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-md">
-            Hãy cùng chúng tôi khám phá những điều kỳ diệu mà Tà Xùa mang lại
+          <p className="font-inter text-lg text-gray-300 max-w-2xl mx-auto">
+            Chọn danh mục để bắt đầu hành trình khám phá vùng đất thiêng liêng này
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {categories.map((category, index) => (
-            <Card
-              key={category.id}
-              className="group cursor-pointer overflow-hidden border-0 shadow-soft hover:shadow-medium transition-all duration-500 hover:-translate-y-2"
-              onClick={() => handleCategoryClick(category.link)}
-            >
-              <div className="relative h-64 overflow-hidden">
-                <LazyImage
-                  src={category.image}
-                  alt={category.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60 group-hover:opacity-40 transition-opacity duration-300`} />
-                
-                {/* Overlay Content */}
-                <div className="absolute inset-0 flex items-end p-6">
-                  <div className="text-white">
-                    <h3 className="font-playfair text-xl md:text-2xl font-bold mb-2">
-                      {category.title}
-                    </h3>
-                    <div className="flex items-center text-white/90 group-hover:text-white transition-colors duration-300">
-                      <span className="font-inter text-sm">Khám phá thêm</span>
-                      <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {categories.map((category) => {
+            const IconComponent = category.icon;
+            return (
+              <Card 
+                key={category.id} 
+                className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer bg-white/10 backdrop-blur-sm border-white/20"
+                onClick={() => handleCategoryClick(category.path)}
+              >
+                <CardContent className="p-6 text-center">
+                  <div className={`w-16 h-16 ${category.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-8 h-8 text-white" />
                   </div>
-                </div>
-              </div>
-
-              <CardContent className="p-6">
-                <p className="font-inter text-muted-foreground leading-relaxed">
-                  {category.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+                  
+                  <h3 className="font-playfair text-xl font-bold text-white mb-2 group-hover:text-blue-200 transition-colors">
+                    {category.title}
+                  </h3>
+                  
+                  <p className="font-inter text-gray-300 text-sm mb-4 group-hover:text-gray-200 transition-colors">
+                    {category.description}
+                  </p>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="w-full bg-white/20 border-white/30 text-white hover:bg-white/30 hover:border-white/50 transition-all duration-300"
+                  >
+                    Khám Phá
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>

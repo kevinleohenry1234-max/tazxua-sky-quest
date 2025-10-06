@@ -10,6 +10,7 @@ import RegisterModal, { RegisterData } from '@/components/RegisterModal';
 import LoginModal, { LoginData } from '@/components/LoginModal';
 import ImagePreloader from '@/components/ImagePreloader';
 import BackgroundSlider from '@/components/BackgroundSlider';
+import TaXuaGreenModel from '@/components/TaXuaGreenModel';
 import { registerUser, signInUser, signOut, getSession, onAuthStateChange } from '@/lib/supabase';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
@@ -182,6 +183,9 @@ const Index = () => {
             
             <main>
               <HeroSection />
+              
+              {/* Mô hình Tà Xùa Xanh */}
+              <TaXuaGreenModel />
               
               {/* Enhanced seamless transition section with hero-inspired gradients */}
               <div className="bg-gradient-to-b from-slate-900/95 via-blue-950/90 to-slate-950/95 backdrop-blur-sm">

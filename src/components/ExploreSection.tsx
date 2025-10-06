@@ -19,6 +19,7 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import taxuaMountainBg from '@/assets/taxua-mountain-bg.svg';
+import AttractionImageSlider from '@/components/AttractionImageSlider';
 
 const ExploreSection = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -27,63 +28,129 @@ const ExploreSection = () => {
   const locations = [
     {
       id: 1,
+      name: 'Cây Cô Đơn',
+      category: 'mountain',
+      description: 'Cây cô đơn Tà Xùa là một cây thông cổ thụ mọc lẻ loi trên đỉnh núi, trở thành biểu tượng nổi tiếng của vùng đất này.',
+      images: [
+        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-1.png',
+        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-3.png',
+        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-4.png',
+        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-5.png',
+        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-6.png',
+        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-san-may-1699831582.png'
+      ],
+      difficulty: 'Trung bình',
+      duration: '3-4 giờ',
+      rating: 4.8,
+      coordinates: '21.3167°N, 103.7667°E',
+      highlights: ['Biểu tượng Tà Xùa', 'Điểm check-in nổi tiếng', 'Cảnh hoàng hôn tuyệt đẹp'],
+      bestTime: 'Sáng sớm và chiều tà',
+      information: {
+        introduction: 'Cây cô đơn Tà Xùa là một cây thông cổ thụ mọc lẻ loi trên đỉnh núi cao 2.865m, đã trở thành biểu tượng nổi tiếng và là điểm đến không thể bỏ qua khi đến với Tà Xùa.',
+        whyFamous: 'Nổi tiếng với vẻ đẹp cô đơn, kiêu hãnh giữa biển mây bồng bềnh và là điểm chụp ảnh "sống ảo" được yêu thích nhất tại Tà Xùa.',
+        bestTimeToVisit: 'Thời điểm đẹp nhất là vào sáng sớm (5-7h) để ngắm bình minh và chiều tà (16-18h) để thưởng ngoạn hoàng hôn.',
+        tips: 'Nên mang theo áo ấm, giày trekking và máy ảnh. Thời tiết có thể thay đổi nhanh chóng.'
+      }
+    },
+    {
+      id: 2,
+      name: 'Đỉnh Gió Tà Xùa',
+      category: 'mountain',
+      description: 'Đỉnh Gió là một trong những điểm ngắm mây đẹp nhất Tà Xùa, nơi có thể chiêm ngưỡng toàn cảnh dãy núi hùng vĩ.',
+      images: [
+        '/Attractions/Dinh_Gio_Ta_Xua/images/Dinh-gio-Ta-Xua-1.png',
+        '/Attractions/Dinh_Gio_Ta_Xua/images/Dinh-gio-Ta-Xua-2.png',
+        '/Attractions/Dinh_Gio_Ta_Xua/images/065127cce66edb405cbeaff03a3a23cb.png',
+        '/Attractions/Dinh_Gio_Ta_Xua/images/585f1a8ed209574c1ddbe1546376d356.png',
+        '/Attractions/Dinh_Gio_Ta_Xua/images/8091de567e214f83dd98f3c8e4e8f5e2.png'
+      ],
+      difficulty: 'Dễ',
+      duration: '2-3 giờ',
+      rating: 4.7,
+      coordinates: '21.3200°N, 103.7700°E',
+      highlights: ['Điểm ngắm mây tuyệt đẹp', 'Gần các điểm tham quan khác', 'Thích hợp chụp ảnh'],
+      bestTime: 'Sáng sớm',
+      information: {
+        location: 'Đỉnh Gió nằm ở độ cao khoảng 2.400m, là một trong những điểm cao thuận tiện để tiếp cận từ khu vực trung tâm Tà Xùa.',
+        attractions: 'Điểm ngắm mây lý tưởng, cơ hội chụp ảnh tuyệt vời và gần với các điểm tham quan khác như Cây Cô Đơn.',
+        experience: 'Thưởng thức trà, cà phê địa phương, chụp ảnh với cảnh quan núi non hùng vĩ và ngắm hoa theo mùa.'
+      }
+    },
+    {
+      id: 3,
+      name: 'Mỏm Cá Heo',
+      category: 'mountain',
+      description: 'Mỏm đá có hình dáng giống như một chú cá heo khổng lồ nhô ra từ sườn núi, tạo nên cảnh quan độc đáo và hùng vĩ.',
+      images: [
+        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155507.png',
+        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155532.png',
+        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155618.png',
+        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155644.png',
+        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155707.png'
+      ],
+      difficulty: 'Khó',
+      duration: '4-5 giờ',
+      rating: 4.6,
+      coordinates: '21.3150°N, 103.7650°E',
+      highlights: ['Hình dáng độc đáo', 'Thử thách leo núi', 'Cảnh quan hùng vĩ'],
+      bestTime: 'Sáng sớm đến trưa',
+      information: {
+        location: 'Mỏm Cá Heo nằm ở độ cao khoảng 2.700m, có hình dáng đặc biệt giống như một chú cá heo khổng lồ.',
+        characteristics: 'Được hình thành từ quá trình phong hóa tự nhiên, tạo nên hình dáng độc đáo và ấn tượng.',
+        attractions: 'Điểm tham quan độc đáo với cảnh quan hùng vĩ, thích hợp cho những ai yêu thích thử thách và khám phá.',
+        bestTimeToVisit: 'Mùa khô từ tháng 10 đến tháng 4 năm sau, thời tiết ổn định và tầm nhìn tốt.'
+      }
+    },
+    {
+      id: 4,
+      name: 'Rừng Nguyên Sinh Tà Xùa',
+      category: 'forest',
+      description: 'Hệ sinh thái rừng nguyên sinh đa dạng với thực vật phong phú và khí hậu mát mẻ quanh năm.',
+      images: [
+        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua.png',
+        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-1.png',
+        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-2.png',
+        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-3.png',
+        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-4.png'
+      ],
+      difficulty: 'Trung bình',
+      duration: '4-6 giờ',
+      rating: 4.5,
+      coordinates: '21.3100°N, 103.7600°E',
+      highlights: ['Hệ sinh thái đa dạng', 'Trekking và cắm trại', 'Vương quốc rêu'],
+      bestTime: 'Cả ngày',
+      information: {
+        ecosystem: 'Hệ sinh thái rừng nguyên sinh với thực vật và động vật đa dạng, khí hậu mát mẻ quanh năm.',
+        experience: 'Trekking khám phá rừng, cắm trại qua đêm, khám phá vương quốc rêu độc đáo.',
+        importantNotes: 'Cần có hướng dẫn viên địa phương, chuẩn bị đầy đủ trang thiết bị, mùa tốt nhất từ tháng 10-4, bảo vệ môi trường.'
+      }
+    },
+    {
+      id: 5,
       name: 'Sống Lưng Khủng Long',
       category: 'mountain',
-      description: 'Địa điểm trekking nổi tiếng nhất Tà Xùa với cảnh quan hùng vĩ',
-      image: 'bg-gradient-to-r from-green-500 via-emerald-600 to-teal-700',
+      description: 'Dãy núi hùng vĩ với hình dáng giống như sống lưng khủng long khổng lồ, điểm đến không thể bỏ qua khi đến Tà Xùa.',
+      images: [
+        '/Attractions/Song_lung_khung_long/images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-02-1662440259.png',
+        '/Attractions/Song_lung_khung_long/images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-03-1662440259.png',
+        '/Attractions/Song_lung_khung_long/images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-04-1662440259.png',
+        '/Attractions/Song_lung_khung_long/images/164b376e3b27d2798b36.png',
+        '/Attractions/Song_lung_khung_long/images/3d432566292fc071993e.png',
+        '/Attractions/Song_lung_khung_long/images/IMG-6630.png'
+      ],
       difficulty: 'Khó',
       duration: '6-8 giờ',
       rating: 4.9,
       coordinates: '21.3167°N, 103.7667°E',
-      highlights: ['Trekking đỉnh cao', 'View 360°', 'Săn mây']
-    },
-    {
-      id: 2,
-      name: 'Đỉnh Phu Sang',
-      category: 'mountain',
-      description: 'Đỉnh núi thứ hai cao nhất với độ khó vừa phải',
-      image: 'bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700',
-      difficulty: 'Trung bình',
-      duration: '4-5 giờ',
-      rating: 4.7,
-      coordinates: '21.3200°N, 103.7700°E',
-      highlights: ['Phù hợp mọi lứa tuổi', 'An toàn', 'Cảnh đẹp']
-    },
-    {
-      id: 3,
-      name: 'Thác Bạc Tà Xùa',
-      category: 'waterfall',
-      description: 'Thác nước tuyệt đẹp giữa rừng nguyên sinh',
-      image: 'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600',
-      difficulty: 'Dễ',
-      duration: '2-3 giờ',
-      rating: 4.5,
-      coordinates: '21.3100°N, 103.7600°E',
-      highlights: ['Nước trong xanh', 'Tắm thác', 'Thư giãn']
-    },
-    {
-      id: 4,
-      name: 'Bản Tà Xùa',
-      category: 'village',
-      description: 'Làng bản H\'Mông truyền thống với văn hóa đặc sắc',
-      image: 'bg-gradient-to-r from-orange-400 via-red-500 to-pink-600',
-      difficulty: 'Dễ',
-      duration: '1-2 giờ',
-      rating: 4.6,
-      coordinates: '21.3050°N, 103.7550°E',
-      highlights: ['Văn hóa bản địa', 'Ẩm thực truyền thống', 'Homestay']
-    },
-    {
-      id: 5,
-      name: 'Cafe Săn Mây',
-      category: 'cafe',
-      description: 'Quán cà phê với view săn mây tuyệt đẹp',
-      image: 'bg-gradient-to-r from-amber-400 via-orange-500 to-red-600',
-      difficulty: 'Dễ',
-      duration: '1 giờ',
-      rating: 4.8,
-      coordinates: '21.3180°N, 103.7650°E',
-      highlights: ['View đẹp', 'Cà phê ngon', 'Check-in']
+      highlights: ['Hình dáng độc đáo', 'Cảnh quan hùng vĩ', 'Điểm check-in nổi tiếng'],
+      bestTime: 'Sáng sớm đến chiều',
+      information: {
+        uniqueShape: 'Dãy núi có hình dáng độc đáo giống như sống lưng của một con khủng long khổng lồ.',
+        scenery: 'Cảnh quan hùng vĩ, tráng lệ với tầm nhìn bao quát toàn bộ vùng núi Tây Bắc.',
+        popularity: 'Là điểm đến nổi tiếng cho việc check-in và chụp ảnh "sống ảo".',
+        challenge: 'Đòi hỏi thể lực tốt và kinh nghiệm trekking do địa hình khó khăn.',
+        bestTimeToVisit: 'Mùa khô từ tháng 10 đến tháng 4, thời tiết ổn định và tầm nhìn tốt.'
+      }
     }
   ];
 
@@ -144,14 +211,12 @@ const ExploreSection = () => {
   const categoryFilters = [
     { id: 'all', name: 'Tất Cả', icon: Filter },
     { id: 'mountain', name: 'Đỉnh Núi', icon: Mountain },
-    { id: 'waterfall', name: 'Thác Nước', icon: TreePine },
-    { id: 'village', name: 'Bản Làng', icon: Home },
-    { id: 'cafe', name: 'Quán Cà Phê', icon: Coffee }
+    { id: 'forest', name: 'Rừng Nguyên Sinh', icon: TreePine }
   ];
 
   const filteredLocations = selectedCategory === 'all' 
-    ? locations.slice(0, 3) // Chỉ hiển thị 3 địa điểm đầu tiên trên trang chủ
-    : locations.filter(location => location.category === selectedCategory).slice(0, 3);
+    ? locations // Hiển thị tất cả 5 địa điểm
+    : locations.filter(location => location.category === selectedCategory);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -234,15 +299,13 @@ const ExploreSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredLocations.map((location) => (
                 <Card key={location.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
-                  <div className={`h-48 ${location.image} flex items-end p-6`}>
-                    <div className="text-white">
-                      <h3 className="font-playfair text-xl font-bold mb-2">{location.name}</h3>
-                      <div className="flex items-center gap-2">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="font-inter text-sm">{location.rating}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <AttractionImageSlider
+                    images={location.images}
+                    attractionName={location.name}
+                    autoPlay={true}
+                    autoPlayInterval={5000}
+                    className="h-48"
+                  />
                   
                   <CardContent className="p-6 space-y-4">
                     <p className="font-inter text-muted-foreground text-sm">
@@ -261,7 +324,14 @@ const ExploreSection = () => {
 
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <MapPin className="w-4 h-4" />
-                      <span className="font-inter">{location.coordinates}</span>
+                      <span className="font-inter">{location.bestTime}</span>
+                    </div>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-2">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className="font-inter text-sm font-semibold">{location.rating}</span>
+                      <span className="font-inter text-xs text-muted-foreground">({location.coordinates})</span>
                     </div>
 
                     {/* Highlights */}

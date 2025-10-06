@@ -24,15 +24,15 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 8.7,
     "price": "1.161.483đ",
     "images": [
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/1%20(1).png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/2%20(1).png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/2.png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/3%20(1).png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/3%20(2).png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/4.png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/5.png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/6.png",
-      "/cơ%20sở%20lưu%20trú/1._1941M_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH/7.png"
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/1%20(1).webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/2%20(1).webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/2.webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/3%20(1).webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/3%20(2).webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/4.webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/5.webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/6.webp",
+      "/Hotel:Homestay/1941M_Homestay_Ta_Xua/accomodation image/7.webp"
     ],
     "amenities": [
       "Wifi miễn phí",
@@ -57,13 +57,13 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-1-1729727990.png",
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-3-1729727990.png",
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-4-1729727990.png",
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-5-1729727990.png",
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-6-1729727990.png",
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-7-1729727990.png",
-      "/cơ%20sở%20lưu%20trú/10._Ta%CC%80_Xu%CC%80a_HillsHomestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-hills-homestay-8-1729727990.png"
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-1-1729727990.webp",
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-3-1729727990.webp",
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-4-1729727990.webp",
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-5-1729727990.webp",
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-6-1729727990.webp",
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-7-1729727990.webp",
+      "/Hotel:Homestay/10_Ta_Xua_HillsHomestay/accomodation image/ta-xua-hills-homestay-8-1729727990.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -78,13 +78,13 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/493413735_1166000528872653_3984986787721757935_n.png",
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/493699503_1166001178872588_2879077469939897091_n.png",
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/493863613_1166001828872523_4434905026459618602_n.png",
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/515436207_1216718253800880_497438973200876913_n.png",
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/545973872_1277607707711934_7752221969796136004_n.png",
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/546512388_1277607627711942_41400486701659528_n.png",
-      "/cơ%20sở%20lưu%20trú/11._Ta%CC%81o_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20132045.png"
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/493413735_1166000528872653_3984986787721757935_n.webp",
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/493699503_1166001178872588_2879077469939897091_n.webp",
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/493863613_1166001828872523_4434905026459618602_n.webp",
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/515436207_1216718253800880_497438973200876913_n.webp",
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/545973872_1277607707711934_7752221969796136004_n.webp",
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/546512388_1277607627711942_41400486701659528_n.webp",
+      "/Hotel:Homestay/11_Tao_Homestay/accomodation image/Screenshot%202025-09-24%20132045.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -99,8 +99,8 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/12._Ngo%CC%82%CC%83ng_Ta%CC%80_Xu%CC%80a_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20171927.png",
-      "/cơ%20sở%20lưu%20trú/12._Ngo%CC%82%CC%83ng_Ta%CC%80_Xu%CC%80a_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20171950.png"
+      "/Hotel:Homestay/12_Ngong_Ta_Xua_Homestay/accomodation image/Screenshot%202025-09-24%20171927.webp",
+      "/Hotel:Homestay/12_Ngong_Ta_Xua_Homestay/accomodation image/Screenshot%202025-09-24%20171950.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -115,8 +115,8 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/13._Tu%CC%81_Mi%CC%89/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20172752.png",
-      "/cơ%20sở%20lưu%20trú/13._Tu%CC%81_Mi%CC%89/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20172813.png"
+      "/Hotel:Homestay/13_Tu_Mi/accomodation image/Screenshot%202025-09-24%20172752.webp",
+      "/Hotel:Homestay/13_Tu_Mi/accomodation image/Screenshot%202025-09-24%20172813.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -131,8 +131,8 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/14._Homestay_Coffee_%C4%90i%CC%89nh_Nu%CC%81i_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173040.png",
-      "/cơ%20sở%20lưu%20trú/14._Homestay_Coffee_%C4%90i%CC%89nh_Nu%CC%81i_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173100.png"
+      "/Hotel:Homestay/14_Homestay_Coffee_Dinh_Nui_Ta_Xua/accomodation image/Screenshot%202025-09-24%20173040.webp",
+      "/Hotel:Homestay/14_Homestay_Coffee_Dinh_Nui_Ta_Xua/accomodation image/Screenshot%202025-09-24%20173100.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -147,8 +147,8 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/15._Anh_Ta%CC%80i_Ma%CC%82y_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173649.png",
-      "/cơ%20sở%20lưu%20trú/15._Anh_Ta%CC%80i_Ma%CC%82y_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/Screenshot%202025-09-24%20173713.png"
+      "/Hotel:Homestay/15_Anh_Tai_May_Homestay/accomodation image/Screenshot%202025-09-24%20173649.webp",
+      "/Hotel:Homestay/15_Anh_Tai_May_Homestay/accomodation image/Screenshot%202025-09-24%20173713.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -163,20 +163,20 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 8.7,
     "price": "1.309.694đ",
     "images": [
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-18d18be4c6b120f8ca5f0e0d411757e0.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-60387cfba1b9871745e7a323b965fe7f.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-682e754fb162a6b32f39bb7c4fe54f88.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-8c08e19834a05bef5d2fc3318718b348.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-962500f35ae7a1760fef5f50d292a3c8.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-a29f46896fb496114c44bbf559c54e1c.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-b60a16fd9f8b854598fd6afe302a5412.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-b63b55d0627f0bfee29b985c39bc24e2.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/67860701-d428b1b247b1217df23cc781d44f0709.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/khu-phong-may-hill-moi-va-dep.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/khu-phong-stone-hien-dai.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/khu-phong-wood-co-kinh.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/nha-hang-cua-may-home-ta-xua-rong-rai-va-sach-se.png",
-      "/cơ%20sở%20lưu%20trú/2._Mayhome_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/phong-tap-the-voi-khu-ve-sinh-ben-ngoai.png"
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-18d18be4c6b120f8ca5f0e0d411757e0.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-60387cfba1b9871745e7a323b965fe7f.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-682e754fb162a6b32f39bb7c4fe54f88.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-8c08e19834a05bef5d2fc3318718b348.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-962500f35ae7a1760fef5f50d292a3c8.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-a29f46896fb496114c44bbf559c54e1c.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-b60a16fd9f8b854598fd6afe302a5412.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-b63b55d0627f0bfee29b985c39bc24e2.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/67860701-d428b1b247b1217df23cc781d44f0709.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/khu-phong-may-hill-moi-va-dep.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/khu-phong-stone-hien-dai.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/khu-phong-wood-co-kinh.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/nha-hang-cua-may-home-ta-xua-rong-rai-va-sach-se.webp",
+      "/Hotel:Homestay/2_Mayhome_Ta_Xua/accomodation image/phong-tap-the-voi-khu-ve-sinh-ben-ngoai.webp"
     ],
     "amenities": [
       "Wifi miễn phí",
@@ -202,25 +202,25 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 8.4,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/1%20(2).png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/10.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/11.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/12.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/13.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/14.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/15.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/16.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/17.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/18.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/19.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/2%20(2).png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/20.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/21.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/3%20(2).png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/6%20(1).png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/7%20(1).png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/8.png",
-      "/cơ%20sở%20lưu%20trú/3._Ta%CC%80_Xu%CC%80a_Ecolodge/H%C3%8CNH%20%E1%BA%A2NH%20/9.png"
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/1%20(2).webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/10.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/11.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/12.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/13.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/14.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/15.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/16.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/17.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/18.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/19.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/2%20(2).webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/20.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/21.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/3%20(2).webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/6%20(1).webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/7%20(1).webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/8.webp",
+      "/Hotel:Homestay/3_Ta_Xua_Ecolodge/accomodation image/9.webp"
     ],
     "amenities": [
       "Wifi miễn phí",
@@ -253,15 +253,15 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 7.6,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/10%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/12%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/13%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/14%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/15%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/16%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/18%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/19%20(1).png",
-      "/cơ%20sở%20lưu%20trú/4._Xoe%CC%80_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/20%20(1).png"
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/10%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/12%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/13%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/14%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/15%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/16%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/18%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/19%20(1).webp",
+      "/Hotel:Homestay/4_Xoe_Homestay/accomodation image/20%20(1).webp"
     ],
     "amenities": [
       "Wifi miễn phí",
@@ -285,10 +285,10 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/OIP%20(1).png",
-      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/OIP%20(2).png",
-      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-clouds-homestay-2-7.png",
-      "/cơ%20sở%20lưu%20trú/5._Ta%CC%80_Xu%CC%80a_Cloud_Homestay/H%C3%8CNH%20%E1%BA%A2NH%20/ta-xua-clouds-homestay-2.png"
+      "/Hotel:Homestay/5_Ta_Xua_Cloud_Homestay/accomodation image/OIP%20(1).webp",
+      "/Hotel:Homestay/5_Ta_Xua_Cloud_Homestay/accomodation image/OIP%20(2).webp",
+      "/Hotel:Homestay/5_Ta_Xua_Cloud_Homestay/accomodation image/ta-xua-clouds-homestay-2-7.webp",
+      "/Hotel:Homestay/5_Ta_Xua_Cloud_Homestay/accomodation image/ta-xua-clouds-homestay-2.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -303,15 +303,15 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481313874_1046416277503557_4466335499524853921_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481770673_1046416127503572_3855041398076964493_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481962814_1046416027503582_7887794603104461349_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/481982148_1046416187503566_4571624593458799346_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482007406_1046416347503550_490472752100543593_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482025098_1046416067503578_5120704064416439771_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482122221_1046416037503581_2293804857776335306_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/482211904_1046416144170237_2901139029293166609_n.png",
-      "/cơ%20sở%20lưu%20trú/6._Mu%CC%80a_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/487857795_1070740248404493_2307201624039183698_n.png"
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/481313874_1046416277503557_4466335499524853921_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/481770673_1046416127503572_3855041398076964493_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/481962814_1046416027503582_7887794603104461349_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/481982148_1046416187503566_4571624593458799346_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/482007406_1046416347503550_490472752100543593_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/482025098_1046416067503578_5120704064416439771_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/482122221_1046416037503581_2293804857776335306_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/482211904_1046416144170237_2901139029293166609_n.webp",
+      "/Hotel:Homestay/6_Mua_Homestay_Ta_Xua/accomodation image/487857795_1070740248404493_2307201624039183698_n.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -326,14 +326,14 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-1-1711325629.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-2-1711325629.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-3-1711325629.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-4-1711325629.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-5-1711325629.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-6-1711325624.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-7-1711325624.png",
-      "/cơ%20sở%20lưu%20trú/7._Mando_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/mando-homestay-8-1711325624.png"
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-1-1711325629.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-2-1711325629.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-3-1711325629.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-4-1711325629.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-5-1711325629.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-6-1711325624.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-7-1711325624.webp",
+      "/Hotel:Homestay/7_Mando_Homestay_Ta_Xua/accomodation image/mando-homestay-8-1711325624.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -348,7 +348,7 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/8._Ta%CC%80_Xu%CC%80a_Ma%CC%82y_Homestay/H%C3%8CNH%20%E1%BA%A2NH/Screenshot%202025-09-24%20131759.png"
+      "/Hotel:Homestay/Ta_Xua_May_Homestay/accomodation image/Screenshot%202025-09-24%20131759.webp"
     ],
     "amenities": [],
     "contact": {},
@@ -363,12 +363,12 @@ export const homestayRealData: HomestayReal[] = [
     "rating": 0,
     "price": "",
     "images": [
-      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/222.png",
-      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/333.png",
-      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/444.png",
-      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/555.png",
-      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/666.png",
-      "/cơ%20sở%20lưu%20trú/9._Ma%CC%82y_Mo%CC%9B_Ma%CC%80ng_Homestay_Ta%CC%80_Xu%CC%80a/H%C3%8CNH%20%E1%BA%A2NH%20/777.png"
+      "/Hotel:Homestay/9_May_Mo_Mang_Homestay_Ta_Xua/accomodation image/222.webp",
+      "/Hotel:Homestay/9_May_Mo_Mang_Homestay_Ta_Xua/accomodation image/333.webp",
+      "/Hotel:Homestay/9_May_Mo_Mang_Homestay_Ta_Xua/accomodation image/444.webp",
+      "/Hotel:Homestay/9_May_Mo_Mang_Homestay_Ta_Xua/accomodation image/555.webp",
+      "/Hotel:Homestay/9_May_Mo_Mang_Homestay_Ta_Xua/accomodation image/666.webp",
+      "/Hotel:Homestay/9_May_Mo_Mang_Homestay_Ta_Xua/accomodation image/777.webp"
     ],
     "amenities": [],
     "contact": {},
