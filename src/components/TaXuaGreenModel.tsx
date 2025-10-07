@@ -214,21 +214,21 @@ const TaXuaGreenModel = () => {
           {activeStep === 2 && (
             <Card className="bg-gradient-to-br from-blue-600/10 to-purple-700/10 backdrop-blur-sm border-blue-500/20">
               <CardContent className="p-8">
-                <h4 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                  <CheckCircle className="w-6 h-6 text-blue-400" />
+                <h4 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                  <CheckCircle className="w-6 h-6 text-blue-600" />
                   Cơ Chế Tích Điểm
                 </h4>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <h5 className="text-xl font-semibold text-white mb-4">Quy trình xác minh:</h5>
+                    <h5 className="text-xl font-semibold text-slate-800 mb-4">Quy trình xác minh:</h5>
                     <div className="space-y-4">
                       <div className="flex items-start gap-3">
                         <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                           <span className="text-white text-sm font-bold">1</span>
                         </div>
                         <div>
-                          <p className="text-white font-medium">Chụp ảnh hoạt động</p>
-                          <p className="text-gray-100 text-sm font-medium">Ghi lại hình ảnh thực hiện hoạt động xanh</p>
+                          <p className="text-slate-800 font-semibold">Chụp ảnh hoạt động</p>
+                          <p className="text-slate-700 text-sm font-medium">Ghi lại hình ảnh thực hiện hoạt động xanh</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
@@ -236,8 +236,8 @@ const TaXuaGreenModel = () => {
                           <span className="text-white text-sm font-bold">2</span>
                         </div>
                         <div>
-                          <p className="text-white font-medium">Xác minh bởi staff</p>
-                          <p className="text-gray-100 text-sm font-medium">Nhân viên hoặc cộng đồng xác nhận hoạt động</p>
+                          <p className="text-slate-800 font-semibold">Xác minh bởi staff</p>
+                          <p className="text-slate-700 text-sm font-medium">Nhân viên hoặc cộng đồng xác nhận hoạt động</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
@@ -245,27 +245,27 @@ const TaXuaGreenModel = () => {
                           <span className="text-white text-sm font-bold">3</span>
                         </div>
                         <div>
-                          <p className="text-white font-medium">Cộng điểm tự động</p>
-                          <p className="text-gray-100 text-sm font-medium">Hệ thống cập nhật điểm vào tài khoản</p>
+                          <p className="text-slate-800 font-semibold">Cộng điểm tự động</p>
+                          <p className="text-slate-700 text-sm font-medium">Hệ thống cập nhật điểm vào tài khoản</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <h5 className="text-xl font-semibold text-white mb-4">Thang điểm:</h5>
-                    <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <h5 className="text-xl font-semibold text-slate-800 mb-4">Thang điểm:</h5>
+                    <div className="bg-white/90 rounded-lg p-6 border border-slate-300">
                       <div className="space-y-3">
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-100 font-medium">Hoạt động cơ bản</span>
-                          <span className="text-green-400 font-medium">5-15 điểm</span>
+                          <span className="text-slate-700 font-medium">Hoạt động cơ bản</span>
+                          <span className="text-green-600 font-semibold">5-15 điểm</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-100 font-medium">Hoạt động nâng cao</span>
-                          <span className="text-blue-400 font-medium">20-30 điểm</span>
+                          <span className="text-slate-700 font-medium">Hoạt động nâng cao</span>
+                          <span className="text-blue-600 font-semibold">20-30 điểm</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-100 font-medium">Dự án lớn</span>
-                          <span className="text-purple-400 font-medium">50+ điểm</span>
+                          <span className="text-slate-700 font-medium">Dự án lớn</span>
+                          <span className="text-purple-600 font-semibold">50+ điểm</span>
                         </div>
                       </div>
                     </div>
@@ -336,14 +336,14 @@ const TaXuaGreenModel = () => {
         </div>
 
         {/* Cộng đồng xanh */}
-        <Card className="bg-gradient-to-br from-green-600/10 to-blue-700/10 backdrop-blur-sm border-green-500/20">
+        <Card className="bg-white/95 backdrop-blur-sm border-slate-300 shadow-xl">
           <CardContent className="p-8">
             <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-                <Share2 className="w-8 h-8 text-green-400" />
+              <h3 className="text-3xl font-bold text-slate-800 mb-4 flex items-center justify-center gap-3">
+                <Share2 className="w-8 h-8 text-green-600" />
                 Cộng Đồng Xanh Tà Xùa
               </h3>
-              <p className="text-xl text-gray-100 max-w-2xl mx-auto font-medium">
+              <p className="text-xl text-slate-700 max-w-2xl mx-auto font-medium">
                 Chia sẻ hành trình bảo vệ môi trường của bạn và kết nối với cộng đồng yêu thiên nhiên
               </p>
             </div>
@@ -353,37 +353,37 @@ const TaXuaGreenModel = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Camera className="w-8 h-8 text-white" />
                 </div>
-                <h4 className="text-lg font-semibold text-white mb-2">Chia sẻ hình ảnh</h4>
-                <p className="text-gray-100 text-sm font-medium">Đăng ảnh hoạt động xanh với hashtag #TaXuaXanh</p>
+                <h4 className="text-lg font-semibold text-slate-800 mb-2">Chia sẻ hình ảnh</h4>
+                <p className="text-slate-700 text-sm font-medium">Đăng ảnh hoạt động xanh với hashtag #TaXuaXanh</p>
               </div>
               
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-8 h-8 text-white" />
                 </div>
-                <h4 className="text-lg font-semibold text-white mb-2">Kết nối cộng đồng</h4>
-                <p className="text-gray-100 text-sm font-medium">Tham gia nhóm và sự kiện bảo vệ môi trường</p>
+                <h4 className="text-lg font-semibold text-slate-800 mb-2">Kết nối cộng đồng</h4>
+                <p className="text-slate-700 text-sm font-medium">Tham gia nhóm và sự kiện bảo vệ môi trường</p>
               </div>
               
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Award className="w-8 h-8 text-white" />
                 </div>
-                <h4 className="text-lg font-semibold text-white mb-2">Nhận danh hiệu</h4>
-                <p className="text-gray-100 text-sm font-medium">Đạt các cấp độ: Người bạn xanh, Đại sứ môi trường</p>
+                <h4 className="text-lg font-semibold text-slate-800 mb-2">Nhận danh hiệu</h4>
+                <p className="text-slate-700 text-sm font-medium">Đạt các cấp độ: Người bạn xanh, Đại sứ môi trường</p>
               </div>
               
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="w-8 h-8 text-white" />
                 </div>
-                <h4 className="text-lg font-semibold text-white mb-2">Truyền cảm hứng</h4>
-                <p className="text-gray-100 text-sm font-medium">Lan tỏa tinh thần bảo vệ môi trường</p>
+                <h4 className="text-lg font-semibold text-slate-800 mb-2">Truyền cảm hứng</h4>
+                <p className="text-slate-700 text-sm font-medium">Lan tỏa tinh thần bảo vệ môi trường</p>
               </div>
             </div>
             
             <div className="text-center mt-8">
-              <Button className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white px-8 py-3 text-lg">
+              <Button className="bg-gradient-to-r from-green-600 to-blue-700 hover:from-green-700 hover:to-blue-800 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 Tham gia ngay
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>

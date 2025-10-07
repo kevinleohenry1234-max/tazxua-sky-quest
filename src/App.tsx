@@ -13,6 +13,10 @@ import Explore from "./pages/Explore";
 import Safety from "./pages/Safety";
 import Contact from "./pages/Contact";
 import Accommodation from "./pages/Accommodation";
+import DigitalExhibition from "./pages/DigitalExhibition";
+import ExhibitionMusic from '@/pages/ExhibitionMusic';
+import ExhibitionCuisine from '@/pages/ExhibitionCuisine';
+import ExhibitionAI from '@/pages/ExhibitionAI';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +34,10 @@ const App = () => (
         <Route path="/safety" element={<Safety />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/accommodation" element={<Accommodation />} />
+        <Route path="/trien-lam" element={<DigitalExhibition />} />
+        <Route path="/trien-lam/am-nhac" element={<ExhibitionMusic />} />
+        <Route path="/trien-lam/am-thuc" element={<ExhibitionCuisine />} />
+        <Route path="/trien-lam/sang-tao-ai" element={<ExhibitionAI />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

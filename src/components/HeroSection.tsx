@@ -10,6 +10,7 @@ import { useTranslation } from '@/lib/i18n';
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -49,6 +50,13 @@ const HeroSection = () => {
     return () => clearInterval(timer);
   }, [slides.length]);
 
+  // Parallax scroll effect
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToDiscover = () => {
     const discoverSection = document.getElementById('discover');
     discoverSection?.scrollIntoView({ behavior: 'smooth' });
@@ -60,85 +68,107 @@ const HeroSection = () => {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      {/* Background Images with Parallax Effect */}
+      {/* Background Images with Enhanced Parallax Effect */}
       {slides.map((slide, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-all duration-1500 ${
             index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
+          style={{
+            transform: `translateY(${scrollY * 0.5}px)`,
+          }}
         >
           <LazyImage
             src={slide.image}
             alt={slide.title}
-            className="w-full h-full object-cover transform transition-transform duration-[6000ms] ease-out"
+            className="w-full h-[120%] object-cover transform transition-transform duration-[8000ms] ease-out"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/70" />
         </div>
       ))}
 
-      {/* Animated Particles */}
+      {/* Cinematic Light Rays */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-white/30 via-white/10 to-transparent transform rotate-12 animate-pulse"></div>
+        <div className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-white/20 via-white/5 to-transparent transform -rotate-12 animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(30)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full animate-pulse"
+            className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
+              animationDelay: `${Math.random() * 4}s`,
+              animationDuration: `${3 + Math.random() * 4}s`,
             }}
           />
         ))}
       </div>
 
-      {/* Main Content */}
+      {/* Main Content with Cinematic Typography */}
       <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
-        <div className="container mx-auto px-4 max-w-5xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6 animate-fade-in">
-            <Mountain className="w-4 h-4 text-yellow-400" />
-            <span className="text-sm font-medium">{slides[currentSlide].highlight}</span>
+        <div className="w-full px-8 max-w-7xl mx-auto">
+          {/* Cinematic Badge */}
+          <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 mb-12 animate-fade-in shadow-2xl">
+            <Mountain className="w-5 h-5 text-amber-400" />
+            <span className="text-base font-medium tracking-wide">{slides[currentSlide].highlight}</span>
           </div>
 
-          {/* Main Title */}
-          <h1 className="font-playfair text-5xl md:text-7xl lg:text-8xl font-bold mb-6 animate-fade-in text-white drop-shadow-2xl leading-tight">
-            <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+          {/* Dramatic Main Title - Playfair Display */}
+          <h1 className="font-playfair text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold mb-8 animate-fade-in leading-[0.9] tracking-tight">
+            <span 
+              className="bg-gradient-to-r from-white via-blue-50 to-purple-100 bg-clip-text text-transparent drop-shadow-2xl"
+              style={{
+                textShadow: '0 0 40px rgba(255,255,255,0.3), 0 0 80px rgba(255,255,255,0.1)',
+              }}
+            >
               {slides[currentSlide].title}
             </span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="font-inter text-xl md:text-2xl lg:text-3xl mb-8 text-white/95 max-w-3xl mx-auto animate-fade-in drop-shadow-lg leading-relaxed">
-            {slides[currentSlide].subtitle}
-          </p>
+          {/* Cinematic Subtitle with Increased Whitespace */}
+          <div className="mb-16 px-4">
+            <p className="font-inter text-xl md:text-3xl lg:text-4xl text-white/90 max-w-5xl mx-auto animate-fade-in leading-relaxed tracking-wide font-light">
+              {slides[currentSlide].subtitle}
+            </p>
+          </div>
 
-          {/* CTA Button */}
-          <div className="flex justify-center items-center mb-12 animate-fade-in">
+          {/* Enhanced CTA Button */}
+          <div className="flex justify-center items-center mb-20 animate-fade-in">
             <Button
               size="lg"
               onClick={handleExploreClick}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl border-0 rounded-full group"
+              className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white px-12 py-6 text-xl font-semibold transition-all duration-500 hover:scale-110 shadow-2xl border-0 rounded-full group backdrop-blur-sm"
+              style={{
+                boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 0 60px rgba(59, 130, 246, 0.3)',
+              }}
             >
               Khám Phá Ngay
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto animate-fade-in">
+          {/* Redesigned Stats with More Whitespace */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto animate-fade-in">
             {stats.map((stat, index) => {
               const IconComponent = stat.icon;
               return (
                 <div
                   key={index}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center hover:bg-white/15 transition-all duration-300 hover:scale-105"
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl group"
+                  style={{
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                  }}
                 >
-                  <IconComponent className="w-8 h-8 mx-auto mb-2 text-yellow-400" />
-                  <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-sm text-white/80">{stat.label}</div>
+                  <IconComponent className="w-10 h-10 mx-auto mb-4 text-amber-400 group-hover:scale-110 transition-transform duration-300" />
+                  <div className="text-3xl font-bold text-white mb-2 font-playfair">{stat.value}</div>
+                  <div className="text-sm text-white/70 font-inter tracking-wide">{stat.label}</div>
                 </div>
               );
             })}
@@ -147,16 +177,16 @@ const HeroSection = () => {
       </div>
 
       {/* Enhanced Slide Indicators */}
-      <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="flex space-x-3">
+      <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="flex space-x-4">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`relative transition-all duration-300 ${
+              className={`relative transition-all duration-500 ${
                 index === currentSlide
-                  ? 'w-8 h-3 bg-white rounded-full shadow-lg'
-                  : 'w-3 h-3 bg-white/50 rounded-full hover:bg-white/75'
+                  ? 'w-12 h-4 bg-white/80 rounded-full shadow-xl'
+                  : 'w-4 h-4 bg-white/30 rounded-full hover:bg-white/50'
               }`}
             >
               {index === currentSlide && (
@@ -167,18 +197,18 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Down Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+      {/* Cinematic Scroll Down Indicator */}
+      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
         <button
           onClick={scrollToDiscover}
-          className="text-white/90 hover:text-white transition-all duration-300 bg-white/10 backdrop-blur-md rounded-full p-3 border border-white/20 hover:bg-white/20 hover:scale-110"
+          className="text-white/80 hover:text-white transition-all duration-500 bg-white/5 backdrop-blur-xl rounded-full p-4 border border-white/10 hover:bg-white/10 hover:scale-125 shadow-2xl"
         >
-          <ChevronDown className="w-6 h-6" />
+          <ChevronDown className="w-8 h-8" />
         </button>
       </div>
 
-      {/* Gradient Overlay at Bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent z-5"></div>
+      {/* Enhanced Gradient Overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent z-5"></div>
     </section>
   );
 };

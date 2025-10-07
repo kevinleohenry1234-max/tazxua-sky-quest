@@ -181,16 +181,26 @@ const Index = () => {
               onLogoutClick={handleLogout}
             />
             
-            <main>
+            <main className="w-full">
+              {/* Full-width Hero Section */}
               <HeroSection />
               
-              {/* Mô hình Tà Xùa Xanh */}
-              <TaXuaGreenModel />
-              
-              {/* Enhanced seamless transition section with hero-inspired gradients */}
-              <div className="bg-gradient-to-b from-slate-900/95 via-blue-950/90 to-slate-950/95 backdrop-blur-sm">
-                <CategoryCards />
-                <ExploreSection />
+              {/* Cinematic Spacing Section with Consistent Background */}
+              <div className="py-32 bg-gradient-to-b from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-sm">
+                {/* Mô hình Tà Xùa Xanh with Enhanced Spacing */}
+                <div className="mb-32">
+                  <TaXuaGreenModel />
+                </div>
+                
+                {/* Category Cards with Full-width Layout */}
+                <div className="mb-32">
+                  <CategoryCards />
+                </div>
+                
+                {/* Explore Section with Enhanced Whitespace */}
+                <div className="mb-16">
+                  <ExploreSection />
+                </div>
               </div>
             </main>
             
