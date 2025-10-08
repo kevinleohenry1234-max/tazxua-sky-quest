@@ -53,8 +53,24 @@ const HeroSection = () => {
   }, []);
 
   const scrollToDiscover = () => {
-    const discoverSection = document.getElementById('discover');
-    discoverSection?.scrollIntoView({ behavior: 'smooth' });
+    const discoverSection = document.getElementById('category-cards-section');
+    if (discoverSection) {
+      discoverSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+      
+      // Highlight the "Khám Phá" category after scrolling
+      setTimeout(() => {
+        const exploreCard = document.querySelector('[data-category="explore"]');
+        if (exploreCard) {
+          exploreCard.classList.add('ring-4', 'ring-orange-400', 'ring-opacity-75');
+          setTimeout(() => {
+            exploreCard.classList.remove('ring-4', 'ring-orange-400', 'ring-opacity-75');
+          }, 3000);
+        }
+      }, 1000);
+    }
   };
 
   const handleExploreClick = () => {
@@ -138,14 +154,14 @@ const HeroSection = () => {
           <div className="flex justify-center items-center mb-20 animate-fade-in">
             <Button
               size="lg"
-              onClick={handleExploreClick}
-              className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white px-12 py-6 text-xl font-semibold transition-all duration-500 hover:scale-110 shadow-2xl border-0 rounded-full group backdrop-blur-sm"
+              onClick={scrollToDiscover}
+              className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-12 py-6 text-xl font-semibold transition-all duration-500 hover:scale-110 shadow-2xl border-0 rounded-full group backdrop-blur-sm"
               style={{
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 0 60px rgba(59, 130, 246, 0.3)',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 0 60px rgba(249, 115, 22, 0.3)',
               }}
             >
               Khám Phá Ngay
-              <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -170,16 +186,6 @@ const HeroSection = () => {
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Cinematic Scroll Down Indicator */}
-      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-        <button
-          onClick={scrollToDiscover}
-          className="text-white/80 hover:text-white transition-all duration-500 bg-white/5 backdrop-blur-xl rounded-full p-4 border border-white/10 hover:bg-white/10 hover:scale-125 shadow-2xl"
-        >
-          <ChevronDown className="w-8 h-8" />
-        </button>
       </div>
 
       {/* Enhanced Gradient Overlay */}

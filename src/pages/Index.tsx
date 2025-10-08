@@ -191,19 +191,14 @@ const Index = () => {
               
               {/* Cinematic Spacing Section with Consistent Background */}
               <div className="py-32 bg-gradient-to-b from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-sm">
-                {/* Mô hình Tà Xùa Xanh with Enhanced Spacing */}
-                <div className="mb-32">
-                  <TaXuaGreenModel />
-                </div>
-                
-                {/* Category Cards with Full-width Layout */}
+                {/* Category Cards with Full-width Layout - Moved to top */}
                 <div className="mb-32">
                   <CategoryCards />
                 </div>
                 
-                {/* Explore Section with Enhanced Whitespace */}
+                {/* Mô hình Tà Xùa Xanh with Enhanced Spacing */}
                 <div className="mb-16">
-                  <ExploreSection />
+                  <TaXuaGreenModel />
                 </div>
               </div>
             </main>
