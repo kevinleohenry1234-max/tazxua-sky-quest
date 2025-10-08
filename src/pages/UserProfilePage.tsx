@@ -335,17 +335,17 @@ const UserProfilePage: React.FC = () => {
                   Tiến độ lên cấp {userProfile.nextLevel?.name || 'Cấp tối đa'}
                 </span>
                 <span className="text-sm text-gray-500">
-                  {progress.currentLevelPoints}/{progress.nextLevelPoints} điểm
+                  {progress.currentLevelPoints}/{userProfile.nextLevel?.minPoints || 0} điểm
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div 
                   className={`bg-gradient-to-r ${currentTheme.gradient} h-3 rounded-full transition-all duration-500`}
-                  style={{ width: `${progress.percentage}%` }}
+                  style={{ width: `${progress.progress}%` }}
                 />
               </div>
               <p className="text-xs text-gray-500 mt-2">
-                Còn {progress.pointsNeeded} điểm nữa để lên cấp
+                Còn {progress.pointsToNext} điểm nữa để lên cấp
               </p>
             </div>
           </div>

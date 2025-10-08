@@ -39,17 +39,17 @@ const UserProfile: React.FC = () => {
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm opacity-90">Tiến độ lên cấp tiếp theo</span>
               <span className="text-sm font-semibold">
-                {progressToNext.pointsNeeded} điểm nữa để lên {userProfile.nextLevel.name}
+                {progressToNext.pointsToNext} điểm nữa để lên {userProfile.nextLevel.name}
               </span>
             </div>
             <div className="w-full bg-white/20 rounded-full h-3">
               <div 
                 className="bg-white rounded-full h-3 transition-all duration-500"
-                style={{ width: `${progressToNext.percentage}%` }}
+                style={{ width: `${progressToNext.progress}%` }}
               />
             </div>
             <div className="text-xs opacity-75 mt-1">
-              {progressToNext.currentLevelPoints} / {progressToNext.nextLevelPoints} điểm
+              {progressToNext.currentLevelPoints} / {userProfile.nextLevel?.minPoints || 0} điểm
             </div>
           </div>
         )}
