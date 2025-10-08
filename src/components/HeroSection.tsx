@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, MapPin, Mountain, Camera, Star, ArrowRight } from 'lucide-react';
+import { ChevronDown, ArrowRight, Mountain } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LazyImage from '@/components/LazyImage';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
@@ -35,12 +35,7 @@ const HeroSection = () => {
     },
   ];
 
-  const stats = [
-    { icon: Mountain, value: '2865m', label: 'Độ cao đỉnh Tà Xùa' },
-    { icon: MapPin, value: '15+', label: 'Điểm check-in' },
-    { icon: Camera, value: '1000+', label: 'Ảnh đẹp mỗi ngày' },
-    { icon: Star, value: '4.9/5', label: 'Đánh giá từ du khách' },
-  ];
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -152,26 +147,6 @@ const HeroSection = () => {
               Khám Phá Ngay
               <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
-          </div>
-
-          {/* Redesigned Stats with More Whitespace */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto animate-fade-in">
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon;
-              return (
-                <div
-                  key={index}
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl group"
-                  style={{
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-                  }}
-                >
-                  <IconComponent className="w-10 h-10 mx-auto mb-4 text-amber-400 group-hover:scale-110 transition-transform duration-300" />
-                  <div className="text-3xl font-bold text-white mb-2 font-playfair">{stat.value}</div>
-                  <div className="text-sm text-white/70 font-inter tracking-wide">{stat.label}</div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>

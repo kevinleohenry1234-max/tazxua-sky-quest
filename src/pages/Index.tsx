@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Header from '@/components/Header';
+import MainNavigation from '@/components/MainNavigation';
 import HeroSection from '@/components/HeroSection';
 import CategoryCards from '@/components/CategoryCards';
 import ExploreSection from '@/components/ExploreSection';
@@ -172,6 +173,9 @@ const Index = () => {
           <BackgroundSlider autoPlay={true} interval={8000} />
           
           <div className="relative z-10">
+            {/* Main Navigation Bar */}
+            <MainNavigation />
+            
             <Header 
               isLoggedIn={isLoggedIn}
               userName={userName}
@@ -181,7 +185,7 @@ const Index = () => {
               onLogoutClick={handleLogout}
             />
             
-            <main className="w-full">
+            <main className="w-full pt-14">
               {/* Full-width Hero Section */}
               <HeroSection />
               

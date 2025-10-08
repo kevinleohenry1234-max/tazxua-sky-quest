@@ -17,6 +17,12 @@ import DigitalExhibition from "./pages/DigitalExhibition";
 import ExhibitionMusic from '@/pages/ExhibitionMusic';
 import ExhibitionCuisine from '@/pages/ExhibitionCuisine';
 import ExhibitionAI from '@/pages/ExhibitionAI';
+import UserProfilePage from './pages/UserProfilePage';
+import ChallengesPage from './pages/ChallengesPage';
+import RewardShop from './pages/RewardShop';
+import Leaderboard from './pages/Leaderboard';
+import ReferralSystem from './pages/ReferralSystem';
+import PartnerDashboard from './pages/PartnerDashboard';
 
 const queryClient = new QueryClient();
 
@@ -38,6 +44,16 @@ const App = () => (
         <Route path="/trien-lam/am-nhac" element={<ExhibitionMusic />} />
         <Route path="/trien-lam/am-thuc" element={<ExhibitionCuisine />} />
         <Route path="/trien-lam/sang-tao-ai" element={<ExhibitionAI />} />
+        <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/sky-quest/profile" element={<UserProfilePage />} />
+        <Route path="/challenges" element={<ChallengesPage />} />
+        <Route path="/sky-quest/challenges" element={<ChallengesPage />} />
+        <Route path="/rewards" element={<RewardShop />} />
+        <Route path="/sky-quest/rewards" element={<RewardShop />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/sky-quest/leaderboard" element={<Leaderboard />} />
+        <Route path="/referral" element={<ReferralSystem />} />
+        <Route path="/partner-dashboard" element={<PartnerDashboard />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

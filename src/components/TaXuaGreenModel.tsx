@@ -16,13 +16,13 @@ import {
   Coins,
   Share2,
   Target,
-  Globe
+  Globe,
+  MapPin,
+  Compass
 } from 'lucide-react';
 import { useState } from 'react';
 
 const TaXuaGreenModel = () => {
-  const [activeStep, setActiveStep] = useState(1);
-
   const greenActions = [
     {
       id: 1,
@@ -61,39 +61,6 @@ const TaXuaGreenModel = () => {
     { points: 200, discount: '25%', service: 'Combo trải nghiệm' }
   ];
 
-  const benefits = [
-    {
-      category: 'Du khách',
-      icon: <Users className="w-6 h-6" />,
-      items: [
-        'Nhận voucher giảm giá cho dịch vụ du lịch',
-        'Trải nghiệm du lịch có ý nghĩa và bền vững',
-        'Kết nối với cộng đồng yêu thiên nhiên',
-        'Học hỏi kiến thức về bảo vệ môi trường'
-      ]
-    },
-    {
-      category: 'Doanh nghiệp địa phương',
-      icon: <Globe className="w-6 h-6" />,
-      items: [
-        'Tăng lượng khách hàng thông qua chương trình voucher',
-        'Xây dựng thương hiệu du lịch bền vững',
-        'Tạo việc làm cho cộng đồng địa phương',
-        'Phát triển kinh tế xanh tại Tà Xùa'
-      ]
-    },
-    {
-      category: 'Môi trường',
-      icon: <Leaf className="w-6 h-6" />,
-      items: [
-        'Giảm thiểu rác thải và ô nhiễm môi trường',
-        'Bảo tồn hệ sinh thái núi rừng Tà Xùa',
-        'Tăng độ che phủ rừng qua việc trồng cây',
-        'Nâng cao ý thức bảo vệ môi trường'
-      ]
-    }
-  ];
-
   return (
     <section className="py-16 relative">
       {/* Background với gradient đồng bộ */}
@@ -107,286 +74,228 @@ const TaXuaGreenModel = () => {
             <span className="text-green-400 font-medium">Mô hình Tà Xùa Xanh</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Du lịch <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Xanh</span> - 
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+            Sky Quest: Du lịch <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Xanh</span> - 
             Chill <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">An Lành</span>
           </h2>
           
+          {/* Storytelling Introduction */}
+          <div className="max-w-4xl mx-auto space-y-8 mb-12">
+            {/* Sky Quest là gì? */}
+            <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 backdrop-blur-sm rounded-2xl p-6 border border-green-500/20">
+              <h3 className="text-2xl font-bold text-green-400 mb-4 flex items-center justify-center gap-2">
+                <Target className="w-6 h-6" />
+                Sky Quest là gì?
+              </h3>
+              <p className="text-lg text-gray-100 leading-relaxed font-medium">
+                Sky Quest không chỉ là một thử thách, mà là một hành trình biến mỗi du khách thành người đồng sáng tạo nên vẻ đẹp của Tà Xùa. 
+                Bạn không chỉ đến để chiêm ngưỡng, mà để kết nối – với thiên nhiên, với cộng đồng, và với chính mình. 
+                Mỗi bước chân của bạn sẽ để lại dấu ấn tích cực, góp phần xây dựng một Tà Xùa xanh và bền vững.
+              </p>
+            </div>
+
+            {/* Mục đích của Sky Quest */}
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/20">
+              <h3 className="text-2xl font-bold text-blue-400 mb-4 flex items-center justify-center gap-2">
+                <Heart className="w-6 h-6" />
+                Mục đích của Sky Quest
+              </h3>
+              <p className="text-lg text-gray-100 leading-relaxed font-medium">
+                Sky Quest ra đời nhằm khơi dậy ý thức du lịch bền vững, biến từng hành động nhỏ thành đóng góp lớn. 
+                Thông qua các thử thách đơn giản, bạn góp phần giữ gìn cảnh quan, lan tỏa tinh thần "du lịch xanh" 
+                và cùng xây dựng một cộng đồng gắn kết quanh giá trị tốt đẹp này.
+              </p>
+            </div>
+
+            {/* Tại sao bạn nên tham gia Sky Quest? */}
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20">
+              <h3 className="text-2xl font-bold text-purple-400 mb-4 flex items-center justify-center gap-2">
+                <Star className="w-6 h-6" />
+                Tại sao bạn nên tham gia Sky Quest?
+              </h3>
+              <p className="text-lg text-gray-100 leading-relaxed font-medium">
+                Mỗi bước chân của bạn, mỗi thử thách hoàn thành không chỉ đem lại điểm thưởng và quà tặng, mà còn tạo nên ký ức đáng nhớ. 
+                Hãy bước vào một cuộc phiêu lưu đầy ý nghĩa – nơi phần thưởng không chỉ nằm ở voucher, 
+                mà ở cảm giác được trở thành một phần của điều tốt đẹp hơn, để lại di sản xanh cho thế hệ tương lai.
+              </p>
+            </div>
+          </div>
+
           <p className="text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed font-medium">
             Khuyến khích du khách tham gia bảo vệ môi trường tại Tà Xùa và nhận thưởng bằng voucher du lịch. 
             Cùng nhau xây dựng một Tà Xùa xanh, sạch và bền vững cho thế hệ tương lai.
           </p>
         </div>
 
-        {/* Ba bước chính */}
+        {/* Ba bước chính - Hiển thị đồng thời */}
         <div className="mb-16">
           <h3 className="text-3xl font-bold text-white text-center mb-12">
-            <Target className="w-8 h-8 inline-block mr-3 text-green-400" />
-            Ba Bước Thực Hiện
+            <Compass className="w-8 h-8 inline-block mr-3 text-green-400" />
+            Hướng Dẫn Phiêu Lưu Sky Quest
           </h3>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Bước 1: Hành động xanh */}
-            <Card className={`bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border-green-500/30 transition-all duration-300 hover:scale-105 cursor-pointer ${activeStep === 1 ? 'ring-2 ring-green-400' : ''}`}
-                  onClick={() => setActiveStep(1)}>
+            {/* Bước 1: Bắt đầu hành trình */}
+            <Card className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border-green-500/30 transition-all duration-300 hover:scale-105">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Leaf className="w-8 h-8 text-white" />
+                <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <MapPin className="w-10 h-10 text-white" />
                 </div>
-                <h4 className="text-2xl font-bold text-white mb-4">Bước 1: Hành Động Xanh</h4>
-                <p className="text-gray-100 mb-6 font-medium">
-                  Du khách tham gia các hoạt động bảo vệ môi trường như thu gom rác, trồng cây, bảo vệ động vật hoang dã.
+                <h4 className="text-2xl font-bold text-white mb-4">Bắt đầu hành trình</h4>
+                <p className="text-gray-100 mb-6 font-medium text-lg leading-relaxed">
+                  Tham gia các hoạt động xanh như thu gom rác, trồng cây, bảo vệ động vật hoang dã tại Tà Xùa.
                 </p>
-                <Badge className="bg-green-500/20 text-green-300 border-green-500/30 font-semibold">
-                  Hành động cụ thể
-                </Badge>
-              </CardContent>
-            </Card>
-
-            {/* Bước 2: Ghi nhận hệ thống */}
-            <Card className={`bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border-blue-500/30 transition-all duration-300 hover:scale-105 cursor-pointer ${activeStep === 2 ? 'ring-2 ring-blue-400' : ''}`}
-                  onClick={() => setActiveStep(2)}>
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-2xl font-bold text-white mb-4">Bước 2: Ghi Nhận Hệ Thống</h4>
-                <p className="text-gray-100 mb-6 font-medium">
-                  Hành động được xác minh bởi staff hoặc cộng đồng, sau đó hệ thống tự động cộng điểm xanh vào tài khoản.
-                </p>
-                <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 font-semibold">
-                  Xác minh & Cộng điểm
-                </Badge>
-              </CardContent>
-            </Card>
-
-            {/* Bước 3: Nhận thưởng */}
-            <Card className={`bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border-yellow-500/30 transition-all duration-300 hover:scale-105 cursor-pointer ${activeStep === 3 ? 'ring-2 ring-yellow-400' : ''}`}
-                  onClick={() => setActiveStep(3)}>
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Gift className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-2xl font-bold text-white mb-4">Bước 3: Nhận Thưởng</h4>
-                <p className="text-gray-100 mb-6 font-medium">
-                  Đổi điểm xanh lấy voucher giảm giá cho homestay, tour, ẩm thực và các dịch vụ du lịch tại Tà Xùa.
-                </p>
-                <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 font-semibold">
-                  Voucher & Ưu đãi
-                </Badge>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Chi tiết bước được chọn */}
-        <div className="mb-16">
-          {activeStep === 1 && (
-            <Card className="bg-gradient-to-br from-green-600/10 to-emerald-700/10 backdrop-blur-sm border-green-500/20">
-              <CardContent className="p-8">
-                <h4 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                  <Leaf className="w-6 h-6 text-green-400" />
-                  Các Hoạt Động Xanh
-                </h4>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {greenActions.map((action) => (
-                    <div key={action.id} className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <div className="grid grid-cols-2 gap-3">
+                  {greenActions.slice(0, 4).map((action) => (
+                    <div key={action.id} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded flex items-center justify-center">
                           {action.icon}
                         </div>
-                        <div>
-                          <h5 className="font-semibold text-white">{action.title}</h5>
-                          <div className="flex items-center gap-1">
-                            <Coins className="w-4 h-4 text-yellow-400" />
-                            <span className="text-yellow-400 font-medium">+{action.points} điểm</span>
-                          </div>
-                        </div>
+                        <span className="text-white text-sm font-semibold">{action.title}</span>
                       </div>
-                      <p className="text-gray-100 text-sm font-medium">{action.description}</p>
+                      <div className="flex items-center gap-1">
+                        <Coins className="w-3 h-3 text-yellow-400" />
+                        <span className="text-yellow-400 text-xs font-medium">+{action.points} điểm</span>
+                      </div>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-          )}
 
-          {activeStep === 2 && (
-            <Card className="bg-gradient-to-br from-blue-600/10 to-purple-700/10 backdrop-blur-sm border-blue-500/20">
-              <CardContent className="p-8">
-                <h4 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-                  <CheckCircle className="w-6 h-6 text-blue-600" />
-                  Cơ Chế Tích Điểm
-                </h4>
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h5 className="text-xl font-semibold text-slate-800 mb-4">Quy trình xác minh:</h5>
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                          <span className="text-white text-sm font-bold">1</span>
-                        </div>
-                        <div>
-                          <p className="text-slate-800 font-semibold">Chụp ảnh hoạt động</p>
-                          <p className="text-slate-700 text-sm font-medium">Ghi lại hình ảnh thực hiện hoạt động xanh</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                          <span className="text-white text-sm font-bold">2</span>
-                        </div>
-                        <div>
-                          <p className="text-slate-800 font-semibold">Xác minh bởi staff</p>
-                          <p className="text-slate-700 text-sm font-medium">Nhân viên hoặc cộng đồng xác nhận hoạt động</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                          <span className="text-white text-sm font-bold">3</span>
-                        </div>
-                        <div>
-                          <p className="text-slate-800 font-semibold">Cộng điểm tự động</p>
-                          <p className="text-slate-700 text-sm font-medium">Hệ thống cập nhật điểm vào tài khoản</p>
-                        </div>
-                      </div>
+            {/* Bước 2: Tham gia thử thách */}
+            <Card className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border-blue-500/30 transition-all duration-300 hover:scale-105">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-white" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4">Tham gia thử thách</h4>
+                <p className="text-gray-100 mb-6 font-medium text-lg leading-relaxed">
+                  Chụp ảnh, xác minh hoạt động và nhận điểm xanh từ hệ thống tự động.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xs font-bold">1</span>
                     </div>
+                    <span className="text-white text-sm font-medium">Chụp ảnh hoạt động</span>
                   </div>
-                  <div>
-                    <h5 className="text-xl font-semibold text-slate-800 mb-4">Thang điểm:</h5>
-                    <div className="bg-white/90 rounded-lg p-6 border border-slate-300">
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center">
-                          <span className="text-slate-700 font-medium">Hoạt động cơ bản</span>
-                          <span className="text-green-600 font-semibold">5-15 điểm</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-slate-700 font-medium">Hoạt động nâng cao</span>
-                          <span className="text-blue-600 font-semibold">20-30 điểm</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-slate-700 font-medium">Dự án lớn</span>
-                          <span className="text-purple-600 font-semibold">50+ điểm</span>
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xs font-bold">2</span>
                     </div>
+                    <span className="text-white text-sm font-medium">Xác minh bởi staff</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xs font-bold">3</span>
+                    </div>
+                    <span className="text-white text-sm font-medium">Cộng điểm tự động</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          )}
 
-          {activeStep === 3 && (
-            <Card className="bg-gradient-to-br from-yellow-600/10 to-orange-700/10 backdrop-blur-sm border-yellow-500/20">
-              <CardContent className="p-8">
-                <h4 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                  <Gift className="w-6 h-6 text-yellow-400" />
-                  Quy Đổi Voucher
-                </h4>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Bước 3: Nhận thưởng và chia sẻ */}
+            <Card className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border-yellow-500/30 transition-all duration-300 hover:scale-105">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Gift className="w-10 h-10 text-white" />
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4">Nhận thưởng và chia sẻ</h4>
+                <p className="text-gray-100 mb-6 font-medium text-lg leading-relaxed">
+                  Đổi điểm lấy voucher và chia sẻ trải nghiệm để lan tỏa tinh thần xanh.
+                </p>
+                <div className="grid grid-cols-2 gap-3">
                   {vouchers.map((voucher, index) => (
-                    <div key={index} className="bg-gradient-to-br from-yellow-500/10 to-orange-600/10 rounded-lg p-6 border border-yellow-500/30">
+                    <div key={index} className="bg-gradient-to-br from-yellow-500/10 to-orange-600/10 rounded-lg p-3 border border-yellow-500/30">
                       <div className="text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Coins className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="text-2xl font-bold text-yellow-400 mb-2">{voucher.discount}</div>
-                        <div className="text-white font-medium mb-2">{voucher.service}</div>
-                        <div className="text-gray-100 text-sm mb-4 font-medium">{voucher.points} điểm xanh</div>
-                        <Button size="sm" className="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-white border-0">
-                          Đổi ngay
-                        </Button>
+                        <div className="text-lg font-bold text-yellow-400 mb-1">{voucher.discount}</div>
+                        <div className="text-white text-xs font-medium mb-1">{voucher.service}</div>
+                        <div className="text-gray-100 text-xs">{voucher.points} điểm</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-          )}
-        </div>
-
-        {/* Lợi ích cho các bên */}
-        <div className="mb-16">
-          <h3 className="text-3xl font-bold text-white text-center mb-12">
-            <Star className="w-8 h-8 inline-block mr-3 text-yellow-400" />
-            Lợi Ích Cho Mọi Bên
-          </h3>
-          
-          <div className="grid lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <Card key={index} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm border-slate-700/50 hover:border-slate-600/50 transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                      {benefit.icon}
-                    </div>
-                    <h4 className="text-xl font-bold text-white">{benefit.category}</h4>
-                  </div>
-                  <ul className="space-y-3">
-                    {benefit.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-100 font-medium">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
 
-        {/* Cộng đồng xanh */}
-        <Card className="bg-white/95 backdrop-blur-sm border-slate-300 shadow-xl">
-          <CardContent className="p-8">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold text-slate-800 mb-4 flex items-center justify-center gap-3">
-                <Share2 className="w-8 h-8 text-green-600" />
-                Cộng Đồng Xanh Tà Xùa
+        {/* Cộng đồng Sky Quest - Thay thế phần "Lợi Ích Cho Mọi Bên" */}
+        <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm border-slate-700/50">
+          <CardContent className="p-12 text-center">
+            <div className="max-w-4xl mx-auto">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8">
+                <Users className="w-5 h-5 text-green-400" />
+                <span className="text-green-400 font-medium">Cộng Đồng Sky Quest</span>
+              </div>
+              
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-8">
+                Câu Chuyện Của Chúng Ta Tại <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Tà Xùa</span>
               </h3>
-              <p className="text-xl text-slate-700 max-w-2xl mx-auto font-medium">
-                Chia sẻ hành trình bảo vệ môi trường của bạn và kết nối với cộng đồng yêu thiên nhiên
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Camera className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-lg font-semibold text-slate-800 mb-2">Chia sẻ hình ảnh</h4>
-                <p className="text-slate-700 text-sm font-medium">Đăng ảnh hoạt động xanh với hashtag #TaXuaXanh</p>
+              
+              <div className="text-lg text-gray-100 leading-relaxed font-medium space-y-6">
+                <p>
+                  Sky Quest không chỉ là một chương trình - đó là một cộng đồng đang lớn lên từng ngày, nơi mỗi người góp một phần nhỏ để tạo nên sự thay đổi lớn cho Tà Xùa. 
+                  Từ những bước chân đầu tiên, chúng ta đã cùng nhau viết nên câu chuyện về tình yêu thiên nhiên và trách nhiệm với môi trường.
+                </p>
+                
+                <p>
+                  Hàng trăm du khách đã cùng nhau thu gom hơn <span className="text-green-400 font-bold">2 tấn rác thải</span>, 
+                  trồng <span className="text-blue-400 font-bold">500+ cây xanh</span> bản địa, và chia sẻ hàng nghìn hình ảnh 
+                  tuyệt đẹp trên mạng xã hội với hashtag <span className="text-purple-400 font-bold">#TaXuaXanh</span>. 
+                  Mỗi hành động nhỏ đều để lại dấu ấn cá nhân trong bức tranh lớn về du lịch xanh của địa phương.
+                </p>
+                
+                <p>
+                  Hãy trở thành một phần của câu chuyện này - nơi những ký ức đẹp được tạo ra không chỉ từ cảnh quan hùng vĩ, 
+                  mà còn từ niềm tự hào khi biết rằng chuyến đi của bạn đã góp phần làm cho Tà Xùa trở nên xanh hơn, 
+                  sạch hơn và bền vững hơn cho những thế hệ tương lai.
+                </p>
               </div>
               
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-white" />
+              <div className="grid md:grid-cols-4 gap-6 mt-12">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Share2 className="w-8 h-8 text-white" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Chia sẻ trải nghiệm</h4>
+                  <p className="text-gray-300 text-sm font-medium">Đăng ảnh hoạt động xanh với hashtag #TaXuaXanh</p>
                 </div>
-                <h4 className="text-lg font-semibold text-slate-800 mb-2">Kết nối cộng đồng</h4>
-                <p className="text-slate-700 text-sm font-medium">Tham gia nhóm và sự kiện bảo vệ môi trường</p>
+                
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="w-8 h-8 text-white" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Kết nối cộng đồng</h4>
+                  <p className="text-gray-300 text-sm font-medium">Tham gia nhóm và sự kiện bảo vệ môi trường</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Award className="w-8 h-8 text-white" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Nhận danh hiệu</h4>
+                  <p className="text-gray-300 text-sm font-medium">Đạt các cấp độ: Người bạn xanh, Đại sứ môi trường</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Heart className="w-8 h-8 text-white" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-2">Truyền cảm hứng</h4>
+                  <p className="text-gray-300 text-sm font-medium">Lan tỏa tinh thần bảo vệ môi trường</p>
+                </div>
               </div>
               
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-lg font-semibold text-slate-800 mb-2">Nhận danh hiệu</h4>
-                <p className="text-slate-700 text-sm font-medium">Đạt các cấp độ: Người bạn xanh, Đại sứ môi trường</p>
+              <div className="text-center mt-8">
+                <Button className="bg-gradient-to-r from-green-600 to-blue-700 hover:from-green-700 hover:to-blue-800 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  Tham gia ngay
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
               </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Heart className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-lg font-semibold text-slate-800 mb-2">Truyền cảm hứng</h4>
-                <p className="text-slate-700 text-sm font-medium">Lan tỏa tinh thần bảo vệ môi trường</p>
-              </div>
-            </div>
-            
-            <div className="text-center mt-8">
-              <Button className="bg-gradient-to-r from-green-600 to-blue-700 hover:from-green-700 hover:to-blue-800 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                Tham gia ngay
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
             </div>
           </CardContent>
         </Card>

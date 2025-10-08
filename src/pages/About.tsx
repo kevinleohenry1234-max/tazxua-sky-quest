@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
+import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
@@ -65,6 +66,7 @@ const About = () => {
 
   return (
     <Layout>
+      <MainNavigation />
       <Header
         isLoggedIn={isLoggedIn}
         userName={userName}
@@ -93,7 +95,7 @@ const About = () => {
         }}
       />
       
-      <main className="pt-16">
+      <main className="pt-30">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">

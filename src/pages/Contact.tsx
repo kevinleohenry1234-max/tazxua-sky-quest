@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ContactForm from '@/components/ContactForm';
 import Header from '@/components/Header';
+import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import LoginModal from '@/components/LoginModal';
@@ -34,6 +35,7 @@ const Contact = () => {
 
   return (
     <Layout>
+      <MainNavigation />
       <Header
         isLoggedIn={isLoggedIn}
         userName={userName}
@@ -62,7 +64,7 @@ const Contact = () => {
         }}
       />
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-primary/90 to-secondary text-white">
+      <section className="relative pt-44 pb-20 bg-gradient-to-br from-primary via-primary/90 to-secondary text-white">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">

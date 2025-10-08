@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User, LogOut } from 'lucide-react';
+import { Menu, X, User, LogOut, Trophy, Gift, Target, ChevronDown, UserCircle } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +40,13 @@ const Header = ({
     { href: '/contact', label: 'Liên Hệ' },
   ];
 
+  const skyQuestLinks = [
+    { href: '/sky-quest/profile', label: 'Cá nhân', icon: UserCircle },
+    { href: '/challenges', label: 'Thử thách', icon: Target },
+    { href: '/rewards', label: 'Phần thưởng', icon: Gift },
+    { href: '/leaderboard', label: 'Bảng xếp hạng', icon: Trophy },
+  ];
+
   return (
     <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto px-4">
@@ -77,6 +84,45 @@ const Header = ({
                 </Link>
               );
             })}
+            
+            {/* Sky Quest Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={`font-inter transition-colors duration-300 relative group flex items-center space-x-1 ${
+                    skyQuestLinks.some(link => location.pathname === link.href)
+                      ? 'text-primary font-semibold' 
+                      : 'text-foreground/80 hover:text-primary'
+                  }`}
+                >
+                  <span>Sky Quest</span>
+                  <ChevronDown className="w-4 h-4" />
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    skyQuestLinks.some(link => location.pathname === link.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {skyQuestLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = location.pathname === link.href;
+                  return (
+                    <DropdownMenuItem key={link.href} asChild>
+                      <Link 
+                        to={link.href} 
+                        className={`flex items-center space-x-2 w-full ${
+                          isActive ? 'text-primary font-semibold' : ''
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{link.label}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           {/* Auth Section & Language Switcher */}
@@ -94,9 +140,17 @@ const Header = ({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={onProfileClick}>
-                    <User className="w-4 h-4 mr-2" />
-                    {t('header.profile')}
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center">
+                      <User className="w-4 h-4 mr-2" />
+                      {t('header.profile')}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/referral" className="flex items-center">
+                      <User className="w-4 h-4 mr-2" />
+                      Giới thiệu bạn bè
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onLogoutClick}>
                     <LogOut className="w-4 h-4 mr-2" />
@@ -153,6 +207,31 @@ const Header = ({
                   </Link>
                 );
               })}
+              
+              {/* Sky Quest Mobile Section */}
+              <div className="pt-2 border-t border-border/30">
+                <div className="text-sm font-semibold text-foreground/60 mb-2 px-2">Sky Quest</div>
+                {skyQuestLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = location.pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className={`font-inter transition-colors duration-300 flex items-center space-x-2 px-2 py-1 ${
+                        isActive 
+                          ? 'text-primary font-semibold' 
+                          : 'text-foreground/80 hover:text-primary'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{link.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+              
               <div className="pt-4 border-t border-border/30">
                 <div className="mb-4">
                   <LanguageSwitcher />
