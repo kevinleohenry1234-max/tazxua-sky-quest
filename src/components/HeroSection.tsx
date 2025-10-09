@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, ArrowRight, Mountain } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LazyImage from '@/components/LazyImage';
+import SearchBar from '@/components/SearchBar';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
 import heroImage3 from '@/assets/shan-tuyet-tea.jpg';
@@ -10,7 +11,6 @@ import { useTranslation } from '@/lib/i18n';
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -45,31 +45,27 @@ const HeroSection = () => {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // Parallax scroll effect
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const scrollToDiscover = () => {
-    const discoverSection = document.getElementById('category-cards-section');
-    if (discoverSection) {
-      discoverSection.scrollIntoView({ 
+    const element = document.getElementById('category-cards-section');
+    if (element) {
+      element.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
       });
       
       // Highlight the "Khám Phá" category after scrolling
       setTimeout(() => {
-        const exploreCard = document.querySelector('[data-category="explore"]');
+        const exploreCard = document.querySelector('[data-category="explore"]') as HTMLElement;
         if (exploreCard) {
-          exploreCard.classList.add('ring-4', 'ring-orange-400', 'ring-opacity-75');
+          exploreCard.classList.add('ring-4', 'ring-orange-400/70', 'ring-pulse');
+          exploreCard.click(); // Auto-expand the explore section
+          
+          // Remove highlight after 3 seconds
           setTimeout(() => {
-            exploreCard.classList.remove('ring-4', 'ring-orange-400', 'ring-opacity-75');
+            exploreCard.classList.remove('ring-4', 'ring-orange-400/70', 'ring-pulse');
           }, 3000);
         }
-      }, 1000);
+      }, 800); // Wait for scroll to complete
     }
   };
 
@@ -77,26 +73,28 @@ const HeroSection = () => {
     scrollToDiscover();
   };
 
+  const handleSearch = (query: string, category: string) => {
+    // Navigate to explore page with search parameters
+    navigate(`/explore?q=${encodeURIComponent(query)}&category=${category}`);
+  };
+
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      {/* Background Images with Enhanced Parallax Effect */}
+      {/* Fixed Background Images - No Parallax */}
       {slides.map((slide, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-all duration-1500 ${
             index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
-          style={{
-            transform: `translateY(${scrollY * 0.5}px)`,
-          }}
         >
           <LazyImage
             src={slide.image}
             alt={slide.title}
-            className="w-full h-[120%] object-cover transform transition-transform duration-[8000ms] ease-out"
+            className="w-full h-full object-cover"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70" />
         </div>
       ))}
 
@@ -126,13 +124,13 @@ const HeroSection = () => {
       <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
         <div className="w-full px-8 max-w-7xl mx-auto">
           {/* Cinematic Badge */}
-          <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 mb-12 animate-fade-in shadow-2xl">
+          <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 mb-8 animate-fade-in shadow-2xl">
             <Mountain className="w-5 h-5 text-amber-400" />
             <span className="text-base font-medium tracking-wide">{slides[currentSlide].highlight}</span>
           </div>
 
           {/* Dramatic Main Title - Playfair Display */}
-          <h1 className="font-playfair text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold mb-8 animate-fade-in leading-[0.9] tracking-tight">
+          <h1 className="text-display mb-6 animate-fade-in leading-[0.9] tracking-tight">
             <span 
               className="bg-gradient-to-r from-white via-blue-50 to-purple-100 bg-clip-text text-transparent drop-shadow-2xl"
               style={{
@@ -143,26 +141,37 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          {/* Cinematic Subtitle with Increased Whitespace */}
-          <div className="mb-16 px-4">
-            <p className="font-inter text-xl md:text-3xl lg:text-4xl text-white/90 max-w-5xl mx-auto animate-fade-in leading-relaxed tracking-wide font-light">
+          {/* Cinematic Subtitle */}
+          <div className="mb-12 px-4">
+            <p className="text-body-large text-white/90 max-w-4xl mx-auto animate-fade-in leading-relaxed tracking-wide font-light">
               {slides[currentSlide].subtitle}
             </p>
           </div>
 
-          {/* Enhanced CTA Button */}
-          <div className="flex justify-center items-center mb-20 animate-fade-in">
-            <Button
-              size="lg"
-              onClick={scrollToDiscover}
-              className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-12 py-6 text-xl font-semibold transition-all duration-500 hover:scale-110 shadow-2xl border-0 rounded-full group backdrop-blur-sm"
-              style={{
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 0 60px rgba(249, 115, 22, 0.3)',
-              }}
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-12">
+            <Button 
+              onClick={handleExploreClick}
+              className="btn-primary group"
             >
               Khám Phá Ngay
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/experience')}
+              className="btn-outline"
+            >
+              Trải Nghiệm Ảo
+            </Button>
+          </div>
+
+          {/* Central Search Bar */}
+          <div className="mb-16 animate-fade-in">
+            <SearchBar 
+              onSearch={handleSearch}
+              onExploreClick={handleExploreClick}
+            />
           </div>
         </div>
       </div>

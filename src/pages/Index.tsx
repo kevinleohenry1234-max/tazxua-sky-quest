@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import MainNavigation from '@/components/MainNavigation';
 import HeroSection from '@/components/HeroSection';
 import CategoryCards from '@/components/CategoryCards';
-import ExploreSection from '@/components/ExploreSection';
 import Footer from '@/components/Footer';
 import UserDashboard from '@/components/UserDashboard';
 import RegisterModal, { RegisterData } from '@/components/RegisterModal';
@@ -12,6 +11,7 @@ import LoginModal, { LoginData } from '@/components/LoginModal';
 import ImagePreloader from '@/components/ImagePreloader';
 import BackgroundSlider from '@/components/BackgroundSlider';
 import TaXuaGreenModel from '@/components/TaXuaGreenModel';
+import QuickNavigation from '@/components/QuickNavigation';
 import { registerUser, signInUser, signOut, getSession, onAuthStateChange } from '@/lib/supabase';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
@@ -205,6 +205,9 @@ const Index = () => {
             
             <Footer />
           </div>
+          
+          {/* Quick Navigation - Fixed at bottom */}
+          <QuickNavigation />
         </>
       )}
       
