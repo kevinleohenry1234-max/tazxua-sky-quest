@@ -10,8 +10,6 @@ const MainNavigation = () => {
   const mainNavLinks = [
     { href: '/', label: 'Trang chủ', icon: Home },
     { href: '/about', label: 'Giới thiệu', icon: Info },
-    { href: '/#digital-exhibition', label: 'Triển lãm số', icon: MapPin },
-    { href: '/blog', label: 'Blog', icon: BookOpen },
     { href: '/contact', label: 'Liên hệ', icon: Phone },
   ];
 

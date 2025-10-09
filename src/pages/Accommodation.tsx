@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ImageSlider from '@/components/ImageSlider';
+import HotelGrid from '@/components/HotelGrid';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -222,128 +223,8 @@ const Accommodation: React.FC = () => {
               </p>
             </div>
 
-            {/* Homestay Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {homestayRealData.map((homestay) => (
-                <Card key={homestay.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white/90 backdrop-blur-sm border-0">
-                  <div className="relative h-64">
-                    <ImageSlider
-                      images={homestay.images}
-                      alt={homestay.name}
-                      className="w-full h-full"
-                      autoPlay={true}
-                      autoPlayInterval={4000}
-                    />
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-white/90 text-gray-800 flex items-center gap-1 shadow-lg">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        {homestay.rating}
-                      </Badge>
-                    </div>
-                    <div className="absolute bottom-4 left-4">
-                      <Badge variant="secondary" className="bg-black/70 text-white border-0">
-                        {homestay.images.length} ảnh
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-xl font-bold text-gray-800 line-clamp-1">
-                      {homestay.name}
-                    </CardTitle>
-                    <CardDescription className="flex items-center gap-1 text-gray-600">
-                      <MapPin className="w-4 h-4 text-blue-600" />
-                      {homestay.location}
-                    </CardDescription>
-                  </CardHeader>
-
-                  <CardContent className="space-y-4">
-                    <p className="text-gray-700 text-sm line-clamp-3 leading-relaxed">
-                      {homestay.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {homestay.amenities.slice(0, 4).map((amenity, index) => (
-                        <Badge key={index} variant="outline" className="flex items-center gap-1 text-xs border-blue-200 text-blue-700">
-                          {getAmenityIcon(amenity)}
-                          <span>{amenity}</span>
-                        </Badge>
-                      ))}
-                      {homestay.amenities.length > 4 && (
-                        <Badge variant="outline" className="text-xs text-gray-500">
-                          +{homestay.amenities.length - 4} khác
-                        </Badge>
-                      )}
-                    </div>
-
-                    <div className="flex flex-wrap gap-1">
-                      {homestay.features.slice(0, 3).map((feature, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs bg-green-100 text-green-700 border-green-200">
-                          {feature}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="border-t pt-4 space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-lg text-blue-600">
-                          {homestay.price}
-                        </span>
-                        <Badge className="bg-orange-100 text-orange-700 border-orange-200">
-                          <Calendar className="w-3 h-3 mr-1" />
-                          /đêm
-                        </Badge>
-                      </div>
-
-                      <div className="space-y-2">
-                        {homestay.contact.phone && (
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <Phone className="w-4 h-4 text-green-600" />
-                            <a 
-                              href={`tel:${homestay.contact.phone}`} 
-                              className="hover:text-blue-600 transition-colors"
-                            >
-                              {homestay.contact.phone}
-                            </a>
-                          </div>
-                        )}
-                        {homestay.contact.email && (
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <Mail className="w-4 h-4 text-blue-600" />
-                            <a 
-                              href={`mailto:${homestay.contact.email}`} 
-                              className="hover:text-blue-600 transition-colors"
-                            >
-                              {homestay.contact.email}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex gap-2">
-                    <Button 
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" 
-                      size="sm"
-                      onClick={() => handleViewDetails(homestay)}
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      Xem Chi Tiết
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="border-blue-600 text-blue-600 hover:bg-blue-50"
-                      onClick={() => handleBookNow(homestay)}
-                    >
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      Đặt Ngay
-                    </Button>
-                  </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {/* Hotel Grid with Search and Filters */}
+            <HotelGrid hotels={homestayRealData} />
 
             {/* Statistics Section */}
             <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8 text-center">

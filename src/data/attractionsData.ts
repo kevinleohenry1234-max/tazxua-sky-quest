@@ -40,14 +40,14 @@ export const ATTRACTIONS_DATA: Attraction[] = [
       'Giữ vệ sinh, không khắc tên lên thân cây'
     ],
     images: [
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-1.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-3.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-4.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-5.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-6.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-check-in-1699831558.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-hoang-hon-1699831558.png',
-      '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-san-may-1699831582.png'
+      '/Attractions/Cay_Co_Don/images/cay_co_don_01.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_02.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_03.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_04.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_05.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_check_in.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_hoang_hon.png',
+      '/Attractions/Cay_Co_Don/images/cay_co_don_san_may.png'
     ],
     coordinates: {
       lat: 21.3167,
@@ -77,11 +77,11 @@ export const ATTRACTIONS_DATA: Attraction[] = [
       'Mang áo ấm vì trên núi khá lạnh'
     ],
     images: [
-      '/Attractions/Dinh_Gio_Ta_Xua/images/Dinh-gio-Ta-Xua-1.png',
-      '/Attractions/Dinh_Gio_Ta_Xua/images/Dinh-gio-Ta-Xua-2.png',
-      '/Attractions/Dinh_Gio_Ta_Xua/images/065127cce66edb405cbeaff03a3a23cb.png',
-      '/Attractions/Dinh_Gio_Ta_Xua/images/1753765285.png',
-      '/Attractions/Dinh_Gio_Ta_Xua/images/585f1a8ed209574c1ddbe1546376d356.png'
+      '/Attractions/Dinh_Gio_Ta_Xua/images/dinh_gio_ta_xua_01.png',
+      '/Attractions/Dinh_Gio_Ta_Xua/images/dinh_gio_ta_xua_02.png',
+      '/Attractions/Dinh_Gio_Ta_Xua/images/dinh_gio_ta_xua_03.png',
+      '/Attractions/Dinh_Gio_Ta_Xua/images/dinh_gio_ta_xua_04.png',
+      '/Attractions/Dinh_Gio_Ta_Xua/images/dinh_gio_ta_xua_05.png'
     ],
     coordinates: {
       lat: 21.3200,
@@ -112,12 +112,13 @@ export const ATTRACTIONS_DATA: Attraction[] = [
       'Giữ vệ sinh, không xả rác'
     ],
     images: [
-      '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155507.png',
-      '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155532.png',
-      '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155618.png',
-      '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155644.png',
-      '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155707.png',
-      '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155733.png'
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_01.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_02.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_03.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_04.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_05.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_06.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_07.png'
     ],
     coordinates: {
       lat: 21.3150,
@@ -147,11 +148,11 @@ export const ATTRACTIONS_DATA: Attraction[] = [
       'Giữ gìn môi trường, tuyệt đối không xả rác hay phá cây rừng'
     ],
     images: [
-      '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-1.png',
-      '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-2.png',
-      '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-3.png',
-      '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-4.png',
-      '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua.png'
+      '/Attractions/Rung_Nguyen_Sinh/images/rung_nguyen_sinh_01.png',
+      '/Attractions/Rung_Nguyen_Sinh/images/rung_nguyen_sinh_02.png',
+      '/Attractions/Rung_Nguyen_Sinh/images/rung_nguyen_sinh_03.png',
+      '/Attractions/Rung_Nguyen_Sinh/images/rung_nguyen_sinh_04.png',
+      '/Attractions/Rung_Nguyen_Sinh/images/rung_nguyen_sinh_05.png'
     ],
     coordinates: {
       lat: 21.3100,
@@ -182,12 +183,16 @@ export const ATTRACTIONS_DATA: Attraction[] = [
       'Mang theo áo khoác, nước uống, đồ ăn nhẹ'
     ],
     images: [
-      '/Attractions/Song_lung_khung_long/Images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-02-1662440259.png',
-      '/Attractions/Song_lung_khung_long/Images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-03-1662440259.png',
-      '/Attractions/Song_lung_khung_long/Images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-04-1662440259.png',
-      '/Attractions/Song_lung_khung_long/Images/0cb8876c721ea240fb0f5.png',
-      '/Attractions/Song_lung_khung_long/Images/164b376e3b27d2798b36.png',
-      '/Attractions/Song_lung_khung_long/Images/IMG-6630.png'
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_01.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_02.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_03.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_04.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_05.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_06.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_07.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_08.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_09.png',
+      '/Attractions/Song_lung_khung_long/images/song_lung_khung_long_10.png'
     ],
     coordinates: {
       lat: 21.3080,
