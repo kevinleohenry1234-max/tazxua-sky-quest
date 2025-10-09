@@ -65,86 +65,186 @@ export const USER_LEVELS: UserLevel[] = [
   }
 ];
 
-// Sample Badges System
+// Complete Badge System - 20 Iconic Badges
 export const SAMPLE_BADGES: Badge[] = [
+  // 1. Người Khai Phá
   {
-    id: 'badge-peak-conqueror',
-    name: 'Chinh phục đỉnh',
-    description: 'Đã leo lên đỉnh Tà Xùa và chụp ảnh panorama 360 độ',
-    icon: '🏔️',
-    rarity: 'epic',
+    id: 'pioneer',
+    name: 'Người Khai Phá',
+    description: 'Hoàn thành hành trình đầu tiên',
+    icon: '🗺️',
+    rarity: 'common',
     category: 'explorer'
   },
+  // 2. Người Gác Mây
   {
-    id: 'peak-conqueror',
-    name: 'Chinh phục đỉnh',
-    description: 'Đã leo lên đỉnh Tà Xùa và chụp ảnh panorama 360 độ',
-    icon: '🏔️',
-    rarity: 'epic',
-    category: 'explorer'
-  },
-  {
-    id: 'sunrise-master',
-    name: 'Bậc thầy bình minh',
-    description: 'Chụp ảnh bình minh chuyên nghiệp với kỹ thuật cao',
-    icon: '🌅',
+    id: 'cloud-keeper',
+    name: 'Người Gác Mây',
+    description: 'Hoàn thành 3 hành trình ngoài trời',
+    icon: '☁️',
     rarity: 'rare',
-    category: 'photographer'
+    category: 'explorer'
   },
+  // 3. Người Kể Núi
   {
-    id: 'eco-warrior',
-    name: 'Chiến binh xanh',
-    description: 'Tham gia hoạt động dọn dẹp môi trường',
+    id: 'mountain-storyteller',
+    name: 'Người Kể Núi',
+    description: 'Đăng 3 câu chuyện trong Hall of Stories',
+    icon: '📖',
+    rarity: 'common',
+    category: 'community'
+  },
+  // 4. Tinh Linh Rừng Cổ
+  {
+    id: 'ancient-forest-spirit',
+    name: 'Tinh Linh Rừng Cổ',
+    description: 'Trồng ít nhất 5 cây bản địa',
+    icon: '🌳',
+    rarity: 'rare',
+    category: 'environmental'
+  },
+  // 5. Người Bạn Của Thiên Nhiên
+  {
+    id: 'nature-friend',
+    name: 'Người Bạn Của Thiên Nhiên',
+    description: 'Tham gia thử thách nhặt rác 3 lần',
     icon: '🌿',
     rarity: 'common',
     category: 'environmental'
   },
+  // 6. Người Săn Hoàng Hôn
   {
-    id: 'forest-guardian',
-    name: 'Người bảo vệ rừng',
-    description: 'Tham gia chương trình trồng rừng với công nghệ',
-    icon: '🌲',
+    id: 'sunset-hunter',
+    name: 'Người Săn Hoàng Hôn',
+    description: 'Chụp 5 ảnh hoàng hôn Tà Xùa',
+    icon: '🌅',
     rarity: 'rare',
-    category: 'environmental'
+    category: 'photographer'
   },
+  // 7. Nhà Sáng Tạo Mây Trắng
   {
-    id: 'cultural-explorer',
-    name: 'Nhà khám phá văn hóa',
-    description: 'Khám phá và tương tác với văn hóa bản địa',
-    icon: '🏮',
+    id: 'white-cloud-creator',
+    name: 'Nhà Sáng Tạo Mây Trắng',
+    description: 'Hoàn thành 5 thử thách thuộc archetype sáng tạo',
+    icon: '🎨',
     rarity: 'rare',
-    category: 'cultural'
-  },
-  {
-    id: 'community-helper',
-    name: 'Người hỗ trợ cộng đồng',
-    description: 'Tích cực tham gia các hoạt động cộng đồng',
-    icon: '🤝',
-    rarity: 'common',
     category: 'community'
   },
+  // 8. Người Kết Nối
   {
-    id: 'photo-master',
-    name: 'Bậc thầy nhiếp ảnh',
-    description: 'Chụp và chia sẻ nhiều ảnh đẹp về Tà Xùa',
+    id: 'connector',
+    name: 'Người Kết Nối',
+    description: 'Phỏng vấn ít nhất 2 người dân địa phương',
+    icon: '🤝',
+    rarity: 'common',
+    category: 'cultural'
+  },
+  // 9. Hành Giả Tĩnh Lặng
+  {
+    id: 'silent-traveler',
+    name: 'Hành Giả Tĩnh Lặng',
+    description: 'Hoàn thành thử thách tĩnh tại đầu tiên',
+    icon: '🧘',
+    rarity: 'common',
+    category: 'explorer'
+  },
+  // 10. Người Gác Rừng
+  {
+    id: 'forest-guardian',
+    name: 'Người Gác Rừng',
+    description: 'Hoàn thành chuỗi nhiệm vụ bảo vệ rừng',
+    icon: '🛡️',
+    rarity: 'epic',
+    category: 'environmental'
+  },
+  // 11. Người Lữ Hành Xanh
+  {
+    id: 'green-traveler',
+    name: 'Người Lữ Hành Xanh',
+    description: 'Đi bộ tổng cộng 10km trong các thử thách',
+    icon: '👟',
+    rarity: 'rare',
+    category: 'explorer'
+  },
+  // 12. Nghệ Nhân Ống Kính
+  {
+    id: 'lens-artisan',
+    name: 'Nghệ Nhân Ống Kính',
+    description: 'Đạt 5 lượt "thả mây" cho ảnh chia sẻ',
     icon: '📸',
     rarity: 'rare',
     category: 'photographer'
   },
+  // 13. Trái Tim Núi Rừng
   {
-    id: 'streak-champion',
-    name: 'Nhà vô địch chuỗi',
-    description: 'Duy trì hoạt động liên tục trong 30 ngày',
-    icon: '🔥',
+    id: 'mountain-heart',
+    name: 'Trái Tim Núi Rừng',
+    description: 'Hoàn thành hành trình "Người Bảo Vệ Rừng"',
+    icon: '💚',
+    rarity: 'epic',
+    category: 'environmental'
+  },
+  // 14. Người Gieo Hy Vọng
+  {
+    id: 'hope-sower',
+    name: 'Người Gieo Hy Vọng',
+    description: 'Viết 5 lời nhắn động viên cộng đồng',
+    icon: '🌱',
+    rarity: 'common',
+    category: 'community'
+  },
+  // 15. Kẻ Du Hành Thời Tiết
+  {
+    id: 'weather-traveler',
+    name: 'Kẻ Du Hành Thời Tiết',
+    description: 'Hoàn thành thử thách trong ngày mưa',
+    icon: '🌧️',
+    rarity: 'rare',
+    category: 'explorer'
+  },
+  // 16. Người Hướng Dẫn Mây
+  {
+    id: 'cloud-guide',
+    name: 'Người Hướng Dẫn Mây',
+    description: 'Giúp một người chơi khác hoàn thành hành trình',
+    icon: '🧭',
+    rarity: 'epic',
+    category: 'community'
+  },
+  // 17. Nhà Khám Phá Bản Địa
+  {
+    id: 'local-explorer',
+    name: 'Nhà Khám Phá Bản Địa',
+    description: 'Tham quan đủ 5 địa điểm văn hoá trong hệ thống',
+    icon: '🏛️',
+    rarity: 'rare',
+    category: 'cultural'
+  },
+  // 18. Nhà Văn Tự Nhiên
+  {
+    id: 'nature-writer',
+    name: 'Nhà Văn Tự Nhiên',
+    description: 'Viết 3 cảm nhận dài về Tà Xùa',
+    icon: '✍️',
+    rarity: 'rare',
+    category: 'cultural'
+  },
+  // 19. Người Canh Giữ Bình Minh
+  {
+    id: 'dawn-keeper',
+    name: 'Người Canh Giữ Bình Minh',
+    description: 'Check-in đỉnh Tà Xùa vào sáng sớm',
+    icon: '🌄',
     rarity: 'epic',
     category: 'explorer'
   },
+  // 20. Huyền Thoại Sky Quest
   {
-    id: 'first-timer',
-    name: 'Lần đầu tiên',
-    description: 'Hoàn thành thử thách đầu tiên',
-    icon: '🌟',
-    rarity: 'common',
+    id: 'skyquest-legend',
+    name: 'Huyền Thoại Sky Quest',
+    description: 'Hoàn thành tất cả hành trình có sẵn',
+    icon: '👑',
+    rarity: 'legendary',
     category: 'explorer'
   }
 ];

@@ -9,7 +9,7 @@ const QuickNavigation = () => {
     { id: 'home', icon: Home, label: 'Trang chủ', target: 'home' },
     { id: 'explore', icon: Compass, label: 'Khám phá', target: 'category-cards-section' },
     { id: 'skyquest', icon: Target, label: 'Sky Quest', target: 'skyquest-section' },
-    { id: 'contact', icon: Phone, label: 'Liên hệ', target: 'footer' }
+    { id: 'contact', icon: Phone, label: 'Liên hệ', target: 'contact-section' }
   ];
 
   useEffect(() => {
@@ -42,6 +42,15 @@ const QuickNavigation = () => {
   const scrollToSection = (targetId: string) => {
     const element = document.getElementById(targetId);
     if (element) {
+      // Thêm animation feedback khi click
+      const button = document.querySelector(`[title="${navigationItems.find(item => item.target === targetId)?.label}"]`);
+      if (button) {
+        button.classList.add('animate-pulse');
+        setTimeout(() => {
+          button.classList.remove('animate-pulse');
+        }, 300);
+      }
+      
       element.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
@@ -65,9 +74,10 @@ const QuickNavigation = () => {
                 onClick={() => scrollToSection(item.target)}
                 className={`
                   relative flex flex-col items-center justify-center p-3 rounded-full transition-all duration-300 group
+                  hover:scale-105 active:scale-95 transform-gpu
                   ${isActive 
                     ? 'bg-gradient-to-r from-green-500 to-blue-600 text-white shadow-lg scale-110' 
-                    : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
+                    : 'text-gray-600 hover:text-green-600 hover:bg-green-50 hover:shadow-md'
                   }
                 `}
                 title={item.label}

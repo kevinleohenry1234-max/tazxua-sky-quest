@@ -10,7 +10,7 @@ const MainNavigation = () => {
   const mainNavLinks = [
     { href: '/', label: 'Trang chủ', icon: Home },
     { href: '/about', label: 'Giới thiệu', icon: Info },
-    { href: '/experience', label: 'Trải nghiệm', icon: MapPin },
+    { href: '/#digital-exhibition', label: 'Triển lãm số', icon: MapPin },
     { href: '/blog', label: 'Blog', icon: BookOpen },
     { href: '/contact', label: 'Liên hệ', icon: Phone },
   ];
@@ -46,14 +46,14 @@ const MainNavigation = () => {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
                     isActive 
-                      ? 'text-green-600 bg-green-50' 
-                      : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+                      ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
+                      : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{link.label}</span>
+                  <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+                  <span className="transition-all duration-300">{link.label}</span>
                 </Link>
               );
             })}
@@ -79,15 +79,15 @@ const MainNavigation = () => {
                   <Link
                     key={link.href}
                     to={link.href}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
                       isActive 
-                        ? 'text-green-600 bg-green-50' 
-                        : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+                        ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
+                        : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Icon className="w-4 h-4" />
-                    <span>{link.label}</span>
+                    <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+                    <span className="transition-all duration-300">{link.label}</span>
                   </Link>
                 );
               })}

@@ -176,10 +176,10 @@ const Experience = () => {
         <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
           <div className="relative text-center text-white z-10">
             <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
-              Trải Nghiệm Tà Xùa
+              Triển Lãm Số Tà Xùa
             </h1>
             <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
-              Khám phá những trải nghiệm độc đáo qua ảnh, video và âm thanh
+              Khám phá những trải nghiệm độc đáo qua ảnh, video và âm thanh số hóa
             </p>
           </div>
         </section>

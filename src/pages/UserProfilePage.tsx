@@ -10,6 +10,9 @@ import EmotionalFeedback from '../components/EmotionalFeedback';
 import ProgressToast from '../components/ProgressToast';
 import MicroInteractions from '../components/gamification/MicroInteractions';
 import SkyQuestNavigation from '../components/SkyQuestNavigation';
+import JourneyTimeline from '../components/JourneyTimeline';
+import HallOfStories from '../components/HallOfStories';
+import InteractiveMoments from '../components/InteractiveMoments';
 
 const UserProfilePage: React.FC = () => {
   const { 
@@ -352,8 +355,85 @@ const UserProfilePage: React.FC = () => {
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Activity & Challenges */}
+            {/* Left Column - Journey & Stories */}
             <div className="lg:col-span-2 space-y-8">
+              {/* Hành trình của bạn */}
+              <JourneyTimeline 
+                journeys={[
+                  {
+                    id: '1',
+                    title: 'Khám phá Tà Xùa',
+                    description: 'Hành trình đầu tiên khám phá vẻ đẹp của Tà Xùa',
+                    coverImage: '/images/ta-xua-journey.jpg',
+                    difficulty: 'Dễ',
+                    progress: 85,
+                    status: 'in_progress',
+                    startedAt: new Date('2024-01-15'),
+                    chapters: [
+                      {
+                        id: '1-1',
+                        title: 'Điểm đến đầu tiên',
+                        description: 'Khám phá đỉnh Tà Xùa',
+                        status: 'completed',
+                        completedAt: new Date('2024-01-20'),
+                        userNotes: 'Cảnh đẹp tuyệt vời!',
+                        emotionalFootprints: [
+                          {
+                            emotion: 'bình yên',
+                            intensity: 5,
+                            timestamp: new Date('2024-01-20'),
+                            note: 'Cảm giác thật thư giãn'
+                          }
+                        ],
+                        challengeId: 'challenge-1'
+                      }
+                    ],
+                    totalEmotionalFootprints: [
+                      {
+                        emotion: 'bình yên',
+                        intensity: 5,
+                        timestamp: new Date('2024-01-20'),
+                        note: 'Hành trình tuyệt vời'
+                      }
+                    ],
+                    category: 'explorer'
+                  }
+                ]}
+                onJourneyClick={(journeyId) => console.log('Journey clicked:', journeyId)}
+              />
+
+              {/* Hall of Stories */}
+              <HallOfStories 
+                stories={[
+                  {
+                    id: '1',
+                    title: 'Bình minh trên đỉnh Tà Xùa',
+                    content: 'Một trải nghiệm tuyệt vời khi được chứng kiến bình minh từ đỉnh núi cao nhất Tây Bắc.',
+                    image: '/images/sunrise-ta-xua.jpg',
+                    journeyId: 'journey-1',
+                    journeyTitle: 'Khám phá Tà Xùa',
+                    authorId: 'user-1',
+                    authorName: 'Nguyễn Văn A',
+                    authorAvatar: '🏔️',
+                    createdAt: new Date(),
+                    cloudLikes: 15,
+                    wishes: [
+                      {
+                        id: '1-1',
+                        authorId: 'user-2',
+                        authorName: 'Trần Thị B',
+                        content: 'Chúc bạn có thêm nhiều trải nghiệm tuyệt vời!',
+                        emoji: '🌟',
+                        createdAt: new Date()
+                      }
+                    ],
+                    tags: ['bình minh', 'núi', 'thiên nhiên']
+                  }
+                ]}
+                onCloudLike={(storyId) => console.log('Cloud like:', storyId)}
+                onSendWish={(storyId, message) => console.log('Send wish:', storyId, message)}
+              />
+
               {/* Recent Activity */}
               {profileSettings.showActivity && (
                 <div className="bg-white rounded-2xl shadow-xl p-6">
@@ -447,62 +527,32 @@ const UserProfilePage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Badges Collection */}
-              {profileSettings.showBadges && (
-                <div className="bg-white rounded-2xl shadow-xl p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <Award className="w-5 h-5 text-yellow-500" />
-                    Bộ sưu tập huy hiệu
-                  </h2>
-                  <div className="grid grid-cols-3 gap-3">
-                    {userProfile.badges?.slice(0, 9).map((badge, index) => (
-                      <div key={index} className="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center">
-                        <span className="text-2xl">{badge.icon}</span>
-                      </div>
-                    ))}
-                    {Array.from({ length: Math.max(0, 9 - (userProfile.badges?.length || 0)) }).map((_, index) => (
-                      <div key={`empty-${index}`} className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-400">?</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
-              {!profileSettings.showBadges && (
-                <div className="bg-white rounded-2xl shadow-xl p-6">
-                  <div className="text-center py-8">
-                    <EyeOff className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-500 mb-2">Huy hiệu đã được ẩn</h3>
-                    <p className="text-gray-400">Bạn có thể bật lại trong cài đặt hồ sơ</p>
-                  </div>
-                </div>
-              )}
 
               {/* Test Micro-interactions */}
-              <div className="bg-white rounded-2xl shadow-xl p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Test Animations</h2>
-                <div className="space-y-3">
-                  <button
-                    onClick={() => handleTestMicroInteraction('points')}
-                    className={`w-full px-4 py-2 bg-gradient-to-r ${currentTheme.gradient} text-white rounded-lg hover:opacity-90 transition-opacity`}
-                  >
-                    Test Points
-                  </button>
-                  <button
-                    onClick={() => handleTestMicroInteraction('level_up')}
-                    className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                  >
-                    Test Level Up
-                  </button>
-                  <button
-                    onClick={() => handleTestMicroInteraction('badge')}
-                    className="w-full px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-                  >
-                    Test Badge
-                  </button>
-                </div>
-              </div>
+              <InteractiveMoments 
+                moments={[
+                  {
+                    id: '1',
+                    type: 'points',
+                    title: 'Điểm thưởng',
+                    description: 'Bạn đã nhận được 50 điểm từ việc hoàn thành thử thách',
+                    value: 50,
+                    timestamp: new Date(),
+                    animation: 'points_burst'
+                  },
+                  {
+                    id: '2',
+                    type: 'badge',
+                    title: 'Huy hiệu mới',
+                    description: 'Bạn đã nhận được huy hiệu "Thám hiểm gia"',
+                    value: 'Thám hiểm gia',
+                    timestamp: new Date(),
+                    animation: 'badge_spin'
+                  }
+                ]}
+                onReplayMoment={(momentId) => console.log('Replay moment:', momentId)}
+              />
             </div>
           </div>
         </div>

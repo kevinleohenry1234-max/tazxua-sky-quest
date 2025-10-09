@@ -36,7 +36,18 @@ const MOCK_USER_PROFILE: UserProfile = {
   totalPoints: 750,
   currentLevel: getUserLevel(750),
   nextLevel: getNextLevel(getUserLevel(750)),
-  badges: [],
+  badges: [
+    // Pre-assigned 9 badges for sample user
+    SAMPLE_BADGES.find(b => b.id === 'pioneer')!,
+    SAMPLE_BADGES.find(b => b.id === 'sunset-hunter')!,
+    SAMPLE_BADGES.find(b => b.id === 'silent-traveler')!,
+    SAMPLE_BADGES.find(b => b.id === 'nature-friend')!,
+    SAMPLE_BADGES.find(b => b.id === 'white-cloud-creator')!,
+    SAMPLE_BADGES.find(b => b.id === 'lens-artisan')!,
+    SAMPLE_BADGES.find(b => b.id === 'green-traveler')!,
+    SAMPLE_BADGES.find(b => b.id === 'mountain-heart')!,
+    SAMPLE_BADGES.find(b => b.id === 'mountain-storyteller')!
+  ].filter(Boolean),
   vouchers: [],
   joinDate: new Date('2024-01-01'),
   lastActivity: new Date(),

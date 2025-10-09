@@ -23,6 +23,9 @@ import RewardShop from './pages/RewardShop';
 import Leaderboard from './pages/Leaderboard';
 import ReferralSystem from './pages/ReferralSystem';
 import PartnerDashboard from './pages/PartnerDashboard';
+import SkyQuestJourneyPage from './pages/SkyQuestJourneyPage';
+import HallOfStoriesPage from './pages/HallOfStoriesPage';
+import SouvenirPage from './pages/SouvenirPage';
 
 const queryClient = new QueryClient();
 
@@ -48,6 +51,9 @@ const App = () => (
         <Route path="/sky-quest/profile" element={<UserProfilePage />} />
         <Route path="/challenges" element={<ChallengesPage />} />
         <Route path="/sky-quest/challenges" element={<ChallengesPage />} />
+        <Route path="/sky-quest/journey" element={<SkyQuestJourneyPage />} />
+        <Route path="/sky-quest/hall-of-stories" element={<HallOfStoriesPage />} />
+        <Route path="/sky-quest/souvenirs" element={<SouvenirPage />} />
         <Route path="/rewards" element={<RewardShop />} />
         <Route path="/sky-quest/rewards" element={<RewardShop />} />
         <Route path="/leaderboard" element={<Leaderboard />} />

@@ -30,35 +30,35 @@ const SkyQuestNavigation: React.FC<SkyQuestNavigationProps> = ({
   const sections = [
     {
       id: 'profile',
-      name: 'Hồ sơ',
+      name: 'Cá nhân',
       icon: User,
       path: '/sky-quest/profile',
       color: 'from-blue-500 to-indigo-600',
-      description: 'Thông tin cá nhân và thành tích'
+      description: 'Archetype, hành trình hoàn thành và nhật ký cá nhân'
     },
     {
-      id: 'challenges',
-      name: 'Thử thách',
+      id: 'journey',
+      name: 'Hành trình của bạn',
       icon: Target,
-      path: '/sky-quest/challenges',
+      path: '/sky-quest/journey',
       color: 'from-green-500 to-emerald-600',
-      description: 'Khám phá và tham gia thử thách'
+      description: 'Hành trình hiện tại và các hành trình đã mở khóa'
     },
     {
-      id: 'leaderboard',
-      name: 'Bảng xếp hạng',
+      id: 'hall-of-stories',
+      name: 'Hall of Stories',
       icon: Trophy,
-      path: '/sky-quest/leaderboard',
+      path: '/sky-quest/hall-of-stories',
       color: 'from-yellow-500 to-orange-600',
-      description: 'Xem thứ hạng và so sánh'
+      description: 'Bảng xếp hạng và những câu chuyện ấn tượng'
     },
     {
-      id: 'rewards',
-      name: 'Phần thưởng',
+      id: 'souvenirs',
+      name: 'Kỷ vật hành trình',
       icon: Gift,
-      path: '/sky-quest/rewards',
+      path: '/sky-quest/souvenirs',
       color: 'from-purple-500 to-pink-600',
-      description: 'Đổi điểm lấy quà tặng'
+      description: 'Huy hiệu, thẻ truyện và voucher đã sưu tập'
     }
   ];
 
