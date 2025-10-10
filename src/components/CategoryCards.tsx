@@ -1,233 +1,192 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
-  Mountain, 
-  Home, 
-  Coffee, 
-  Camera, 
-  TreePine, 
-  MapPin,
   Compass,
-  Users,
+  Home,
+  Camera,
   ArrowRight,
+  MapPin,
   Star,
-  Navigation,
-  Clock,
-  ChevronDown,
-  ChevronUp
+  Users
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import AttractionImageSlider from '@/components/AttractionImageSlider';
 
 const CategoryCards = () => {
   const navigate = useNavigate();
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const categories = [
     {
       id: 'explore',
       title: 'Khám Phá',
-      description: 'Tìm hiểu sâu về vùng đất Tà Xùa qua từng câu chuyện và địa điểm nổi bật',
+      shortDescription: 'Khám phá những địa điểm tuyệt đẹp',
+      detailedDescription: 'Tìm hiểu sâu về vùng đất Tà Xùa qua từng câu chuyện và địa điểm nổi bật. Từ đỉnh núi cao nhất đến những thung lũng mây trắng, mỗi bước chân đều là một khám phá mới.',
       icon: Compass,
-      color: 'bg-gradient-to-br from-amber-500 via-orange-600 to-red-600',
-      path: '/explore'
+      path: '/explore',
+      backgroundImage: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      ctaText: 'Bắt đầu khám phá',
+      highlights: ['Đỉnh Tà Xùa', 'Cây cô đơn', 'Biển mây']
     },
     {
       id: 'accommodation',
       title: 'Lưu Trú',
-      description: 'Homestay và khách sạn chất lượng cao giữa lòng thiên nhiên',
+      shortDescription: 'Nghỉ dưỡng giữa lòng thiên nhiên',
+      detailedDescription: 'Homestay và khách sạn chất lượng cao giữa lòng thiên nhiên. Trải nghiệm cuộc sống bản địa, thưởng thức ẩm thực truyền thống và tận hưởng không gian yên bình.',
       icon: Home,
-      color: 'bg-gradient-to-br from-emerald-500 via-green-600 to-teal-700',
-      path: '/accommodation'
+      path: '/accommodation',
+      backgroundImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80',
+      ctaText: 'Đặt phòng ngay',
+      highlights: ['Homestay truyền thống', 'View núi đồi', 'Ẩm thực địa phương']
     },
     {
       id: 'experience',
       title: 'Triển Lãm Số',
-      description: 'Khu vực trưng bày các nội dung kỹ thuật số như video, nhạc nền, trải nghiệm tương tác và hình ảnh số hóa của Tà Xùa',
+      shortDescription: 'Nghệ thuật và văn hóa số',
+      detailedDescription: 'Khu vực trưng bày các nội dung kỹ thuật số như video, nhạc nền, trải nghiệm tương tác và hình ảnh số hóa của Tà Xùa. Khám phá văn hóa H\'Mông qua công nghệ hiện đại.',
       icon: Camera,
-      color: 'bg-gradient-to-br from-purple-500 via-violet-600 to-purple-700',
-      path: '/experience'
+      path: '/experience',
+      backgroundImage: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      ctaText: 'Khám phá ngay',
+      highlights: ['Thổ cẩm H\'Mông', 'Video 4K', 'Trải nghiệm AR']
     }
   ];
 
-  // Dữ liệu địa điểm được mở rộng từ ExploreSection
-  const locations = [
-    {
-      id: 1,
-      name: 'Cây Cô Đơn',
-      category: 'mountain',
-      description: 'Cây cô đơn Tà Xùa là một cây thông cổ thụ mọc lẻ loi trên đỉnh núi, trở thành biểu tượng nổi tiếng của vùng đất này.',
-      images: [
-        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-1.png',
-        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-3.png',
-        '/Attractions/Cay_Co_Don/images/cay-co-don-ta-xua-4.png'
-      ],
-      difficulty: 'Trung bình',
-      duration: '3-4 giờ',
-      rating: 4.8,
-      coordinates: '21.3167°N, 103.7667°E',
-      highlights: ['Biểu tượng Tà Xùa', 'Điểm check-in nổi tiếng', 'Cảnh hoàng hôn tuyệt đẹp'],
-      bestTime: 'Sáng sớm và chiều tà'
-    },
-    {
-      id: 2,
-      name: 'Đỉnh Gió Tà Xùa',
-      category: 'mountain',
-      description: 'Đỉnh Gió là một trong những điểm ngắm mây đẹp nhất Tà Xùa, nơi có thể chiêm ngưỡng toàn cảnh dãy núi hùng vĩ.',
-      images: [
-        '/Attractions/Dinh_Gio_Ta_Xua/images/Dinh-gio-Ta-Xua-1.png',
-        '/Attractions/Dinh_Gio_Ta_Xua/images/Dinh-gio-Ta-Xua-2.png',
-        '/Attractions/Dinh_Gio_Ta_Xua/images/065127cce66edb405cbeaff03a3a23cb.png'
-      ],
-      difficulty: 'Dễ',
-      duration: '2-3 giờ',
-      rating: 4.7,
-      coordinates: '21.3200°N, 103.7700°E',
-      highlights: ['Điểm ngắm mây tuyệt đẹp', 'Gần các điểm tham quan khác', 'Thích hợp chụp ảnh'],
-      bestTime: 'Sáng sớm'
-    },
-    {
-      id: 3,
-      name: 'Mỏm Cá Heo',
-      category: 'mountain',
-      description: 'Mỏm đá có hình dáng giống như một chú cá heo khổng lồ nhô ra từ sườn núi, tạo nên cảnh quan độc đáo và hùng vĩ.',
-      images: [
-        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155507.png',
-        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155532.png',
-        '/Attractions/Mom_Ca_Heo/images/Screenshot 2025-09-29 155618.png'
-      ],
-      difficulty: 'Khó',
-      duration: '4-5 giờ',
-      rating: 4.6,
-      coordinates: '21.3150°N, 103.7650°E',
-      highlights: ['Hình dáng độc đáo', 'Thử thách leo núi', 'Cảnh quan hùng vĩ'],
-      bestTime: 'Sáng sớm đến trưa'
-    },
-    {
-      id: 4,
-      name: 'Rừng Nguyên Sinh Tà Xùa',
-      category: 'forest',
-      description: 'Hệ sinh thái rừng nguyên sinh đa dạng với thực vật phong phú và khí hậu mát mẻ quanh năm.',
-      images: [
-        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua.png',
-        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-1.png',
-        '/Attractions/Rung_Nguyen_Sinh/images/rung-ta-xua-2.png'
-      ],
-      difficulty: 'Trung bình',
-      duration: '4-6 giờ',
-      rating: 4.5,
-      coordinates: '21.3100°N, 103.7600°E',
-      highlights: ['Hệ sinh thái đa dạng', 'Trekking và cắm trại', 'Vương quốc rêu'],
-      bestTime: 'Cả ngày'
-    },
-    {
-      id: 5,
-      name: 'Sống Lưng Khủng Long',
-      category: 'mountain',
-      description: 'Dãy núi hùng vĩ với hình dáng giống như sống lưng khủng long khổng lồ, điểm đến không thể bỏ qua khi đến Tà Xùa.',
-      images: [
-        '/Attractions/Song_lung_khung_long/images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-02-1662440259.png',
-        '/Attractions/Song_lung_khung_long/images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-03-1662440259.png',
-        '/Attractions/Song_lung_khung_long/images/song-lung-khung-long-mu-cang-chai-dep-me-man-giua-dat-troi-yen-bai-04-1662440259.png'
-      ],
-      difficulty: 'Khó',
-      duration: '6-8 giờ',
-      rating: 4.9,
-      coordinates: '21.3167°N, 103.7667°E',
-      highlights: ['Hình dáng độc đáo', 'Cảnh quan hùng vĩ', 'Điểm check-in nổi tiếng'],
-      bestTime: 'Sáng sớm đến chiều'
-    }
-  ];
-
-  const handleCategoryClick = (category: any) => {
-    if (category.id === 'explore') {
-      // Chuyển trực tiếp đến trang Explore thay vì dropdown
-      navigate('/explore');
-    } else {
-      navigate(category.path);
-    }
-  };
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Dễ': return 'bg-green-100 text-green-800';
-      case 'Trung bình': return 'bg-yellow-100 text-yellow-800';
-      case 'Khó': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
+  const handleCardClick = (path: string) => {
+    navigate(path);
   };
 
   return (
-    <section id="category-cards-section" className="py-24 bg-gradient-to-b from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-sm">
-      <div className="container mx-auto px-6">
-        {/* Dramatic Title Section */}
-        <div className="text-center mb-20">
-          <div className="relative inline-block">
-            <h2 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-orange-400 via-red-500 to-pink-600 bg-clip-text text-transparent mb-6 tracking-tight">
-              Khám Phá Tà Xùa
-            </h2>
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-full"></div>
-          </div>
-          <p className="text-xl text-slate-300 mt-8 max-w-3xl mx-auto leading-relaxed">
-            Chọn danh mục để bắt đầu hành trình khám phá vùng đất thiêng liêng này
+    <section id="category-cards-section" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Khám Phá Tà Xùa
+          </h2>
+          <p className="font-inter text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Ba trải nghiệm độc đáo đang chờ đón bạn trong hành trình khám phá vùng đất huyền thoại này
           </p>
         </div>
 
-        {/* Category Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mb-12">
-          {categories.map((category, index) => {
-            const IconComponent = category.icon;
+        {/* Feature Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {categories.map((category) => {
+            const Icon = category.icon;
+            const isHovered = hoveredCard === category.id;
             
             return (
-              <Card 
-                key={category.id} 
-                id={category.id === 'experience' ? 'digital-exhibition' : undefined}
+              <Card
+                key={category.id}
                 data-category={category.id}
-                className="group overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 hover:scale-[1.02] cursor-pointer bg-card/80 backdrop-blur-xl border border-border/50 rounded-3xl"
-                onClick={() => handleCategoryClick(category)}
-                style={{
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
-                }}
+                className="group relative overflow-hidden rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-[500px]"
+                onMouseEnter={() => setHoveredCard(category.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                onClick={() => handleCardClick(category.path)}
               >
-                <CardContent className="p-8 text-center h-full flex flex-col justify-between">
-                  {/* Enhanced Icon with Cinematic Glow */}
-                  <div className="mb-8">
-                    <div 
-                      className={`w-20 h-20 ${category.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-125 transition-all duration-500 shadow-2xl`}
-                      style={{
-                        boxShadow: '0 0 30px rgba(59, 130, 246, 0.4)',
-                      }}
-                    >
-                      <IconComponent className="w-10 h-10 text-white drop-shadow-lg" />
-                    </div>
-                    
-                    {/* Title */}
-                    <h3 className="font-playfair text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
-                      {category.title}
-                    </h3>
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0">
+                  <img
+                    src={category.backgroundImage}
+                    alt={category.title}
+                    className={`w-full h-full object-cover transition-transform duration-400 ease-out ${
+                      isHovered ? 'scale-105' : 'scale-100'
+                    }`}
+                  />
+                  <div 
+                    className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 transition-all duration-400 ${
+                      isHovered ? 'from-black/80 via-black/50 to-black/30' : ''
+                    }`}
+                  />
+                </div>
 
-                    {/* Description */}
-                    <p className="font-inter text-muted-foreground leading-relaxed mb-6">
-                      {category.description}
-                    </p>
+                {/* Content */}
+                <CardContent className="relative z-10 p-8 h-full flex flex-col justify-between">
+                  {/* Top Section */}
+                  <div className="flex items-start justify-between">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className="w-4 h-4 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
                   </div>
-                  
-                  {/* Action Button */}
-                  <Button 
-                    className="w-full bg-primary/10 hover:bg-primary hover:text-primary-foreground text-primary border border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95 transform-gpu rounded-xl font-inter font-semibold"
-                  >
-                    Xem chi tiết
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Button>
+
+                  {/* Main Content */}
+                  <div className="flex-1 flex flex-col justify-end">
+                    <div className="mb-6">
+                      <h3 className="font-playfair text-3xl font-bold text-white mb-3">
+                        {category.title}
+                      </h3>
+                      <p className="font-inter text-white/90 text-lg leading-relaxed">
+                        {category.shortDescription}
+                      </p>
+                    </div>
+
+                    {/* Detailed Description - Slides up on hover */}
+                    <div 
+                      className={`transform transition-all duration-400 ease-out ${
+                        isHovered 
+                          ? 'translate-y-0 opacity-100' 
+                          : 'translate-y-8 opacity-0'
+                      }`}
+                    >
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 mb-6">
+                        <p className="font-inter text-white/95 text-sm leading-relaxed mb-4">
+                          {category.detailedDescription}
+                        </p>
+                        
+                        {/* Highlights */}
+                        <div className="flex flex-wrap gap-2">
+                          {category.highlights.map((highlight, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1 bg-white/20 rounded-full text-white/90 text-xs font-medium"
+                            >
+                              {highlight}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* CTA Button - Appears with delay */}
+                      <div 
+                        className={`transform transition-all duration-300 delay-100 ${
+                          isHovered 
+                            ? 'translate-y-0 opacity-100' 
+                            : 'translate-y-4 opacity-0'
+                        }`}
+                      >
+                        <Button 
+                          className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 backdrop-blur-sm rounded-xl py-3 font-semibold transition-all duration-300 group/btn"
+                        >
+                          <span className="mr-2">{category.ctaText}</span>
+                          <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             );
           })}
         </div>
 
-        {/* Cinematic Bottom Spacing */}
-        <div className="h-16"></div>
+        {/* Bottom CTA Section */}
+        <div className="text-center mt-16">
+          <p className="font-inter text-gray-600 mb-6">
+            Không biết bắt đầu từ đâu? Hãy để chúng tôi gợi ý cho bạn
+          </p>
+          <Button 
+            onClick={() => navigate('/explore')}
+            className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            <Compass className="w-5 h-5 mr-2" />
+            Khám phá tất cả
+          </Button>
+        </div>
       </div>
     </section>
   );

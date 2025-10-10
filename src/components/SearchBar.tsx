@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchBarProps {
   onSearch: (query: string, category: string) => void;
@@ -24,6 +25,7 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onExploreClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const navigate = useNavigate();
 
   const categories = [
     { id: 'all', label: 'Tất cả', icon: Search },
@@ -110,21 +112,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onExploreClick }) => {
       {/* Quick Suggestions */}
       <div className="mt-6 flex flex-wrap gap-3 justify-center">
         {[
-          'Đỉnh Tà Xùa',
-          'Homestay truyền thống',
-          'Chè Shan Tuyết',
-          'Văn hóa H\'Mông',
-          'Sống lưng khủng long'
+          { text: 'Đỉnh Tà Xùa', category: 'destinations' },
+          { text: 'Homestay truyền thống', category: 'accommodation' },
+          { text: 'Chè Shan Tuyết', category: 'activities' },
+          { text: 'Văn hóa H\'Mông', category: 'activities' },
+          { text: 'Sống lưng khủng long', category: 'destinations' }
         ].map((suggestion, index) => (
           <button
             key={index}
             onClick={() => {
-              setSearchQuery(suggestion);
-              onSearch(suggestion, selectedCategory);
+              navigate(`/explore?q=${encodeURIComponent(suggestion.text)}&category=${suggestion.category}`);
             }}
             className="px-4 py-2 bg-white/20 backdrop-blur-xl rounded-full text-white/90 text-sm font-inter hover:bg-white/30 transition-all duration-300 hover:scale-105 border border-white/20"
           >
-            {suggestion}
+            {suggestion.text}
           </button>
         ))}
       </div>

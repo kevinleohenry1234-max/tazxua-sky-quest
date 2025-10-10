@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ArrowRight, Mountain } from 'lucide-react';
+import { ChevronDown, ArrowRight, Mountain, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LazyImage from '@/components/LazyImage';
 import SearchBar from '@/components/SearchBar';
@@ -34,8 +34,6 @@ const HeroSection = () => {
       highlight: 'Trải nghiệm ẩm thực độc đáo',
     },
   ];
-
-
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -73,6 +71,11 @@ const HeroSection = () => {
     scrollToDiscover();
   };
 
+  const handleVideoClick = () => {
+    // Open video modal or navigate to video page
+    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+  };
+
   const handleSearch = (query: string, category: string) => {
     // Navigate to explore page with search parameters
     navigate(`/explore?q=${encodeURIComponent(query)}&category=${category}`);
@@ -80,7 +83,7 @@ const HeroSection = () => {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      {/* Fixed Background Images - No Parallax */}
+      {/* Fixed Background Images with Enhanced Overlay */}
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -94,14 +97,22 @@ const HeroSection = () => {
             className="w-full h-full object-cover"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70" />
+          {/* Enhanced overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80" />
         </div>
       ))}
 
-      {/* Cinematic Light Rays */}
+      {/* Animated Clouds */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-white/30 via-white/10 to-transparent transform rotate-12 animate-pulse"></div>
-        <div className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-white/20 via-white/5 to-transparent transform -rotate-12 animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-20 left-0 w-96 h-32 bg-white/5 rounded-full blur-3xl animate-float-slow"></div>
+        <div className="absolute top-40 right-0 w-80 h-24 bg-white/3 rounded-full blur-3xl animate-float-slower"></div>
+        <div className="absolute bottom-40 left-1/4 w-64 h-20 bg-white/4 rounded-full blur-3xl animate-float-medium"></div>
+      </div>
+
+      {/* Cinematic Light Rays with Gentle Movement */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-white/30 via-white/10 to-transparent transform rotate-12 animate-gentle-sway"></div>
+        <div className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-white/20 via-white/5 to-transparent transform -rotate-12 animate-gentle-sway-reverse"></div>
       </div>
 
       {/* Floating Particles */}
@@ -148,21 +159,22 @@ const HeroSection = () => {
             </p>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-12">
+          {/* Redesigned Action Buttons - Enhanced Video Button */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button 
               onClick={handleExploreClick}
-              className="btn-primary group"
+              className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300 group border-0"
             >
-              Khám Phá Ngay
+              Khám phá hành trình Sky Quest
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
-              variant="outline" 
-              onClick={() => navigate('/experience')}
-              className="btn-outline"
+              variant="ghost" 
+              onClick={handleVideoClick}
+              className="border border-white/40 text-white/90 hover:text-white hover:bg-white/10 hover:border-white/60 px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 group font-medium"
             >
-              Trải Nghiệm Ảo
+              <Play className="w-4 h-4 mr-2" />
+              Xem Tà Xùa qua video 4K
             </Button>
           </div>
 

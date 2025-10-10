@@ -25,6 +25,8 @@ const Index = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showEngagementPopup, setShowEngagementPopup] = useState(false);
+  const [hasShownEngagementPopup, setHasShownEngagementPopup] = useState(false);
 
   // Check for existing session on component mount
   useEffect(() => {
@@ -33,7 +35,7 @@ const Index = () => {
         const session = await getSession();
         if (session?.user) {
           setIsLoggedIn(true);
-          setUserName(session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Người dùng');
+          setUserName(session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User');
           setUserEmail(session.user.email || '');
         }
       } catch (error) {
@@ -45,11 +47,11 @@ const Index = () => {
 
     checkSession();
 
-    // Listen for auth state changes
+    // Set up auth state listener
     const { data: { subscription } } = onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         setIsLoggedIn(true);
-        setUserName(session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Người dùng');
+        setUserName(session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User');
         setUserEmail(session.user.email || '');
       } else if (event === 'SIGNED_OUT') {
         setIsLoggedIn(false);
@@ -63,6 +65,18 @@ const Index = () => {
       subscription?.unsubscribe();
     };
   }, []);
+
+  // 60-second engagement feature
+  useEffect(() => {
+    if (isLoading || showDashboard || hasShownEngagementPopup) return;
+
+    const timer = setTimeout(() => {
+      setShowEngagementPopup(true);
+      setHasShownEngagementPopup(true);
+    }, 60000); // 60 seconds
+
+    return () => clearTimeout(timer);
+  }, [isLoading, showDashboard, hasShownEngagementPopup]);
 
   const handleLogin = () => {
     setShowLoginModal(true);
@@ -135,6 +149,19 @@ const Index = () => {
   const handleSwitchToLogin = () => {
     setShowRegisterModal(false);
     setShowLoginModal(true);
+  };
+
+  const handleEngagementClick = () => {
+    setShowEngagementPopup(false);
+    // Scroll to hero section or trigger Sky Quest exploration
+    const heroSection = document.querySelector('#hero-section');
+    if (heroSection) {
+      heroSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleCloseEngagement = () => {
+    setShowEngagementPopup(false);
   };
 
   // Show loading state while checking session
@@ -225,6 +252,43 @@ const Index = () => {
         onRegister={handleRegisterSubmit}
         onSwitchToLogin={handleSwitchToLogin}
       />
+
+      {/* 60-second Engagement Popup */}
+      {showEngagementPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+          <div className="fixed bottom-8 right-8 max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 animate-fade-in-up">
+            <button
+              onClick={handleCloseEngagement}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            <div className="mb-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-green-500 rounded-full flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3l14 9-14 9V3z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Bạn đã sẵn sàng bắt đầu hành trình Sky Quest của mình chưa?
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Khám phá Tà Xùa qua những trải nghiệm xanh và bền vững
+              </p>
+            </div>
+            
+            <button
+              onClick={handleEngagementClick}
+              className="w-full bg-gradient-to-r from-orange-500 to-green-500 text-white py-3 px-4 rounded-lg font-medium hover:from-orange-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              Khám phá ngay
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
