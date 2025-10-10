@@ -21,7 +21,45 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Phechat Widget -->
-    <script src="https://phechat.com/api/widget/embed.js?docSpaceId=docspace_24fd44ba0c65&position=bottom-right&color=dark-cyan&v=%7B%7Btimestamp%7D%7D" async></script>
+    <!-- Phechat Widget with Error Handling -->
+    <script>
+      // Load Phechat widget with error handling
+      (function() {
+        const script = document.createElement('script');
+        script.src = 'https://phechat.com/api/widget/embed.js?docSpaceId=docspace_95a7f7dc9c83&position=bottom-right&color=green&v=%7B%7Btimestamp%7D%7D';
+        script.async = true;
+        
+        script.onerror = function() {
+          console.log('Phechat widget không thể tải - có thể do vấn đề kết nối internet');
+          // Tạo fallback chat button đơn giản
+          const fallbackButton = document.createElement('div');
+          fallbackButton.innerHTML = `
+            <div style="
+              position: fixed;
+              bottom: 20px;
+              right: 20px;
+              width: 60px;
+              height: 60px;
+              background: #22c55e;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+              z-index: 9999;
+              transition: transform 0.2s;
+            " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" onclick="alert('Chat widget tạm thời không khả dụng. Vui lòng liên hệ qua trang Contact.')">
+              <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+          `;
+          document.body.appendChild(fallbackButton);
+        };
+        
+        document.head.appendChild(script);
+      })();
+    </script>
   </body>
 </html>
