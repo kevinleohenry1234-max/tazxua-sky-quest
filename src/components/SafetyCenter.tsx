@@ -1,841 +1,377 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { 
-  Shield, 
-  Phone, 
-  MapPin, 
-  Clock, 
-  AlertTriangle, 
   Cloud, 
   Sun, 
   CloudRain, 
+  Thermometer, 
+  Droplets, 
   Wind, 
-  Thermometer,
   Eye,
-  Mountain,
+  AlertTriangle,
+  Phone,
+  Shield,
   Heart,
-  Wifi,
-  Battery,
-  Navigation,
-  Zap,
-  Droplets,
-  MessageSquare,
-  ShoppingCart,
-  Share2,
-  Signal,
-  BatteryLow,
-  X,
-  Check,
-  ExternalLink,
-  Map,
-  Store
+  MapPin,
+  Download,
+  Filter
 } from 'lucide-react';
 
 interface WeatherData {
   temperature: number;
-  condition: string;
+  feelsLike: number;
   humidity: number;
   windSpeed: number;
   visibility: number;
-  icon: any;
+  condition: 'sunny' | 'cloudy' | 'rainy';
 }
 
 interface EmergencyContact {
+  id: string;
   name: string;
   phone: string;
-  type: 'police' | 'medical' | 'rescue' | 'local';
-  available24h: boolean;
+  type: 'medical' | 'police' | 'rescue';
 }
 
-interface SafetyTip {
+interface ChecklistItem {
   id: string;
-  title: string;
-  description: string;
-  priority: 'high' | 'medium' | 'low';
-  icon: any;
-  category: 'weather' | 'hiking' | 'health' | 'communication';
+  text: string;
+  category: 'before' | 'during' | 'gear';
+  completed: boolean;
 }
 
-const SafetyCenter = () => {
-  const [currentWeather, setCurrentWeather] = useState<WeatherData>({
+const SafetyCenter: React.FC = () => {
+  const [weatherData] = useState<WeatherData>({
     temperature: 18,
-    condition: 'Có mây',
-    humidity: 75,
+    feelsLike: 15,
+    humidity: 85,
     windSpeed: 12,
     visibility: 8,
-    icon: Cloud
+    condition: 'cloudy'
   });
 
-  const [alerts, setAlerts] = useState([
-    {
-      id: '1',
-      type: 'warning',
-      message: 'Dự báo mưa nhỏ vào chiều tối. Nên mang theo áo mưa khi trekking.',
-      timestamp: '2 giờ trước'
-    }
+  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([
+    // Before departure
+    { id: '1', text: 'Kiểm tra phương tiện di chuyển', category: 'before', completed: false },
+    { id: '2', text: 'Báo cho người thân về lịch trình', category: 'before', completed: false },
+    { id: '3', text: 'Sạc đầy pin điện thoại', category: 'before', completed: false },
+    { id: '4', text: 'Chuẩn bị pin dự phòng', category: 'before', completed: false },
+    { id: '5', text: 'Mang theo giấy tờ cá nhân', category: 'before', completed: false },
+    
+    // During trekking
+    { id: '6', text: 'Mang áo mưa mỏng', category: 'during', completed: false },
+    { id: '7', text: 'Giữ khoảng cách an toàn', category: 'during', completed: false },
+    { id: '8', text: 'Không rời khỏi đoàn', category: 'during', completed: false },
+    { id: '9', text: 'Tôn trọng chỉ dẫn hướng dẫn viên', category: 'during', completed: false },
+    
+    // Essential gear
+    { id: '10', text: 'Giày leo núi chống trượt', category: 'gear', completed: false },
+    { id: '11', text: 'Gậy trekking', category: 'gear', completed: false },
+    { id: '12', text: 'Áo khoác gió', category: 'gear', completed: false },
+    { id: '13', text: 'Nước uống đầy đủ', category: 'gear', completed: false },
+    { id: '14', text: 'Thuốc y tế cá nhân', category: 'gear', completed: false },
   ]);
 
-  // States for dialogs and features
-  const [weatherDialogOpen, setWeatherDialogOpen] = useState(false);
-  const [waterDialogOpen, setWaterDialogOpen] = useState(false);
-  const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
-  const [equipmentDialogOpen, setEquipmentDialogOpen] = useState(false);
-  const [shareLocationDialogOpen, setShareLocationDialogOpen] = useState(false);
-  const [findSignalDialogOpen, setFindSignalDialogOpen] = useState(false);
-  const [batterySaveDialogOpen, setBatterySaveDialogOpen] = useState(false);
-  
-  // Form states
-  const [scheduleForm, setScheduleForm] = useState({
-    name: '',
-    phone: '',
-    startDate: '',
-    endDate: '',
-    route: '',
-    emergencyContact: '',
-    notes: ''
-  });
+  const [emergencyContacts] = useState<EmergencyContact[]>([
+    { id: '1', name: 'Trạm Y tế Tà Xùa', phone: '0274.3871.234', type: 'medical' },
+    { id: '2', name: 'Công an Huyện Bắc Yên', phone: '0274.3871.113', type: 'police' },
+    { id: '3', name: 'Đội Cứu hộ Sơn La', phone: '0212.3856.115', type: 'rescue' },
+  ]);
 
-  const [locationShared, setLocationShared] = useState(false);
-  const [batterySaveMode, setBatterySaveMode] = useState(false);
-
-  const emergencyContacts: EmergencyContact[] = [
-    {
-      name: 'Cảnh sát Bắc Yên',
-      phone: '113',
-      type: 'police',
-      available24h: true
-    },
-    {
-      name: 'Cấp cứu 115',
-      phone: '115', 
-      type: 'medical',
-      available24h: true
-    },
-    {
-      name: 'Cứu hộ miền núi',
-      phone: '0987 654 321',
-      type: 'rescue',
-      available24h: true
-    },
-    {
-      name: 'Hướng dẫn viên địa phương',
-      phone: '0912 345 678',
-      type: 'local',
-      available24h: false
-    }
-  ];
-
-  const safetyTips: SafetyTip[] = [
-    {
-      id: '1',
-      title: 'Kiểm tra thời tiết',
-      description: 'Luôn theo dõi dự báo thời tiết trước khi khởi hành. Tránh leo núi khi có mưa to hoặc sương mù dày đặc.',
-      priority: 'high',
-      icon: Cloud,
-      category: 'weather'
-    },
-    {
-      id: '2',
-      title: 'Mang theo đủ nước',
-      description: 'Chuẩn bị ít nhất 2-3 lít nước/người cho chuyến trekking. Có thể bổ sung nước tại các suối trên đường.',
-      priority: 'high',
-      icon: Heart,
-      category: 'health'
-    },
-    {
-      id: '3',
-      title: 'Thông báo lịch trình',
-      description: 'Chia sẻ kế hoạch di chuyển với gia đình/bạn bè. Cập nhật vị trí định kỳ khi có sóng.',
-      priority: 'medium',
-      icon: Navigation,
-      category: 'communication'
-    },
-    {
-      id: '4',
-      title: 'Trang bị an toàn',
-      description: 'Mang theo đèn pin, pin dự phòng, áo ấm và giày trekking chống trượt.',
-      priority: 'medium',
-      icon: Mountain,
-      category: 'hiking'
-    }
-  ];
-
-  // Handler functions for safety tips
-  const handleSafetyTipClick = (tipId: string) => {
-    switch (tipId) {
-      case '1':
-        setWeatherDialogOpen(true);
-        break;
-      case '2':
-        setWaterDialogOpen(true);
-        break;
-      case '3':
-        setScheduleDialogOpen(true);
-        break;
-      case '4':
-        setEquipmentDialogOpen(true);
-        break;
-    }
+  const toggleChecklistItem = (id: string) => {
+    setChecklistItems(items =>
+      items.map(item =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
+    );
   };
 
-  // Handler functions for quick actions
-  const handleShareLocation = () => {
-    setLocationShared(true);
-    setTimeout(() => setLocationShared(false), 3000);
-  };
-
-  const handleBatterySave = () => {
-    setBatterySaveMode(true);
-    // Simulate sending location to government station
-    setTimeout(() => {
-      alert('Vị trí cuối cùng đã được gửi đến trạm kiểm soát. Hãy tìm nơi trú ẩn an toàn và chờ cứu hộ.');
-    }, 2000);
-  };
-
-  const handleScheduleSubmit = () => {
-    // Simulate sending schedule
-    alert('Lịch trình đã được gửi thành công!');
-    setScheduleDialogOpen(false);
-    setScheduleForm({
-      name: '',
-      phone: '',
-      startDate: '',
-      endDate: '',
-      route: '',
-      emergencyContact: '',
-      notes: ''
-    });
+  const getWeatherIcon = (condition: string) => {
+    switch (condition) {
+      case 'sunny': return <Sun className="w-12 h-12 text-yellow-500 animate-pulse" />;
+      case 'rainy': return <CloudRain className="w-12 h-12 text-blue-500 animate-bounce" />;
+      default: return <Cloud className="w-12 h-12 text-gray-500 animate-pulse" />;
+    }
   };
 
   const getContactIcon = (type: string) => {
     switch (type) {
-      case 'police': return Shield;
-      case 'medical': return Heart;
-      case 'rescue': return Mountain;
-      case 'local': return Phone;
-      default: return Phone;
+      case 'medical': return <Heart className="w-6 h-6 text-red-500" />;
+      case 'police': return <Shield className="w-6 h-6 text-blue-500" />;
+      case 'rescue': return <Phone className="w-6 h-6 text-green-600" />;
+      default: return <Phone className="w-6 h-6" />;
     }
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'border-red-200 bg-red-50';
-      case 'medium': return 'border-yellow-200 bg-yellow-50';
-      case 'low': return 'border-green-200 bg-green-50';
-      default: return 'border-gray-200 bg-gray-50';
-    }
+  const downloadVCard = () => {
+    const vCardData = emergencyContacts.map(contact => 
+      `BEGIN:VCARD\nVERSION:3.0\nFN:${contact.name}\nTEL:${contact.phone}\nEND:VCARD`
+    ).join('\n');
+    
+    const blob = new Blob([vCardData], { type: 'text/vcard' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'emergency-contacts-ta-xua.vcf';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const WeatherIcon = currentWeather.icon;
+  const getCategoryTitle = (category: string) => {
+    switch (category) {
+      case 'before': return 'Trước khi khởi hành';
+      case 'during': return 'Khi trekking';
+      case 'gear': return 'Trang bị cần thiết';
+      default: return '';
+    }
+  };
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="font-playfair text-3xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-          <Shield className="w-8 h-8 text-primary" />
-          Trung Tâm An Toàn
-        </h2>
-        <p className="font-inter text-muted-foreground text-lg max-w-2xl mx-auto">
-          Thông tin quan trọng để đảm bảo an toàn trong chuyến khám phá Tà Xùa của bạn
-        </p>
-      </div>
-
-      {/* Weather Widget */}
-      <Card className="shadow-soft border-0 card-hover">
-        <CardHeader>
-          <CardTitle className="font-playfair flex items-center gap-2">
-            <WeatherIcon className="w-5 h-5 text-primary pulse-on-hover" />
-            Thời Tiết Hiện Tại
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Thermometer className="w-6 h-6 text-orange-500 mr-2" />
-                <span className="text-2xl font-bold text-foreground">{currentWeather.temperature}°C</span>
-              </div>
-              <p className="text-sm text-muted-foreground">{currentWeather.condition}</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Cloud className="w-5 h-5 text-blue-500 mr-2" />
-                <span className="text-lg font-semibold text-foreground">{currentWeather.humidity}%</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Độ ẩm</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Wind className="w-5 h-5 text-green-500 mr-2" />
-                <span className="text-lg font-semibold text-foreground">{currentWeather.windSpeed} km/h</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Tốc độ gió</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Eye className="w-5 h-5 text-purple-500 mr-2" />
-                <span className="text-lg font-semibold text-foreground">{currentWeather.visibility} km</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Tầm nhìn</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Alerts */}
-      {alerts.length > 0 && (
-        <div className="space-y-4">
-          <h3 className="font-playfair text-xl font-semibold text-foreground flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-orange-500" />
-            Cảnh Báo & Thông Tin Quan Trọng
-          </h3>
-          {alerts.map((alert) => (
-            <Alert key={alert.id} className="border-orange-200 bg-orange-50 card-hover">
-              <AlertTriangle className="h-4 w-4 text-orange-600 pulse-on-hover" />
-              <AlertDescription className="text-orange-800">
-                <div className="flex justify-between items-start">
-                  <span>{alert.message}</span>
-                  <span className="text-xs text-orange-600 ml-4">{alert.timestamp}</span>
-                </div>
-              </AlertDescription>
-            </Alert>
-          ))}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Government Safety Monitoring */}
-        <Card className="shadow-soft border-0 card-hover">
-          <CardHeader>
-            <CardTitle className="font-playfair flex items-center gap-2">
-              <Shield className="w-5 h-5 text-primary pulse-on-hover" />
-              Cơ Quan Giám Sát An Toàn
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Alert className="border-blue-200 bg-blue-50">
-              <Shield className="h-4 w-4 text-blue-600" />
-              <AlertDescription className="text-blue-800">
-                <strong>Thông tin quan trọng:</strong> Các cơ quan giám sát an toàn du lịch tại khu vực Tà Xùa luôn sẵn sàng hỗ trợ du khách 24/7.
-              </AlertDescription>
-            </Alert>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 border rounded-lg bg-gray-50">
-                <h4 className="font-semibold text-blue-700 mb-2">Trạm Kiểm Soát Chính Phủ</h4>
-                <p className="text-sm text-muted-foreground mb-2">Giám sát an toàn khu vực núi Tà Xùa</p>
-                <Badge variant="secondary" className="text-xs">24/7</Badge>
-              </div>
-              
-              <div className="p-4 border rounded-lg bg-gray-50">
-                <h4 className="font-semibold text-blue-700 mb-2">Đội Cứu Hộ Địa Phương</h4>
-                <p className="text-sm text-muted-foreground mb-2">Hỗ trợ khẩn cấp tại các điểm du lịch</p>
-                <Badge variant="secondary" className="text-xs">24/7</Badge>
-              </div>
-              
-              <div className="p-4 border rounded-lg bg-gray-50">
-                <h4 className="font-semibold text-blue-700 mb-2">Trung Tâm Y Tế</h4>
-                <p className="text-sm text-muted-foreground mb-2">Chăm sóc y tế khẩn cấp</p>
-                <Badge variant="secondary" className="text-xs">24/7</Badge>
-              </div>
-              
-              <div className="p-4 border rounded-lg bg-gray-50">
-                <h4 className="font-semibold text-blue-700 mb-2">Công An Địa Phương</h4>
-                <p className="text-sm text-muted-foreground mb-2">Đảm bảo an ninh trật tự</p>
-                <Badge variant="secondary" className="text-xs">24/7</Badge>
-              </div>
-            </div>
-            
-            <Button 
-              className="w-full bg-blue-600 hover:bg-blue-700"
-              onClick={() => {
-                const contactInfo = `
-THÔNG TIN LIÊN HỆ KHẨN CẤP - TÀ XÙA
-
-🏛️ TRẠM KIỂM SOÁT CHÍNH PHỦ
-📞 Hotline: 113 (Miễn phí)
-📍 Địa chỉ: Xã Tà Xùa, Bắc Yên, Sơn La
-
-🚑 ĐỘI CỨU HỘ ĐỊA PHƯƠNG  
-📞 Hotline: 115 (Miễn phí)
-📍 Trạm cứu hộ: Km 15, đường lên đỉnh Tà Xùa
-
-🏥 TRUNG TÂM Y TẾ
-📞 Hotline: 114 (Miễn phí)  
-📍 Trạm y tế xã Tà Xùa
-
-👮 CÔNG AN ĐỊA PHƯƠNG
-📞 Hotline: 113 (Miễn phí)
-📍 Công an xã Tà Xùa
-
-⚠️ LƯU Ý QUAN TRỌNG:
-- Tất cả đường dây nóng hoạt động 24/7
-- Khi gọi, hãy cung cấp vị trí chính xác
-- Giữ bình tĩnh và làm theo hướng dẫn
-- Có thể gọi từ điện thoại di động hoặc cố định
-
-📱 Lưu thông tin này vào điện thoại để sử dụng khi cần thiết!
-                `;
-                
-                const blob = new Blob([contactInfo], { type: 'text/plain;charset=utf-8' });
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'Thong-tin-lien-he-khan-cap-Ta-Xua.txt';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-              }}
-            >
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Tải thông tin liên hệ khẩn cấp
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Safety Tips */}
-        <Card className="shadow-soft border-0 card-hover">
-          <CardHeader>
-            <CardTitle className="font-playfair flex items-center gap-2">
-              <Shield className="w-5 h-5 text-primary pulse-on-hover" />
-              Lời Khuyên An Toàn
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {safetyTips.map((tip) => {
-              const IconComponent = tip.icon;
-              return (
-                <div 
-                  key={tip.id} 
-                  className={`p-4 rounded-lg border transition-all duration-300 card-hover cursor-pointer hover:shadow-md ${getPriorityColor(tip.priority)}`}
-                  onClick={() => handleSafetyTipClick(tip.id)}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
-                      <IconComponent className="w-4 h-4 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-inter font-semibold text-foreground">{tip.title}</h4>
-                        <Badge 
-                          variant={tip.priority === 'high' ? 'destructive' : tip.priority === 'medium' ? 'default' : 'secondary'}
-                          className="text-xs pulse-on-hover"
-                        >
-                          {tip.priority === 'high' ? 'Quan trọng' : tip.priority === 'medium' ? 'Lưu ý' : 'Tham khảo'}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{tip.description}</p>
-                      <p className="text-xs text-primary mt-2 font-medium">👆 Nhấn để xem chi tiết</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Weather Information */}
-      <Card className="shadow-soft border-0 card-hover">
-        <CardHeader>
-          <CardTitle className="font-playfair flex items-center gap-2">
-            <Cloud className="w-5 h-5 text-primary pulse-on-hover" />
-            Thông Tin Thời Tiết
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <currentWeather.icon className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-foreground">{currentWeather.temperature}°C</div>
-                <div className="text-sm text-muted-foreground">{currentWeather.condition}</div>
-              </div>
-            </div>
-            <Badge variant="outline" className="pulse-on-hover">Hiện tại</Badge>
-          </div>
+    <div className="min-h-screen bg-[#fefbf6] py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Two-column dashboard layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-3 rounded-lg bg-muted/30">
-              <Droplets className="w-4 h-4 mx-auto mb-1 text-blue-500" />
-              <div className="text-xs text-muted-foreground">Độ ẩm</div>
-              <div className="font-semibold">{currentWeather.humidity}%</div>
-            </div>
-            <div className="text-center p-3 rounded-lg bg-muted/30">
-              <Wind className="w-4 h-4 mx-auto mb-1 text-green-500" />
-              <div className="text-xs text-muted-foreground">Gió</div>
-              <div className="font-semibold">{currentWeather.windSpeed} km/h</div>
-            </div>
-            <div className="text-center p-3 rounded-lg bg-muted/30">
-              <Eye className="w-4 h-4 mx-auto mb-1 text-purple-500" />
-              <div className="text-xs text-muted-foreground">Tầm nhìn</div>
-              <div className="font-semibold">{currentWeather.visibility} km</div>
-            </div>
-            <div className="text-center p-3 rounded-lg bg-muted/30">
-              <Mountain className="w-4 h-4 mx-auto mb-1 text-orange-500" />
-              <div className="text-xs text-muted-foreground">Độ cao</div>
-              <div className="font-semibold">2865m</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          {/* Left Column - Dynamic Content & Alerts */}
+          <div className="space-y-6">
+            
+            {/* Visual Weather Report */}
+            <Card className="border-[#15803d]/20 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+                  {getWeatherIcon(weatherData.condition)}
+                  Bản Tin Thời Tiết Trực Quan
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Temperature Display */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-4xl font-bold text-[#15803d]">
+                      {weatherData.temperature}°C
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Cảm giác như {weatherData.feelsLike}°C
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="outline" className="text-[#15803d] border-[#15803d]">
+                      Sương mù nhẹ
+                    </Badge>
+                  </div>
+                </div>
 
-      {/* Dialog Components for Safety Tips */}
-      
-      {/* Weather Dialog */}
-      <Dialog open={weatherDialogOpen} onOpenChange={setWeatherDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Cloud className="w-5 h-5 text-primary" />
-              Bảng Theo Dõi Thời Tiết Khu Vực
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="p-4">
-                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                  <Sun className="w-4 h-4 text-yellow-500" />
-                  Hôm Nay
-                </h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Nhiệt độ:</span>
-                    <span className="font-medium">15°C - 22°C</span>
+                {/* Weather Indicators */}
+                <div className="grid grid-cols-3 gap-4">
+                  {/* Humidity */}
+                  <div className="text-center">
+                    <Droplets className="w-6 h-6 text-blue-500 mx-auto mb-2" />
+                    <div className="text-sm text-gray-600">Độ ẩm</div>
+                    <div className="font-semibold text-[#1f2937]">{weatherData.humidity}%</div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                      <div 
+                        className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${weatherData.humidity}%` }}
+                      ></div>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Độ ẩm:</span>
-                    <span className="font-medium">75%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Tầm nhìn:</span>
-                    <span className="font-medium">8km</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Gió:</span>
-                    <span className="font-medium">12 km/h</span>
-                  </div>
-                </div>
-              </Card>
-              <Card className="p-4">
-                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                  <CloudRain className="w-4 h-4 text-blue-500" />
-                  Ngày Mai
-                </h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Nhiệt độ:</span>
-                    <span className="font-medium">12°C - 18°C</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Mưa:</span>
-                    <span className="font-medium text-blue-600">60%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Tầm nhìn:</span>
-                    <span className="font-medium">5km</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Gió:</span>
-                    <span className="font-medium">18 km/h</span>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            <Alert className="border-blue-200 bg-blue-50">
-              <Cloud className="h-4 w-4 text-blue-600" />
-              <AlertDescription className="text-blue-800">
-                <strong>Khuyến nghị:</strong> Thời tiết thuận lợi cho trekking hôm nay. Ngày mai có khả năng mưa, nên chuẩn bị áo mưa.
-              </AlertDescription>
-            </Alert>
-          </div>
-        </DialogContent>
-      </Dialog>
 
-      {/* Water Sources Dialog */}
-      <Dialog open={waterDialogOpen} onOpenChange={setWaterDialogOpen}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Droplets className="w-5 h-5 text-primary" />
-              Địa Điểm Mua Nước & Suối Tự Nhiên
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                  <Store className="w-4 h-4 text-green-500" />
-                  Cửa Hàng & Homestay
-                </h4>
-                <div className="space-y-3">
-                  <Card className="p-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">Cửa hàng Tà Xùa</div>
-                        <div className="text-sm text-muted-foreground">Cách 500m</div>
-                        <div className="text-xs text-green-600">Mở cửa: 6:00 - 22:00</div>
-                      </div>
-                      <Button size="sm" variant="outline">
-                        <ExternalLink className="w-3 h-3" />
-                      </Button>
+                  {/* Wind Speed */}
+                  <div className="text-center">
+                    <Wind className="w-6 h-6 text-green-500 mx-auto mb-2" />
+                    <div className="text-sm text-gray-600">Gió</div>
+                    <div className="font-semibold text-[#1f2937]">{weatherData.windSpeed} km/h</div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                      <div 
+                        className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${(weatherData.windSpeed / 30) * 100}%` }}
+                      ></div>
                     </div>
-                  </Card>
-                  <Card className="p-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">Homestay Valley</div>
-                        <div className="text-sm text-muted-foreground">Cách 800m</div>
-                        <div className="text-xs text-green-600">24/7</div>
-                      </div>
-                      <Button size="sm" variant="outline">
-                        <ExternalLink className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </Card>
-                </div>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                  <Droplets className="w-4 h-4 text-blue-500" />
-                  Suối Nước Tự Nhiên
-                </h4>
-                <div className="space-y-3">
-                  <Card className="p-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">Suối Tà Xùa</div>
-                        <div className="text-sm text-muted-foreground">Cách 1.2km</div>
-                        <div className="text-xs text-blue-600">Nước trong, an toàn</div>
-                      </div>
-                      <Button size="sm" variant="outline">
-                        <Map className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </Card>
-                  <Card className="p-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">Suối Bản Tà</div>
-                        <div className="text-sm text-muted-foreground">Cách 2km</div>
-                        <div className="text-xs text-blue-600">Trên đường trekking</div>
-                      </div>
-                      <Button size="sm" variant="outline">
-                        <Map className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </Card>
-                </div>
-              </div>
-            </div>
-            <Alert>
-              <Droplets className="h-4 w-4" />
-              <AlertDescription>
-                <strong>Lưu ý:</strong> Luôn mang theo viên lọc nước hoặc đun sôi nước suối trước khi uống để đảm bảo an toàn.
-              </AlertDescription>
-            </Alert>
-          </div>
-        </DialogContent>
-      </Dialog>
+                  </div>
 
-      {/* Schedule Notification Dialog */}
-      <Dialog open={scheduleDialogOpen} onOpenChange={setScheduleDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-primary" />
-              Thông Báo Lịch Trình
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="name">Họ và tên</Label>
-                <Input
-                  id="name"
-                  value={scheduleForm.name}
-                  onChange={(e) => setScheduleForm({...scheduleForm, name: e.target.value})}
-                  placeholder="Nhập họ tên của bạn"
-                />
-              </div>
-              <div>
-                <Label htmlFor="phone">Số điện thoại</Label>
-                <Input
-                  id="phone"
-                  value={scheduleForm.phone}
-                  onChange={(e) => setScheduleForm({...scheduleForm, phone: e.target.value})}
-                  placeholder="Nhập số điện thoại"
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="startDate">Ngày bắt đầu</Label>
-                <Input
-                  id="startDate"
-                  type="date"
-                  value={scheduleForm.startDate}
-                  onChange={(e) => setScheduleForm({...scheduleForm, startDate: e.target.value})}
-                />
-              </div>
-              <div>
-                <Label htmlFor="endDate">Ngày kết thúc</Label>
-                <Input
-                  id="endDate"
-                  type="date"
-                  value={scheduleForm.endDate}
-                  onChange={(e) => setScheduleForm({...scheduleForm, endDate: e.target.value})}
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="route">Lộ trình dự kiến</Label>
-              <Select value={scheduleForm.route} onValueChange={(value) => setScheduleForm({...scheduleForm, route: value})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn lộ trình" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="dragon-spine">Sống lưng khủng long - 1 ngày</SelectItem>
-                  <SelectItem value="phu-sang">Đỉnh Phu Sang - 2 ngày</SelectItem>
-                  <SelectItem value="full-trek">Trekking toàn bộ - 3 ngày</SelectItem>
-                  <SelectItem value="custom">Lộ trình tùy chỉnh</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="emergencyContact">Liên hệ khẩn cấp</Label>
-              <Input
-                id="emergencyContact"
-                value={scheduleForm.emergencyContact}
-                onChange={(e) => setScheduleForm({...scheduleForm, emergencyContact: e.target.value})}
-                placeholder="Tên và SĐT người thân"
-              />
-            </div>
-            <div>
-              <Label htmlFor="notes">Ghi chú thêm</Label>
-              <Textarea
-                id="notes"
-                value={scheduleForm.notes}
-                onChange={(e) => setScheduleForm({...scheduleForm, notes: e.target.value})}
-                placeholder="Thông tin bổ sung, tình trạng sức khỏe..."
-                rows={3}
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button onClick={handleScheduleSubmit} className="flex-1">
-                <MessageSquare className="w-4 h-4 mr-2" />
-                Gửi Thông Báo
+                  {/* Visibility */}
+                  <div className="text-center">
+                    <Eye className="w-6 h-6 text-purple-500 mx-auto mb-2" />
+                    <div className="text-sm text-gray-600">Tầm nhìn</div>
+                    <div className="font-semibold text-[#1f2937]">{weatherData.visibility} km</div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                      <div 
+                        className="bg-purple-500 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${(weatherData.visibility / 15) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Important Warnings */}
+            <Card className="border-amber-200 bg-amber-50 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+                  <AlertTriangle className="w-8 h-8 text-amber-600" />
+                  Cảnh Báo Quan Trọng
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Alert className="border-amber-300 bg-amber-100">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  <AlertDescription className="font-inter text-[#1f2937]">
+                    <strong>Sương mù dày buổi sáng</strong> – hạn chế di chuyển bằng xe máy từ 5:00-8:00
+                  </AlertDescription>
+                </Alert>
+                
+                <Alert className="border-amber-300 bg-amber-100">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  <AlertDescription className="font-inter text-[#1f2937]">
+                    <strong>Nhiệt độ giảm sâu ban đêm</strong> – mang theo áo ấm và đèn pin
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+
+          </div>
+
+          {/* Right Column - Tools, Guides & Contacts */}
+          <div className="space-y-6">
+            
+            {/* Safety Handbook - Interactive Checklist */}
+            <Card className="border-[#15803d]/20 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937]">
+                  Cẩm Nang An Toàn
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {['before', 'during', 'gear'].map((category) => (
+                  <div key={category} className="space-y-3">
+                    <h3 className="font-semibold text-[#15803d] text-lg border-b border-[#15803d]/20 pb-2">
+                      {getCategoryTitle(category)}
+                    </h3>
+                    <div className="space-y-2">
+                      {checklistItems
+                        .filter(item => item.category === category)
+                        .map((item) => (
+                          <div 
+                            key={item.id} 
+                            className={`flex items-center space-x-3 p-2 rounded-lg transition-all duration-200 ${
+                              item.completed ? 'bg-green-50 text-green-800' : 'hover:bg-gray-50'
+                            }`}
+                          >
+                            <Checkbox
+                              id={item.id}
+                              checked={item.completed}
+                              onCheckedChange={() => toggleChecklistItem(item.id)}
+                              className="data-[state=checked]:bg-[#15803d] data-[state=checked]:border-[#15803d]"
+                            />
+                            <label 
+                              htmlFor={item.id} 
+                              className={`font-inter text-sm cursor-pointer flex-1 ${
+                                item.completed ? 'line-through' : ''
+                              }`}
+                            >
+                              {item.text}
+                            </label>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Emergency Contact List */}
+            <Card className="border-[#15803d]/20 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937]">
+                  Danh Bạ Khẩn Cấp
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-3">
+                  {emergencyContacts.map((contact) => (
+                    <div 
+                      key={contact.id}
+                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-[#15803d]/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        {getContactIcon(contact.type)}
+                        <div>
+                          <div className="font-semibold text-[#1f2937]">{contact.name}</div>
+                          <div className="text-sm text-gray-600">{contact.phone}</div>
+                        </div>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="border-[#15803d] text-[#15803d] hover:bg-[#15803d] hover:text-white"
+                        onClick={() => window.open(`tel:${contact.phone}`)}
+                      >
+                        <Phone className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                
+                <Button 
+                  onClick={downloadVCard}
+                  className="w-full bg-[#15803d] hover:bg-[#15803d]/90 text-white font-inter"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Lưu Danh Bạ Khẩn Cấp
+                </Button>
+              </CardContent>
+            </Card>
+
+          </div>
+        </div>
+
+        {/* Interactive Safety Map */}
+        <Card className="mt-8 border-[#15803d]/20 shadow-lg">
+          <CardHeader className="pb-4">
+            <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+              <MapPin className="w-8 h-8 text-[#15803d]" />
+              Bản Đồ An Toàn Tương Tác
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-4 flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" className="border-[#15803d] text-[#15803d]">
+                <Filter className="w-4 h-4 mr-2" />
+                Trạm y tế
               </Button>
-              <Button variant="outline" onClick={() => setScheduleDialogOpen(false)}>
-                Hủy
+              <Button variant="outline" size="sm" className="border-[#15803d] text-[#15803d]">
+                <Filter className="w-4 h-4 mr-2" />
+                Đồn công an
+              </Button>
+              <Button variant="outline" size="sm" className="border-[#15803d] text-[#15803d]">
+                <Filter className="w-4 h-4 mr-2" />
+                Điểm trú ẩn
+              </Button>
+              <Button variant="outline" size="sm" className="border-red-500 text-red-500">
+                <Filter className="w-4 h-4 mr-2" />
+                Khu vực nguy hiểm
               </Button>
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Equipment Store Dialog */}
-      <Dialog open={equipmentDialogOpen} onOpenChange={setEquipmentDialogOpen}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <ShoppingCart className="w-5 h-5 text-primary" />
-              Cửa Hàng Trang Bị An Toàn
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Card className="p-4">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                  <Mountain className="w-8 h-8 text-gray-400" />
-                </div>
-                <h4 className="font-semibold">Giày Trekking</h4>
-                <p className="text-sm text-muted-foreground mb-2">Giày chống trượt chuyên dụng</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-primary">1.200.000đ</span>
-                  <Button size="sm">Mua</Button>
-                </div>
-              </Card>
-              <Card className="p-4">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                  <Zap className="w-8 h-8 text-gray-400" />
-                </div>
-                <h4 className="font-semibold">Đèn Pin LED</h4>
-                <p className="text-sm text-muted-foreground mb-2">Đèn pin siêu sáng, chống nước</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-primary">350.000đ</span>
-                  <Button size="sm">Mua</Button>
-                </div>
-              </Card>
-              <Card className="p-4">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                  <Battery className="w-8 h-8 text-gray-400" />
-                </div>
-                <h4 className="font-semibold">Pin Dự Phòng</h4>
-                <p className="text-sm text-muted-foreground mb-2">Pin sạc dự phòng 20.000mAh</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-primary">450.000đ</span>
-                  <Button size="sm">Mua</Button>
-                </div>
-              </Card>
-              <Card className="p-4">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                  <Shield className="w-8 h-8 text-gray-400" />
-                </div>
-                <h4 className="font-semibold">Áo Mưa</h4>
-                <p className="text-sm text-muted-foreground mb-2">Áo mưa chống thấm cao cấp</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-primary">180.000đ</span>
-                  <Button size="sm">Mua</Button>
-                </div>
-              </Card>
-              <Card className="p-4">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                  <Heart className="w-8 h-8 text-gray-400" />
-                </div>
-                <h4 className="font-semibold">Túi Y Tế</h4>
-                <p className="text-sm text-muted-foreground mb-2">Bộ sơ cứu cơ bản</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-primary">250.000đ</span>
-                  <Button size="sm">Mua</Button>
-                </div>
-              </Card>
-              <Card className="p-4">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
-                  <Navigation className="w-8 h-8 text-gray-400" />
-                </div>
-                <h4 className="font-semibold">Máy GPS</h4>
-                <p className="text-sm text-muted-foreground mb-2">Thiết bị định vị chuyên dụng</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-primary">2.500.000đ</span>
-                  <Button size="sm">Mua</Button>
-                </div>
-              </Card>
+            
+            {/* Placeholder for Google Maps */}
+            <div className="w-full h-96 bg-gradient-to-br from-[#15803d]/10 to-[#15803d]/5 rounded-lg border-2 border-dashed border-[#15803d]/30 flex items-center justify-center">
+              <div className="text-center text-[#15803d]">
+                <MapPin className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="font-inter text-lg">Bản đồ tương tác sẽ được tích hợp tại đây</p>
+                <p className="font-inter text-sm opacity-70 mt-2">
+                  Hiển thị các điểm y tế, công an, trú ẩn và khu vực nguy hiểm
+                </p>
+              </div>
             </div>
-            <Alert>
-              <ShoppingCart className="h-4 w-4" />
-              <AlertDescription>
-                <strong>Giao hàng:</strong> Miễn phí ship đến homestay trong khu vực Tà Xùa. Giao hàng trong 2-4 giờ.
-              </AlertDescription>
-            </Alert>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </CardContent>
+        </Card>
+
+      </div>
     </div>
   );
 };
