@@ -1,0 +1,21 @@
+# Build outputs
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.d.ts
+vite-env.d.ts
+
+# Config files that may have legacy patterns
+tailwind.config.js
+vite.config.js
+
+# Performance monitoring and testing utilities (development only)
+src/utils/performanceMonitor.ts
+src/utils/performanceTest.ts
+
+# Legacy or third-party code
+public/
