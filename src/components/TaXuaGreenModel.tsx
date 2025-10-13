@@ -126,10 +126,12 @@ const TaXuaGreenModel = () => {
   // Create celebration bubbles
   const createCelebrationBubbles = (event: React.MouseEvent) => {
     const rect = (event.target as HTMLElement).getBoundingClientRect();
+    const colors = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
     const newBubbles = Array.from({ length: 6 }, (_, i) => ({
       id: Date.now() + i,
       x: rect.left + rect.width / 2 + (Math.random() - 0.5) * 100,
-      y: rect.top + rect.height / 2
+      y: rect.top + rect.height / 2,
+      color: colors[i % colors.length]
     }));
     
     setCelebrationBubbles(prev => [...prev, ...newBubbles]);
