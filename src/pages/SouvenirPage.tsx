@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from '../components/Header';
 import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import JourneySouvenirs from '../components/JourneySouvenirs';
 import { Badge, Voucher } from '../types/gamification';
@@ -117,6 +118,9 @@ const SouvenirPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      {/* Main Website Navigation */}
+      <Header />
+      
       {/* Sky Quest Navigation */}
       <SkyQuestNavigation currentSection="souvenirs" />
       

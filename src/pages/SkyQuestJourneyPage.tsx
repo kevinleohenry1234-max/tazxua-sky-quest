@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Header from '../components/Header';
 import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import NarrativeAdventureSystem from '../components/SkyQuest/NarrativeAdventureSystem';
 import { NarrativeUserProfile, Journey, UserArchetype } from '../types/narrativeAdventure';
@@ -62,6 +63,9 @@ const SkyQuestJourneyPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      {/* Main Website Navigation */}
+      <Header />
+      
       {/* Sky Quest Navigation */}
       <SkyQuestNavigation currentSection="journey" />
       

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Header from '../components/Header';
 import { useGamification } from '../hooks/useGamification';
 import { Challenge, ChallengeType, ChallengeSource, ChallengeVariant } from '../types/gamification';
 import { EXPANDED_CHALLENGES } from '../data/gamificationData';
@@ -405,6 +406,9 @@ const ChallengesPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      {/* Main Website Navigation */}
+      <Header />
+      
       {/* Sky Quest Navigation */}
       <SkyQuestNavigation currentSection="challenges" />
       

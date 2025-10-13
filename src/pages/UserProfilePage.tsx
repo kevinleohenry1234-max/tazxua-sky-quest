@@ -9,6 +9,7 @@ import useEmotionalFeedback from '../hooks/useEmotionalFeedback';
 import EmotionalFeedback from '../components/EmotionalFeedback';
 import ProgressToast from '../components/ProgressToast';
 import MicroInteractions from '../components/gamification/MicroInteractions';
+import Header from '../components/Header';
 import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import JourneyTimeline from '../components/JourneyTimeline';
 import HallOfStories from '../components/HallOfStories';
@@ -96,6 +97,9 @@ const UserProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+      {/* Main Website Navigation */}
+      <Header />
+      
       {/* Sky Quest Navigation */}
       <SkyQuestNavigation currentSection="profile" />
       
