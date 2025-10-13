@@ -138,7 +138,7 @@ const TaXuaGreenModel = () => {
     
     // Remove bubbles after animation
     setTimeout(() => {
-      setCelebrationBubbles(prev => prev.filter(bubble => !newBubbles.find(nb => nb.id === bubble.id)));
+      setCelebrationBubbles(prev => prev.filter(bubble => !newBubbles.some(nb => nb.id === bubble.id)));
     }, 2000);
   };
 
