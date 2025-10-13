@@ -30,8 +30,8 @@ const TaXuaGreenModel = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollMessage, setShowScrollMessage] = useState(false);
   const [scrollMessageText, setScrollMessageText] = useState('');
-  const [celebrationBubbles, setCelebrationBubbles] = useState<Array<{id: number, x: number, y: number}>>([]);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [celebrationBubbles, setCelebrationBubbles] = useState<Array<{ id: number; x: number; y: number; color: string }>>([]);
+  const sectionRef = useRef<HTMLElement>(null);
 
   // Enhanced scroll animation effect with microinteractions
   useEffect(() => {
@@ -225,73 +225,128 @@ const TaXuaGreenModel = () => {
           </h2>
         </div>
 
-        {/* Scroll Storytelling Section */}
+        {/* Journey Map Section - Redesigned */}
         <div className="mb-20">
           <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6">
+              <MapPin className="w-5 h-5 text-green-400" />
+              <span className="text-green-400 font-medium">Bản Đồ Hành Trình</span>
+            </div>
+            
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Hành Trình Của <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Bạn</span>
             </h3>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Theo chân một du khách trẻ khám phá Tà Xùa và trở thành người bảo vệ thiên nhiên
+              Ba trạm dừng chân trên con đường khám phá và bảo vệ Tà Xùa
             </p>
           </div>
 
-          {/* Character-Driven Story Scenes */}
-          <div className="space-y-16">
-            {storyScenes.map((scene, index) => (
-              <div
-                key={scene.id}
-                className={`transition-all duration-1000 transform ${
-                  activeScene >= index 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-30 translate-y-8'
-                }`}
-              >
-                <div className={`bg-gradient-to-r ${scene.background} backdrop-blur-sm rounded-3xl p-8 md:p-12 border ${scene.border} relative overflow-hidden`}>
-                  {/* Scene Number */}
-                  <div className="absolute top-6 right-6">
-                    <div className={`w-12 h-12 rounded-full bg-white/10 flex items-center justify-center ${scene.textColor} font-bold text-lg`}>
-                      {index + 1}
-                    </div>
-                  </div>
+          {/* Journey Path */}
+          <div className="relative max-w-5xl mx-auto">
+            {/* Curved Path Line */}
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.6" />
+                  <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.6" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M 100 200 Q 400 100 700 200"
+                stroke="url(#pathGradient)"
+                strokeWidth="4"
+                strokeDasharray="10,5"
+                fill="none"
+                className="animate-pulse"
+              />
+            </svg>
 
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    {/* Character Illustration */}
-                    <div className="text-center">
-                      <div className="text-8xl mb-4 animate-gentle-sway">
-                        {scene.character}
-                      </div>
-                      <div className={`text-2xl font-bold ${scene.textColor} mb-2`}>
-                        {scene.title}
-                      </div>
-                      <div className="text-slate-300 text-lg font-medium">
-                        {scene.subtitle}
-                      </div>
+            {/* Journey Stations */}
+            <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
+              {/* Station 1: Khởi Hành */}
+              <div className="relative group">
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-8 h-8 text-white" />
+                </div>
+                
+                <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-green-400/50">
+                  <h4 className="text-2xl font-bold text-green-300 mb-4">
+                    Khởi Hành
+                  </h4>
+                  <p className="text-slate-300 mb-6 leading-relaxed">
+                    Bắt đầu hành trình khám phá Tà Xùa với tinh thần bảo vệ môi trường. 
+                    Tham gia các hoạt động xanh như thu gom rác, trồng cây, bảo vệ động vật hoang dã.
+                  </p>
+                  
+                  {/* Activities Preview */}
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="bg-white/10 rounded-lg p-3 border border-green-300/20">
+                      <div className="text-green-400 text-sm font-semibold">🌱 Trồng cây</div>
                     </div>
-
-                    {/* Story Content */}
-                    <div>
-                      <p className="text-lg text-slate-200 leading-relaxed font-medium">
-                        {scene.description}
-                      </p>
-                      
-                      {/* Scene-specific Actions */}
-                      {index === 1 && (
-                        <div className="mt-6 grid grid-cols-2 gap-4">
-                          {greenActions.slice(0, 4).map((action) => (
-                            <div key={action.id} className="bg-white/10 rounded-lg p-3 text-center">
-                              <div className="text-green-400 mb-2">{action.icon}</div>
-                              <div className="text-sm text-slate-300 font-medium">{action.title}</div>
-                              <div className="text-xs text-green-400">+{action.points} điểm</div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                    <div className="bg-white/10 rounded-lg p-3 border border-green-300/20">
+                      <div className="text-green-400 text-sm font-semibold">♻️ Thu gom rác</div>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+
+              {/* Station 2: Hành Động */}
+              <div className="relative group">
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <CheckCircle className="w-8 h-8 text-white" />
+                </div>
+                
+                <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50">
+                  <h4 className="text-2xl font-bold text-blue-300 mb-4">
+                    Hành Động
+                  </h4>
+                  <p className="text-slate-300 mb-6 leading-relaxed">
+                    Thực hiện các thử thách môi trường, chụp ảnh xác minh hoạt động và nhận điểm xanh 
+                    từ hệ thống tự động. Mỗi hành động đều được ghi nhận và đánh giá.
+                  </p>
+                  
+                  {/* Action Steps */}
+                  <div className="space-y-3 mt-4">
+                    <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
+                      <Camera className="w-4 h-4 text-blue-400" />
+                      <span className="text-slate-200 text-sm font-medium">Chụp ảnh hoạt động</span>
+                    </div>
+                    <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
+                      <Coins className="w-4 h-4 text-yellow-400" />
+                      <span className="text-slate-200 text-sm font-medium">Nhận điểm xanh</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Station 3: Nhận Lại */}
+              <div className="relative group">
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Gift className="w-8 h-8 text-white" />
+                </div>
+                
+                <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50">
+                  <h4 className="text-2xl font-bold text-yellow-300 mb-4">
+                    Nhận Lại
+                  </h4>
+                  <p className="text-slate-300 mb-6 leading-relaxed">
+                    Đổi điểm lấy voucher du lịch, ưu đãi dịch vụ và chia sẻ trải nghiệm 
+                    để lan tỏa tinh thần xanh đến cộng đồng rộng lớn hơn.
+                  </p>
+                  
+                  {/* Rewards Preview */}
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="bg-white/10 rounded-lg p-3 border border-yellow-300/20">
+                      <div className="text-yellow-400 text-sm font-semibold">🎫 Voucher 20%</div>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-3 border border-yellow-300/20">
+                      <div className="text-yellow-400 text-sm font-semibold">🏆 Danh hiệu</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -342,7 +397,7 @@ const TaXuaGreenModel = () => {
           </div>
         </div>
 
-        {/* Enhanced Adventure Guide Section - Horizontal Timeline */}
+        {/* Sky Quest Guide Cards - Redesigned */}
         <div className="mb-20">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6">
@@ -358,339 +413,313 @@ const TaXuaGreenModel = () => {
             </p>
           </div>
 
-          {/* Horizontal Timeline */}
-          <div className="relative max-w-6xl mx-auto">
-            {/* Timeline Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-green-500/30 via-blue-500/30 to-purple-500/30 transform -translate-y-1/2 rounded-full"></div>
-            
-            {/* Timeline Steps */}
-            <div className="grid md:grid-cols-3 gap-8 relative">
-              {/* Step 1: Bắt đầu hành trình */}
-              <div className="group">
-                <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-green-400/50 relative">
-                  {/* Step Number */}
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    1
-                  </div>
-                  
-                  {/* Icon */}
-                  <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <MapPin className="w-10 h-10 text-white group-hover:animate-bounce" />
-                  </div>
-                  
-                  {/* Content */}
-                  <h4 className="text-2xl font-bold text-slate-100 mb-4 group-hover:text-green-300 transition-colors duration-300">
-                    Bắt đầu hành trình
-                  </h4>
-                  <p className="text-slate-300 mb-6 font-medium leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
-                    Tham gia các hoạt động xanh như thu gom rác, trồng cây, bảo vệ động vật hoang dã tại Tà Xùa.
-                  </p>
-                  
-                  {/* Hover Illustration */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      {greenActions.slice(0, 4).map((action) => (
-                        <div key={action.id} className="bg-white/10 rounded-lg p-3 border border-green-300/20">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded flex items-center justify-center text-white">
-                              {action.icon}
-                            </div>
-                            <span className="text-slate-200 text-sm font-semibold">{action.title}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Coins className="w-3 h-3 text-yellow-400" />
-                            <span className="text-yellow-400 text-xs font-medium">+{action.points} điểm</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+          {/* Three Clear Cards Side by Side */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Card 1: Bắt đầu hành trình */}
+            <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-green-400/50">
+              {/* Large Icon */}
+              <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <MapPin className="w-12 h-12 text-white" />
               </div>
-
-              {/* Step 2: Tham gia thử thách */}
-              <div className="group">
-                <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50 relative">
-                  {/* Step Number */}
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    2
-                  </div>
-                  
-                  {/* Icon */}
-                  <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <CheckCircle className="w-10 h-10 text-white group-hover:animate-pulse" />
-                  </div>
-                  
-                  {/* Content */}
-                  <h4 className="text-2xl font-bold text-slate-100 mb-4 group-hover:text-blue-300 transition-colors duration-300">
-                    Tham gia thử thách
-                  </h4>
-                  <p className="text-slate-300 mb-6 font-medium leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
-                    Chụp ảnh, xác minh hoạt động và nhận điểm xanh từ hệ thống tự động.
-                  </p>
-                  
-                  {/* Hover Illustration */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
-                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Camera className="w-4 h-4 text-white" />
-                        </div>
-                        <span className="text-slate-200 text-sm font-medium">Chụp ảnh hoạt động</span>
+              
+              {/* Step Title */}
+              <h4 className="text-2xl font-bold text-green-300 mb-6">
+                Bắt đầu hành trình
+              </h4>
+              
+              {/* Full Description */}
+              <div className="text-left space-y-4">
+                <p className="text-slate-300 leading-relaxed">
+                  Tham gia các hoạt động xanh như thu gom rác, trồng cây, bảo vệ động vật hoang dã tại Tà Xùa.
+                </p>
+                
+                <div className="space-y-3">
+                  <h5 className="text-green-400 font-semibold text-sm uppercase tracking-wide">Hoạt động có sẵn:</h5>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-white/10 rounded-lg p-3 border border-green-300/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-green-400">🌱</span>
+                        <span className="text-slate-200 text-sm font-medium">Trồng cây</span>
                       </div>
-                      <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
-                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                          <CheckCircle className="w-4 h-4 text-white" />
-                        </div>
-                        <span className="text-slate-200 text-sm font-medium">Xác minh bởi staff</span>
-                      </div>
-                      <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
-                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Coins className="w-4 h-4 text-white" />
-                        </div>
-                        <span className="text-slate-200 text-sm font-medium">Cộng điểm tự động</span>
+                      <div className="flex items-center gap-1">
+                        <Coins className="w-3 h-3 text-yellow-400" />
+                        <span className="text-yellow-400 text-xs">+50 điểm</span>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 3: Nhận thưởng và chia sẻ */}
-              <div className="group">
-                <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50 relative">
-                  {/* Step Number */}
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    3
-                  </div>
-                  
-                  {/* Icon */}
-                  <div className="w-20 h-20 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Gift className="w-10 h-10 text-white group-hover:animate-bounce" />
-                  </div>
-                  
-                  {/* Content */}
-                  <h4 className="text-2xl font-bold text-slate-100 mb-4 group-hover:text-yellow-300 transition-colors duration-300">
-                    Nhận thưởng và chia sẻ
-                  </h4>
-                  <p className="text-slate-300 mb-6 font-medium leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
-                    Đổi điểm lấy voucher và chia sẻ trải nghiệm để lan tỏa tinh thần xanh.
-                  </p>
-                  
-                  {/* Hover Illustration */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      {vouchers.map((voucher, index) => (
-                        <div key={index} className="bg-white/10 rounded-lg p-3 border border-yellow-300/20">
-                          <div className="text-center">
-                            <div className="text-lg font-bold text-yellow-400 mb-1">{voucher.discount}</div>
-                            <div className="text-slate-200 text-xs font-medium mb-1">{voucher.service}</div>
-                            <div className="text-slate-300 text-xs">{voucher.points} điểm</div>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="bg-white/10 rounded-lg p-3 border border-green-300/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-green-400">♻️</span>
+                        <span className="text-slate-200 text-sm font-medium">Thu gom rác</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Coins className="w-3 h-3 text-yellow-400" />
+                        <span className="text-yellow-400 text-xs">+30 điểm</span>
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-3 border border-green-300/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-green-400">🦋</span>
+                        <span className="text-slate-200 text-sm font-medium">Bảo vệ động vật</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Coins className="w-3 h-3 text-yellow-400" />
+                        <span className="text-yellow-400 text-xs">+40 điểm</span>
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-3 border border-green-300/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-green-400">🌿</span>
+                        <span className="text-slate-200 text-sm font-medium">Làm sạch suối</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Coins className="w-3 h-3 text-yellow-400" />
+                        <span className="text-yellow-400 text-xs">+60 điểm</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Storytelling Tagline */}
-          <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 max-w-2xl mx-auto">
-              <p className="text-xl text-slate-200 font-medium italic">
-                "Mỗi hành động của bạn là một mảnh ghép của Tà Xùa xanh."
-              </p>
-              <div className="flex items-center justify-center gap-2 mt-4">
-                <Heart className="w-5 h-5 text-red-400 animate-pulse" />
-                <span className="text-slate-400 text-sm">Cùng nhau xây dựng tương lai bền vững</span>
+            {/* Card 2: Tham gia thử thách */}
+            <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50">
+              {/* Large Icon */}
+              <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <CheckCircle className="w-12 h-12 text-white" />
+              </div>
+              
+              {/* Step Title */}
+              <h4 className="text-2xl font-bold text-blue-300 mb-6">
+                Tham gia thử thách
+              </h4>
+              
+              {/* Full Description */}
+              <div className="text-left space-y-4">
+                <p className="text-slate-300 leading-relaxed">
+                  Chụp ảnh, xác minh hoạt động và nhận điểm xanh từ hệ thống tự động. Mỗi hành động đều được ghi nhận và đánh giá.
+                </p>
+                
+                <div className="space-y-3">
+                  <h5 className="text-blue-400 font-semibold text-sm uppercase tracking-wide">Quy trình xác minh:</h5>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Camera className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-slate-200 text-sm font-medium">Chụp ảnh hoạt động</div>
+                        <div className="text-slate-400 text-xs">Ghi lại khoảnh khắc thực hiện</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <CheckCircle className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-slate-200 text-sm font-medium">Xác minh bởi staff</div>
+                        <div className="text-slate-400 text-xs">Kiểm tra và phê duyệt</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 bg-white/10 rounded-lg p-3 border border-blue-300/20">
+                      <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Coins className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-slate-200 text-sm font-medium">Nhận điểm xanh</div>
+                        <div className="text-slate-400 text-xs">Tự động cộng vào tài khoản</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: Nhận thưởng */}
+            <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50">
+              {/* Large Icon */}
+              <div className="w-24 h-24 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Gift className="w-12 h-12 text-white" />
+              </div>
+              
+              {/* Step Title */}
+              <h4 className="text-2xl font-bold text-yellow-300 mb-6">
+                Nhận thưởng
+              </h4>
+              
+              {/* Full Description */}
+              <div className="text-left space-y-4">
+                <p className="text-slate-300 leading-relaxed">
+                  Đổi điểm lấy voucher du lịch, ưu đãi dịch vụ và chia sẻ trải nghiệm để lan tỏa tinh thần xanh đến cộng đồng.
+                </p>
+                
+                <div className="space-y-3">
+                  <h5 className="text-yellow-400 font-semibold text-sm uppercase tracking-wide">Phần thưởng hấp dẫn:</h5>
+                  <div className="space-y-3">
+                    <div className="bg-white/10 rounded-lg p-3 border border-yellow-300/20">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-yellow-400">🎫</span>
+                          <span className="text-slate-200 text-sm font-medium">Voucher giảm giá</span>
+                        </div>
+                        <span className="text-yellow-400 text-xs font-bold">20-50%</span>
+                      </div>
+                      <div className="text-slate-400 text-xs">Áp dụng cho tour, khách sạn</div>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-3 border border-yellow-300/20">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-yellow-400">🏆</span>
+                          <span className="text-slate-200 text-sm font-medium">Danh hiệu xanh</span>
+                        </div>
+                        <span className="text-yellow-400 text-xs font-bold">VIP</span>
+                      </div>
+                      <div className="text-slate-400 text-xs">Eco Warrior, Green Guardian</div>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-3 border border-yellow-300/20">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-yellow-400">🎁</span>
+                          <span className="text-slate-200 text-sm font-medium">Quà tặng đặc biệt</span>
+                        </div>
+                        <span className="text-yellow-400 text-xs font-bold">FREE</span>
+                      </div>
+                      <div className="text-slate-400 text-xs">Sản phẩm thủ công địa phương</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Enhanced Community Stories Section */}
-        <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm border-slate-700/50">
-          <CardContent className="p-12">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8">
-                  <Users className="w-5 h-5 text-green-400" />
-                  <span className="text-green-400 font-medium">Cộng Đồng Sky Quest</span>
-                </div>
-                
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                  Câu Chuyện Của <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Cộng Đồng</span>
-                </h3>
-                
-                {/* Enhanced Statistics */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:scale-105 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-green-400 mb-2">127</div>
-                    <div className="text-sm text-gray-300">Người tham gia tuần này</div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:scale-105 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-blue-400 mb-2">2.3k</div>
-                    <div className="text-sm text-gray-300">Ảnh #TaXuaXanh</div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:scale-105 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-yellow-400 mb-2">500+</div>
-                    <div className="text-sm text-gray-300">Cây xanh đã trồng</div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:scale-105 transition-transform duration-300">
-                    <div className="text-3xl font-bold text-purple-400 mb-2">2.1</div>
-                    <div className="text-sm text-gray-300">Tấn rác đã thu gom</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enhanced Testimonials with Sky IDs and Authentic Feel */}
-              <div className="mb-12">
-                <div className="grid md:grid-cols-3 gap-8">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-green-500/20 hover:border-green-400/40 transition-all duration-300 hover:scale-105">
-                    <div className="flex items-center gap-4 mb-4">
-                      {/* Authentic Avatar with Local Style */}
-                      <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold relative">
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/80 to-blue-500/80 animate-pulse"></div>
-                        <span className="relative z-10">MA</span>
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold">Minh Anh</div>
-                        <div className="text-gray-400 text-sm">Hà Nội • Sky ID: #Sky12847</div>
-                      </div>
-                    </div>
-                    <p className="text-gray-300 text-sm italic mb-4 leading-relaxed">
-                      "Chuyến đi Tà Xùa không chỉ cho tôi những bức ảnh đẹp mà còn cảm giác tự hào khi góp phần bảo vệ môi trường. Sky Quest thật sự ý nghĩa!"
-                    </p>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="text-blue-400 text-xs bg-blue-500/20 px-2 py-1 rounded-full">#TaXuaXanh</div>
-                      <div className="text-green-400 text-xs bg-green-500/20 px-2 py-1 rounded-full">#DuLichXanh</div>
-                    </div>
-                    {/* Mini Video Testimonial Placeholder */}
-                    <div className="bg-gradient-to-r from-blue-900/50 to-green-900/50 rounded-lg p-3 border border-blue-500/30 cursor-pointer hover:scale-105 transition-transform duration-300">
-                      <div className="flex items-center gap-2">
-                        <Play className="w-4 h-4 text-white" />
-                        <span className="text-xs text-slate-300">Video chia sẻ • 12s</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 hover:scale-105">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold relative">
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400/80 to-pink-500/80 animate-pulse"></div>
-                        <span className="relative z-10">TN</span>
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold">Thảo Nguyên</div>
-                        <div className="text-gray-400 text-sm">TP.HCM • Sky ID: #Sky09156</div>
-                      </div>
-                    </div>
-                    <p className="text-gray-300 text-sm italic mb-4 leading-relaxed">
-                      "Tham gia Sky Quest giúp tôi kết nối với những người cùng chí hướng. Cùng nhau trồng cây, dọn rác và tạo ra những kỷ niệm đẹp!"
-                    </p>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="text-purple-400 text-xs bg-purple-500/20 px-2 py-1 rounded-full">#CộngĐồngXanh</div>
-                      <div className="text-pink-400 text-xs bg-pink-500/20 px-2 py-1 rounded-full">#TàXùa</div>
-                    </div>
-                    <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg p-3 border border-purple-500/30 cursor-pointer hover:scale-105 transition-transform duration-300">
-                      <div className="flex items-center gap-2">
-                        <Play className="w-4 h-4 text-white" />
-                        <span className="text-xs text-slate-300">Video chia sẻ • 15s</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-300 hover:scale-105">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold relative">
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/80 to-orange-500/80 animate-pulse"></div>
-                        <span className="relative z-10">DM</span>
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold">Đức Minh</div>
-                        <div className="text-gray-400 text-sm">Đà Nẵng • Sky ID: #Sky03472</div>
-                      </div>
-                    </div>
-                    <p className="text-gray-300 text-sm italic mb-4 leading-relaxed">
-                      "Từ khi tham gia Sky Quest, tôi hiểu rằng du lịch có thể vừa vui vừa có ý nghĩa. Mỗi chuyến đi đều để lại dấu ấn tích cực!"
-                    </p>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="text-yellow-400 text-xs bg-yellow-500/20 px-2 py-1 rounded-full">#SkyQuest</div>
-                      <div className="text-orange-400 text-xs bg-orange-500/20 px-2 py-1 rounded-full">#BảoVệMôiTrường</div>
-                    </div>
-                    <div className="bg-gradient-to-r from-yellow-900/50 to-orange-900/50 rounded-lg p-3 border border-yellow-500/30 cursor-pointer hover:scale-105 transition-transform duration-300">
-                      <div className="flex items-center gap-2">
-                        <Play className="w-4 h-4 text-white" />
-                        <span className="text-xs text-slate-300">Video chia sẻ • 10s</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Community Activities */}
-              <div className="grid md:grid-cols-4 gap-6 mb-8">
-                <div className="text-center group hover:scale-105 transition-transform duration-300">
-                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg group-hover:shadow-green-500/25">
-                    <Share2 className="w-8 h-8 text-white group-hover:animate-pulse" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Chia sẻ trải nghiệm</h4>
-                  <p className="text-gray-300 text-sm font-medium">Đăng ảnh với #TaXuaXanh</p>
-                </div>
-                
-                <div className="text-center group hover:scale-105 transition-transform duration-300">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg group-hover:shadow-blue-500/25">
-                    <Users className="w-8 h-8 text-white group-hover:animate-pulse" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Kết nối cộng đồng</h4>
-                  <p className="text-gray-300 text-sm font-medium">Tham gia sự kiện xanh</p>
-                </div>
-                
-                <div className="text-center group hover:scale-105 transition-transform duration-300">
-                  <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg group-hover:shadow-yellow-500/25">
-                    <Award className="w-8 h-8 text-white group-hover:animate-pulse" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Nhận danh hiệu</h4>
-                  <p className="text-gray-300 text-sm font-medium">Đại sứ môi trường</p>
-                </div>
-                
-                <div className="text-center group hover:scale-105 transition-transform duration-300">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg group-hover:shadow-purple-500/25">
-                    <Heart className="w-8 h-8 text-white group-hover:animate-pulse" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Truyền cảm hứng</h4>
-                  <p className="text-gray-300 text-sm font-medium">Lan tỏa tinh thần xanh</p>
-                </div>
+        {/* Community Stories Section - Enhanced */}
+        <div className="mb-20 bg-gradient-to-br from-slate-800/30 to-slate-900/50 backdrop-blur-sm rounded-3xl p-12 border border-slate-700/30">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8">
+                <Users className="w-5 h-5 text-green-400" />
+                <span className="text-green-400 font-medium">Cộng Đồng Xanh</span>
               </div>
               
-              {/* Enhanced CTAs */}
-              <div className="text-center space-y-4">
-                <Button 
-                  className="bg-gradient-to-r from-green-600 to-blue-700 hover:from-green-700 hover:to-blue-800 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 mr-4"
-                  onClick={(e) => handleEnhancedClick(e, "Chào mừng bạn đến với cộng đồng Sky Quest!")}
-                >
-                  Tham gia cộng đồng
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-                
-                {/* Story Sharing CTA */}
-                <Button 
-                  variant="outline" 
-                  className="border-2 border-green-500/50 text-green-400 hover:bg-green-500/10 hover:border-green-400 px-8 py-3 text-lg font-semibold transition-all duration-300 transform hover:scale-105"
-                  onClick={(e) => handleEnhancedClick(e, "Cảm ơn bạn đã muốn chia sẻ câu chuyện!")}
-                >
-                  <Camera className="w-5 h-5 mr-2" />
-                  Chia sẻ hành trình của bạn
-                </Button>
-                
-                <p className="text-sm text-slate-400 mt-4">
-                  Gửi ảnh và câu chuyện của bạn để truyền cảm hứng cho cộng đồng
-                </p>
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Câu Chuyện <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Cộng Đồng</span>
+              </h3>
+              <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+                Những trải nghiệm thật từ cộng đồng du khách yêu thiên nhiên
+              </p>
+            </div>
+
+            {/* Community Statistics */}
+            <div className="grid md:grid-cols-4 gap-6 mb-12">
+              <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
+                <div className="text-3xl font-bold text-green-400 mb-2">2,847</div>
+                <div className="text-slate-300 text-sm">Thành viên tham gia</div>
+              </div>
+              <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
+                <div className="text-3xl font-bold text-blue-400 mb-2">15,632</div>
+                <div className="text-slate-300 text-sm">Hoạt động xanh</div>
+              </div>
+              <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
+                <div className="text-3xl font-bold text-yellow-400 mb-2">89,420</div>
+                <div className="text-slate-300 text-sm">Điểm xanh tích lũy</div>
+              </div>
+              <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
+                <div className="text-3xl font-bold text-purple-400 mb-2">1,234</div>
+                <div className="text-slate-300 text-sm">Voucher đã đổi</div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+
+            {/* Testimonial Cards with Light Borders */}
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="bg-white/10 backdrop-blur-sm border border-slate-400/30 rounded-3xl p-8 hover:border-green-400/50 transition-all duration-300 hover:shadow-xl">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    M
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold text-lg">Minh Anh</div>
+                    <div className="text-green-400 text-sm font-medium">Sky ID: #GreenWarrior2024</div>
+                  </div>
+                </div>
+                <p className="text-slate-200 leading-relaxed mb-4">
+                  "Tham gia Sky Quest đã thay đổi cách tôi nhìn nhận du lịch. Mỗi chuyến đi không chỉ là trải nghiệm mà còn là cơ hội để bảo vệ thiên nhiên."
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-sm">Eco Warrior</span>
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm border border-slate-400/30 rounded-3xl p-8 hover:border-blue-400/50 transition-all duration-300 hover:shadow-xl">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    T
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold text-lg">Thùy Linh</div>
+                    <div className="text-blue-400 text-sm font-medium">Sky ID: #NatureLover2024</div>
+                  </div>
+                </div>
+                <p className="text-slate-200 leading-relaxed mb-4">
+                  "Hệ thống điểm xanh rất thú vị! Tôi đã đổi được voucher giảm 30% cho chuyến du lịch tiếp theo chỉ sau 2 tuần tham gia."
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-sm">Green Guardian</span>
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm border border-slate-400/30 rounded-3xl p-8 hover:border-yellow-400/50 transition-all duration-300 hover:shadow-xl">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    H
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold text-lg">Hoàng Nam</div>
+                    <div className="text-yellow-400 text-sm font-medium">Sky ID: #EcoExplorer2024</div>
+                  </div>
+                </div>
+                <p className="text-slate-200 leading-relaxed mb-4">
+                  "Cảm giác tuyệt vời khi biết rằng mỗi hành động nhỏ của mình đều góp phần bảo vệ Tà Xùa. Đây là trải nghiệm du lịch ý nghĩa nhất!"
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-sm">Eco Explorer</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Community Call to Action */}
+            <div className="text-center">
+              <div className="bg-gradient-to-r from-green-600/20 to-blue-600/20 backdrop-blur-sm rounded-3xl p-8 border border-green-500/30">
+                <h4 className="text-2xl font-bold text-white mb-4">
+                  Tham Gia Cộng Đồng Ngay Hôm Nay
+                </h4>
+                <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+                  Kết nối với hàng nghìn du khách cùng chung tâm huyết bảo vệ môi trường
+                </p>
+                <Button 
+                  className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                >
+                  Gia nhập cộng đồng
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

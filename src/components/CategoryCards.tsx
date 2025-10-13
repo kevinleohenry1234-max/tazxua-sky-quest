@@ -46,7 +46,9 @@ const CategoryCards = () => {
       detailedDescription: 'Khu vực trưng bày các nội dung kỹ thuật số như video, nhạc nền, trải nghiệm tương tác và hình ảnh số hóa của Tà Xùa. Khám phá văn hóa H\'Mông qua công nghệ hiện đại.',
       icon: Camera,
       path: '/experience',
-      backgroundImage: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      backgroundImage: '/images/digital-exhibition-hero.png',
+      fallbackImage: '/images/digital-exhibition-fallback.png',
+      externalFallback: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       ctaText: 'Khám phá ngay',
       highlights: ['Thổ cẩm H\'Mông', 'Video 4K', 'Trải nghiệm AR']
     }
@@ -92,6 +94,15 @@ const CategoryCards = () => {
                     className={`w-full h-full object-cover transition-transform duration-400 ease-out ${
                       isHovered ? 'scale-105' : 'scale-100'
                     }`}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (category.fallbackImage && target.src !== category.fallbackImage) {
+                        target.src = category.fallbackImage;
+                      } else if (category.externalFallback && target.src !== category.externalFallback) {
+                        target.src = category.externalFallback;
+                      }
+                    }}
+                    loading="lazy"
                   />
                   <div 
                     className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 transition-all duration-400 ${
