@@ -30,7 +30,7 @@ const CategoryCards = () => {
     },
     {
       id: 'accommodation',
-      title: 'Lưu Trú',
+      title: 'Dịch Vụ',
       shortDescription: 'Nghỉ dưỡng giữa lòng thiên nhiên',
       detailedDescription: 'Homestay và khách sạn chất lượng cao giữa lòng thiên nhiên. Trải nghiệm cuộc sống bản địa, thưởng thức ẩm thực truyền thống và tận hưởng không gian yên bình.',
       icon: Home,

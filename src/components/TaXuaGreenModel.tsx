@@ -270,11 +270,11 @@ const TaXuaGreenModel = () => {
             <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
               {/* Station 1: Khởi Hành */}
               <div className="relative group">
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="w-8 h-8 text-white" />
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
+                  <MapPin className="w-8 h-8 text-white relative z-30" />
                 </div>
                 
-                <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-green-400/50">
+                <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-green-400/50 hover:brightness-110 group">
                   <h4 className="text-2xl font-bold text-green-300 mb-4">
                     Khởi Hành
                   </h4>
@@ -297,11 +297,11 @@ const TaXuaGreenModel = () => {
 
               {/* Station 2: Hành Động */}
               <div className="relative group">
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <CheckCircle className="w-8 h-8 text-white" />
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
+                  <CheckCircle className="w-8 h-8 text-white relative z-30" />
                 </div>
                 
-                <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50">
+                <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50 hover:brightness-110 group">
                   <h4 className="text-2xl font-bold text-blue-300 mb-4">
                     Hành Động
                   </h4>
@@ -326,11 +326,11 @@ const TaXuaGreenModel = () => {
 
               {/* Station 3: Nhận Lại */}
               <div className="relative group">
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Gift className="w-8 h-8 text-white" />
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
+                  <Gift className="w-8 h-8 text-white relative z-30" />
                 </div>
                 
-                <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50">
+                <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 pt-12 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50 hover:brightness-110 group">
                   <h4 className="text-2xl font-bold text-yellow-300 mb-4">
                     Nhận Lại
                   </h4>
@@ -420,10 +420,10 @@ const TaXuaGreenModel = () => {
           {/* Three Clear Cards Side by Side */}
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Card 1: Bắt đầu hành trình */}
-            <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-green-400/50">
+            <div className="bg-gradient-to-br from-green-600/20 to-emerald-700/20 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-green-400/50 hover:brightness-110 group">
               {/* Large Icon */}
-              <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <MapPin className="w-12 h-12 text-white" />
+              <div className="relative w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg z-10 transition-all duration-300 group-hover:scale-110 group-hover:brightness-110">
+                <MapPin className="w-12 h-12 text-white relative z-20" />
               </div>
               
               {/* Step Title */}
@@ -486,10 +486,10 @@ const TaXuaGreenModel = () => {
             </div>
 
             {/* Card 2: Tham gia thử thách */}
-            <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50">
+            <div className="bg-gradient-to-br from-blue-600/20 to-purple-700/20 backdrop-blur-sm border border-blue-500/30 rounded-3xl p-8 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-blue-400/50 hover:brightness-110 group">
               {/* Large Icon */}
-              <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <CheckCircle className="w-12 h-12 text-white" />
+              <div className="relative w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg z-10 transition-all duration-300 group-hover:scale-110 group-hover:brightness-110">
+                <CheckCircle className="w-12 h-12 text-white relative z-20" />
               </div>
               
               {/* Step Title */}
@@ -539,10 +539,10 @@ const TaXuaGreenModel = () => {
             </div>
 
             {/* Card 3: Nhận thưởng */}
-            <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 text-center transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50">
+            <div className="bg-gradient-to-br from-yellow-600/20 to-orange-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-3xl p-8 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-yellow-400/50 hover:brightness-110 group">
               {/* Large Icon */}
-              <div className="w-24 h-24 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <Gift className="w-12 h-12 text-white" />
+              <div className="relative w-24 h-24 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg z-10 transition-all duration-300 group-hover:scale-110 group-hover:brightness-110">
+                <Gift className="w-12 h-12 text-white relative z-20" />
               </div>
               
               {/* Step Title */}

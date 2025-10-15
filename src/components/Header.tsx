@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User, LogOut, Trophy, Gift, Target, ChevronDown, UserCircle } from 'lucide-react';
+import { Menu, X, User, LogOut, Trophy, Gift, Target, ChevronDown, UserCircle, Settings } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,6 +37,7 @@ const Header = ({
     { href: '/', label: t('header.home') },
     { href: '/safety', label: 'Trung tâm An toàn' },
     { href: '/contact', label: 'Liên Hệ' },
+    { href: '/about', label: 'Về chúng tôi' },
   ];
 
   const skyQuestLinks = [
@@ -127,6 +128,31 @@ const Header = ({
           {/* Auth Section & Language Switcher */}
           <div className="hidden md:flex items-center space-x-4">
             <LanguageSwitcher />
+            
+            {/* Settings Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-foreground hover:text-primary p-2"
+                >
+                  <Settings className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <span>Tùy chỉnh giao diện</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span>Ngôn ngữ</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span>Trợ giúp</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
             {isLoggedIn ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
