@@ -3,7 +3,6 @@ import Header from '../components/Header';
 import { useGamification } from '../hooks/useGamification';
 import { Challenge, ChallengeType, ChallengeSource, ChallengeVariant } from '../types/gamification';
 import { EXPANDED_CHALLENGES } from '../data/gamificationData';
-import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import { 
   Target, 
   Users, 
@@ -408,9 +407,6 @@ const ChallengesPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
       {/* Main Website Navigation */}
       <Header />
-      
-      {/* Sky Quest Navigation */}
-      <SkyQuestNavigation currentSection="challenges" />
       
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0">

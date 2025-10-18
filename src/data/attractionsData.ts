@@ -112,7 +112,7 @@ export const ATTRACTIONS_DATA: Attraction[] = [
       'Giữ vệ sinh, không xả rác'
     ],
     images: [
-      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_01.png',
+      '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_placeholder.svg',
       '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_02.png',
       '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_03.png',
       '/Attractions/Mom_Ca_Heo/images/mom_ca_heo_04.png',

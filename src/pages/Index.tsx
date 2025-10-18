@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { useNavigate } from 'react-router-dom';
+import { X } from 'lucide-react';
 import Header from '@/components/Header';
 import MainNavigation from '@/components/MainNavigation';
 import HeroSection from '@/components/HeroSection';
+import BackgroundSlider from '@/components/BackgroundSlider';
 import CategoryCards from '@/components/CategoryCards';
+import TaXuaGreenModel from '@/components/TaXuaGreenModel';
 import Footer from '@/components/Footer';
 import UserDashboard from '@/components/UserDashboard';
-import RegisterModal, { RegisterData } from '@/components/RegisterModal';
-import LoginModal, { LoginData } from '@/components/LoginModal';
+import RegisterModal from '@/components/RegisterModal';
+import LoginModal from '@/components/LoginModal';
 import ImagePreloader from '@/components/ImagePreloader';
-import BackgroundSlider from '@/components/BackgroundSlider';
-import TaXuaGreenModel from '@/components/TaXuaGreenModel';
 import QuickNavigation from '@/components/QuickNavigation';
-import { registerUser, signInUser, signOut, getSession, onAuthStateChange } from '@/lib/supabase';
+import { supabase, getCurrentUser, signOut, getSession, onAuthStateChange, signInUser, registerUser } from '@/lib/supabase';
+import { LoginData } from '@/components/LoginModal';
+import { RegisterData } from '@/components/RegisterModal';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
 import heroImage3 from '@/assets/shan-tuyet-tea.jpg';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -27,6 +31,19 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showEngagementPopup, setShowEngagementPopup] = useState(false);
   const [hasShownEngagementPopup, setHasShownEngagementPopup] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [showUserDashboard, setShowUserDashboard] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const handleVideoClick = () => {
+    setShowVideoModal(true);
+  };
+
+  const handleSearchClick = () => {
+    // Navigate to explore page or show search results
+    navigate('/explore');
+  };
 
   // Check for existing session on component mount
   useEffect(() => {
@@ -201,7 +218,10 @@ const Index = () => {
           
           <div className="relative z-10">
             {/* Main Navigation Bar */}
-            <MainNavigation />
+            <MainNavigation 
+        isLoggedIn={isLoggedIn}
+        onLoginClick={() => setShowLoginModal(true)}
+      />
             
             <Header 
               isLoggedIn={isLoggedIn}
@@ -214,7 +234,12 @@ const Index = () => {
             
             <main className="w-full pt-14">
               {/* Full-width Hero Section */}
-              <HeroSection />
+              <HeroSection 
+                onSearchClick={handleSearchClick}
+                onVideoClick={handleVideoClick}
+                isLoggedIn={isLoggedIn}
+                onLoginClick={() => setIsLoginModalOpen(true)}
+              />
               
               {/* Cinematic Spacing Section with Consistent Background */}
               <div className="py-32 bg-gradient-to-b from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-sm">
@@ -286,6 +311,28 @@ const Index = () => {
             >
               Khám phá ngay
             </button>
+          </div>
+        </div>
+      )}
+      {/* Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
+          <div className="relative max-w-4xl w-full mx-4">
+            <button 
+              onClick={() => setShowVideoModal(false)}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            <div className="aspect-video bg-black rounded-lg overflow-hidden">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                title="Tà Xùa Introduction Video"
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       )}

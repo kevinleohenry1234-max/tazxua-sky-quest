@@ -8,7 +8,11 @@ import {
   ArrowRight,
   MapPin,
   Star,
-  Users
+  Users,
+  Mountain,
+  Trophy,
+  Target,
+  Sparkles
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,6 +55,19 @@ const CategoryCards = () => {
       externalFallback: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       ctaText: 'Khám phá ngay',
       highlights: ['Thổ cẩm H\'Mông', 'Video 4K', 'Trải nghiệm AR']
+    },
+    {
+      id: 'skyquest',
+      title: 'Sky Quest: Du lịch Xanh - Chill An Lành',
+      shortDescription: 'Hành trình gamification bền vững',
+      detailedDescription: 'Tham gia hành trình du lịch xanh với hệ thống thử thách, phần thưởng và kỷ vật độc đáo. Khám phá Tà Xùa qua những câu chuyện kể, mini-quest và trải nghiệm tương tác đầy cảm xúc.',
+      icon: Mountain,
+      path: '/sky-quest/journey',
+      backgroundImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      ctaText: 'Bắt đầu hành trình',
+      highlights: ['Thử thách xanh', 'Kỷ vật độc đáo', 'Câu chuyện cảm xúc'],
+      isSpecial: true,
+      specialBadge: 'Du lịch Bền vững'
     }
   ];
 
@@ -67,13 +84,13 @@ const CategoryCards = () => {
             Khám Phá Tà Xùa
           </h2>
           <p className="font-inter text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Ba trải nghiệm độc đáo đang chờ đón bạn trong hành trình khám phá vùng đất huyền thoại này
+            Bốn trải nghiệm độc đáo đang chờ đón bạn trong hành trình khám phá vùng đất huyền thoại này
           </p>
         </div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {categories.map((category) => {
+        {/* Feature Cards Grid - First 3 cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto mb-8">
+          {categories.slice(0, 3).map((category) => {
             const Icon = category.icon;
             const isHovered = hoveredCard === category.id;
             
@@ -102,20 +119,17 @@ const CategoryCards = () => {
                         target.src = category.externalFallback;
                       }
                     }}
-                    loading="lazy"
                   />
-                  <div 
-                    className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 transition-all duration-400 ${
-                      isHovered ? 'from-black/80 via-black/50 to-black/30' : ''
-                    }`}
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
+                    isHovered ? 'opacity-0' : 'opacity-100'
+                  }`} />
                 </div>
 
-                {/* Content */}
-                <CardContent className="relative z-10 p-8 h-full flex flex-col justify-between">
+                <CardContent className="relative h-full p-8 flex flex-col text-white z-10">
                   {/* Top Section */}
-                  <div className="flex items-start justify-between">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
                       <Icon className="w-8 h-8 text-white" />
                     </div>
                     <div className="flex gap-1">
@@ -138,23 +152,23 @@ const CategoryCards = () => {
 
                     {/* Detailed Description - Slides up on hover */}
                     <div 
-                      className={`transform transition-all duration-400 ease-out ${
+                      className={`transition-all duration-500 ease-out ${
                         isHovered 
-                          ? 'translate-y-0 opacity-100' 
-                          : 'translate-y-8 opacity-0'
+                          ? 'transform translate-y-0 opacity-100' 
+                          : 'transform translate-y-8 opacity-0'
                       }`}
                     >
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 mb-6">
-                        <p className="font-inter text-white/95 text-sm leading-relaxed mb-4">
+                      <div className="mb-6">
+                        <p className="font-inter text-white/80 text-sm leading-relaxed mb-4">
                           {category.detailedDescription}
                         </p>
                         
                         {/* Highlights */}
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 mb-4">
                           {category.highlights.map((highlight, index) => (
-                            <span
+                            <span 
                               key={index}
-                              className="px-3 py-1 bg-white/20 rounded-full text-white/90 text-xs font-medium"
+                              className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white"
                             >
                               {highlight}
                             </span>
@@ -162,12 +176,10 @@ const CategoryCards = () => {
                         </div>
                       </div>
 
-                      {/* CTA Button - Appears with delay */}
+                      {/* CTA Button */}
                       <div 
-                        className={`transform transition-all duration-300 delay-100 ${
-                          isHovered 
-                            ? 'translate-y-0 opacity-100' 
-                            : 'translate-y-4 opacity-0'
+                        className={`transition-all duration-300 ${
+                          isHovered ? 'opacity-100' : 'opacity-0'
                         }`}
                       >
                         <Button 
@@ -185,7 +197,110 @@ const CategoryCards = () => {
           })}
         </div>
 
-        {/* Bottom CTA Section */}
+        {/* Sky Quest Card - Full Width Rectangle */}
+        {(() => {
+          const skyQuestCard = categories.find(cat => cat.id === 'skyquest');
+          if (!skyQuestCard) return null;
+          
+          const Icon = skyQuestCard.icon;
+          const isHovered = hoveredCard === skyQuestCard.id;
+          
+          return (
+            <div className="max-w-7xl mx-auto">
+              <Card
+                data-category={skyQuestCard.id}
+                className="group relative overflow-hidden rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-[300px]"
+                onMouseEnter={() => setHoveredCard(skyQuestCard.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                onClick={() => handleCardClick(skyQuestCard.path)}
+              >
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0">
+                  <img
+                    src={skyQuestCard.backgroundImage}
+                    alt={skyQuestCard.title}
+                    className={`w-full h-full object-cover transition-transform duration-400 ease-out ${
+                      isHovered ? 'scale-105' : 'scale-100'
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-600/90 via-blue-600/80 to-purple-600/90" />
+                  <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
+                    isHovered ? 'opacity-0' : 'opacity-100'
+                  }`} />
+                </div>
+
+                <CardContent className="relative h-full p-8 flex items-center text-white z-10">
+                  <div className="flex items-center justify-between w-full">
+                    {/* Left Content */}
+                    <div className="flex-1 pr-8">
+                      <div className="flex items-center mb-4">
+                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mr-6">
+                          <Icon className="w-10 h-10 text-white" />
+                        </div>
+                        <div>
+                          <div className="flex items-center mb-2">
+                            <h3 className="font-playfair text-3xl font-bold text-white mr-4">
+                              {skyQuestCard.title}
+                            </h3>
+                            {skyQuestCard.specialBadge && (
+                              <span className="px-3 py-1 bg-yellow-400/20 backdrop-blur-sm rounded-full text-sm font-semibold text-yellow-200 flex items-center">
+                                <Sparkles className="w-4 h-4 mr-1" />
+                                {skyQuestCard.specialBadge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="font-inter text-white/90 text-lg leading-relaxed">
+                            {skyQuestCard.shortDescription}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Detailed Description */}
+                      <div className={`transition-all duration-500 ease-out ${
+                        isHovered 
+                          ? 'transform translate-y-0 opacity-100' 
+                          : 'transform translate-y-4 opacity-80'
+                      }`}>
+                        <p className="font-inter text-white/80 text-sm leading-relaxed mb-4">
+                          {skyQuestCard.detailedDescription}
+                        </p>
+                        
+                        {/* Highlights */}
+                        <div className="flex flex-wrap gap-2">
+                          {skyQuestCard.highlights.map((highlight, index) => (
+                            <span 
+                              key={index}
+                              className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white flex items-center"
+                            >
+                              {index === 0 && <Target className="w-3 h-3 mr-1" />}
+                              {index === 1 && <Trophy className="w-3 h-3 mr-1" />}
+                              {index === 2 && <Sparkles className="w-3 h-3 mr-1" />}
+                              {highlight}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right CTA */}
+                    <div className="flex-shrink-0">
+                      <Button 
+                        className={`bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 backdrop-blur-sm rounded-xl px-8 py-4 font-semibold transition-all duration-300 group/btn ${
+                          isHovered ? 'scale-105 shadow-lg' : ''
+                        }`}
+                      >
+                        <span className="mr-2">{skyQuestCard.ctaText}</span>
+                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          );
+        })()}
+
+        {/* Call to Action */}
         <div className="text-center mt-16">
           <p className="font-inter text-gray-600 mb-6">
             Không biết bắt đầu từ đâu? Hãy để chúng tôi gợi ý cho bạn

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Card, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
 import { useGamification } from '../hooks/useGamification';
 import { Voucher } from '../types/gamification';
 import { SAMPLE_VOUCHERS } from '../data/gamificationData';
-import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import { 
   Gift, 
   Star, 
@@ -148,9 +150,6 @@ const RewardShop: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
-      {/* Sky Quest Navigation */}
-      <SkyQuestNavigation currentSection="rewards" />
-      
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0">
         {/* Hero Section with Ta Xua Theme */}

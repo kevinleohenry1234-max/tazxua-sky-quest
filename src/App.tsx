@@ -26,6 +26,9 @@ import PartnerDashboard from './pages/PartnerDashboard';
 import SkyQuestJourneyPage from './pages/SkyQuestJourneyPage';
 import HallOfStoriesPage from './pages/HallOfStoriesPage';
 import SouvenirPage from './pages/SouvenirPage';
+import FirstTimeVisitor from './pages/FirstTimeVisitor';
+import LearningPath from './pages/LearningPath';
+import ReturningUserDashboard from './pages/ReturningUserDashboard';
 
 const queryClient = new QueryClient();
 
@@ -60,6 +63,9 @@ const App = () => (
         <Route path="/sky-quest/leaderboard" element={<Leaderboard />} />
         <Route path="/referral" element={<ReferralSystem />} />
         <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+        <Route path="/first-time-visitor" element={<FirstTimeVisitor />} />
+        <Route path="/learning-path" element={<LearningPath />} />
+        <Route path="/returning-dashboard" element={<ReturningUserDashboard />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

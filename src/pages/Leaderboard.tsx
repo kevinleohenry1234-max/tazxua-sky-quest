@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Card, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { useGamification } from '../hooks/useGamification';
 import { LeaderboardEntry, Leaderboard as LeaderboardType } from '../types/gamification';
 import { getUserLevel } from '../data/gamificationData';
 import Header from '../components/Header';
-import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import { 
   Trophy, 
   Medal, 
@@ -54,7 +57,7 @@ const Leaderboard: React.FC = () => {
       }
     } else if (period === 'monthly') {
       switch (rank) {
-        case 1: return { title: 'Top Cộng đồng Xanh tháng này', icon: '👑', color: 'text-purple-400' };
+        case 1: return { title: 'Top du lịch xanh tháng này', icon: '👑', color: 'text-purple-400' };
         case 2: return { title: 'Nhà lãnh đạo bền vững', icon: '🏆', color: 'text-orange-400' };
         case 3: return { title: 'Thủ lĩnh xanh', icon: '🌿', color: 'text-emerald-400' };
         default: return null;
@@ -300,9 +303,6 @@ const Leaderboard: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
       {/* Main Website Navigation */}
       <Header />
-      
-      {/* Sky Quest Navigation */}
-      <SkyQuestNavigation currentSection="leaderboard" />
       
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0">

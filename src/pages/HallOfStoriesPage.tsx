@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
-import SkyQuestNavigation from '../components/SkyQuestNavigation';
 import HallOfStories from '../components/HallOfStories';
 import { StoryCard, StoryWish } from '../types/journey';
 import { 
@@ -110,9 +109,6 @@ const HallOfStoriesPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
       {/* Main Website Navigation */}
       <Header />
-      
-      {/* Sky Quest Navigation */}
-      <SkyQuestNavigation currentSection="hall-of-stories" />
       
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0">

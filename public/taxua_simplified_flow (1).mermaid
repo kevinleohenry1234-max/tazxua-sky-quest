@@ -1,0 +1,75 @@
+graph TD
+    Start[Landing Page<br/>Hero: Video/Ảnh Tà Xùa + Thanh tìm kiếm thông minh] --> Decision{Người dùng là ai?}
+    
+    Decision -->|Lần đầu, muốn hiểu| Learn[Tìm hiểu Tà Xùa Xanh<br/>Video 60s + 3 giá trị cốt lõi]
+    Decision -->|Đã biết, muốn đặt ngay| Search[Tìm kiếm<br/>Nhập: Địa điểm/Ngày/Loại dịch vụ]
+    Decision -->|Đã từng đến| Login[Đăng nhập<br/>Vào Dashboard cá nhân]
+    
+    Learn --> Story[Câu chuyện<br/>Dự án đã làm + Con số tác động]
+    Story --> Community[Xem trải nghiệm<br/>Review video/ảnh từ du khách]
+    Community --> CTA1[CTA: Bắt đầu hành trình của bạn]
+    CTA1 --> Search
+    
+    Search --> Results[Kết quả<br/>Homestay/Tour/Nhà hàng<br/>Badge: Doanh nghiệp xanh]
+    Results --> Detail[Chi tiết dịch vụ<br/>Ảnh + Review + Câu chuyện chủ nhà<br/>+ SkyQuest gần đó preview]
+    
+    Detail --> AddMore{Muốn thêm dịch vụ?}
+    AddMore -->|Có| Results
+    AddMore -->|Không| Cart[Giỏ hàng<br/>Xem lại + Gợi ý combo tiết kiệm]
+    
+    Cart --> Checkout[Thanh toán<br/>Điền thông tin + Chọn phương thức]
+    Checkout --> Confirm[Xác nhận đặt chỗ<br/>Email + Lưu vào tài khoản]
+    
+    Confirm --> Prepare[Chuẩn bị chuyến đi<br/>Email/App: Checklist + Weather + Gợi ý SkyQuest]
+    Prepare --> Arrival[Đến Tà Xùa<br/>Check-in homestay]
+    
+    Arrival --> Experience[Trải nghiệm tại Tà Xùa]
+    Experience --> SkyQuest[Mở App: Xem SkyQuest gần vị trí<br/>Bản đồ tương tác + Gợi ý theo thời gian]
+    
+    SkyQuest --> QuestDetail[Chi tiết thử thách<br/>Mô tả + Ảnh + Thời gian + Điểm + Voucher nhận được]
+    QuestDetail --> DoQuest{Chọn tham gia?}
+    
+    DoQuest -->|Không| Experience
+    DoQuest -->|Có| StartQuest[Bắt đầu thử thách<br/>GPS bật + Hướng dẫn từng bước]
+    
+    StartQuest --> CompleteQuest[Hoàn thành<br/>Chụp ảnh xác nhận + Tự đánh giá cảm xúc]
+    CompleteQuest --> Reward[Nhận thưởng<br/>Điểm + Voucher + Badge<br/>Xem tác động đóng góp]
+    
+    Reward --> Share{Muốn chia sẻ?}
+    Share -->|Có| Social[Đăng lên Social<br/>Template có sẵn + Số liệu tác động]
+    Share -->|Không| UseVoucher{Dùng voucher ngay?}
+    Social --> UseVoucher
+    
+    UseVoucher -->|Có| BookMore[Đặt thêm dịch vụ<br/>Dùng voucher giảm giá]
+    UseVoucher -->|Không| SaveVoucher[Lưu voucher<br/>Dùng sau hoặc chuyến sau]
+    
+    BookMore --> Experience
+    SaveVoucher --> Experience
+    
+    Experience --> Checkout2[Check-out]
+    Checkout2 --> Review[Đánh giá trải nghiệm<br/>Homestay + SkyQuest + Tổng thể]
+    
+    Review --> PostTrip[Sau chuyến đi<br/>Email: Xem ảnh cây đã trồng + Tác động<br/>CTA: Voucher còn lại + Giảm giá chuyến sau]
+    
+    PostTrip --> Return{Quay lại?}
+    Return -->|Có| Login
+    Return -->|Giới thiệu bạn| Referral[Chương trình giới thiệu<br/>Bạn và người được giới thiệu đều nhận ưu đãi]
+    
+    Login --> Dashboard[Dashboard cá nhân<br/>Voucher + Điểm + Khu vườn + Lịch sử]
+    Dashboard --> Explore{Tiếp theo?}
+    
+    Explore -->|Xem thành tích| Garden[Khu vườn của tôi<br/>Cây đã trồng + Rác đã nhặt + Ảnh timeline]
+    Explore -->|Khám phá mới| NewQuest[Thử thách mới<br/>Theo mùa hoặc sự kiện đặc biệt]
+    Explore -->|Đặt chuyến mới| Search
+    
+    Garden --> ShareGarden[Chia sẻ thành tích<br/>Certificate + Ảnh before/after]
+    NewQuest --> QuestDetail
+    
+    style Start fill:#e1f5ff
+    style Learn fill:#fff4e1
+    style Search fill:#e8f5e9
+    style Detail fill:#f3e5f5
+    style SkyQuest fill:#fff9c4
+    style Reward fill:#c8e6c9
+    style Dashboard fill:#e1bee7
+    style Garden fill:#a5d6a7
