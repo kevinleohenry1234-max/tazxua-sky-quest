@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ImageSlider from '@/components/ImageSlider';
 import HotelGrid from '@/components/HotelGrid';
+import BookingModal from '@/components/BookingModal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -394,124 +395,15 @@ const Accommodation: React.FC = () => {
         </div>
       )}
 
-      {/* Booking Modal */}
-      {showBookingModal && selectedHomestay && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-md w-full">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h2 className="text-xl font-bold text-gray-800">Đặt phòng</h2>
-              <Button variant="ghost" size="sm" onClick={closeModals}>
-                <X className="w-5 h-5" />
-              </Button>
-            </div>
-            
-            <div className="p-6">
-              <div className="mb-4">
-                <h3 className="font-semibold text-gray-800 mb-2">{selectedHomestay.name}</h3>
-                <p className="text-gray-600 text-sm mb-2">{selectedHomestay.location}</p>
-                <p className="text-lg font-bold text-blue-600">{selectedHomestay.price}/đêm</p>
-              </div>
-              
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ngày nhận phòng
-                  </label>
-                  <input 
-                    type="date" 
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ngày trả phòng
-                  </label>
-                  <input 
-                    type="date" 
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Số khách
-                  </label>
-                  <select className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="1">1 khách</option>
-                    <option value="2">2 khách</option>
-                    <option value="3">3 khách</option>
-                    <option value="4">4 khách</option>
-                    <option value="5">5+ khách</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ghi chú
-                  </label>
-                  <textarea 
-                    rows={3}
-                    placeholder="Yêu cầu đặc biệt hoặc ghi chú..."
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-              </div>
-              
-              <div className="bg-blue-50 p-4 rounded-lg mb-6">
-                <h4 className="font-semibold text-blue-800 mb-2">Thông tin liên hệ</h4>
-                <div className="space-y-1 text-sm">
-                  {selectedHomestay.contact.phone && (
-                    <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-blue-600" />
-                      <a href={`tel:${selectedHomestay.contact.phone}`} className="text-blue-600 hover:underline">
-                        {selectedHomestay.contact.phone}
-                      </a>
-                    </div>
-                  )}
-                  {selectedHomestay.contact.email && (
-                    <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-blue-600" />
-                      <a href={`mailto:${selectedHomestay.contact.email}`} className="text-blue-600 hover:underline">
-                        {selectedHomestay.contact.email}
-                      </a>
-                    </div>
-                  )}
-                </div>
-                <p className="text-xs text-blue-600 mt-2">
-                  Vui lòng liên hệ trực tiếp để xác nhận đặt phòng và thanh toán.
-                </p>
-              </div>
-              
-              <div className="flex gap-3">
-                <Button 
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                  onClick={() => {
-                    if (selectedHomestay.contact.phone) {
-                      window.open(`tel:${selectedHomestay.contact.phone}`, '_self');
-                    }
-                  }}
-                >
-                  <Phone className="w-4 h-4 mr-2" />
-                  Gọi ngay
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="flex-1"
-                  onClick={() => {
-                    if (selectedHomestay.contact.email) {
-                      window.open(`mailto:${selectedHomestay.contact.email}?subject=Đặt phòng ${selectedHomestay.name}`, '_blank');
-                    }
-                  }}
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  Email
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* New Booking Modal */}
+      <BookingModal
+        isOpen={showBookingModal}
+        onClose={closeModals}
+        itemName={selectedHomestay?.name || ''}
+        itemLocation={selectedHomestay?.location || ''}
+        itemPrice={selectedHomestay?.price || ''}
+        itemType="homestay"
+      />
     </div>
   );
 };

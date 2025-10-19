@@ -379,6 +379,7 @@ const ChallengesPage: React.FC = () => {
               <button
                 onClick={() => handleJoinChallenge(challenge.id)}
                 className={`bg-gradient-to-r ${sourceInfo.color} text-white px-6 py-2 rounded-full font-semibold hover:shadow-xl transition-all duration-300 flex items-center space-x-2 shadow-lg`}
+                aria-label={`Bắt đầu thử thách ${challenge.title}`}
               >
                 <Play className="w-4 h-4" />
                 <span>Bắt đầu</span>
@@ -392,6 +393,7 @@ const ChallengesPage: React.FC = () => {
               <button
                 onClick={() => handleCompleteChallenge(challenge.id)}
                 className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                aria-label={`Hoàn thành thử thách ${challenge.title}`}
               >
                 <CheckCircle className="w-4 h-4" />
                 <span>Hoàn thành</span>
@@ -469,6 +471,7 @@ const ChallengesPage: React.FC = () => {
                       ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
+                  aria-label={showNearMe ? "Tắt bộ lọc gần tôi" : "Bật bộ lọc gần tôi"}
                 >
                   <Navigation className="w-4 h-4" />
                   <span>Gần tôi</span>
@@ -480,6 +483,7 @@ const ChallengesPage: React.FC = () => {
                       ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
+                  aria-label={showFeatured ? "Tắt bộ lọc nổi bật" : "Bật bộ lọc nổi bật"}
                 >
                   <Star className="w-4 h-4" />
                   <span>Nổi bật</span>

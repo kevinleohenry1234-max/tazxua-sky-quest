@@ -199,7 +199,7 @@ const TaXuaGreenModel = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Scroll Completion Message */}
         {showScrollMessage && (
-          <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-6 py-3 rounded-full shadow-lg z-50 animate-bounce">
+          <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-500/90 to-slate-500/90 backdrop-blur-sm text-white px-6 py-3 rounded-full shadow-lg z-50 animate-bounce">
             {scrollMessageText}
           </div>
         )}
@@ -208,7 +208,7 @@ const TaXuaGreenModel = () => {
         {celebrationBubbles.map(bubble => (
           <div
             key={bubble.id}
-            className="fixed w-4 h-4 bg-gradient-to-r from-green-400 to-blue-400 rounded-full animate-ping z-50"
+            className="fixed w-4 h-4 bg-gradient-to-r from-green-400 to-slate-400 rounded-full animate-ping z-50"
             style={{
               left: bubble.x,
               top: bubble.y,

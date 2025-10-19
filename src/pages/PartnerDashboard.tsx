@@ -243,10 +243,16 @@ const PartnerDashboard: React.FC = () => {
              challenge.status === 'completed' ? 'Hoàn thành' : 'Tạm dừng'}
           </span>
           <div className="flex space-x-1">
-            <button className="p-1 text-gray-400 hover:text-blue-600">
+            <button 
+              className="p-1 text-gray-600 hover:text-blue-600"
+              aria-label="Xem chi tiết thử thách"
+            >
               <Eye className="w-4 h-4" />
             </button>
-            <button className="p-1 text-gray-400 hover:text-green-600">
+            <button 
+              className="p-1 text-gray-600 hover:text-green-600"
+              aria-label="Chỉnh sửa thử thách"
+            >
               <Edit3 className="w-4 h-4" />
             </button>
           </div>

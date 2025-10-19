@@ -69,10 +69,10 @@ const Contact = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-6">
-              Liên Hệ Với Chúng Tôi
+              Hãy Kết Nối Với Chúng Mình
             </h1>
             <p className="font-inter text-xl md:text-2xl text-white/90 leading-relaxed">
-              Chúng tôi luôn sẵn sàng hỗ trợ và lắng nghe ý kiến của bạn về Tà Xùa
+              Chúng mình luôn sẵn sàng lắng nghe và chia sẻ cùng bạn về Tà Xùa
             </p>
           </div>
         </div>
@@ -87,10 +87,11 @@ const Contact = () => {
               <div className="space-y-8">
                 <div>
                   <h2 className="font-playfair text-3xl font-bold mb-6">
-                    Thông Tin Liên Hệ
+                    Liên Hệ Với Chúng Mình
                   </h2>
                   <p className="text-muted-foreground font-inter leading-relaxed">
-                    Hãy liên hệ với chúng tôi để được tư vấn và hỗ trợ tốt nhất cho chuyến du lịch Tà Xùa của bạn.
+                    Bạn có câu hỏi gì về Tà Xùa không? Hay muốn được tư vấn cho chuyến du lịch sắp tới? 
+                    Hãy liên hệ với chúng mình nhé - chúng mình rất vui được hỗ trợ bạn!
                   </p>
                 </div>
 
@@ -100,7 +101,7 @@ const Contact = () => {
                       <MapPin className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold mb-2">Địa chỉ</h3>
+                      <h3 className="font-inter font-semibold mb-2">Chúng Mình Ở Đây</h3>
                       <p className="text-muted-foreground">
                         Tà Xùa, Bắc Yên, Sơn La, Việt Nam
                       </p>
@@ -112,7 +113,7 @@ const Contact = () => {
                       <Mail className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold mb-2">Email</h3>
+                      <h3 className="font-inter font-semibold mb-2">Gửi Email Cho Chúng Mình</h3>
                       <a 
                         href="mailto:vivietteam@gmail.com" 
                         className="text-primary hover:text-primary/80 transition-colors"
@@ -127,7 +128,7 @@ const Contact = () => {
                       <Phone className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold mb-2">Điện thoại</h3>
+                      <h3 className="font-inter font-semibold mb-2">Gọi Điện Cho Chúng Mình</h3>
                       <a 
                         href="tel:0903946185" 
                         className="text-primary hover:text-primary/80 transition-colors"
@@ -142,7 +143,7 @@ const Contact = () => {
                       <Clock className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold mb-2">Giờ làm việc</h3>
+                      <h3 className="font-inter font-semibold mb-2">Thời Gian Hoạt Động</h3>
                       <div className="text-muted-foreground space-y-1">
                         <p>Thứ 2 - Thứ 6: 8:00 - 18:00</p>
                         <p>Thứ 7 - Chủ nhật: 8:00 - 20:00</p>
@@ -155,7 +156,7 @@ const Contact = () => {
                       <Facebook className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-inter font-semibold mb-2">Mạng xã hội</h3>
+                      <h3 className="font-inter font-semibold mb-2">Theo Dõi Chúng Mình</h3>
                       <a 
                         href="#" 
                         className="text-primary hover:text-primary/80 transition-colors"
@@ -169,13 +170,13 @@ const Contact = () => {
                 {/* Quick Tips */}
                 <div className="bg-muted/50 rounded-lg p-6">
                   <h3 className="font-playfair text-xl font-semibold mb-4">
-                    Mẹo Liên Hệ Nhanh
+                    Mẹo Liên Hệ Hiệu Quả
                   </h3>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li>• Gọi điện trực tiếp để được tư vấn nhanh nhất</li>
-                    <li>• Gửi email để nhận thông tin chi tiết</li>
-                    <li>• Theo dõi Facebook để cập nhật tin tức mới</li>
-                    <li>• Thời gian phản hồi: trong vòng 24 giờ</li>
+                    <li>• Gửi email để nhận thông tin chi tiết về tour</li>
+                    <li>• Theo dõi Facebook để cập nhật tin tức mới nhất</li>
+                    <li>• Chúng mình sẽ phản hồi trong vòng 24 giờ</li>
                   </ul>
                 </div>
               </div>
@@ -194,11 +195,11 @@ const Contact = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-playfair text-3xl font-bold mb-4">
-              Vị Trí Của Chúng Tôi
+              Tà Xùa Ở Đâu Trên Bản Đồ?
             </h2>
             <p className="text-muted-foreground font-inter max-w-2xl mx-auto">
-              Tà Xùa nằm ở vùng núi phía Tây Bắc Việt Nam, thuộc tỉnh Sơn La, 
-              là điểm đến lý tưởng cho những ai yêu thích thiên nhiên hoang sơ.
+              Tà Xùa nằm ở vùng núi Tây Bắc tuyệt đẹp, thuộc tỉnh Sơn La. 
+              Đây chính là điểm đến lý tưởng cho những ai yêu thích thiên nhiên hoang sơ và muốn tìm hiểu văn hóa bản địa.
             </p>
           </div>
 
@@ -207,7 +208,7 @@ const Contact = () => {
               <div className="text-center">
                 <MapPin className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground font-inter">
-                  Bản đồ vị trí sẽ được tích hợp ở đây
+                  Bản đồ tương tác sẽ được hiển thị ở đây
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">
                   Tà Xùa, Bắc Yên, Sơn La, Việt Nam

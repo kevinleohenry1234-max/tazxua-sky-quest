@@ -17,6 +17,8 @@ import DigitalExhibition from "./pages/DigitalExhibition";
 import ExhibitionMusic from '@/pages/ExhibitionMusic';
 import ExhibitionCuisine from '@/pages/ExhibitionCuisine';
 import ExhibitionAI from '@/pages/ExhibitionAI';
+import ExhibitionGallery from '@/pages/ExhibitionGallery';
+import ExploreExhibition from './pages/ExploreExhibition';
 import UserProfilePage from './pages/UserProfilePage';
 import ChallengesPage from './pages/ChallengesPage';
 import RewardShop from './pages/RewardShop';
@@ -50,6 +52,8 @@ const App = () => (
         <Route path="/trien-lam/am-nhac" element={<ExhibitionMusic />} />
         <Route path="/trien-lam/am-thuc" element={<ExhibitionCuisine />} />
         <Route path="/trien-lam/sang-tao-ai" element={<ExhibitionAI />} />
+        <Route path="/exhibition-gallery" element={<ExhibitionGallery />} />
+          <Route path="/explore/exhibition" element={<ExploreExhibition />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/sky-quest/profile" element={<UserProfilePage />} />
         <Route path="/challenges" element={<ChallengesPage />} />

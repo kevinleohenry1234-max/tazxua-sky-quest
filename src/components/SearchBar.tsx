@@ -90,7 +90,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onExploreClick }) => {
         <div className="flex-1 relative">
           <Input
             type="text"
-            placeholder="Nhập địa điểm, homestay hoặc trải nghiệm bạn muốn khám phá..."
+            placeholder="Bạn muốn khám phá điều gì ở Tà Xùa?"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}

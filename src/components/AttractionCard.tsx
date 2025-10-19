@@ -1,6 +1,7 @@
 import React from 'react';
 import { Attraction } from '../data/attractionsData';
 import { MapPin, Clock, Star, Users } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 interface AttractionCardProps {
   attraction: Attraction;
@@ -56,9 +57,9 @@ export const AttractionCard: React.FC<AttractionCardProps> = ({ attraction, onCl
     >
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
-        <img
+        <LazyImage
           src={attraction.images[0]}
-          alt={attraction.name}
+          alt={`${attraction.name} - Điểm tham quan tại Tà Xùa`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute top-3 left-3">

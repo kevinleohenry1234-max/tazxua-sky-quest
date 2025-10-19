@@ -105,28 +105,28 @@ const ReturningUserDashboard = () => {
   const quickActions = [
     {
       title: 'Lên kế hoạch chuyến đi mới',
-      description: 'Tạo hành trình tùy chỉnh',
+      description: 'Cùng tạo hành trình riêng cho bạn',
       icon: Calendar,
       action: () => navigate('/plan-trip'),
       color: 'from-blue-500 to-indigo-600'
     },
     {
-      title: 'Xem thử thách mới',
-      description: 'Khám phá các nhiệm vụ Sky Quest',
+      title: 'Khám phá thử thách mới',
+      description: 'Những nhiệm vụ Sky Quest thú vị đang chờ bạn',
       icon: Target,
       action: () => navigate('/challenges'),
       color: 'from-green-500 to-emerald-600'
     },
     {
-      title: 'Chia sẻ trải nghiệm',
-      description: 'Viết review và đánh giá',
+      title: 'Chia sẻ khoảnh khắc đẹp',
+      description: 'Kể cho mọi người nghe về trải nghiệm của bạn',
       icon: Heart,
       action: () => navigate('/share-experience'),
       color: 'from-pink-500 to-rose-600'
     },
     {
-      title: 'Khám phá địa điểm mới',
-      description: 'Tìm hiểu các điểm đến chưa ghé',
+      title: 'Khám phá điểm đến mới',
+      description: 'Còn nhiều nơi tuyệt vời đang chờ bạn khám phá',
       icon: Compass,
       action: () => navigate('/explore'),
       color: 'from-orange-500 to-red-600'
@@ -160,10 +160,10 @@ const ReturningUserDashboard = () => {
           {/* Welcome Back Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-white mb-4">
-              Chào mừng trở lại, {userName}! 👋
+              Chào mừng bạn trở lại! 👋
             </h1>
             <p className="text-xl text-white/90">
-              Hãy tiếp tục hành trình khám phá Tà Xùa của bạn
+              Hành trình khám phá Tà Xùa của bạn vẫn đang tiếp tục...
             </p>
           </div>
 
@@ -175,16 +175,16 @@ const ReturningUserDashboard = () => {
                 <CardHeader>
                   <CardTitle className="text-white flex items-center">
                     <Trophy className="w-5 h-5 mr-2" />
-                    Thống kê của bạn
+                    Khu vườn thành tích của bạn
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-white/80">Lần ghé thăm:</span>
+                    <span className="text-white/80">Số lần ghé thăm:</span>
                     <span className="text-white font-semibold">{userStats.totalVisits}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white/80">Thử thách hoàn thành:</span>
+                    <span className="text-white/80">Thử thách đã chinh phục:</span>
                     <span className="text-white font-semibold">{userStats.completedChallenges}</span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -193,9 +193,10 @@ const ReturningUserDashboard = () => {
                   </div>
                   <div className="pt-2">
                     <div className="flex justify-between text-sm text-white/80 mb-2">
-                      <span>Tiến độ cấp độ</span>
+                      <span>Hành trình của bạn</span>
                       <span>Cấp {Math.floor(userStats.skyQuestPoints / 1000) + 1}</span>
                     </div>
+                    
                     <Progress 
                       value={(userStats.skyQuestPoints % 1000) / 10} 
                       className="h-2 bg-white/20" 

@@ -7,12 +7,14 @@ import HeroSection from '@/components/HeroSection';
 import BackgroundSlider from '@/components/BackgroundSlider';
 import CategoryCards from '@/components/CategoryCards';
 import TaXuaGreenModel from '@/components/TaXuaGreenModel';
+import ImpactSection from '@/components/ImpactSection';
 import Footer from '@/components/Footer';
 import UserDashboard from '@/components/UserDashboard';
 import RegisterModal from '@/components/RegisterModal';
 import LoginModal from '@/components/LoginModal';
 import ImagePreloader from '@/components/ImagePreloader';
 import QuickNavigation from '@/components/QuickNavigation';
+import SafetyHub from '@/components/SafetyHub';
 import { supabase, getCurrentUser, signOut, getSession, onAuthStateChange, signInUser, registerUser } from '@/lib/supabase';
 import { LoginData } from '@/components/LoginModal';
 import { RegisterData } from '@/components/RegisterModal';
@@ -253,6 +255,9 @@ const Index = () => {
                   <TaXuaGreenModel />
                 </div>
               </div>
+
+              {/* Real Impact Section */}
+              <ImpactSection />
             </main>
             
             <Footer />
@@ -281,35 +286,35 @@ const Index = () => {
       {/* 60-second Engagement Popup */}
       {showEngagementPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-          <div className="fixed bottom-8 right-8 max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 animate-fade-in-up">
+          <div className="fixed bottom-8 right-8 max-w-sm bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 p-8 animate-fade-in-up">
             <button
               onClick={handleCloseEngagement}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             
-            <div className="mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-green-500 rounded-full flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3l14 9-14 9V3z" />
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600 rounded-full flex items-center justify-center mb-4 shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Bạn đã sẵn sàng bắt đầu hành trình Sky Quest của mình chưa?
+              <h3 className="text-xl font-semibold text-slate-800 mb-3 leading-relaxed">
+                Tà Xùa đang chờ bạn...
               </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Khám phá Tà Xùa qua những trải nghiệm xanh và bền vững
+              <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+                Mỗi bước chân của bạn sẽ góp phần làm xanh thêm núi rừng này
               </p>
             </div>
             
             <button
               onClick={handleEngagementClick}
-              className="w-full bg-gradient-to-r from-orange-500 to-green-500 text-white py-3 px-4 rounded-lg font-medium hover:from-orange-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 text-white py-4 px-6 rounded-2xl font-medium hover:from-emerald-600 hover:via-teal-600 hover:to-blue-700 transition-all duration-500 transform hover:scale-105 shadow-xl hover:shadow-2xl"
             >
-              Khám phá ngay
+              Bắt đầu hành trình
             </button>
           </div>
         </div>
@@ -336,6 +341,9 @@ const Index = () => {
           </div>
         </div>
       )}
+      
+      {/* Safety Hub - Floating Icon */}
+      <SafetyHub />
     </div>
   );
 };

@@ -324,7 +324,7 @@ const UserProfilePage: React.FC = () => {
                 
                 {!profileSettings.showStats && (
                   <div className="col-span-2 lg:col-span-4 text-center p-8 bg-gray-50 rounded-xl">
-                    <EyeOff className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                    <EyeOff className="w-8 h-8 text-gray-600 mx-auto mb-2" />
                     <p className="text-gray-500">Thống kê đã được ẩn</p>
                   </div>
                 )}
@@ -466,9 +466,9 @@ const UserProfilePage: React.FC = () => {
               {!profileSettings.showActivity && (
                 <div className="bg-white rounded-2xl shadow-xl p-6">
                   <div className="text-center py-8">
-                    <EyeOff className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <EyeOff className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-500 mb-2">Hoạt động đã được ẩn</h3>
-                    <p className="text-gray-400">Bạn có thể bật lại trong cài đặt hồ sơ</p>
+                    <p className="text-gray-600">Bạn có thể bật lại trong cài đặt hồ sơ</p>
                   </div>
                 </div>
               )}

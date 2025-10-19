@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HomestayReal } from '../data/homestayRealData';
 import { Star, MapPin, Phone, Wifi, Car, Coffee, Users } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 interface HotelCardProps {
   hotel: HomestayReal;
@@ -40,11 +41,10 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
       <div className="relative h-64 overflow-hidden">
         {hotel.images.length > 0 && !imageError ? (
           <>
-            <img
+            <LazyImage
               src={hotel.images[currentImageIndex]}
-              alt={hotel.name}
+              alt={`${hotel.name} - Homestay tại ${hotel.location}, Tà Xùa`}
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-              onError={handleImageError}
             />
             {hotel.images.length > 1 && (
               <>

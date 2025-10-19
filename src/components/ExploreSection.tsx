@@ -133,8 +133,8 @@ const ExploreSection = () => {
       style={{
         backgroundImage: `
           linear-gradient(135deg, 
-            rgba(30, 58, 138, 0.25) 0%, 
-            rgba(79, 70, 229, 0.20) 25%, 
+            rgba(71, 85, 105, 0.25) 0%, 
+            rgba(100, 116, 139, 0.20) 25%, 
             rgba(147, 51, 234, 0.15) 50%, 
             rgba(30, 41, 59, 0.30) 75%, 
             rgba(15, 23, 42, 0.40) 100%

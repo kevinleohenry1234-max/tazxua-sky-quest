@@ -15,38 +15,38 @@ export type LanguageCode = keyof typeof LANGUAGES;
 export const translations = {
   vi: {
     // Header
-    'header.home': 'Trang Chủ',
-    'header.discover': 'Khám Phá',
-    'header.experience': 'Trải Nghiệm',
-    'header.culture': 'Văn Hóa',
-    'header.login': 'Đăng Nhập',
-    'header.register': 'Đăng Ký',
+    'header.home': 'Trang chủ',
+    'header.discover': 'Khám phá',
+    'header.experience': 'Trải nghiệm',
+    'header.culture': 'Văn hóa',
+    'header.login': 'Đăng nhập',
+    'header.register': 'Đăng ký',
     'header.profile': 'Hồ sơ cá nhân',
     'header.logout': 'Đăng xuất',
-    'header.welcome': 'Chào',
+    'header.welcome': 'Xin chào',
     
     // Hero Section
-    'hero.title': 'Khám Phá Vẻ Đẹp Huyền Bí Của Tà Xùa',
-    'hero.subtitle': 'Nơi mây trời hòa quyện cùng núi rừng, tạo nên một bức tranh thiên nhiên tuyệt vời',
-    'hero.cta': 'Bắt Đầu Hành Trình',
-    'hero.learn_more': 'Tìm Hiểu Thêm',
+    'hero.title': 'Cùng nhau khám phá vẻ đẹp kỳ diệu của Tà Xùa',
+    'hero.subtitle': 'Nơi mây trời và núi rừng ôm lấy nhau, tạo nên bức tranh thiên nhiên tuyệt đẹp',
+    'hero.cta': 'Bắt đầu hành trình',
+    'hero.learn_more': 'Tìm hiểu thêm',
     
     // Story Section
-    'story.title': 'Câu Chuyện Về Tà Xùa',
+    'story.title': 'Câu chuyện Tà Xùa',
     'story.subtitle': 'Hành trình khám phá vùng đất huyền bí',
     
     // Map Section
-    'map.title': 'Bản Đồ Tương Tác',
-    'map.subtitle': 'Khám phá các địa điểm nổi bật tại Tà Xùa',
+    'map.title': 'Bản đồ tương tác',
+    'map.subtitle': 'Khám phá các địa điểm đặc biệt tại Tà Xùa',
     'map.token_placeholder': 'Nhập Mapbox Access Token',
-    'map.token_submit': 'Xác Nhận',
+    'map.token_submit': 'Xác nhận',
     'map.token_required': 'Vui lòng nhập Mapbox Access Token để xem bản đồ',
     
     // Categories
-    'categories.accommodation': 'Nơi Lưu Trú',
-    'categories.attractions': 'Điểm Tham Quan',
-    'categories.culture': 'Văn Hóa',
-    'categories.cuisine': 'Ẩm Thực',
+    'categories.accommodation': 'Nơi nghỉ ngơi',
+    'categories.attractions': 'Điểm tham quan',
+    'categories.culture': 'Văn hóa bản địa',
+    'categories.cuisine': 'Ẩm thực địa phương',
     
     // Auth
     'auth.email': 'Email',
@@ -54,10 +54,10 @@ export const translations = {
     'auth.confirm_password': 'Xác nhận mật khẩu',
     'auth.full_name': 'Họ và tên',
     'auth.phone': 'Số điện thoại',
-    'auth.login_title': 'Đăng Nhập',
-    'auth.register_title': 'Đăng Ký',
-    'auth.login_button': 'Đăng Nhập',
-    'auth.register_button': 'Đăng Ký',
+    'auth.login_title': 'Đăng nhập',
+    'auth.register_title': 'Đăng ký',
+    'auth.login_button': 'Đăng nhập',
+    'auth.register_button': 'Đăng ký',
     'auth.cancel': 'Hủy',
     'auth.have_account': 'Đã có tài khoản?',
     'auth.no_account': 'Chưa có tài khoản?',
@@ -65,10 +65,10 @@ export const translations = {
     'auth.register_now': 'Đăng ký ngay',
     
     // Footer
-    'footer.about': 'Về Chúng Tôi',
-    'footer.contact': 'Liên Hệ',
-    'footer.privacy': 'Chính Sách Bảo Mật',
-    'footer.terms': 'Điều Khoản Sử Dụng',
+    'footer.about': 'Về chúng mình',
+    'footer.contact': 'Kết nối',
+    'footer.privacy': 'Chính sách bảo mật',
+    'footer.terms': 'Điều khoản sử dụng',
   },
   
   en: {
