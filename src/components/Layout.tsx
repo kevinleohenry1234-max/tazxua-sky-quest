@@ -36,7 +36,7 @@ const Layout = ({ children, className = '' }: LayoutProps) => {
 
   return (
     <div 
-      className={`min-h-screen bg-cover bg-center bg-fixed bg-no-repeat transition-all duration-1000 ease-in-out ${className}`}
+      className={`min-h-full bg-cover bg-center bg-fixed bg-no-repeat transition-all duration-1000 ease-in-out ${className}`}
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${currentImage})`
       }}

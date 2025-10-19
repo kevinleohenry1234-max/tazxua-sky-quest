@@ -69,7 +69,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Nghỉ dưỡng giữa mây trời Tây Bắc.',
     icon: <Home className="w-8 h-8" />,
     route: '/accommodation',
-    bgImage: 'linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-emerald-500 to-emerald-600'
   },
   {
@@ -78,7 +78,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Thưởng thức hương vị H\'Mông và Shan Tuyết.',
     icon: <UtensilsCrossed className="w-8 h-8" />,
     route: '/restaurant',
-    bgImage: 'linear-gradient(135deg, rgba(245, 101, 101, 0.8), rgba(220, 38, 38, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-red-500 to-red-600'
   },
   {
@@ -87,7 +87,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Khám phá hành trình xanh cùng hướng dẫn viên địa phương.',
     icon: <MapIcon className="w-8 h-8" />,
     route: '/tour',
-    bgImage: 'linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-blue-500 to-blue-600'
   },
   {
@@ -96,7 +96,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Tự do khám phá Tà Xùa theo cách của bạn.',
     icon: <CarFront className="w-8 h-8" />,
     route: '/rental',
-    bgImage: 'linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(147, 51, 234, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-purple-500 to-purple-600'
   },
   {
@@ -105,7 +105,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Thư giãn giữa núi rừng với spa và trị liệu thảo mộc.',
     icon: <Sparkles className="w-8 h-8" />,
     route: '/wellness',
-    bgImage: 'linear-gradient(135deg, rgba(236, 72, 153, 0.8), rgba(219, 39, 119, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-pink-500 to-pink-600'
   },
   {
@@ -114,7 +114,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Âm nhạc, cà phê, không gian nghệ thuật và triển lãm số.',
     icon: <Music className="w-8 h-8" />,
     route: '/entertainment',
-    bgImage: 'linear-gradient(135deg, rgba(251, 146, 60, 0.8), rgba(249, 115, 22, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-orange-500 to-orange-600'
   },
   {
@@ -123,7 +123,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Dễ dàng đặt vé xe Hà Nội – Tà Xùa chỉ trong vài bước.',
     icon: <Ticket className="w-8 h-8" />,
     route: '/ticket',
-    bgImage: 'linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(2, 132, 199, 0.9))',
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-sky-500 to-sky-600'
   }
 ];
@@ -339,7 +339,7 @@ const Accommodation: React.FC = () => {
     <div 
       className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${heroImage})`
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
       }}
     >
       <Header
@@ -353,14 +353,14 @@ const Accommodation: React.FC = () => {
       
       <div className="pt-16">
         {/* Hero Section */}
-        <div className="relative py-24 text-center">
+        <div className="relative py-32 text-center">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            <div className="max-w-4xl mx-auto animate-fade-in-up">
+              <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 drop-shadow-lg tracking-tight">
                 Dịch Vụ Tại Tà Xùa
               </h1>
-              <p className="text-xl md:text-2xl text-white/80 mb-8 drop-shadow-md font-medium">
-                Trải nghiệm đầy đủ từ lưu trú, ẩm thực đến hành trình khám phá và thư giãn
+              <p className="text-xl md:text-2xl text-white/85 mb-12 drop-shadow-md font-medium leading-relaxed tracking-wide max-w-3xl mx-auto">
+                Khám phá trọn vẹn Tà Xùa – từ nghỉ dưỡng, ẩm thực đến hành trình xanh đầy cảm hứng
               </p>
             </div>
           </div>
@@ -371,57 +371,68 @@ const Accommodation: React.FC = () => {
           <div className="container mx-auto px-4">
             {/* Search Bar */}
             <div className="mb-12">
-              <div className="bg-white rounded-lg shadow-sm p-6 max-w-4xl mx-auto">
-                <div className="flex flex-col lg:flex-row gap-4">
+              <div className="bg-white rounded-2xl shadow-lg p-8 max-w-5xl mx-auto" style={{ width: '70%' }}>
+                <div className="flex flex-col lg:flex-row gap-6">
                   <div className="flex-1 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
                       type="text"
-                      placeholder="Tìm kiếm dịch vụ, homestay hoặc tour bạn quan tâm…"
+                      placeholder="Tìm kiếm dịch vụ, homestay, nhà hàng hoặc tour bạn quan tâm…"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-gray-700 placeholder-gray-500 text-base"
                     />
                   </div>
                   <Button
                     onClick={() => setShowFilters(!showFilters)}
                     variant="outline"
-                    className="px-4 py-3 border-gray-200 hover:bg-gray-50 rounded-full"
-                    style={{ color: '#0A7B61' }}
+                    className="px-6 py-4 border-2 hover:bg-gray-50 rounded-xl transition-all duration-200"
+                    style={{ borderColor: '#0A7B61', color: '#0A7B61' }}
                   >
                     <Filter className="w-5 h-5" />
                   </Button>
                 </div>
+                
+                {/* Search Suggestions Dropdown */}
+                {searchTerm && (
+                  <div className="mt-4 bg-white rounded-xl shadow-md border border-gray-100 p-4">
+                    <div className="text-sm text-gray-600 mb-2">Gợi ý tìm kiếm:</div>
+                    <div className="space-y-2">
+                      <div className="text-gray-700 hover:text-emerald-600 cursor-pointer py-1">Homestay view núi</div>
+                      <div className="text-gray-700 hover:text-emerald-600 cursor-pointer py-1">Ẩm thực H'Mông</div>
+                      <div className="text-gray-700 hover:text-emerald-600 cursor-pointer py-1">Tour trekking</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Service Categories Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {serviceCategories.map((category, index) => (
                 <div
                   key={category.id}
-                  className="group cursor-pointer transform transition-all duration-400 hover:scale-105 animate-fade-up"
+                  className="group cursor-pointer transform transition-all duration-500 hover:scale-105 animate-fade-up"
                   style={{
-                    animationDelay: `${index * 100}ms`,
+                    animationDelay: `${index * 150}ms`,
                     animationFillMode: 'both'
                   }}
                   onClick={() => handleCategoryClick(category.id, category.route)}
                 >
                   <div 
-                    className="relative h-64 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="relative h-80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 bg-cover bg-center"
                     style={{
-                      background: category.bgImage
+                      backgroundImage: category.bgImage
                     }}
                   >
-                    {/* Content Overlay */}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300" />
+                    {/* Icon at top-left */}
+                    <div className="absolute top-6 left-6 text-white drop-shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      {category.icon}
+                    </div>
                     
-                    {/* Content */}
-                    <div className="relative h-full flex flex-col justify-end p-6 text-white">
-                      <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                        {category.icon}
-                      </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors duration-300">
+                    {/* Content at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors duration-300 leading-tight">
                         {category.title}
                       </h3>
                       <p className="text-white/90 text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
@@ -430,32 +441,152 @@ const Accommodation: React.FC = () => {
                     </div>
 
                     {/* Hover Effect Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Call to Action */}
-            <div className="mt-20 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-2xl p-8 text-center text-white shadow-2xl max-w-4xl mx-auto">
-              <h3 className="text-3xl font-bold mb-4">
-                Cần Hỗ Trợ Đặt Dịch Vụ?
-              </h3>
-              <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-                Liên hệ với chúng tôi để được tư vấn và hỗ trợ đặt dịch vụ tại Tà Xùa. 
-                Đội ngũ chuyên viên sẽ giúp bạn có trải nghiệm tuyệt vời nhất.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-white text-emerald-600 hover:bg-gray-100 flex items-center gap-2 font-semibold">
-                  <Phone className="w-5 h-5" />
-                  Gọi Ngay: 1900-xxxx
-                </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-emerald-600 transition-colors flex items-center gap-2 font-semibold">
-                  <Mail className="w-5 h-5" />
-                  Email: info@taxua.com
-                </Button>
+            {/* Featured Experiences Section */}
+            <div className="mt-24 py-20 bg-gradient-to-b from-emerald-50 to-white relative overflow-hidden">
+              <div className="container mx-auto px-4">
+                <div className="text-center mb-16">
+                  <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    Trải Nghiệm Nổi Bật Tại Tà Xùa
+                  </h2>
+                  <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Khám phá những trải nghiệm độc đáo và đáng nhớ nhất tại vùng đất Tà Xùa huyền diệu
+                  </p>
+                </div>
+
+                <div className="space-y-12 max-w-6xl mx-auto">
+                  {/* Experience 1: Homestay giữa biển mây */}
+                  <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 hover:scale-105">
+                    <div 
+                      className="h-96 bg-cover bg-center relative"
+                      style={{
+                        backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')`
+                      }}
+                    >
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="container mx-auto px-8">
+                          <div className="max-w-2xl">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                              Homestay giữa biển mây
+                            </h3>
+                            <p className="text-lg text-white/90 mb-6 leading-relaxed drop-shadow-md">
+                              Thức dậy trong làn sương mờ ảo, ngắm nhìn biển mây bao phủ khắp thung lũng. 
+                              Trải nghiệm nghỉ dưỡng độc đáo chỉ có tại Tà Xùa.
+                            </p>
+                            <Button 
+                              className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                              onClick={() => handleCategoryClick('accommodation', '/accommodation')}
+                            >
+                              Khám phá ngay
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Experience 2: Ẩm thực H'Mông */}
+                  <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 hover:scale-105">
+                    <div 
+                      className="h-96 bg-cover bg-center relative"
+                      style={{
+                        backgroundImage: `linear-gradient(to left, rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')`
+                      }}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-end">
+                        <div className="container mx-auto px-8">
+                          <div className="max-w-2xl text-right">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                              Ẩm thực H'Mông đậm đà bản sắc
+                            </h3>
+                            <p className="text-lg text-white/90 mb-6 leading-relaxed drop-shadow-md">
+                              Thưởng thức hương vị truyền thống của người H'Mông với thịt nướng, rau rừng 
+                              và ly trà Shan Tuyết thơm ngát giữa không gian núi rừng.
+                            </p>
+                            <Button 
+                              className="bg-white text-red-700 hover:bg-red-50 font-semibold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                              onClick={() => handleCategoryClick('restaurant', '/restaurant')}
+                            >
+                              Khám phá ngay
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Experience 3: Tour xanh */}
+                  <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 hover:scale-105">
+                    <div 
+                      className="h-96 bg-cover bg-center relative"
+                      style={{
+                        backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')`
+                      }}
+                    >
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="container mx-auto px-8">
+                          <div className="max-w-2xl">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                              Tour xanh – hành trình trồng cây & chill an lành
+                            </h3>
+                            <p className="text-lg text-white/90 mb-6 leading-relaxed drop-shadow-md">
+                              Tham gia hành trình du lịch có trách nhiệm, trồng cây gây rừng và khám phá 
+                              thiên nhiên hoang sơ cùng cộng đồng địa phương.
+                            </p>
+                            <Button 
+                              className="bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                              onClick={() => handleCategoryClick('tour', '/tour')}
+                            >
+                              Khám phá ngay
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Call to Action - Redesigned Support Section */}
+            <div className="mt-20 mb-16 max-w-4xl mx-auto">
+              <div className="bg-gradient-to-r from-emerald-600 to-emerald-800 rounded-3xl p-12 text-center text-white shadow-2xl transform hover:scale-105 transition-all duration-500">
+                <div className="max-w-2xl mx-auto">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 drop-shadow-lg">
+                    Cần hỗ trợ đặt dịch vụ?
+                  </h2>
+                  <p className="text-lg text-white/90 mb-8 leading-relaxed">
+                    Đội ngũ ViViet luôn sẵn sàng hỗ trợ bạn lên kế hoạch nghỉ dưỡng và khám phá Tà Xùa trọn vẹn.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <Button 
+                      className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-3 min-w-[200px]"
+                      onClick={() => window.open('tel:1900-xxxx', '_self')}
+                    >
+                      <Phone className="w-5 h-5" />
+                      Gọi Ngay 1900-xxxx
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      className="border-2 border-white text-white hover:bg-white hover:text-emerald-700 font-semibold px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-3 min-w-[200px] bg-transparent"
+                      onClick={() => window.open('https://m.me/viviet', '_blank')}
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Chat với chúng tôi
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>

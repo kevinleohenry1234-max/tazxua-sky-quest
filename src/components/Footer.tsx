@@ -11,7 +11,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-black/80 to-black/95 backdrop-blur-sm border-t border-white/20 text-white">
+    <footer className="bg-gradient-to-b from-slate-800 to-slate-900 backdrop-blur-sm border-t border-white/10 text-white animate-fade-in">
       <div className="container mx-auto px-4 py-12">
         {/* Simplified Footer Content */}
         <div className="text-center">
@@ -20,9 +20,9 @@ const Footer = () => {
             <LazyImage 
               src="/Logo/IVIET.png" 
               alt="VIVIET Logo" 
-              className="w-12 h-12 object-cover rounded-xl shadow-lg border-2 border-white/20"
+              className="w-12 h-12 object-cover rounded-xl shadow-lg border-2 border-white/10 opacity-80"
             />
-            <div className="font-playfair font-bold text-2xl text-white">
+            <div className="font-playfair font-bold text-2xl text-white/90">
               VIVIET Tà Xùa
             </div>
           </div>
@@ -37,7 +37,7 @@ const Footer = () => {
                   href={link.href}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
-                  className="flex items-center space-x-2 text-white/80 hover:text-primary transition-colors duration-300 group"
+                  className="flex items-center space-x-2 text-white/70 hover:text-emerald-400 transition-colors duration-300 group"
                 >
                   <IconComponent className="w-4 h-4 group-hover:scale-110 transition-transform" />
                   <span className="text-sm">{link.name}</span>
