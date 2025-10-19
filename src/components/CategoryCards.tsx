@@ -121,18 +121,11 @@ const CategoryCards = () => {
                     src={category.backgroundImage}
                     alt={`${category.title} - Khám phá ${category.shortDescription} tại Tà Xùa`}
                     className={`w-full h-full object-cover transition-all duration-700 ${
-                      isHovered ? 'md:scale-105 md:brightness-105 scale-100' : 'scale-100'
+                      isHovered ? 'md:scale-105 md:brightness-[1.05] scale-100' : 'scale-100'
                     }`}
                   />
-                  {/* Gradient Overlay */}
-                  {category.id === 'skyquest' ? (
-                    <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-80`} />
-                  ) : category.id === 'explore' ? (
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-700/80 via-emerald-600/70 to-yellow-400/60" />
-                  ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-700/70 via-orange-600/60 to-yellow-300/50" />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  {/* Subtle text readability overlay only */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 </div>
 
                 <CardContent className="relative h-full p-6 sm:p-4 flex flex-col text-white z-10">

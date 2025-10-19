@@ -116,18 +116,23 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Main Content with Emotional Typography */}
       <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
         <div className="mb-8 space-y-6">
-          {/* Soft, Curious Headline */}
-          <h1 className="text-4xl md:text-6xl font-light leading-tight tracking-wide">
-            <span className="block text-white/90 font-extralight text-2xl md:text-3xl mb-4 tracking-widest">
-              Cùng nhau khám phá
-            </span>
-            <span className="block bg-gradient-to-r from-white via-blue-100 to-teal-100 bg-clip-text text-transparent font-medium">
-              Tà Xùa Mùa Xanh
+          {/* Main Title */}
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight tracking-wide mb-6">
+            <span className="block text-white font-bold" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}>
+              ViViet: Tà Xùa Mùa Xanh
             </span>
           </h1>
           
-          {/* Gentle, Natural Subtitle */}
-          <p className="text-lg md:text-xl text-white/80 font-light leading-relaxed max-w-2xl mx-auto">
+          {/* Refined Subtitle */}
+          <p className="text-xl md:text-2xl font-medium leading-relaxed max-w-2xl mx-auto" 
+             style={{ 
+               color: '#FFFFFF', 
+               textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+               fontSize: '22px',
+               fontWeight: '500',
+               lineHeight: '1.6',
+               marginTop: '1.5rem'
+             }}>
             Nơi mây trời và núi rừng ôm lấy nhau, 
             <br className="hidden md:block" />
             mỗi khoảnh khắc đều đáng trân trọng

@@ -93,13 +93,13 @@ const ImpactSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-slate-900/95 to-slate-800/90">
+    <section className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             Tác động thật
           </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Những con số này phản ánh tác động tích cực mà cộng đồng ViViet đã tạo ra tại Tà Xùa
           </p>
         </div>
@@ -110,18 +110,18 @@ const ImpactSection = () => {
             return (
               <div key={index} className="text-center">
                 <div className="mb-4 flex justify-center">
-                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center shadow-sm">
                     <IconComponent className={`w-8 h-8 ${item.color}`} />
                   </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
                   {typeof item.value === 'number' && item.value % 1 !== 0 
                     ? item.value.toFixed(1) 
                     : Math.floor(item.value).toLocaleString()
                   }
                   {item.suffix}
                 </div>
-                <div className="text-sm text-gray-300">
+                <div className="text-sm text-gray-600">
                   {item.label}
                 </div>
               </div>
@@ -130,7 +130,7 @@ const ImpactSection = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-500">
             Dữ liệu được cập nhật thời gian thực từ các hoạt động Sky Quest và đối tác địa phương
           </p>
         </div>

@@ -54,7 +54,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onExploreClick }) => {
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* Search Container */}
-      <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-2 flex flex-col md:flex-row gap-2">
+      <div className="bg-white backdrop-blur-xl rounded-2xl border border-white/20 p-2 flex flex-col md:flex-row gap-2" 
+           style={{ 
+             backgroundColor: '#FFFFFF', 
+             boxShadow: '0 8px 32px rgba(0,0,0,0.1)' 
+           }}>
         {/* Category Selector */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -90,7 +94,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onExploreClick }) => {
         <div className="flex-1 relative">
           <Input
             type="text"
-            placeholder="Bạn muốn khám phá điều gì ở Tà Xùa?"
+            placeholder="Bạn muốn khám phá điều gì tại Tà Xùa?"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -112,11 +116,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onExploreClick }) => {
       {/* Quick Suggestions */}
       <div className="mt-6 flex flex-wrap gap-3 justify-center">
         {[
+          { text: 'Homestay view mây', category: 'accommodation' },
           { text: 'Đỉnh Tà Xùa', category: 'destinations' },
-          { text: 'Homestay truyền thống', category: 'accommodation' },
-          { text: 'Chè Shan Tuyết', category: 'activities' },
-          { text: 'Văn hóa H\'Mông', category: 'activities' },
-          { text: 'Sống lưng khủng long', category: 'destinations' }
+          { text: 'Ẩm thực H\'Mông', category: 'activities' }
         ].map((suggestion, index) => (
           <button
             key={index}
