@@ -8,7 +8,30 @@ import BookingModal from '@/components/BookingModal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Star, Phone, Mail, Wifi, Car, Coffee, Mountain, Users, Calendar, X, Eye, MessageCircle } from 'lucide-react';
+import { 
+  MapPin, 
+  Star, 
+  Phone, 
+  Mail, 
+  Wifi, 
+  Car, 
+  Coffee, 
+  Mountain, 
+  Users, 
+  Calendar, 
+  X, 
+  Eye, 
+  MessageCircle,
+  Search,
+  Filter,
+  Home,
+  UtensilsCrossed,
+  MapIcon,
+  CarFront,
+  Sparkles,
+  Music,
+  Ticket
+} from 'lucide-react';
 import { getSession, onAuthStateChange, signOut } from '@/lib/supabase';
 import { homestayRealData } from '@/data/homestayRealData';
 import heroImage from '@/assets/hero-taxua-clouds.jpg';
@@ -29,6 +52,82 @@ interface Homestay {
   features: string[];
 }
 
+interface ServiceCategory {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  route: string;
+  bgImage: string;
+  bgColor: string;
+}
+
+const serviceCategories: ServiceCategory[] = [
+  {
+    id: 'accommodation',
+    title: 'Khách sạn & Homestay',
+    description: 'Nghỉ dưỡng giữa mây trời Tây Bắc.',
+    icon: <Home className="w-8 h-8" />,
+    route: '/accommodation',
+    bgImage: 'linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.9))',
+    bgColor: 'from-emerald-500 to-emerald-600'
+  },
+  {
+    id: 'restaurant',
+    title: 'Nhà hàng & Ẩm thực địa phương',
+    description: 'Thưởng thức hương vị H\'Mông và Shan Tuyết.',
+    icon: <UtensilsCrossed className="w-8 h-8" />,
+    route: '/restaurant',
+    bgImage: 'linear-gradient(135deg, rgba(245, 101, 101, 0.8), rgba(220, 38, 38, 0.9))',
+    bgColor: 'from-red-500 to-red-600'
+  },
+  {
+    id: 'tour',
+    title: 'Tour Du Lịch',
+    description: 'Khám phá hành trình xanh cùng hướng dẫn viên địa phương.',
+    icon: <MapIcon className="w-8 h-8" />,
+    route: '/tour',
+    bgImage: 'linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.9))',
+    bgColor: 'from-blue-500 to-blue-600'
+  },
+  {
+    id: 'rental',
+    title: 'Thuê Xe & Di Chuyển',
+    description: 'Tự do khám phá Tà Xùa theo cách của bạn.',
+    icon: <CarFront className="w-8 h-8" />,
+    route: '/rental',
+    bgImage: 'linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(147, 51, 234, 0.9))',
+    bgColor: 'from-purple-500 to-purple-600'
+  },
+  {
+    id: 'wellness',
+    title: 'Chăm Sóc & Nghỉ Dưỡng',
+    description: 'Thư giãn giữa núi rừng với spa và trị liệu thảo mộc.',
+    icon: <Sparkles className="w-8 h-8" />,
+    route: '/wellness',
+    bgImage: 'linear-gradient(135deg, rgba(236, 72, 153, 0.8), rgba(219, 39, 119, 0.9))',
+    bgColor: 'from-pink-500 to-pink-600'
+  },
+  {
+    id: 'entertainment',
+    title: 'Giải Trí & Hoạt Động',
+    description: 'Âm nhạc, cà phê, không gian nghệ thuật và triển lãm số.',
+    icon: <Music className="w-8 h-8" />,
+    route: '/entertainment',
+    bgImage: 'linear-gradient(135deg, rgba(251, 146, 60, 0.8), rgba(249, 115, 22, 0.9))',
+    bgColor: 'from-orange-500 to-orange-600'
+  },
+  {
+    id: 'ticket',
+    title: 'Đặt Vé Xe Liên Tuyến',
+    description: 'Dễ dàng đặt vé xe Hà Nội – Tà Xùa chỉ trong vài bước.',
+    icon: <Ticket className="w-8 h-8" />,
+    route: '/ticket',
+    bgImage: 'linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(2, 132, 199, 0.9))',
+    bgColor: 'from-sky-500 to-sky-600'
+  }
+];
+
 const homestayData: Homestay[] = homestayRealData;
 
 const Accommodation: React.FC = () => {
@@ -43,6 +142,9 @@ const Accommodation: React.FC = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [homestayDetails, setHomestayDetails] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
   // Check for existing session on component mount
   useEffect(() => {
@@ -92,56 +194,64 @@ const Accommodation: React.FC = () => {
     }
   };
 
+  const handleCategoryClick = (categoryId: string, route: string) => {
+    if (categoryId === 'accommodation') {
+      setSelectedCategory(categoryId);
+    } else {
+      // Navigate to other routes (placeholder for now)
+      console.log(`Navigating to ${route}`);
+      // In a real app, you would use router.push(route) here
+    }
+  };
+
+  const handleBackToServices = () => {
+    setSelectedCategory(null);
+  };
+
   // Hàm để lấy thông tin chi tiết từ file markdown
   const fetchHomestayDetails = async (homestayName: string) => {
     try {
       // Tìm thư mục tương ứng với homestay
       const homestayFolders = [
         '1._1941M_Homestay_Tà_Xùa',
-        '2._Mayhome_Tà_Xùa',
-        '3._Tà_Xùa_Ecolodge',
-        '4._Xoè_Homestay',
-        '5._Tà_Xùa_Cloud_Homestay',
-        '6._Mùa_Homestay_Tà_Xùa',
-        '7._Mando_Homestay_Tà_Xùa',
-        '8._Tà_Xùa_Mây_Homestay',
-        '9._Mây_Mơ_Màng_Homestay_Tà_Xùa',
-        '10._Tà_Xùa_HillsHomestay',
-        '11._Táo_Homestay',
-        '12._Ngỗng_Tà_Xùa_Homestay',
-        '13._Tú_Mỉ',
-        '14._Homestay_Coffee_Đỉnh_Núi_Tà_Xùa',
-        '15._Anh_Tài_Mây_Homestay'
+        '2._Bình_Minh_Homestay',
+        '3._Cầu_Mây_Homestay',
+        '4._Đỉnh_Mây_Homestay',
+        '5._Hạnh_Phúc_Homestay',
+        '6._Hoa_Ban_Homestay',
+        '7._Mây_Trắng_Homestay',
+        '8._Núi_Xanh_Homestay',
+        '9._Phong_Cảnh_Homestay',
+        '10._Sao_Mai_Homestay',
+        '11._Tà_Xùa_Cloud_Homestay',
+        '12._Tà_Xùa_Mây_Trắng_Homestay',
+        '13._Tà_Xùa_View_Homestay',
+        '14._Thiên_Đường_Homestay',
+        '15._Trên_Mây_Homestay'
       ];
 
-      // Tìm folder phù hợp dựa trên tên homestay
-      const matchingFolder = homestayFolders.find(folder => 
-        folder.toLowerCase().includes(homestayName.toLowerCase().replace(/\s+/g, '_')) ||
-        homestayName.toLowerCase().includes(folder.toLowerCase().split('_')[1] || '')
-      );
+      // Tìm thư mục phù hợp dựa trên tên homestay
+      const matchingFolder = homestayFolders.find(folder => {
+        const folderName = folder.split('._')[1]?.replace(/_/g, ' ');
+        return folderName && homestayName.toLowerCase().includes(folderName.toLowerCase());
+      });
 
       if (matchingFolder) {
-        const response = await fetch(`/cơ sở lưu trú/${matchingFolder}/Thông tin chi tiết/`);
+        const response = await fetch(`/homestay-details/${matchingFolder}/details.md`);
         if (response.ok) {
-          const text = await response.text();
-          return text;
+          const content = await response.text();
+          setHomestayDetails(content);
         }
       }
-      
-      return 'Thông tin chi tiết đang được cập nhật...';
     } catch (error) {
       console.error('Error fetching homestay details:', error);
-      return 'Không thể tải thông tin chi tiết. Vui lòng thử lại sau.';
     }
   };
 
-  const handleViewDetails = async (homestay: Homestay) => {
+  const handleViewDetails = (homestay: Homestay) => {
     setSelectedHomestay(homestay);
     setShowDetailModal(true);
-    
-    // Fetch chi tiết từ file markdown
-    const details = await fetchHomestayDetails(homestay.name);
-    setHomestayDetails(details);
+    fetchHomestayDetails(homestay.name);
   };
 
   const handleBookNow = (homestay: Homestay) => {
@@ -165,6 +275,66 @@ const Accommodation: React.FC = () => {
     return <Star className="w-4 h-4" />;
   };
 
+  if (selectedCategory === 'accommodation') {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: '#F9FAF9' }}>
+        <Header
+          isLoggedIn={isLoggedIn}
+          userName={userName}
+          onLoginClick={() => setShowLoginModal(true)}
+          onRegisterClick={() => setShowRegisterModal(true)}
+          onProfileClick={() => setShowDashboard(true)}
+          onLogoutClick={handleLogout}
+        />
+        
+        <div className="pt-16">
+          {/* Back Button */}
+          <div className="container mx-auto px-4 py-6">
+            <Button 
+              onClick={handleBackToServices}
+              variant="outline"
+              className="mb-4 text-gray-600 border-gray-300 hover:bg-gray-50"
+            >
+              ← Quay lại Dịch vụ
+            </Button>
+          </div>
+
+          {/* Search Bar */}
+          <div className="container mx-auto px-4 pb-8">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm dịch vụ, homestay hoặc tour bạn quan tâm…"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                </div>
+                <Button
+                  onClick={() => setShowFilters(!showFilters)}
+                  variant="outline"
+                  className="px-4 py-3 border-gray-200 hover:bg-gray-50 rounded-full"
+                >
+                  <Filter className="w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Hotel Grid */}
+          <div className="container mx-auto px-4 pb-16">
+            <HotelGrid hotels={homestayRealData} />
+          </div>
+        </div>
+        
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div 
       className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
@@ -187,81 +357,100 @@ const Accommodation: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
-                Địa Điểm Lưu Trú Tà Xùa
+                Dịch Vụ Tại Tà Xùa
               </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-md">
-                Khám phá những homestay tuyệt vời giữa núi rừng Tà Xùa
+              <p className="text-xl md:text-2xl text-white/80 mb-8 drop-shadow-md font-medium">
+                Trải nghiệm đầy đủ từ lưu trú, ẩm thực đến hành trình khám phá và thư giãn
               </p>
-              <div className="flex flex-wrap justify-center gap-4 text-white/80">
-                <div className="flex items-center gap-2">
-                  <Mountain className="w-5 h-5" />
-                  <span>15+ Homestay</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5" />
-                  <span>Đánh giá cao</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-5 h-5" />
-                  <span>Phù hợp mọi gia đình</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
-        {/* Content Section */}
-        <div className="bg-white/95 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-800 mb-4">
-                Chọn Nơi Nghỉ Ngơi Lý Tưởng
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Từ những homestay ấm cúng đến các khu nghỉ dưỡng cao cấp, 
-                Tà Xùa có nhiều lựa chọn phù hợp với mọi nhu cầu và ngân sách.
-                Mỗi nơi đều mang một câu chuyện riêng và trải nghiệm độc đáo.
-              </p>
+        {/* Service Categories Grid */}
+        <div style={{ backgroundColor: '#F9FAF9' }} className="py-16">
+          <div className="container mx-auto px-4">
+            {/* Search Bar */}
+            <div className="mb-12">
+              <div className="bg-white rounded-lg shadow-sm p-6 max-w-4xl mx-auto">
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      placeholder="Tìm kiếm dịch vụ, homestay hoặc tour bạn quan tâm…"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                  <Button
+                    onClick={() => setShowFilters(!showFilters)}
+                    variant="outline"
+                    className="px-4 py-3 border-gray-200 hover:bg-gray-50 rounded-full"
+                    style={{ color: '#0A7B61' }}
+                  >
+                    <Filter className="w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
             </div>
 
-            {/* Hotel Grid with Search and Filters */}
-            <HotelGrid hotels={homestayRealData} />
+            {/* Service Categories Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+              {serviceCategories.map((category, index) => (
+                <div
+                  key={category.id}
+                  className="group cursor-pointer transform transition-all duration-400 hover:scale-105 animate-fade-up"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    animationFillMode: 'both'
+                  }}
+                  onClick={() => handleCategoryClick(category.id, category.route)}
+                >
+                  <div 
+                    className="relative h-64 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                    style={{
+                      background: category.bgImage
+                    }}
+                  >
+                    {/* Content Overlay */}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300" />
+                    
+                    {/* Content */}
+                    <div className="relative h-full flex flex-col justify-end p-6 text-white">
+                      <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                        {category.icon}
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors duration-300">
+                        {category.title}
+                      </h3>
+                      <p className="text-white/90 text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
+                        {category.description}
+                      </p>
+                    </div>
 
-            {/* Statistics Section */}
-            <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-                <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
-                <div className="text-gray-600">Homestay & Resort</div>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-                <div className="text-3xl font-bold text-green-600 mb-2">4.6</div>
-                <div className="text-gray-600">Đánh giá trung bình</div>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-                <div className="text-3xl font-bold text-orange-600 mb-2">1000+</div>
-                <div className="text-gray-600">Khách hài lòng</div>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-                <div className="text-3xl font-bold text-purple-600 mb-2">24/7</div>
-                <div className="text-gray-600">Hỗ trợ khách hàng</div>
-              </div>
+                    {/* Hover Effect Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Call to Action */}
-            <div className="mt-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center text-white shadow-2xl">
+            <div className="mt-20 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-2xl p-8 text-center text-white shadow-2xl max-w-4xl mx-auto">
               <h3 className="text-3xl font-bold mb-4">
-                Cần Hỗ Trợ Đặt Phòng?
+                Cần Hỗ Trợ Đặt Dịch Vụ?
               </h3>
               <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-                Liên hệ với chúng tôi để được tư vấn và hỗ trợ đặt phòng tại các homestay tốt nhất Tà Xùa. 
-                Đội ngũ chuyên viên sẽ giúp bạn tìm được nơi lưu trú phù hợp nhất.
+                Liên hệ với chúng tôi để được tư vấn và hỗ trợ đặt dịch vụ tại Tà Xùa. 
+                Đội ngũ chuyên viên sẽ giúp bạn có trải nghiệm tuyệt vời nhất.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 flex items-center gap-2 font-semibold">
+                <Button size="lg" className="bg-white text-emerald-600 hover:bg-gray-100 flex items-center gap-2 font-semibold">
                   <Phone className="w-5 h-5" />
                   Gọi Ngay: 1900-xxxx
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 transition-colors flex items-center gap-2 font-semibold">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-emerald-600 transition-colors flex items-center gap-2 font-semibold">
                   <Mail className="w-5 h-5" />
                   Email: info@taxua.com
                 </Button>
@@ -304,8 +493,7 @@ const Accommodation: React.FC = () => {
                       <span className="text-gray-700">{selectedHomestay.rating}/5</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-green-600" />
-                      <span className="text-lg font-bold text-blue-600">{selectedHomestay.price}/đêm</span>
+                      <span className="text-lg font-semibold text-green-600">{selectedHomestay.price}</span>
                     </div>
                   </div>
                 </div>
@@ -316,77 +504,76 @@ const Accommodation: React.FC = () => {
                     {selectedHomestay.contact.phone && (
                       <div className="flex items-center gap-2">
                         <Phone className="w-4 h-4 text-green-600" />
-                        <a href={`tel:${selectedHomestay.contact.phone}`} className="text-blue-600 hover:underline">
-                          {selectedHomestay.contact.phone}
-                        </a>
+                        <span className="text-gray-700">{selectedHomestay.contact.phone}</span>
                       </div>
                     )}
                     {selectedHomestay.contact.email && (
                       <div className="flex items-center gap-2">
                         <Mail className="w-4 h-4 text-blue-600" />
-                        <a href={`mailto:${selectedHomestay.contact.email}`} className="text-blue-600 hover:underline">
-                          {selectedHomestay.contact.email}
-                        </a>
+                        <span className="text-gray-700">{selectedHomestay.contact.email}</span>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-              
+
               {/* Description */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-3 text-gray-800">Mô tả</h3>
                 <p className="text-gray-700 leading-relaxed">{selectedHomestay.description}</p>
               </div>
-              
+
               {/* Amenities */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-3 text-gray-800">Tiện nghi</h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {selectedHomestay.amenities.map((amenity, index) => (
-                    <Badge key={index} variant="outline" className="flex items-center gap-1 border-blue-200 text-blue-700">
+                    <div key={index} className="flex items-center gap-2 text-gray-700">
                       {getAmenityIcon(amenity)}
-                      <span>{amenity}</span>
-                    </Badge>
+                      <span className="text-sm">{amenity}</span>
+                    </div>
                   ))}
                 </div>
               </div>
-              
+
               {/* Features */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-3 text-gray-800">Đặc điểm nổi bật</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedHomestay.features.map((feature, index) => (
-                    <Badge key={index} variant="secondary" className="bg-green-100 text-green-700 border-green-200">
-                      {feature}
-                    </Badge>
-                  ))}
+              {selectedHomestay.features && selectedHomestay.features.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Đặc điểm nổi bật</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedHomestay.features.map((feature, index) => (
+                      <Badge key={index} variant="secondary" className="text-sm">
+                        {feature}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              
-              {/* Detailed Information */}
+              )}
+
+              {/* Detailed Content from Markdown */}
               {homestayDetails && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Thông tin chi tiết</h3>
-                  <div className="prose max-w-none text-gray-700 bg-gray-50 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Chi tiết</h3>
+                  <div className="prose prose-sm max-w-none text-gray-700">
                     <pre className="whitespace-pre-wrap font-sans">{homestayDetails}</pre>
                   </div>
                 </div>
               )}
-              
+
               {/* Action Buttons */}
-              <div className="flex gap-3 pt-4 border-t">
+              <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
                 <Button 
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
-                  onClick={() => {
-                    closeModals();
-                    handleBookNow(selectedHomestay);
-                  }}
+                  onClick={() => handleBookNow(selectedHomestay)}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
                 >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Đặt Ngay
+                  <Calendar className="w-5 h-5 mr-2" />
+                  Đặt Phòng Ngay
                 </Button>
-                <Button variant="outline" onClick={closeModals}>
+                <Button 
+                  variant="outline" 
+                  className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3"
+                  onClick={closeModals}
+                >
                   Đóng
                 </Button>
               </div>
@@ -395,15 +582,34 @@ const Accommodation: React.FC = () => {
         </div>
       )}
 
-      {/* New Booking Modal */}
-      <BookingModal
-        isOpen={showBookingModal}
-        onClose={closeModals}
-        itemName={selectedHomestay?.name || ''}
-        itemLocation={selectedHomestay?.location || ''}
-        itemPrice={selectedHomestay?.price || ''}
-        itemType="homestay"
-      />
+      {/* Booking Modal */}
+       {showBookingModal && selectedHomestay && (
+         <BookingModal
+           isOpen={showBookingModal}
+           onClose={closeModals}
+           itemName={selectedHomestay.name}
+           itemLocation={selectedHomestay.location}
+           itemPrice={selectedHomestay.price}
+           itemType="homestay"
+         />
+       )}
+
+       <style>{`
+         @keyframes fade-up {
+           from {
+             opacity: 0;
+             transform: translateY(10px);
+           }
+           to {
+             opacity: 1;
+             transform: translateY(0);
+           }
+         }
+         
+         .animate-fade-up {
+           animation: fade-up 0.4s ease-out;
+         }
+       `}</style>
     </div>
   );
 };
