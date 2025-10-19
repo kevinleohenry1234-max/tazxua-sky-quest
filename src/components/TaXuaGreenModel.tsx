@@ -158,9 +158,9 @@ const TaXuaGreenModel = () => {
       subtitle: 'Bước chân đầu tiên',
       description: 'Bạn đặt chân lên Tà Xùa với trái tim đầy háo hức. Chiếc ba lô không chỉ chứa đồ dùng cá nhân, mà còn mang theo ước mơ trở thành một phần của thiên nhiên này.',
       character: '🎒',
-      background: 'from-blue-600/20 to-purple-600/20',
-      border: 'border-blue-500/30',
-      textColor: 'text-blue-400'
+      background: 'from-slate-600/20 to-purple-600/20',
+      border: 'border-slate-500/30',
+      textColor: 'text-slate-400'
     },
     {
       id: 'action',

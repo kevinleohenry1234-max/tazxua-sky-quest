@@ -67,7 +67,7 @@ const BackgroundSlider: React.FC<BackgroundSliderProps> = ({
 
   if (!isLoaded) {
     return (
-      <div className={`fixed inset-0 z-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 ${className}`}>
+      <div className={`fixed inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 ${className}`}>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/20 to-slate-900/60" />
       </div>
     );
@@ -92,9 +92,9 @@ const BackgroundSlider: React.FC<BackgroundSliderProps> = ({
       ))}
 
       {/* Hero-inspired Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/15 to-slate-900/30" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-600/20 via-purple-600/15 to-slate-900/30" />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/10 to-slate-900/50" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-800/10 to-slate-900/50" />
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-10">

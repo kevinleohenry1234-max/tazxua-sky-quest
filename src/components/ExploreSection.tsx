@@ -147,7 +147,7 @@ const ExploreSection = () => {
         backgroundBlendMode: 'overlay, normal'
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-blue-950/20 to-slate-900/50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-800/20 to-slate-900/50"></div>
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">

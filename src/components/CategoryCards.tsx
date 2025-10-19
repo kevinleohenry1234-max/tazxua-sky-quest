@@ -223,7 +223,7 @@ const CategoryCards = () => {
                       isHovered ? 'scale-105' : 'scale-100'
                     }`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600/90 via-blue-600/80 to-purple-600/90" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-600/90 via-slate-600/80 to-purple-600/90" />
                   <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
                     isHovered ? 'opacity-0' : 'opacity-100'
                   }`} />
