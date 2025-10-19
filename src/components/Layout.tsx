@@ -38,7 +38,17 @@ const Layout = ({ children, className = '' }: LayoutProps) => {
     <div 
       className={`min-h-full bg-cover bg-center bg-fixed bg-no-repeat transition-all duration-1000 ease-in-out ${className}`}
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${currentImage})`
+        backgroundImage: `
+          linear-gradient(to bottom, rgba(15, 23, 42, 0.75), rgba(30, 41, 59, 0.85)),
+          linear-gradient(135deg, rgba(127, 29, 29, 0.15), rgba(146, 64, 14, 0.12), rgba(30, 58, 138, 0.15)),
+          url('/images/hmong-textile-pattern.svg'),
+          linear-gradient(to bottom, rgba(51, 65, 85, 0.3) 0%, rgba(71, 85, 105, 0.2) 50%, rgba(51, 65, 85, 0.4) 100%),
+          url(${currentImage})
+        `,
+        backgroundSize: '100% 100%, 100% 100%, clamp(200px, 25vw, 300px) clamp(200px, 25vw, 300px), 100% 100%, cover',
+        backgroundPosition: 'center, center, center, center, center',
+        backgroundRepeat: 'no-repeat, no-repeat, repeat, no-repeat, no-repeat',
+        backgroundBlendMode: 'normal, soft-light, overlay, multiply, normal'
       }}
     >
       {children}

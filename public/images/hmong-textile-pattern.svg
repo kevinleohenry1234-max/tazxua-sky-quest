@@ -1,0 +1,93 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient definitions for traditional H'Mong colors -->
+    <radialGradient id="redGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#7F1D1D;stop-opacity:0.6"/>
+    </radialGradient>
+    
+    <radialGradient id="yellowGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:0.7"/>
+      <stop offset="100%" style="stop-color:#92400E;stop-opacity:0.5"/>
+    </radialGradient>
+    
+    <radialGradient id="blueGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1E40AF;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#1E3A8A;stop-opacity:0.6"/>
+    </radialGradient>
+
+    <!-- Pattern for repeating -->
+    <pattern id="hmongPattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+      <!-- Central spiral motif -->
+      <g transform="translate(100,100)">
+        <!-- Large central spiral -->
+        <path d="M0,0 Q-20,-20 -40,0 Q-20,40 20,20 Q60,0 40,-40 Q0,-80 -60,-60 Q-120,-20 -80,60 Q-20,140 80,100 Q200,40 160,-80 Q80,-200 -100,-160 Q-240,-80 -200,100 Q-120,280 120,240 Q360,160 320,-120" 
+              fill="none" 
+              stroke="url(#redGradient)" 
+              stroke-width="3" 
+              opacity="0.6"/>
+        
+        <!-- Medium spiral -->
+        <path d="M0,0 Q-15,-15 -30,0 Q-15,30 15,15 Q45,0 30,-30 Q0,-60 -45,-45 Q-90,-15 -60,45 Q-15,105 60,75 Q150,30 120,-60" 
+              fill="none" 
+              stroke="url(#yellowGradient)" 
+              stroke-width="2" 
+              opacity="0.5"/>
+        
+        <!-- Small inner spiral -->
+        <path d="M0,0 Q-8,-8 -16,0 Q-8,16 8,8 Q24,0 16,-16 Q0,-32 -24,-24 Q-48,-8 -32,24" 
+              fill="none" 
+              stroke="url(#blueGradient)" 
+              stroke-width="2" 
+              opacity="0.7"/>
+      </g>
+
+      <!-- Corner geometric patterns -->
+      <g transform="translate(50,50)">
+        <!-- Top-left geometric motif -->
+        <polygon points="0,0 20,10 10,30 -10,20" fill="url(#redGradient)" opacity="0.4"/>
+        <polygon points="5,5 15,8 12,18 2,15" fill="url(#yellowGradient)" opacity="0.5"/>
+      </g>
+
+      <g transform="translate(150,50)">
+        <!-- Top-right geometric motif -->
+        <polygon points="0,0 -20,10 -10,30 10,20" fill="url(#blueGradient)" opacity="0.4"/>
+        <polygon points="-5,5 -15,8 -12,18 -2,15" fill="url(#redGradient)" opacity="0.5"/>
+      </g>
+
+      <g transform="translate(50,150)">
+        <!-- Bottom-left geometric motif -->
+        <polygon points="0,0 20,-10 10,-30 -10,-20" fill="url(#yellowGradient)" opacity="0.4"/>
+        <polygon points="5,-5 15,-8 12,-18 2,-15" fill="url(#blueGradient)" opacity="0.5"/>
+      </g>
+
+      <g transform="translate(150,150)">
+        <!-- Bottom-right geometric motif -->
+        <polygon points="0,0 -20,-10 -10,-30 10,-20" fill="url(#redGradient)" opacity="0.4"/>
+        <polygon points="-5,-5 -15,-8 -12,-18 -2,-15" fill="url(#yellowGradient)" opacity="0.5"/>
+      </g>
+
+      <!-- Decorative border elements -->
+      <g opacity="0.3">
+        <!-- Horizontal decorative lines -->
+        <line x1="0" y1="25" x2="200" y2="25" stroke="url(#redGradient)" stroke-width="1"/>
+        <line x1="0" y1="175" x2="200" y2="175" stroke="url(#blueGradient)" stroke-width="1"/>
+        
+        <!-- Vertical decorative lines -->
+        <line x1="25" y1="0" x2="25" y2="200" stroke="url(#yellowGradient)" stroke-width="1"/>
+        <line x1="175" y1="0" x2="175" y2="200" stroke="url(#redGradient)" stroke-width="1"/>
+      </g>
+
+      <!-- Small accent dots -->
+      <g opacity="0.4">
+        <circle cx="75" cy="75" r="2" fill="url(#yellowGradient)"/>
+        <circle cx="125" cy="75" r="2" fill="url(#redGradient)"/>
+        <circle cx="75" cy="125" r="2" fill="url(#blueGradient)"/>
+        <circle cx="125" cy="125" r="2" fill="url(#yellowGradient)"/>
+      </g>
+    </pattern>
+  </defs>
+
+  <!-- Apply the pattern to fill the entire SVG -->
+  <rect width="100%" height="100%" fill="url(#hmongPattern)"/>
+</svg>
