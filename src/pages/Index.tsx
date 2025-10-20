@@ -243,10 +243,10 @@ const Index = () => {
                 onLoginClick={() => setIsLoginModalOpen(true)}
               />
               
-              {/* Cinematic Spacing Section with Consistent Background */}
-              <div className="py-32 bg-gradient-to-b from-slate-900/95 via-slate-800/90 to-slate-900/95 backdrop-blur-sm">
+              {/* Seamless Content Section */}
+              <div className="py-16">
                 {/* Category Cards with Full-width Layout - Moved to top */}
-                <div className="mb-32">
+                <div className="mb-16">
                   <CategoryCards />
                 </div>
                 

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Coffee, Home, Mountain, Camera, Star, Navigation, Phone, Clock, Filter, Eye, EyeOff } from 'lucide-react';
+import { loadGoogleMaps } from '@/utils/googleMapsLoader';
 
 // Declare Google Maps types
 declare global {
@@ -128,58 +129,63 @@ const GoogleMapSection = () => {
 
   // Load Google Maps API
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google) {
-        setMapLoaded(true);
-        return;
+    const initializeGoogleMaps = async () => {
+      try {
+        await loadGoogleMaps({
+          callback: () => {
+            setMapLoaded(true);
+          }
+        });
+      } catch (error) {
+        console.error('Google Maps failed to load:', error);
+        setMapLoaded(true); // Still set to true to show fallback
       }
-
-      // Kiểm tra xem script đã được thêm chưa
-      const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
-      if (existingScript) {
-        setMapLoaded(true);
-        return;
-      }
-
-      const script = document.createElement('script');
-      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
-        console.log('Google Maps script loaded successfully');
-        setMapLoaded(true);
-      };
-      script.onerror = () => {
-        console.log('Google Maps failed to load - using fallback message');
-        setMapLoaded(true);
-      };
-      document.head.appendChild(script);
     };
 
-    loadGoogleMaps();
+    initializeGoogleMaps();
   }, []);
 
   // Initialize Google Map
   const initializeMap = () => {
-    if (!mapContainer.current || !window.google) return;
+    if (!mapContainer.current || !window.google?.maps) {
+      console.warn('Map container or Google Maps API not available');
+      return;
+    }
 
-    map.current = new window.google.maps.Map(mapContainer.current, {
-      center: { lat: 21.3358, lng: 104.0312 },
-      zoom: 13,
-      mapTypeId: 'hybrid', // Satellite view with labels
-      tilt: 45,
-      styles: [
-        {
-          featureType: 'poi',
-          elementType: 'labels',
-          stylers: [{ visibility: 'off' }]
-        }
-      ]
-    });
+    try {
+       map.current = new window.google.maps.Map(mapContainer.current, {
+         center: { lat: 21.3358, lng: 104.0312 },
+         zoom: 13,
+         mapTypeId: 'hybrid', // Satellite view with labels
+         tilt: 45,
+         styles: [
+           {
+             featureType: 'poi',
+             elementType: 'labels',
+             stylers: [{ visibility: 'off' }]
+           }
+         ],
+         // Optimize tile loading
+         gestureHandling: 'cooperative',
+         clickableIcons: false,
+         disableDefaultUI: false,
+         // Reduce tile requests
+         restriction: {
+           latLngBounds: {
+             north: 21.5,
+             south: 21.1,
+             east: 104.3,
+             west: 103.8
+           },
+           strictBounds: false
+         }
+       });
 
-    infoWindow.current = new window.google.maps.InfoWindow();
-    updateMarkers();
+       infoWindow.current = new window.google.maps.InfoWindow();
+       updateMarkers();
+     } catch (error) {
+       console.error('Error initializing Google Map:', error);
+     }
   };
 
   // Update markers based on filters

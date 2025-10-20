@@ -20,6 +20,7 @@ import {
   Download,
   Filter
 } from 'lucide-react';
+import { loadGoogleMaps } from '@/utils/googleMapsLoader';
 
 interface WeatherData {
   temperature: number;
@@ -202,37 +203,57 @@ const SafetyCenter: React.FC = () => {
   };
 
   const initializeMap = () => {
-    if (!mapRef.current || !window.google) return;
+    if (!mapRef.current || !window.google?.maps) {
+      console.warn('Map container or Google Maps API not available');
+      return;
+    }
 
-    const mapOptions = {
-      center: { lat: 21.2122, lng: 104.3635 }, // Ta Xua coordinates
-      zoom: 13,
-      mapTypeControl: true,
-      mapTypeControlOptions: {
-        style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: window.google.maps.ControlPosition.TOP_CENTER,
-      },
-      zoomControl: true,
-      zoomControlOptions: {
-        position: window.google.maps.ControlPosition.RIGHT_CENTER,
-      },
-      scaleControl: true,
-      streetViewControl: true,
-      fullscreenControl: true,
-      styles: [
-        {
-          featureType: 'poi',
-          elementType: 'labels',
-          stylers: [{ visibility: 'on' }]
-        }
-      ]
-    };
+    try {
+       const mapOptions = {
+         center: { lat: 21.2122, lng: 104.3635 }, // Ta Xua coordinates
+         zoom: 13,
+         mapTypeControl: true,
+         mapTypeControlOptions: {
+           style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+           position: window.google.maps.ControlPosition.TOP_CENTER,
+         },
+         zoomControl: true,
+         zoomControlOptions: {
+           position: window.google.maps.ControlPosition.RIGHT_CENTER,
+         },
+         scaleControl: true,
+         streetViewControl: true,
+         fullscreenControl: true,
+         styles: [
+           {
+             featureType: 'poi',
+             elementType: 'labels',
+             stylers: [{ visibility: 'on' }]
+           }
+         ],
+         // Optimize tile loading
+         gestureHandling: 'cooperative',
+         clickableIcons: false,
+         // Reduce tile requests by limiting bounds
+         restriction: {
+           latLngBounds: {
+             north: 21.4,
+             south: 21.0,
+             east: 104.6,
+             west: 104.0
+           },
+           strictBounds: false
+         }
+       };
 
-    const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
-    setMap(newMap);
-    
-    // Create markers
-    createMarkers(newMap);
+       const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
+       setMap(newMap);
+       
+       // Create markers
+       createMarkers(newMap);
+     } catch (error) {
+       console.error('Error initializing Safety Center map:', error);
+     }
   };
 
   const createMarkers = (mapInstance: any) => {
@@ -288,28 +309,19 @@ const SafetyCenter: React.FC = () => {
 
   // Load Google Maps API
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google) {
-        initializeMap();
-        return;
+    const initializeGoogleMaps = async () => {
+      try {
+        await loadGoogleMaps({
+          callback: () => {
+            initializeMap();
+          }
+        });
+      } catch (error) {
+        console.error('Google Maps failed to load:', error);
       }
-
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`;
-      script.async = true;
-      script.defer = true;
-      
-      window.initMap = initializeMap;
-      script.onload = () => {
-        if (window.google) {
-          initializeMap();
-        }
-      };
-      
-      document.head.appendChild(script);
     };
 
-    loadGoogleMaps();
+    initializeGoogleMaps();
   }, []);
 
   // Update markers when filters change
