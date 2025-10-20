@@ -4,8 +4,8 @@ import Header from '@/components/Header';
 import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
-import LoginModal from '@/components/LoginModal';
-import RegisterModal from '@/components/RegisterModal';
+import LoginModal, { LoginData } from '@/components/LoginModal';
+import RegisterModal, { RegisterData } from '@/components/RegisterModal';
 import { MapPin, Mail, Phone, Clock, Facebook, Lightbulb } from 'lucide-react';
 
 const Contact = () => {
@@ -14,17 +14,17 @@ const Contact = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
-  const handleLogin = (email: string, password: string) => {
-    console.log('Login attempt:', { email, password });
+  const handleLogin = async (data: LoginData): Promise<void> => {
+    console.log('Login attempt:', data);
     setIsLoggedIn(true);
-    setUserName(email.split('@')[0]);
+    setUserName(data.email.split('@')[0]);
     setIsLoginModalOpen(false);
   };
 
-  const handleRegister = (name: string, email: string, password: string) => {
-    console.log('Register attempt:', { name, email, password });
+  const handleRegister = async (data: RegisterData): Promise<void> => {
+    console.log('Register attempt:', data);
     setIsLoggedIn(true);
-    setUserName(name);
+    setUserName(data.fullName);
     setIsRegisterModalOpen(false);
   };
 
