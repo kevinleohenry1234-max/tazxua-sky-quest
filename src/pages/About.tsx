@@ -66,19 +66,24 @@ const About = () => {
   // Core values data
   const coreValues = [
     {
-      title: 'Công nghệ vì con người',
-      description: 'Chúng tôi tin rằng công nghệ phải phục vụ con người, không phải ngược lại.',
-      icon: Heart
-    },
-    {
-      title: 'Du lịch bền vững',
-      description: 'Bảo vệ thiên nhiên và văn hóa địa phương là trách nhiệm của chúng ta.',
-      icon: TreePine
-    },
-    {
-      title: 'Cảm xúc và trải nghiệm',
-      description: 'Mỗi hành trình đều mang theo những cảm xúc và kỷ niệm đáng nhớ.',
+      title: 'Trẻ trung',
+      description: 'Chúng tôi là người trẻ, tin vào hành động nhỏ có thể tạo nên thay đổi lớn.',
       icon: Sparkles
+    },
+    {
+      title: 'Trách nhiệm',
+      description: 'Với môi trường, với cộng đồng, với chính lựa chọn của mình.',
+      icon: Handshake
+    },
+    {
+      title: 'Sáng tạo',
+      description: 'Áp dụng công nghệ như một công cụ để kết nối và hỗ trợ, không để thay thế.',
+      icon: Lightbulb
+    },
+    {
+      title: 'Nhân văn',
+      description: 'Đặt con người và thiên nhiên làm trung tâm trong mọi quyết định.',
+      icon: Heart
     }
   ];
 
@@ -145,10 +150,12 @@ const About = () => {
         >
           <div className="relative text-center text-white z-10 max-w-4xl mx-auto px-4">
             <h1 className="font-inter text-5xl md:text-7xl font-bold mb-6 drop-shadow-2xl leading-tight tracking-wide">
-              Về ViViet Team – Những Người Kể Câu Chuyện Xanh
+              🌿 About Us – Tà Xùa Mùa Xanh
             </h1>
             <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-light">
-              Chúng tôi tin rằng công nghệ có thể lan tỏa cảm xúc, kết nối con người và bảo tồn vẻ đẹp của thiên nhiên.
+              Tà Xùa – vùng đất nằm giữa mây trời Tây Bắc – đang dần trở thành điểm đến hấp dẫn với giới trẻ. 
+              Nhưng phía sau những tấm ảnh "săn mây" và khung cảnh yên bình, vẫn còn đó những câu hỏi về phát triển bền vững, 
+              sinh kế cộng đồng và vai trò của công nghệ trong bảo tồn tự nhiên.
             </p>
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
@@ -159,7 +166,7 @@ const About = () => {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="font-inter text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Câu Chuyện Hình Thành
+                Lý Do Ra Đời
               </h2>
               <div className="w-24 h-1 bg-emerald-500 mx-auto"></div>
             </div>
@@ -169,16 +176,17 @@ const About = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div className="order-2 lg:order-1">
                   <h3 className="font-inter text-2xl font-bold text-gray-900 mb-6">
-                    Khởi Đầu Từ Tình Yêu
+                    Khởi Nguồn Từ Trăn Trở
                   </h3>
                   <p className="font-inter text-lg text-gray-700 leading-relaxed mb-6">
-                    ViViet khởi đầu từ một nhóm bạn trẻ yêu Tà Xùa và trăn trở với du lịch xanh. 
-                    Chúng tôi không chỉ muốn khám phá vẻ đẹp của thiên nhiên, mà còn muốn bảo vệ 
-                    và lan tỏa những giá trị tốt đẹp đó đến với mọi người.
+                    Tà Xùa Mùa Xanh được khởi xướng từ những trăn trở đó. Dù chưa từng đặt chân đến Tà Xùa, 
+                    chúng tôi – ViViet Team – cảm nhận được rằng nơi này đang cần những cách tiếp cận mới mẻ, 
+                    bền vững và có trách nhiệm hơn.
                   </p>
                   <p className="font-inter text-lg text-gray-700 leading-relaxed">
-                    Mỗi chuyến đi đều mang lại cho chúng tôi những trải nghiệm sâu sắc về văn hóa, 
-                    con người và thiên nhiên nơi đây.
+                    Dự án ra đời trong khuôn khổ cuộc thi Tech4Green 2025, như một mô hình thử nghiệm của thế hệ trẻ 
+                    về cách du lịch có thể kết nối con người – thiên nhiên – công nghệ, mà không đánh đổi môi trường 
+                    hoặc bản sắc văn hóa.
                   </p>
                 </div>
                 <div className="order-1 lg:order-2">
@@ -207,17 +215,22 @@ const About = () => {
                 </div>
                 <div>
                   <h3 className="font-inter text-2xl font-bold text-gray-900 mb-6">
-                    Nhận Ra Sức Mạnh Công Nghệ
+                    Mục Tiêu Dự Án
                   </h3>
-                  <p className="font-inter text-lg text-gray-700 leading-relaxed mb-6">
-                    Từ những hành trình đầu tiên, chúng tôi nhận ra rằng công nghệ có thể là cầu nối 
-                    giúp du khách trải nghiệm thật hơn, bền vững hơn. Không chỉ là những ứng dụng 
-                    đơn thuần, mà là những công cụ mang lại giá trị thực sự.
-                  </p>
-                  <p className="font-inter text-lg text-gray-700 leading-relaxed">
-                    Chúng tôi muốn tạo ra những trải nghiệm số hóa giúp bảo tồn và lan tỏa 
-                    vẻ đẹp của văn hóa và thiên nhiên.
-                  </p>
+                  <div className="space-y-4">
+                    <p className="font-inter text-lg text-gray-700 leading-relaxed">
+                      – Ứng dụng chuyển đổi số để phát triển nền tảng website tích hợp dịch vụ du lịch, 
+                      trải nghiệm xanh và công cụ theo dõi – quản lý môi trường.
+                    </p>
+                    <p className="font-inter text-lg text-gray-700 leading-relaxed">
+                      – Tạo hệ sinh thái du lịch có trách nhiệm: dễ tiếp cận cho Gen Z, Gen Y; 
+                      mang lại lợi ích thực tế cho người dân bản địa.
+                    </p>
+                    <p className="font-inter text-lg text-gray-700 leading-relaxed">
+                      – Thí điểm mô hình khởi nghiệp xã hội ứng dụng công nghệ nhằm hỗ trợ phát triển sinh kế 
+                      và bảo tồn giá trị địa phương.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -225,16 +238,16 @@ const About = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div className="order-2 lg:order-1">
                   <h3 className="font-inter text-2xl font-bold text-gray-900 mb-6">
-                    ViViet Ra Đời
+                    Đội Ngũ ViViet
                   </h3>
                   <p className="font-inter text-lg text-gray-700 leading-relaxed mb-6">
-                    Từ đó, ViViet ra đời – một nền tảng kết hợp giữa văn hóa, công nghệ và cảm xúc. 
-                    Chúng tôi không chỉ xây dựng website hay ứng dụng, mà tạo ra những câu chuyện, 
-                    những kết nối có ý nghĩa.
+                    ViViet Team gồm bốn thành viên: Phước Trịnh (Kevin), Xuân Mai, Khánh Linh và Tuấn Khanh – 
+                    những học sinh, sinh viên mang trong mình sự quan tâm đến thiên nhiên, văn hóa và phát triển bền vững.
                   </p>
                   <p className="font-inter text-lg text-gray-700 leading-relaxed">
-                    Mỗi dự án của chúng tôi đều mang trong mình sứ mệnh lan tỏa tình yêu 
-                    với thiên nhiên và văn hóa Việt Nam.
+                    Dù đến từ những nơi khác nhau, chúng tôi gặp nhau ở cùng một điểm: niềm tin rằng du lịch có thể 
+                    là một phần của giải pháp, chứ không chỉ là một ngành công nghiệp tiêu thụ. 
+                    Tà Xùa Mùa Xanh là hành trình đầu tiên của chúng tôi để kiểm chứng niềm tin đó.
                   </p>
                 </div>
                 <div className="order-1 lg:order-2">
@@ -275,8 +288,9 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="font-inter text-lg text-gray-700 leading-relaxed">
-                      Lan tỏa tinh thần du lịch xanh – chill an lành. Chúng tôi mong muốn mỗi hành trình 
-                      đều mang lại những trải nghiệm ý nghĩa, bền vững và gắn kết con người với thiên nhiên.
+                      Chúng tôi hướng tới xây dựng một mô hình du lịch xanh – cộng đồng – công nghệ, 
+                      nơi mỗi chuyến đi không chỉ là một hành trình cá nhân mà còn là cơ hội để sẻ chia giá trị, 
+                      lan tỏa nhận thức và đóng góp tích cực cho vùng đất được khám phá.
                     </p>
                   </CardContent>
                 </Card>
@@ -292,8 +306,10 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="font-inter text-lg text-gray-700 leading-relaxed">
-                      Trở thành nền tảng du lịch bền vững hàng đầu, gắn kết con người với thiên nhiên 
-                      bằng trải nghiệm ý nghĩa và công nghệ nhân văn.
+                      Chúng tôi mơ ước rằng một ngày, Tà Xùa sẽ trở thành biểu tượng của du lịch xanh tại Việt Nam – 
+                      không phải vì nơi đây đẹp nhất, mà vì nơi đây được gìn giữ và phát triển đúng cách. 
+                      Mỗi chuyến đi đến Tà Xùa sẽ là một hành động yêu thương và cống hiến – 
+                      dành cho thiên nhiên, cho cộng đồng địa phương và cho chính tương lai chung.
                     </p>
                   </CardContent>
                 </Card>
@@ -354,12 +370,12 @@ const About = () => {
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="font-inter text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                  Giá Trị Chúng Tôi Tin Tưởng
+                  Giá Trị Cốt Lõi 🌱
                 </h2>
                 <div className="w-24 h-1 bg-emerald-500 mx-auto"></div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {coreValues.map((value, index) => {
                   const IconComponent = value.icon;
                   return (
@@ -391,12 +407,19 @@ const About = () => {
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="font-inter text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                Hãy Đồng Hành Cùng Chúng Tôi
+                💬 Lời Kết
               </h2>
-              <p className="font-inter text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-                Nếu bạn tin vào du lịch bền vững, hãy cùng ViViet viết tiếp câu chuyện xanh. 
-                Chúng ta có thể tạo ra những thay đổi tích cực cho cộng đồng và môi trường.
-              </p>
+              <div className="space-y-4 mb-8">
+                <p className="font-inter text-xl text-white/90 leading-relaxed">
+                  Nếu bạn cũng tin rằng mỗi chuyến đi nên để lại điều gì đó đẹp đẽ hơn cả những bức ảnh,
+                </p>
+                <p className="font-inter text-xl text-white/90 leading-relaxed">
+                  Nếu bạn tin rằng công nghệ có thể đồng hành cùng thiên nhiên thay vì đối lập với nó,
+                </p>
+                <p className="font-inter text-xl text-white/90 leading-relaxed font-semibold">
+                  Chúng tôi mời bạn cùng viết tiếp câu chuyện Tà Xùa Mùa Xanh. 💚
+                </p>
+              </div>
               <Button 
                 size="lg" 
                 variant="secondary" 
