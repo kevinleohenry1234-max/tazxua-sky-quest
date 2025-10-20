@@ -70,15 +70,6 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Sky Quest specific colors
-        skyquest: {
-          green: "#16A34A",      // Fresh green
-          blue: "#3B82F6",       // Light blue
-          ivory: "#F9FAFB",      // Ivory white
-          "green-light": "#22C55E",
-          "blue-light": "#60A5FA",
-          "gray-blue": "#64748B",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -112,39 +103,11 @@ export default {
             transform: "translateY(0)"
           }
         },
-        // Sky Quest natural animations
-        "cloud-drift": {
-          "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(100vw)" },
-        },
-        "float": {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-20px)" },
-        },
-        "light-shimmer": {
-          "0%": { opacity: "0.3", transform: "scale(1)" },
-          "50%": { opacity: "0.8", transform: "scale(1.1)" },
-          "100%": { opacity: "0.3", transform: "scale(1)" },
-        },
-        "fade-in-up": {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        "scale-in": {
-          "0%": { opacity: "0", transform: "scale(0.9)" },
-          "100%": { opacity: "1", transform: "scale(1)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
-        // Sky Quest natural animations
-        "cloud-drift": "cloud-drift 30s linear infinite",
-        "float": "float 3s ease-in-out infinite",
-        "light-shimmer": "light-shimmer 4s ease-in-out infinite",
-        "fade-in-up": "fade-in-up 0.6s ease-out",
-        "scale-in": "scale-in 0.4s ease-out",
       },
     },
   },
