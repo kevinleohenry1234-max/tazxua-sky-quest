@@ -176,20 +176,20 @@ const Explore = () => {
         <section 
           className={`relative h-screen flex items-center justify-center overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
           style={{
-            backgroundImage: `
-              linear-gradient(135deg, 
-                rgba(15, 23, 42, 0.4) 0%, 
-                rgba(30, 41, 59, 0.3) 25%, 
-                rgba(51, 65, 85, 0.2) 50%, 
-                rgba(71, 85, 105, 0.3) 75%, 
-                rgba(15, 23, 42, 0.5) 100%
-              ),
-              url('/images/taxua-mist-mountain.jpg')
-            `,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
-          }}
+          backgroundImage: `
+            linear-gradient(135deg, 
+              rgba(15, 23, 42, 0.4) 0%, 
+              rgba(30, 41, 59, 0.3) 25%, 
+              rgba(51, 65, 85, 0.2) 50%, 
+              rgba(71, 85, 105, 0.3) 75%, 
+              rgba(15, 23, 42, 0.5) 100%
+            ),
+            linear-gradient(135deg, #E0F2FE 0%, #F0F9FF 50%, #ECFDF5 100%)
+          `,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
         >
           {/* Gradient overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/20 via-transparent to-slate-900/40" />
@@ -419,7 +419,7 @@ const Explore = () => {
                 rgba(30, 58, 138, 0.7) 50%, 
                 rgba(15, 23, 42, 0.9) 100%
               ),
-              url('/images/trekking-forest.jpg')
+              linear-gradient(135deg, #065F46 0%, #047857 50%, #059669 100%)
             `,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
