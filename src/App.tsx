@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
+import { SkyQuestProvider } from './contexts/SkyQuestContext';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -31,15 +32,19 @@ import SouvenirPage from './pages/SouvenirPage';
 import FirstTimeVisitor from './pages/FirstTimeVisitor';
 import LearningPath from './pages/LearningPath';
 import ReturningUserDashboard from './pages/ReturningUserDashboard';
+import SkyQuest from './pages/SkyQuest';
+import { SkyQuestCalm } from './pages/SkyQuestCalm';
+import { SkyQuestEnergetic } from './pages/SkyQuestEnergetic';
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <Routes>
+    <SkyQuestProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/attractions" element={<Attractions />} />
         <Route path="/about" element={<About />} />
@@ -48,6 +53,10 @@ const App = () => (
         <Route path="/safety" element={<Safety />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/accommodation" element={<Accommodation />} />
+        <Route path="/sky-quest" element={<SkyQuest />} />
+        <Route path="/sky-quest/calm" element={<SkyQuestCalm />} />
+        <Route path="/sky-quest/energetic" element={<SkyQuestEnergetic />} />
+        <Route path="/skyquest" element={<SkyQuest />} />
         <Route path="/trien-lam" element={<DigitalExhibition />} />
         <Route path="/trien-lam/am-nhac" element={<ExhibitionMusic />} />
         <Route path="/trien-lam/am-thuc" element={<ExhibitionCuisine />} />
@@ -74,7 +83,8 @@ const App = () => (
         <Route path="*" element={<NotFound />} />
       </Routes>
     </TooltipProvider>
-  </QueryClientProvider>
+  </SkyQuestProvider>
+</QueryClientProvider>
 );
 
 export default App;
