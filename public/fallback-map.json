@@ -1,0 +1,18 @@
+{
+  "boundingBox": {
+    "north": 21.42,
+    "south": 21.25,
+    "east": 104.23,
+    "west": 104.03
+  },
+  "imageSize": {
+    "width": 1600,
+    "height": 900
+  },
+  "center": {
+    "lat": 21.335,
+    "lng": 104.13
+  },
+  "zoom": 12,
+  "description": "Bản đồ ngoại tuyến khu vực Tà Xùa với các điểm an toàn và nguy hiểm được đánh dấu"
+}

@@ -1,0 +1,36 @@
+{
+  "guides": [
+    {
+      "id": "g1",
+      "title": "Chuẩn bị trước chuyến đi",
+      "content": "Kiểm tra thời tiết, báo với người thân lộ trình, sạc đầy pin và mang theo bản đồ offline."
+    },
+    {
+      "id": "g2",
+      "title": "Khi di chuyển",
+      "content": "Giữ liên lạc, không đi một mình vào khu vực lạ, theo dõi biển cảnh báo và đường an toàn."
+    },
+    {
+      "id": "g3",
+      "title": "Trang bị cần thiết",
+      "content": "Áo mưa, bộ sơ cứu, đèn pin, pin dự phòng, nước uống và thức ăn nhẹ."
+    }
+  ],
+  "sos": [
+    {
+      "id": "s1",
+      "name": "Cứu hộ y tế 115",
+      "phone": "115"
+    },
+    {
+      "id": "s2",
+      "name": "Công an 113",
+      "phone": "113"
+    },
+    {
+      "id": "s3",
+      "name": "Hướng dẫn viên Tà Xùa",
+      "phone": "090.394.6185"
+    }
+  ]
+}

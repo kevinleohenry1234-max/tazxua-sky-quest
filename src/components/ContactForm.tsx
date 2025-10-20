@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Phone, User, MessageSquare, Send, CheckCircle, Loader2, Upload, X, FileText } from 'lucide-react';
+import { Mail, Phone, User, MessageSquare, Send, CheckCircle, Loader2, Upload, X, FileText, Leaf } from 'lucide-react';
 
 interface ContactFormData {
   name: string;
@@ -36,12 +36,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   // Use useEffect to handle success message timeout
   useEffect(() => {
     if (isSuccess) {
+      setShowSuccessPopup(true);
       const timer = setTimeout(() => {
         setIsSuccess(false);
+        setShowSuccessPopup(false);
       }, 5000);
       
       return () => clearTimeout(timer);
@@ -211,252 +214,302 @@ ${data.message}
   };
 
   return (
-    <Card className={`shadow-soft border-0 ${className}`}>
-      <CardHeader>
-        <CardTitle className="font-playfair text-2xl flex items-center">
-          <Mail className="w-6 h-6 mr-3 text-primary" />
-          Liên Hệ Với Chúng Tôi
-        </CardTitle>
-        <p className="text-muted-foreground font-inter">
-          Gửi tin nhắn cho chúng tôi và nhận phản hồi sớm nhất
-        </p>
-      </CardHeader>
-      
-      <CardContent>
-        {isSuccess && (
-          <Alert className="mb-6 border-green-200 bg-green-50">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <AlertDescription className="text-green-800">
-              Cảm ơn bạn! Chúng tôi đã nhận được tin nhắn và sẽ phản hồi sớm nhất có thể.
-            </AlertDescription>
-          </Alert>
-        )}
+    <>
+      <Card className={`rounded-3xl border-0 bg-white/95 backdrop-blur-sm ${className}`}>
+        <CardHeader className="pb-8">
+          <CardTitle className="font-inter text-3xl font-bold text-[#0E4F45] flex items-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#3CB89E] to-[#0E4F45] rounded-full flex items-center justify-center mr-4">
+              <Mail className="w-6 h-6 text-white" />
+            </div>
+            Gửi Tin Nhắn Cho Chúng Mình
+          </CardTitle>
+          <p className="text-[#4A5568] font-inter text-lg leading-relaxed mt-4">
+            Hãy chia sẻ với chúng mình về chuyến du lịch Tà Xùa của bạn. Chúng mình sẽ phản hồi trong vòng 24 giờ!
+          </p>
+        </CardHeader>
+        
+        <CardContent className="space-y-8">
+          {error && (
+            <Alert variant="destructive" className="border-red-200 bg-red-50 rounded-2xl">
+              <AlertDescription className="text-red-800 font-inter">{error}</AlertDescription>
+            </Alert>
+          )}
 
-        {error && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <Label htmlFor="name" className="font-inter font-semibold text-[#0E4F45] text-base">
+                  Họ và tên *
+                </Label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-4 h-5 w-5 text-[#6B7280] group-focus-within:text-[#3BAA86] transition-colors duration-300" />
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Nhập họ và tên của bạn"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    className="pl-12 h-14 rounded-xl border-[#DDE5E2] focus:border-[#3BAA86] focus:ring-2 focus:ring-[#3BAA86]/20 transition-all duration-300 font-inter text-[#2E2E2E] placeholder:text-[#9CA3AF] shadow-sm hover:shadow-md"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="font-inter font-medium">
-                Họ và tên *
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Nhập họ và tên"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  className="pl-10"
-                  disabled={isLoading}
-                />
+              <div className="space-y-3">
+                <Label htmlFor="email" className="font-inter font-semibold text-[#0E4F45] text-base">
+                  Email *
+                </Label>
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-4 h-5 w-5 text-[#6B7280] group-focus-within:text-[#3BAA86] transition-colors duration-300" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="example@email.com"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="pl-12 h-14 rounded-xl border-[#DDE5E2] focus:border-[#3BAA86] focus:ring-2 focus:ring-[#3BAA86]/20 transition-all duration-300 font-inter text-[#2E2E2E] placeholder:text-[#9CA3AF] shadow-sm hover:shadow-md"
+                    disabled={isLoading}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="font-inter font-medium">
-                Email *
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="example@email.com"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="pl-10"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <Label htmlFor="phone" className="font-inter font-semibold text-[#0E4F45] text-base">
+                  Số điện thoại
+                </Label>
+                <div className="relative group">
+                  <Phone className="absolute left-4 top-4 h-5 w-5 text-[#6B7280] group-focus-within:text-[#3BAA86] transition-colors duration-300" />
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="0123 456 789"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className="pl-12 h-14 rounded-xl border-[#DDE5E2] focus:border-[#3BAA86] focus:ring-2 focus:ring-[#3BAA86]/20 transition-all duration-300 font-inter text-[#2E2E2E] placeholder:text-[#9CA3AF] shadow-sm hover:shadow-md"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="category" className="font-inter font-semibold text-[#0E4F45] text-base">
+                  Thể loại tin nhắn *
+                </Label>
+                <Select
+                  value={formData.category}
+                  onValueChange={(value) => handleInputChange('category', value)}
                   disabled={isLoading}
-                />
+                >
+                  <SelectTrigger className="h-14 rounded-xl border-[#DDE5E2] focus:border-[#3BAA86] focus:ring-2 focus:ring-[#3BAA86]/20 transition-all duration-300 font-inter text-[#2E2E2E] shadow-sm hover:shadow-md">
+                    <SelectValue placeholder="Chọn thể loại tin nhắn" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-[#DDE5E2] shadow-2xl">
+                    <SelectItem value="help" className="font-inter">Trợ giúp thông tin</SelectItem>
+                    <SelectItem value="complaint" className="font-inter">Khiếu nại</SelectItem>
+                    <SelectItem value="feedback" className="font-inter">Đóng góp ý kiến</SelectItem>
+                    <SelectItem value="other" className="font-inter">Khác</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="font-inter font-medium">
-                Số điện thoại
-              </Label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="0123456789"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                  className="pl-10"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="category" className="font-inter font-medium">
-                Thể loại tin nhắn *
+            <div className="space-y-3">
+              <Label htmlFor="subject" className="font-inter font-semibold text-[#0E4F45] text-base">
+                Chủ đề *
               </Label>
               <Select
-                value={formData.category}
-                onValueChange={(value) => handleInputChange('category', value)}
+                value={formData.subject}
+                onValueChange={(value) => handleInputChange('subject', value)}
                 disabled={isLoading}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn thể loại tin nhắn" />
+                <SelectTrigger className="h-14 rounded-xl border-[#DDE5E2] focus:border-[#3BAA86] focus:ring-2 focus:ring-[#3BAA86]/20 transition-all duration-300 font-inter text-[#2E2E2E] shadow-sm hover:shadow-md">
+                  <SelectValue placeholder="Chọn chủ đề tin nhắn" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="help">Trợ giúp thông tin</SelectItem>
-                  <SelectItem value="complaint">Khiếu nại</SelectItem>
-                  <SelectItem value="feedback">Đóng góp ý kiến</SelectItem>
-                  <SelectItem value="other">Khác</SelectItem>
+                <SelectContent className="rounded-xl border-[#DDE5E2] shadow-2xl">
+                  <SelectItem value="booking" className="font-inter">Đặt phòng homestay</SelectItem>
+                  <SelectItem value="tour-guide" className="font-inter">Hướng dẫn viên du lịch</SelectItem>
+                  <SelectItem value="transportation" className="font-inter">Phương tiện di chuyển</SelectItem>
+                  <SelectItem value="weather" className="font-inter">Thông tin thời tiết</SelectItem>
+                  <SelectItem value="safety" className="font-inter">An toàn du lịch</SelectItem>
+                  <SelectItem value="local-culture" className="font-inter">Văn hóa địa phương</SelectItem>
+                  <SelectItem value="food-drink" className="font-inter">Ẩm thực địa phương</SelectItem>
+                  <SelectItem value="trekking" className="font-inter">Trekking và leo núi</SelectItem>
+                  <SelectItem value="photography" className="font-inter">Chụp ảnh và quay phim</SelectItem>
+                  <SelectItem value="emergency" className="font-inter">Khẩn cấp</SelectItem>
+                  <SelectItem value="other" className="font-inter">Khác</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="subject" className="font-inter font-medium">
-              Chủ đề *
-            </Label>
-            <Select
-              value={formData.subject}
-              onValueChange={(value) => handleInputChange('subject', value)}
-              disabled={isLoading}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Chọn chủ đề tin nhắn" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="booking">Đặt phòng homestay</SelectItem>
-                <SelectItem value="tour-guide">Hướng dẫn viên du lịch</SelectItem>
-                <SelectItem value="transportation">Phương tiện di chuyển</SelectItem>
-                <SelectItem value="weather">Thông tin thời tiết</SelectItem>
-                <SelectItem value="safety">An toàn du lịch</SelectItem>
-                <SelectItem value="local-culture">Văn hóa địa phương</SelectItem>
-                <SelectItem value="food-drink">Ẩm thực địa phương</SelectItem>
-                <SelectItem value="trekking">Trekking và leo núi</SelectItem>
-                <SelectItem value="photography">Chụp ảnh và quay phim</SelectItem>
-                <SelectItem value="emergency">Khẩn cấp</SelectItem>
-                <SelectItem value="other">Khác</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="message" className="font-inter font-medium">
-              Nội dung tin nhắn *
-            </Label>
-            <Textarea
-              id="message"
-              placeholder="Nhập nội dung tin nhắn của bạn..."
-              value={formData.message}
-              onChange={(e) => handleInputChange('message', e.target.value)}
-              className="min-h-[120px] resize-none"
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label className="font-inter font-medium">
-              Đính kèm tệp (Tùy chọn)
-            </Label>
-            <div className="border-2 border-dashed border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
-              <div className="text-center">
-                <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground mb-2">
-                  Kéo thả tệp vào đây hoặc nhấp để chọn
-                </p>
-                <p className="text-xs text-muted-foreground mb-3">
-                  Hỗ trợ hình ảnh và video (tối đa 10MB mỗi tệp, tối đa 5 tệp)
-                </p>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*,video/*"
-                  onChange={(e) => handleFileUpload(e.target.files)}
-                  className="hidden"
-                  id="file-upload"
-                  disabled={isLoading}
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => document.getElementById('file-upload')?.click()}
-                  disabled={isLoading}
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Chọn tệp
-                </Button>
-              </div>
+            <div className="space-y-3">
+              <Label htmlFor="message" className="font-inter font-semibold text-[#0E4F45] text-base">
+                Nội dung tin nhắn *
+              </Label>
+              <Textarea
+                id="message"
+                placeholder="Hãy chia sẻ với chúng mình về những gì bạn muốn biết về Tà Xùa..."
+                value={formData.message}
+                onChange={(e) => handleInputChange('message', e.target.value)}
+                className="min-h-[140px] resize-none rounded-xl border-[#DDE5E2] focus:border-[#3BAA86] focus:ring-2 focus:ring-[#3BAA86]/20 transition-all duration-300 font-inter text-[#2E2E2E] placeholder:text-[#9CA3AF] shadow-sm hover:shadow-md"
+                disabled={isLoading}
+              />
             </div>
 
-            {formData.attachments.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Tệp đã chọn:</p>
-                <div className="space-y-2">
-                  {formData.attachments.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between p-2 bg-muted rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <FileText className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-sm truncate max-w-[200px]">{file.name}</span>
-                        <span className="text-xs text-muted-foreground">
-                          ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                        </span>
-                      </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeAttachment(index)}
-                        disabled={isLoading}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
+            <div className="space-y-4">
+              <Label className="font-inter font-semibold text-[#0E4F45] text-base">
+                Đính kèm tệp (Tùy chọn)
+              </Label>
+              <div className="border-2 border-dashed border-[#C9EBDD] rounded-2xl p-8 hover:border-[#3CB89E] transition-all duration-300 bg-gradient-to-br from-[#F8FDFA] to-[#F0F9F4] group">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#3CB89E] to-[#0E4F45] rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Upload className="w-8 h-8 text-white" />
+                  </div>
+                  <p className="text-base text-[#0E4F45] font-semibold mb-2">
+                    Kéo thả tệp vào đây hoặc nhấp để chọn
+                  </p>
+                  <p className="text-sm text-[#6B7280] mb-4">
+                    Hỗ trợ hình ảnh và video (tối đa 10MB mỗi tệp, tối đa 5 tệp)
+                  </p>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*,video/*"
+                    onChange={(e) => handleFileUpload(e.target.files)}
+                    className="hidden"
+                    id="file-upload"
+                    disabled={isLoading}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    onClick={() => document.getElementById('file-upload')?.click()}
+                    disabled={isLoading}
+                    className="border-[#3CB89E] text-[#3CB89E] hover:bg-[#3CB89E] hover:text-white transition-all duration-300 rounded-xl font-inter font-medium"
+                  >
+                    <Upload className="w-5 h-5 mr-2" />
+                    Chọn tệp
+                  </Button>
                 </div>
               </div>
-            )}
-          </div>
 
-          <Button 
-            type="submit" 
-            className="w-full font-inter font-medium"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Đang gửi...
-              </>
-            ) : (
-              <>
-                <Send className="w-4 h-4 mr-2" />
-                Gửi tin nhắn
-              </>
-            )}
-          </Button>
-        </form>
-
-        <div className="mt-6 pt-6 border-t border-border">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center space-x-2">
-              <Mail className="w-4 h-4 text-primary" />
-              <span>vivietteam@gmail.com</span>
+              {formData.attachments.length > 0 && (
+                <div className="space-y-3">
+                  <p className="text-base font-semibold text-[#0E4F45] font-inter">Tệp đã chọn:</p>
+                  <div className="space-y-3">
+                    {formData.attachments.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between p-4 bg-[#F8FDFA] rounded-xl border border-[#E2ECE9] hover:shadow-md transition-all duration-300">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-[#3CB89E] rounded-lg flex items-center justify-center">
+                            <FileText className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-[#0E4F45] truncate max-w-[200px] block">{file.name}</span>
+                            <span className="text-xs text-[#6B7280]">
+                              {(file.size / 1024 / 1024).toFixed(2)} MB
+                            </span>
+                          </div>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeAttachment(index)}
+                          disabled={isLoading}
+                          className="text-[#6B7280] hover:text-red-500 hover:bg-red-50 rounded-lg"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex items-center space-x-2">
-              <Phone className="w-4 h-4 text-primary" />
-              <span>090 394 6185</span>
+
+            <Button 
+              type="submit" 
+              className="w-full h-16 bg-gradient-to-r from-[#0F766E] to-[#3BAA86] hover:from-[#0E4F45] hover:to-[#0F766E] text-white font-bold text-lg rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-[#3BAA86]/25 transform hover:-translate-y-1 font-inter"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-6 h-6 mr-3 animate-spin" />
+                  Đang gửi tin nhắn...
+                </>
+              ) : (
+                <>
+                  <Send className="w-6 h-6 mr-3" />
+                  Gửi Tin Nhắn
+                </>
+              )}
+            </Button>
+          </form>
+
+          <div className="mt-8 pt-8 border-t border-[#E2ECE9]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-base text-[#4A5568]">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-[#D8F3E7] rounded-full flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-[#3BAA86]" />
+                </div>
+                <span className="font-inter">vivietteam@gmail.com</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-[#D8F3E7] rounded-full flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-[#3BAA86]" />
+                </div>
+                <span className="font-inter">090 394 6185</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Enhanced Success Popup */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl animate-fade-in-up">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-[#3CB89E] to-[#0E4F45] rounded-full flex items-center justify-center mx-auto mb-6">
+                <Leaf className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="font-inter text-2xl font-bold text-[#0E4F45] mb-4">
+                Cảm ơn bạn!
+              </h3>
+              <p className="text-[#4A5568] font-inter text-lg leading-relaxed mb-6">
+                Đội ngũ ViViet sẽ phản hồi trong 24 giờ tới.
+              </p>
+              <Button
+                onClick={() => setShowSuccessPopup(false)}
+                className="bg-gradient-to-r from-[#3CB89E] to-[#0E4F45] hover:from-[#0E4F45] hover:to-[#3CB89E] text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300"
+              >
+                Đóng
+              </Button>
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      )}
+
+      {/* Custom Animations */}
+      <style>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in-up {
+          animation: fade-in-up 0.5s ease-out forwards;
+        }
+      `}</style>
+    </>
   );
 };
 

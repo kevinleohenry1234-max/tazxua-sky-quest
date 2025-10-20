@@ -33,10 +33,18 @@ import {
   Zap,
   Target,
   FileText,
-  ExternalLink
+  ExternalLink,
+  WifiOff,
+  Database
 } from 'lucide-react';
 import { loadGoogleMaps } from '@/utils/googleMapsLoader';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { offlineManager } from '@/utils/offlineManager';
+import OfflineNotification from '@/components/OfflineNotification';
+import ConnectionStatusChip from '@/components/ConnectionStatusChip';
+import FallbackMap from '@/components/FallbackMap';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import offlineHandbook from '@/data/offlineHandbook.json';
 
 interface WeatherData {
   temperature: number;
@@ -115,6 +123,14 @@ const SafetyCenter: React.FC = () => {
   const checklistAnimation = useScrollAnimation();
   const mapAnimation = useScrollAnimation();
   const communityAnimation = useScrollAnimation();
+
+  // Offline state management
+  const [isOffline, setIsOffline] = useState(!offlineManager.getConnectionStatus());
+  const [isDebugOffline, setIsDebugOffline] = useState(false);
+  const [cachedWeatherData, setCachedWeatherData] = useState<WeatherData | null>(null);
+  const [cachedAlerts, setCachedAlerts] = useState<AlertData[]>([]);
+  const [cachedMapPoints, setCachedMapPoints] = useState<any[]>([]);
+  const [lastSyncTime, setLastSyncTime] = useState<string>('');
 
   // Weather data state
   const [weatherData, setWeatherData] = useState<WeatherData>({
@@ -242,21 +258,113 @@ const SafetyCenter: React.FC = () => {
   ]);
 
   // Functions
-  const refreshWeatherData = () => {
-    // Simulate API call
-    setWeatherData(prev => ({
-      ...prev,
-      lastUpdated: 'Vừa xong',
-      temperature: prev.temperature + Math.floor(Math.random() * 3) - 1
-    }));
+  const refreshWeatherData = async () => {
+    if (isOffline || isDebugOffline) {
+      // Load from cache when offline
+      const cached = await offlineManager.getCachedWeatherData();
+      if (cached) {
+        // Convert cached data to WeatherData format
+        const weatherFromCache: WeatherData = {
+          temperature: cached.temperature,
+          feelsLike: cached.temperature - 2, // Approximate feels like
+          humidity: cached.humidity,
+          windSpeed: cached.wind,
+          visibility: cached.visibility,
+          condition: cached.condition as 'sunny' | 'cloudy' | 'rainy',
+          lastUpdated: `Đã lưu lúc ${new Date(cached.updatedAt).toLocaleTimeString('vi-VN')}`
+        };
+        setWeatherData(weatherFromCache);
+        // Don't set cached data to state, just keep it for reference
+      }
+      return;
+    }
+
+    try {
+      // Simulate API call
+      const newData: WeatherData = {
+        ...weatherData,
+        lastUpdated: 'Vừa xong',
+        temperature: weatherData.temperature + Math.floor(Math.random() * 3) - 1
+      };
+      setWeatherData(newData);
+      
+      // Convert to cache format and cache the data
+      const cacheData: import('@/utils/offlineManager').WeatherCache = {
+        temperature: newData.temperature,
+        humidity: newData.humidity,
+        wind: newData.windSpeed,
+        visibility: newData.visibility,
+        condition: newData.condition,
+        updatedAt: new Date().toISOString()
+      };
+      await offlineManager.cacheWeatherData(cacheData);
+    } catch (error) {
+      console.error('Failed to refresh weather data:', error);
+    }
+  };
+
+  const syncDataWhenOnline = async () => {
+    if (isOffline || isDebugOffline) return;
+
+    try {
+      // Refresh weather data
+      await refreshWeatherData();
+      
+      // Simulate alerts API call and cache
+      const alertsData = alerts.map(alert => ({
+        id: alert.id,
+        level: alert.level,
+        title: alert.title,
+        description: alert.description,
+        action: alert.action
+      }));
+      await offlineManager.cacheAlertsData(alertsData);
+      setCachedAlerts(alertsData);
+
+      // Cache map points from current safetyLocations
+      const points: import('@/utils/offlineManager').MapPoint[] = safetyLocations.map(loc => ({
+        id: loc.id,
+        name: loc.name,
+        address: loc.address,
+        type: loc.type === 'medical' ? 'tram_y_te' as const :
+              loc.type === 'police' ? 'don_cong_an' as const :
+              loc.type === 'shelter' ? 'khu_tru_an' as const : 'khu_nguy_hiem' as const,
+        lat: loc.lat,
+        lng: loc.lng,
+        phone: loc.phone || undefined
+      }));
+      await offlineManager.cacheMapPoints(points);
+      
+      // Update sync time
+      const now = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+      setLastSyncTime(now);
+      
+      // Show success toast
+      // This would be implemented with a toast library
+      console.log(`Dữ liệu của bạn đã được cập nhật lúc ${now}.`);
+    } catch (error) {
+      console.error('Sync failed:', error);
+      // Show error toast
+      console.log('Không thể cập nhật dữ liệu mới. Tiếp tục dùng dữ liệu đã lưu.');
+    }
   };
 
   const toggleChecklistItem = (id: string) => {
-    setChecklistItems(prev => 
-      prev.map(item => 
+    setChecklistItems(prev => {
+      const updated = prev.map(item => 
         item.id === id ? { ...item, completed: !item.completed } : item
-      )
-    );
+      );
+      
+      // Save to localStorage for offline persistence
+      const checklistState = updated.reduce((acc, item) => {
+        if (!acc[item.category]) acc[item.category] = {};
+        acc[item.category][item.id] = item.completed;
+        return acc;
+      }, {} as any);
+      
+      offlineManager.saveChecklistState(checklistState);
+      return updated;
+    });
   };
 
   const handleEmergencySubmit = () => {
@@ -307,6 +415,66 @@ const SafetyCenter: React.FC = () => {
     }
   };
 
+  // Connection status and offline functionality
+  useEffect(() => {
+    // Check for debug offline mode
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('offline') === '1') {
+      setIsDebugOffline(true);
+      offlineManager.setOfflineMode(true);
+    } else if (urlParams.get('offline') === '0') {
+      setIsDebugOffline(false);
+      offlineManager.setOfflineMode(false);
+    }
+
+    // Listen for connection changes
+    const handleConnectionChange = (isOnline: boolean) => {
+      setIsOffline(!isOnline);
+      if (isOnline && !isDebugOffline) {
+        // Sync data when coming back online
+        syncDataWhenOnline();
+      }
+    };
+
+    offlineManager.addConnectionListener(handleConnectionChange);
+    
+    // Load cached data on component mount
+    const loadCachedData = async () => {
+      if (isOffline || isDebugOffline) {
+        // Load cached weather
+        const cachedWeather = await offlineManager.getCachedWeatherData();
+        if (cachedWeather) {
+          const weatherFromCache: WeatherData = {
+            temperature: cachedWeather.temperature,
+            feelsLike: cachedWeather.temperature - 2,
+            humidity: cachedWeather.humidity,
+            windSpeed: cachedWeather.wind,
+            visibility: cachedWeather.visibility,
+            condition: cachedWeather.condition as 'sunny' | 'cloudy' | 'rainy',
+            lastUpdated: `Đã lưu lúc ${new Date(cachedWeather.updatedAt).toLocaleTimeString('vi-VN')}`
+          };
+          setWeatherData(weatherFromCache);
+        }
+
+        // Load cached alerts
+        const cachedAlertsData = await offlineManager.getCachedAlertsData();
+        if (cachedAlertsData) {
+          setCachedAlerts(cachedAlertsData.alerts);
+        }
+
+        // Load cached map points
+        const cachedPoints = await offlineManager.getCachedMapPoints();
+        setCachedMapPoints(cachedPoints);
+      }
+    };
+
+    loadCachedData();
+
+    return () => {
+      offlineManager.removeConnectionListener(handleConnectionChange);
+    };
+  }, [isDebugOffline]);
+
   // Google Maps integration
   useEffect(() => {
     const initMap = async () => {
@@ -314,7 +482,7 @@ const SafetyCenter: React.FC = () => {
         await loadGoogleMaps();
         
         const mapElement = document.getElementById('safety-map');
-        if (mapElement && window.google) {
+        if (mapElement && window.google && window.google.maps && window.google.maps.Map) {
           const map = new window.google.maps.Map(mapElement, {
             center: { lat: 21.3099, lng: 103.6137 },
             zoom: 13,
@@ -329,6 +497,8 @@ const SafetyCenter: React.FC = () => {
 
           // Add markers for safety locations
           safetyLocations.forEach(location => {
+            if (!window.google?.maps?.Marker) return;
+            
             const marker = new window.google.maps.Marker({
               position: { lat: location.lat, lng: location.lng },
               map: map,
@@ -347,31 +517,61 @@ const SafetyCenter: React.FC = () => {
                       <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   `),
-                scaledSize: new window.google.maps.Size(24, 24)
+                scaledSize: window.google.maps.Size ? new window.google.maps.Size(24, 24) : undefined
               }
             });
 
-            const infoWindow = new window.google.maps.InfoWindow({
-              content: `
-                <div class="p-2">
-                  <h3 class="font-bold text-sm">${location.name}</h3>
-                  <p class="text-xs text-gray-600">${location.address}</p>
-                  ${location.phone ? `<p class="text-xs text-blue-600">${location.phone}</p>` : ''}
-                  ${location.type === 'danger' ? 
-                    '<p class="text-xs text-red-600 font-medium">⚠️ Khu vực nguy hiểm</p>' : 
-                    '<p class="text-xs text-green-600 font-medium">✅ An toàn</p>'
-                  }
-                </div>
-              `
-            });
+            if (window.google?.maps?.InfoWindow) {
+              const infoWindow = new window.google.maps.InfoWindow({
+                content: `
+                  <div class="p-2">
+                    <h3 class="font-bold text-sm">${location.name}</h3>
+                    <p class="text-xs text-gray-600">${location.address}</p>
+                    ${location.phone ? `<p class="text-xs text-blue-600">${location.phone}</p>` : ''}
+                    ${location.type === 'danger' ? 
+                      '<p class="text-xs text-red-600 font-medium">⚠️ Khu vực nguy hiểm</p>' : 
+                      '<p class="text-xs text-green-600 font-medium">✅ An toàn</p>'
+                    }
+                  </div>
+                `
+              });
 
-            marker.addListener('click', () => {
-              infoWindow.open(map, marker);
-            });
+              marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+              });
+            }
           });
+        } else {
+          console.warn('Google Maps API not fully loaded or Map constructor not available');
+          // Fallback: Show a simple message in the map container
+          const mapElement = document.getElementById('safety-map');
+          if (mapElement) {
+            mapElement.innerHTML = `
+              <div class="flex items-center justify-center h-full bg-gray-100 rounded-lg">
+                <div class="text-center p-4">
+                  <MapPin class="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                  <p class="text-gray-600 text-sm">Bản đồ đang được tải...</p>
+                  <p class="text-gray-500 text-xs mt-1">Vui lòng kiểm tra kết nối mạng</p>
+                </div>
+              </div>
+            `;
+          }
         }
       } catch (error) {
         console.error('Error loading Google Maps:', error);
+        // Fallback UI for map loading error
+        const mapElement = document.getElementById('safety-map');
+        if (mapElement) {
+          mapElement.innerHTML = `
+            <div class="flex items-center justify-center h-full bg-gray-100 rounded-lg">
+              <div class="text-center p-4">
+                <MapPin class="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                <p class="text-gray-600 text-sm">Không thể tải bản đồ</p>
+                <p class="text-gray-500 text-xs mt-1">Vui lòng thử lại sau</p>
+              </div>
+            </div>
+          `;
+        }
       }
     };
 
@@ -380,7 +580,46 @@ const SafetyCenter: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f0f9ff] via-[#fefbf6] to-[#f0fdf4] py-8">
+      {/* Offline Notification */}
+      <OfflineNotification />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        {/* Hero Section with Connection Status */}
+        <div className="relative bg-gradient-to-r from-[#0E4F45] via-[#15803d] to-[#059669] rounded-2xl p-8 text-white overflow-hidden">
+          <div className="absolute inset-0 bg-black/20"></div>
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <h1 className="text-4xl font-bold font-playfair mb-2">
+                  Trung Tâm An Toàn Tà Xùa
+                </h1>
+                <p className="text-xl text-green-100">
+                  Hệ thống giám sát và hỗ trợ an toàn toàn diện
+                </p>
+              </div>
+              <ConnectionStatusChip className="shrink-0" />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <Shield className="w-8 h-8 mb-2" />
+                <h3 className="font-semibold">Giám sát 24/7</h3>
+                <p className="text-sm text-green-100">Theo dõi thời tiết và cảnh báo</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <Heart className="w-8 h-8 mb-2" />
+                <h3 className="font-semibold">Hỗ trợ khẩn cấp</h3>
+                <p className="text-sm text-green-100">Liên hệ cứu hộ nhanh chóng</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <Users className="w-8 h-8 mb-2" />
+                <h3 className="font-semibold">Cộng đồng</h3>
+                <p className="text-sm text-green-100">Chia sẻ kinh nghiệm an toàn</p>
+              </div>
+            </div>
+          </div>
+        </div>
         
         {/* 1. Dynamic Weather & Alerts Section */}
         <div 
@@ -395,19 +634,33 @@ const SafetyCenter: React.FC = () => {
               <CardHeader className="pb-4">
                 <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
                   {getWeatherIcon(weatherData.condition)}
-                  Bản Tin Thời Tiết Động
+                  Bản Tin Thời Tiết Trực Quan
+                  {(isOffline || isDebugOffline) && (
+                    <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs">
+                      <Database className="w-3 h-3 mr-1" />
+                      Ngoại tuyến
+                    </Badge>
+                  )}
                 </CardTitle>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Clock className="w-4 h-4" />
-                  Cập nhật {weatherData.lastUpdated}
-                  <Button 
-                    onClick={refreshWeatherData}
-                    variant="ghost" 
-                    size="sm"
-                    className="ml-auto p-1 h-auto hover:bg-blue-100"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                  </Button>
+                  {(isOffline || isDebugOffline) ? (
+                    <span className="text-gray-500">
+                      {weatherData.lastUpdated}
+                    </span>
+                  ) : (
+                    <>
+                      Cập nhật {weatherData.lastUpdated}
+                      <Button 
+                        onClick={refreshWeatherData}
+                        variant="ghost" 
+                        size="sm"
+                        className="ml-auto p-1 h-auto hover:bg-blue-100"
+                      >
+                        <RefreshCw className="w-4 h-4" />
+                      </Button>
+                    </>
+                  )}
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -466,43 +719,50 @@ const SafetyCenter: React.FC = () => {
               <CardHeader className="pb-4">
                 <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
                   <Zap className="w-8 h-8 text-amber-600" />
-                  Hệ Thống Cảnh Báo Động
+                  Cảnh Báo Quan Trọng
+                  {(isOffline || isDebugOffline) && (
+                    <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs">
+                      <Database className="w-3 h-3 mr-1" />
+                      Ngoại tuyến
+                    </Badge>
+                  )}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {alerts.map((alert) => (
-                  <Alert 
-                    key={alert.id} 
-                    className={`${getAlertColor(alert.level)} border-l-4 hover:shadow-md transition-all duration-300`}
-                  >
-                    <AlertTriangle className={`h-5 w-5 ${
-                      alert.level === 'yellow' ? 'text-yellow-600' :
-                      alert.level === 'orange' ? 'text-orange-600' : 'text-red-600'
-                    }`} />
-                    <AlertDescription className="ml-2">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-semibold text-[#1f2937]">{alert.title}</h4>
-                          <div className={`text-xs font-medium px-2 py-1 rounded-md inline-block ${
-                            alert.level === 'yellow' ? 'bg-yellow-200 text-yellow-800' :
-                            alert.level === 'orange' ? 'bg-orange-200 text-orange-800' : 'bg-red-200 text-red-800'
-                          }`}>
-                            {alert.level === 'yellow' ? 'Cảnh báo' : 
-                             alert.level === 'orange' ? 'Nguy hiểm' : 'Rất nguy hiểm'}
-                          </div>
+                {alerts.length > 0 ? (
+                  alerts.map(alert => (
+                    <Alert key={alert.id} className={`${getAlertColor(alert.level)} border-l-4`}>
+                      <AlertTriangle className="h-4 w-4" />
+                      <AlertDescription>
+                        <div className="space-y-2">
+                          <div className="font-semibold text-[#1f2937]">{alert.title}</div>
+                          <div className="text-sm text-gray-700">{alert.description}</div>
+                          {alert.action && (
+                            <div className="text-sm font-medium text-amber-700 bg-amber-100 px-2 py-1 rounded">
+                              💡 {alert.action}
+                            </div>
+                          )}
                         </div>
-                        <p className="text-sm text-gray-700">{alert.description}</p>
-                        {alert.action && (
-                          <div className="bg-white/80 rounded-md p-2 border-l-2 border-amber-400">
-                            <p className="text-xs font-medium text-amber-800">
-                              💡 Khuyến nghị: {alert.action}
-                            </p>
-                          </div>
-                        )}
+                      </AlertDescription>
+                    </Alert>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    {(isOffline || isDebugOffline) ? (
+                      <div className="space-y-2">
+                        <WifiOff className="w-12 h-12 text-gray-400 mx-auto" />
+                        <p>Chưa có cảnh báo đã lưu để hiển thị ngoại tuyến.</p>
+                        <p className="text-xs">Kết nối mạng để cập nhật cảnh báo mới nhất.</p>
                       </div>
-                    </AlertDescription>
-                  </Alert>
-                ))}
+                    ) : (
+                      <div className="space-y-2">
+                        <CheckCircle className="w-12 h-12 text-green-500 mx-auto" />
+                        <p>Hiện tại không có cảnh báo nào</p>
+                        <p className="text-xs">Tình hình an toàn ổn định</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -623,10 +883,27 @@ const SafetyCenter: React.FC = () => {
             <CardContent className="space-y-6">
               {/* Map Container */}
               <div className="relative">
-                <div 
-                  id="safety-map" 
-                  className="w-full h-[400px] rounded-lg border border-[#15803d]/20 bg-gray-100"
-                ></div>
+                {(isOffline || isDebugOffline) ? (
+                  <FallbackMap 
+                    mapPoints={safetyLocations.map(loc => ({
+                      id: loc.id,
+                      name: loc.name,
+                      address: loc.address,
+                      type: loc.type === 'medical' ? 'tram_y_te' : 
+                            loc.type === 'police' ? 'don_cong_an' :
+                            loc.type === 'shelter' ? 'khu_tru_an' : 'khu_nguy_hiem',
+                      lat: loc.lat,
+                      lng: loc.lng,
+                      phone: loc.phone
+                    }))}
+                    className="w-full h-[400px] rounded-lg border border-[#15803d]/20"
+                  />
+                ) : (
+                  <div 
+                    id="safety-map" 
+                    className="w-full h-[400px] rounded-lg border border-[#15803d]/20 bg-gray-100"
+                  ></div>
+                )}
                 
                 {/* Map Legend */}
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-gray-200">

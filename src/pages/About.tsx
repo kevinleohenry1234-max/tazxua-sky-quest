@@ -38,28 +38,28 @@ const About = () => {
   // Team members data
   const teamMembers = [
     {
-      name: 'Minh Anh',
-      role: 'UX Designer',
-      quote: 'Thiết kế không chỉ là làm đẹp, mà là tạo ra trải nghiệm có ý nghĩa.',
-      image: '/images/team/minh-anh.jpg'
+      name: 'Trịnh Phước (Kevin)',
+      role: 'Project Lead',
+      quote: 'Tà Xùa Mùa Xanh là hành trình đầu tiên để kiểm chứng niềm tin rằng công nghệ có thể đi cùng thiên nhiên.',
+      image: '/Kevin.png'
     },
     {
-      name: 'Hoàng Nam',
+      name: 'Khánh Linh',
+      role: 'Content & Local Culture',
+      quote: 'Tà Xùa Mùa Xanh là hành trình đầu tiên để kiểm chứng niềm tin rằng công nghệ có thể đi cùng thiên nhiên.',
+      image: '/Khanh Linh.png'
+    },
+    {
+      name: 'Xuân Mai',
+      role: 'UI/UX Designer',
+      quote: 'Tà Xùa Mùa Xanh là hành trình đầu tiên để kiểm chứng niềm tin rằng công nghệ có thể đi cùng thiên nhiên.',
+      image: '/Xuan Mai.png'
+    },
+    {
+      name: 'Tuấn Khanh',
       role: 'Developer',
-      quote: 'Code có thể thay đổi thế giới, một dòng lệnh một lần.',
-      image: '/images/team/hoang-nam.jpg'
-    },
-    {
-      name: 'Thu Hà',
-      role: 'Researcher',
-      quote: 'Mỗi câu chuyện đều có giá trị, chúng ta chỉ cần biết lắng nghe.',
-      image: '/images/team/thu-ha.jpg'
-    },
-    {
-      name: 'Đức Minh',
-      role: 'Storyteller',
-      quote: 'Câu chuyện tốt nhất là những câu chuyện được kể từ trái tim.',
-      image: '/images/team/duc-minh.jpg'
+      quote: 'Tà Xùa Mùa Xanh là hành trình đầu tiên để kiểm chứng niềm tin rằng công nghệ có thể đi cùng thiên nhiên.',
+      image: '/Tuan Khanh.png'
     }
   ];
 
