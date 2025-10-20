@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   Cloud, 
   Sun, 
@@ -18,9 +20,23 @@ import {
   Heart,
   MapPin,
   Download,
-  Filter
+  Filter,
+  RefreshCw,
+  Clock,
+  Navigation,
+  Users,
+  MessageSquare,
+  Send,
+  CheckCircle,
+  Star,
+  Calendar,
+  Zap,
+  Target,
+  FileText,
+  ExternalLink
 } from 'lucide-react';
 import { loadGoogleMaps } from '@/utils/googleMapsLoader';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 interface WeatherData {
   temperature: number;
@@ -29,6 +45,15 @@ interface WeatherData {
   windSpeed: number;
   visibility: number;
   condition: 'sunny' | 'cloudy' | 'rainy';
+  lastUpdated: string;
+}
+
+interface AlertData {
+  id: string;
+  level: 'yellow' | 'orange' | 'red';
+  title: string;
+  description: string;
+  action?: string;
 }
 
 interface EmergencyContact {
@@ -36,6 +61,7 @@ interface EmergencyContact {
   name: string;
   phone: string;
   type: 'medical' | 'police' | 'rescue';
+  status: 'available' | 'busy' | 'offline';
 }
 
 interface ChecklistItem {
@@ -45,6 +71,14 @@ interface ChecklistItem {
   completed: boolean;
 }
 
+interface LocalTip {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  image?: string;
+}
+
 interface SafetyLocation {
   id: string;
   name: string;
@@ -52,572 +86,800 @@ interface SafetyLocation {
   type: 'medical' | 'police' | 'shelter' | 'danger';
   lat: number;
   lng: number;
+  phone?: string;
+  status?: 'open' | 'closed' | 'emergency';
 }
 
-// Declare global google variable
+interface CommunityPost {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  date: string;
+  type: 'warning' | 'tip' | 'update';
+  image?: string;
+  timestamp: string;
+  likes: number;
+}
+
+// Extend the global Window interface
 declare global {
   interface Window {
     google: any;
-    initMap: () => void;
   }
 }
 
 const SafetyCenter: React.FC = () => {
-  const [weatherData] = useState<WeatherData>({
+  // Animation hooks
+  const weatherAnimation = useScrollAnimation();
+  const checklistAnimation = useScrollAnimation();
+  const mapAnimation = useScrollAnimation();
+  const communityAnimation = useScrollAnimation();
+
+  // Weather data state
+  const [weatherData, setWeatherData] = useState<WeatherData>({
     temperature: 18,
-    feelsLike: 15,
+    feelsLike: 16,
     humidity: 85,
     windSpeed: 12,
     visibility: 8,
-    condition: 'cloudy'
+    condition: 'cloudy',
+    lastUpdated: '10 phút trước'
   });
 
-  // Google Maps state
-  const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<any>(null);
-  const [markers, setMarkers] = useState<any[]>([]);
-  const [activeFilters, setActiveFilters] = useState({
-    medical: true,
-    police: true,
-    shelter: true,
-    danger: true
-  });
-
-  // Safety locations data
-  const [safetyLocations] = useState<SafetyLocation[]>([
-    // Medical facilities
-    { id: '1', name: 'Trạm Y tế Tà Xùa', address: 'Xã Tà Xùa, Huyện Bắc Yên, Sơn La', type: 'medical', lat: 21.2122, lng: 104.3635 },
-    { id: '2', name: 'Trạm Y tế Bản Ít', address: 'Bản Ít, Xã Tà Xùa, Huyện Bắc Yên', type: 'medical', lat: 21.2089, lng: 104.3598 },
-    { id: '3', name: 'Phòng khám tư Tà Xùa', address: 'Thị trấn Tà Xùa, Sơn La', type: 'medical', lat: 21.2156, lng: 104.3672 },
-    
-    // Police stations
-    { id: '4', name: 'Công an Xã Tà Xùa', address: 'Xã Tà Xùa, Huyện Bắc Yên, Sơn La', type: 'police', lat: 21.2134, lng: 104.3645 },
-    { id: '5', name: 'Đồn Biên phòng Tà Xùa', address: 'Khu vực biên giới Tà Xùa', type: 'police', lat: 21.2098, lng: 104.3589 },
-    
-    // Shelters
-    { id: '6', name: 'Nhà nghỉ khẩn cấp Đỉnh Phu Sang', address: 'Đỉnh Phu Sang, Tà Xùa', type: 'shelter', lat: 21.2145, lng: 104.3612 },
-    { id: '7', name: 'Trạm cứu hộ Tà Xùa', address: 'Km 15, đường lên Tà Xùa', type: 'shelter', lat: 21.2167, lng: 104.3678 },
-    { id: '8', name: 'Chòi nghỉ Bản Ít', address: 'Bản Ít, Tà Xùa', type: 'shelter', lat: 21.2078, lng: 104.3567 },
-    
-    // Danger zones
-    { id: '9', name: 'Vách đá dựng đứng', address: 'Phía Bắc đỉnh Phu Sang', type: 'danger', lat: 21.2189, lng: 104.3623 },
-    { id: '10', name: 'Khu vực sạt lở', address: 'Km 12-14 đường lên Tà Xùa', type: 'danger', lat: 21.2201, lng: 104.3701 },
-    { id: '11', name: 'Đường mòn nguy hiểm', address: 'Lối xuống thác Tà Xùa', type: 'danger', lat: 21.2056, lng: 104.3534 }
+  // Alerts state
+  const [alerts, setAlerts] = useState<AlertData[]>([
+    {
+      id: '1',
+      level: 'yellow',
+      title: 'Sương mù dày đặc',
+      description: 'Tầm nhìn hạn chế dưới 50m từ 5:00-8:00 sáng',
+      action: 'Hoãn di chuyển sớm'
+    },
+    {
+      id: '2',
+      level: 'orange',
+      title: 'Gió mạnh cấp 6',
+      description: 'Gió Tây Nam 40-50km/h, giật cấp 8 từ 14:00-18:00',
+      action: 'Tránh leo núi cao'
+    }
   ]);
 
-  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([
-    // Before departure
-    { id: '1', text: 'Kiểm tra phương tiện di chuyển', category: 'before', completed: false },
-    { id: '2', text: 'Báo cho người thân về lịch trình', category: 'before', completed: false },
-    { id: '3', text: 'Sạc đầy pin điện thoại', category: 'before', completed: false },
-    { id: '4', text: 'Chuẩn bị pin dự phòng', category: 'before', completed: false },
-    { id: '5', text: 'Mang theo giấy tờ cá nhân', category: 'before', completed: false },
-    
-    // During trekking
-    { id: '6', text: 'Mang áo mưa mỏng', category: 'during', completed: false },
-    { id: '7', text: 'Giữ khoảng cách an toàn', category: 'during', completed: false },
-    { id: '8', text: 'Không rời khỏi đoàn', category: 'during', completed: false },
-    { id: '9', text: 'Tôn trọng chỉ dẫn hướng dẫn viên', category: 'during', completed: false },
-    
-    // Essential gear
-    { id: '10', text: 'Giày leo núi chống trượt', category: 'gear', completed: false },
-    { id: '11', text: 'Gậy trekking', category: 'gear', completed: false },
-    { id: '12', text: 'Áo khoác gió', category: 'gear', completed: false },
-    { id: '13', text: 'Nước uống đầy đủ', category: 'gear', completed: false },
-    { id: '14', text: 'Thuốc y tế cá nhân', category: 'gear', completed: false },
-  ]);
-
+  // Emergency contacts
   const [emergencyContacts] = useState<EmergencyContact[]>([
-    { id: '1', name: 'Trạm Y tế Tà Xùa', phone: '0274.3871.234', type: 'medical' },
-    { id: '2', name: 'Công an Huyện Bắc Yên', phone: '0274.3871.113', type: 'police' },
-    { id: '3', name: 'Đội Cứu hộ Sơn La', phone: '0212.3856.115', type: 'rescue' },
+    { id: '1', name: 'Trạm Y tế Tà Xùa', phone: '0274.3871.234', type: 'medical', status: 'available' },
+    { id: '2', name: 'Công an Huyện Bắc Yên', phone: '0274.3871.113', type: 'police', status: 'available' },
+    { id: '3', name: 'Đội Cứu hộ Sơn La', phone: '0212.3856.115', type: 'rescue', status: 'available' },
+    { id: '4', name: 'Hướng dẫn viên Tà Xùa', phone: '090.394.6185', type: 'rescue', status: 'available' }
   ]);
+
+  // Emergency form state
+  const [emergencyForm, setEmergencyForm] = useState({
+    name: '',
+    phone: '',
+    situation: '',
+    location: ''
+  });
+
+  // Community posts
+  const [communityPosts] = useState<CommunityPost[]>([
+    {
+      id: '1',
+      title: 'Cập nhật tuyến đường mới an toàn hơn',
+      content: 'Tuyến đường mới qua Bản Ít đã được tu sửa, an toàn hơn cho việc di chuyển bằng xe máy.',
+      author: 'Ban quản lý Tà Xùa',
+      date: '2 giờ trước',
+      type: 'update',
+      image: '/images/new-route.jpg',
+      timestamp: '2 giờ trước',
+      likes: 12
+    },
+    {
+      id: '2',
+      title: 'Tránh di chuyển khi gió mạnh tại Khu A',
+      content: 'Khu vực đỉnh Phu Sang có gió mạnh từ 14:00-18:00 hôm nay. Khuyến cáo hoãn lịch leo núi.',
+      author: 'Đội cứu hộ địa phương',
+      date: '1 giờ trước',
+      type: 'warning',
+      timestamp: '1 giờ trước',
+      likes: 8
+    },
+    {
+      id: '3',
+      title: 'Mẹo giữ ấm khi ngủ trời lạnh',
+      content: 'Đặt chai nước nóng trong túi ngủ 30 phút trước khi ngủ để giữ ấm cả đêm.',
+      author: 'Cộng đồng ViViet',
+      date: '3 giờ trước',
+      type: 'tip',
+      timestamp: '3 giờ trước',
+      likes: 15
+    }
+  ]);
+
+  // Checklist items
+  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([
+    { id: '1', text: 'Kiểm tra dự báo thời tiết 24h', category: 'before', completed: false },
+    { id: '2', text: 'Thông báo lịch trình cho người thân', category: 'before', completed: false },
+    { id: '3', text: 'Chuẩn bị thuốc cá nhân', category: 'before', completed: false },
+    { id: '4', text: 'Giữ liên lạc định kỳ mỗi 2 giờ', category: 'during', completed: false },
+    { id: '5', text: 'Không đi một mình vào rừng sâu', category: 'during', completed: false },
+    { id: '6', text: 'Đèn pin + pin dự phòng', category: 'gear', completed: false },
+    { id: '7', text: 'Áo mưa và quần áo ấm', category: 'gear', completed: false },
+    { id: '8', text: 'Thực phẩm khô và nước uống', category: 'gear', completed: false }
+  ]);
+
+  // Local tips
+  const [localTips] = useState<LocalTip[]>([
+    {
+      id: '1',
+      title: 'Thời điểm tốt nhất để leo núi',
+      content: 'Từ 6:00-10:00 sáng và 15:00-17:00 chiều, tránh thời gian có sương mù dày.',
+      author: 'Hướng dẫn viên địa phương',
+      image: '🌄'
+    },
+    {
+      id: '2',
+      title: 'Nhận biết đường đi an toàn',
+      content: 'Đi theo đường mòn có dấu hiệu người đi thường xuyên, tránh đường mới mở.',
+      author: 'Đội cứu hộ Tà Xùa',
+      image: '🥾'
+    },
+    {
+      id: '3',
+      title: 'Xử lý khi gặp động vật hoang dã',
+      content: 'Giữ khoảng cách, không chạy, từ từ lùi lại và tạo tiếng động nhẹ.',
+      author: 'Kiểm lâm Sơn La',
+      image: '🐻'
+    }
+  ]);
+
+  // Safety locations for map
+  const [safetyLocations] = useState<SafetyLocation[]>([
+    { id: '1', name: 'Trạm Y tế Tà Xùa', address: 'Bản Áng, Tà Xùa', type: 'medical', lat: 21.3099, lng: 103.6137, phone: '0274.3871.234', status: 'open' },
+    { id: '2', name: 'Công an Huyện Bắc Yên', address: 'Thị trấn Bắc Yên', type: 'police', lat: 21.2845, lng: 103.6234, phone: '0274.3871.113', status: 'open' },
+    { id: '3', name: 'Nhà nghỉ An toàn Tà Xùa', address: 'Bản Ít, Tà Xùa', type: 'shelter', lat: 21.3156, lng: 103.6089, phone: '090.394.6185', status: 'open' },
+    { id: '4', name: 'Khu vực nguy hiểm - Vách đá dựng', address: 'Đỉnh Phu Sang', type: 'danger', lat: 21.3234, lng: 103.6045 }
+  ]);
+
+  // Functions
+  const refreshWeatherData = () => {
+    // Simulate API call
+    setWeatherData(prev => ({
+      ...prev,
+      lastUpdated: 'Vừa xong',
+      temperature: prev.temperature + Math.floor(Math.random() * 3) - 1
+    }));
+  };
 
   const toggleChecklistItem = (id: string) => {
-    setChecklistItems(items =>
-      items.map(item =>
+    setChecklistItems(prev => 
+      prev.map(item => 
         item.id === id ? { ...item, completed: !item.completed } : item
       )
     );
   };
 
+  const handleEmergencySubmit = () => {
+    // Simulate emergency request
+    alert('Yêu cầu khẩn cấp đã được gửi! Đội cứu hộ sẽ liên hệ trong vòng 5 phút.');
+    setEmergencyForm({ name: '', phone: '', situation: '', location: '' });
+  };
+
+  const sendGPSLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        alert(`Định vị GPS đã được gửi: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+      });
+    }
+  };
+
+  const downloadChecklistPDF = () => {
+    // Simulate PDF download
+    alert('Đang tải xuống bản checklist PDF...');
+  };
+
+  // Helper functions
   const getWeatherIcon = (condition: string) => {
     switch (condition) {
-      case 'sunny': return <Sun className="w-12 h-12 text-yellow-500 animate-pulse" />;
-      case 'rainy': return <CloudRain className="w-12 h-12 text-blue-500 animate-bounce" />;
-      default: return <Cloud className="w-12 h-12 text-gray-500 animate-pulse" />;
+      case 'sunny': return <Sun className="w-8 h-8 text-yellow-500" />;
+      case 'cloudy': return <Cloud className="w-8 h-8 text-gray-500" />;
+      case 'rainy': return <CloudRain className="w-8 h-8 text-blue-500" />;
+      default: return <Cloud className="w-8 h-8 text-gray-500" />;
     }
   };
 
-  const getContactIcon = (type: string) => {
-    switch (type) {
-      case 'medical': return <Heart className="w-6 h-6 text-red-500" />;
-      case 'police': return <Shield className="w-6 h-6 text-blue-500" />;
-      case 'rescue': return <Phone className="w-6 h-6 text-green-600" />;
-      default: return <Phone className="w-6 h-6" />;
+  const getAlertColor = (level: string) => {
+    switch (level) {
+      case 'yellow': return 'border-yellow-400 bg-yellow-50';
+      case 'orange': return 'border-orange-400 bg-orange-50';
+      case 'red': return 'border-red-400 bg-red-50';
+      default: return 'border-gray-400 bg-gray-50';
     }
-  };
-
-  const downloadVCard = () => {
-    const vCardData = emergencyContacts.map(contact => 
-      `BEGIN:VCARD\nVERSION:3.0\nFN:${contact.name}\nTEL:${contact.phone}\nEND:VCARD`
-    ).join('\n');
-    
-    const blob = new Blob([vCardData], { type: 'text/vcard' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'emergency-contacts-ta-xua.vcf';
-    a.click();
-    URL.revokeObjectURL(url);
   };
 
   const getCategoryTitle = (category: string) => {
     switch (category) {
       case 'before': return 'Trước khi khởi hành';
-      case 'during': return 'Khi trekking';
+      case 'during': return 'Trong quá trình di chuyển';
       case 'gear': return 'Trang bị cần thiết';
-      default: return '';
+      default: return category;
     }
   };
 
-  // Google Maps functions
-  const getMarkerColor = (type: string) => {
-    switch (type) {
-      case 'medical': return '#22c55e';
-      case 'police': return '#3b82f6';
-      case 'shelter': return '#facc15';
-      case 'danger': return '#ef4444';
-      default: return '#6b7280';
-    }
-  };
-
-  const getTypeLabel = (type: string) => {
-    switch (type) {
-      case 'medical': return 'Trạm y tế';
-      case 'police': return 'Đồn công an';
-      case 'shelter': return 'Điểm trú ẩn';
-      case 'danger': return 'Khu vực nguy hiểm';
-      default: return '';
-    }
-  };
-
-  const initializeMap = () => {
-    if (!mapRef.current || !window.google?.maps) {
-      console.warn('Map container or Google Maps API not available');
-      return;
-    }
-
-    try {
-       const mapOptions = {
-         center: { lat: 21.2122, lng: 104.3635 }, // Ta Xua coordinates
-         zoom: 13,
-         mapTypeControl: true,
-         mapTypeControlOptions: {
-           style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-           position: window.google.maps.ControlPosition.TOP_CENTER,
-         },
-         zoomControl: true,
-         zoomControlOptions: {
-           position: window.google.maps.ControlPosition.RIGHT_CENTER,
-         },
-         scaleControl: true,
-         streetViewControl: true,
-         fullscreenControl: true,
-         styles: [
-           {
-             featureType: 'poi',
-             elementType: 'labels',
-             stylers: [{ visibility: 'on' }]
-           }
-         ],
-         // Optimize tile loading
-         gestureHandling: 'cooperative',
-         clickableIcons: false,
-         // Reduce tile requests by limiting bounds
-         restriction: {
-           latLngBounds: {
-             north: 21.4,
-             south: 21.0,
-             east: 104.6,
-             west: 104.0
-           },
-           strictBounds: false
-         }
-       };
-
-       const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
-       setMap(newMap);
-       
-       // Create markers
-       createMarkers(newMap);
-     } catch (error) {
-       console.error('Error initializing Safety Center map:', error);
-     }
-  };
-
-  const createMarkers = (mapInstance: any) => {
-    const newMarkers: any[] = [];
-
-    safetyLocations.forEach((location) => {
-      const marker = new window.google.maps.Marker({
-        position: { lat: location.lat, lng: location.lng },
-        map: mapInstance,
-        title: location.name,
-        icon: {
-          path: window.google.maps.SymbolPath.CIRCLE,
-          fillColor: getMarkerColor(location.type),
-          fillOpacity: 0.8,
-          strokeColor: '#ffffff',
-          strokeWeight: 2,
-          scale: 8,
-        },
-      });
-
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="padding: 8px; font-family: 'Inter', sans-serif;">
-            <h3 style="margin: 0 0 8px 0; color: #1f2937; font-size: 16px; font-weight: 600;">${location.name}</h3>
-            <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">${location.address}</p>
-            <span style="display: inline-block; padding: 2px 8px; background-color: ${getMarkerColor(location.type)}; color: white; border-radius: 12px; font-size: 12px; font-weight: 500;">
-              ${getTypeLabel(location.type)}
-            </span>
-          </div>
-        `,
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(mapInstance, marker);
-      });
-
-      newMarkers.push({ marker, location, infoWindow });
-    });
-
-    setMarkers(newMarkers);
-  };
-
-  const toggleFilter = (filterType: keyof typeof activeFilters) => {
-    const newFilters = { ...activeFilters, [filterType]: !activeFilters[filterType] };
-    setActiveFilters(newFilters);
-    
-    // Update marker visibility
-    markers.forEach(({ marker, location }) => {
-      const shouldShow = newFilters[location.type as keyof typeof activeFilters];
-      marker.setVisible(shouldShow);
-    });
-  };
-
-  // Load Google Maps API
+  // Google Maps integration
   useEffect(() => {
-    const initializeGoogleMaps = async () => {
+    const initMap = async () => {
       try {
-        await loadGoogleMaps({
-          callback: () => {
-            initializeMap();
-          }
-        });
+        await loadGoogleMaps();
+        
+        const mapElement = document.getElementById('safety-map');
+        if (mapElement && window.google) {
+          const map = new window.google.maps.Map(mapElement, {
+            center: { lat: 21.3099, lng: 103.6137 },
+            zoom: 13,
+            styles: [
+              {
+                featureType: 'poi',
+                elementType: 'labels',
+                stylers: [{ visibility: 'off' }]
+              }
+            ]
+          });
+
+          // Add markers for safety locations
+          safetyLocations.forEach(location => {
+            const marker = new window.google.maps.Marker({
+              position: { lat: location.lat, lng: location.lng },
+              map: map,
+              title: location.name,
+              icon: {
+                url: location.type === 'danger' ? 
+                  'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" fill="#ef4444"/>
+                      <path d="M12 8v4M12 16h.01" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  `) :
+                  'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" fill="#15803d"/>
+                      <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  `),
+                scaledSize: new window.google.maps.Size(24, 24)
+              }
+            });
+
+            const infoWindow = new window.google.maps.InfoWindow({
+              content: `
+                <div class="p-2">
+                  <h3 class="font-bold text-sm">${location.name}</h3>
+                  <p class="text-xs text-gray-600">${location.address}</p>
+                  ${location.phone ? `<p class="text-xs text-blue-600">${location.phone}</p>` : ''}
+                  ${location.type === 'danger' ? 
+                    '<p class="text-xs text-red-600 font-medium">⚠️ Khu vực nguy hiểm</p>' : 
+                    '<p class="text-xs text-green-600 font-medium">✅ An toàn</p>'
+                  }
+                </div>
+              `
+            });
+
+            marker.addListener('click', () => {
+              infoWindow.open(map, marker);
+            });
+          });
+        }
       } catch (error) {
-        console.error('Google Maps failed to load:', error);
+        console.error('Error loading Google Maps:', error);
       }
     };
 
-    initializeGoogleMaps();
-  }, []);
-
-  // Update markers when filters change
-  useEffect(() => {
-    markers.forEach(({ marker, location }) => {
-      const shouldShow = activeFilters[location.type as keyof typeof activeFilters];
-      marker.setVisible(shouldShow);
-    });
-  }, [activeFilters, markers]);
+    initMap();
+  }, [safetyLocations]);
 
   return (
-    <div className="min-h-screen bg-[#fefbf6] py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Two-column dashboard layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* Left Column - Dynamic Content & Alerts */}
-          <div className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0f9ff] via-[#fefbf6] to-[#f0fdf4] py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        {/* 1. Dynamic Weather & Alerts Section */}
+        <div 
+          id="weather-alerts-section"
+          className={`transition-all duration-1000 ${weatherAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          ref={weatherAnimation.elementRef as React.RefObject<HTMLDivElement>}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            {/* Visual Weather Report */}
-            <Card className="border-[#15803d]/20 shadow-lg">
+            {/* 3D Weather Widget */}
+            <Card className="border-[#15803d]/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-[#15803d]/40 bg-gradient-to-br from-white to-blue-50/30">
               <CardHeader className="pb-4">
                 <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
                   {getWeatherIcon(weatherData.condition)}
-                  Bản Tin Thời Tiết Trực Quan
+                  Bản Tin Thời Tiết Động
                 </CardTitle>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Clock className="w-4 h-4" />
+                  Cập nhật {weatherData.lastUpdated}
+                  <Button 
+                    onClick={refreshWeatherData}
+                    variant="ghost" 
+                    size="sm"
+                    className="ml-auto p-1 h-auto hover:bg-blue-100"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Temperature Display */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-4xl font-bold text-[#15803d]">
-                      {weatherData.temperature}°C
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      Cảm giác như {weatherData.feelsLike}°C
-                    </div>
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-[#1f2937] mb-2">
+                    {weatherData.temperature}°C
                   </div>
-                  <div className="text-right">
-                    <Badge variant="outline" className="text-[#15803d] border-[#15803d]">
-                      Sương mù nhẹ
-                    </Badge>
+                  <div className="text-sm text-gray-600">
+                    Cảm giác như {weatherData.feelsLike}°C
                   </div>
                 </div>
 
-                {/* Weather Indicators */}
-                <div className="grid grid-cols-3 gap-4">
-                  {/* Humidity */}
-                  <div className="text-center">
-                    <Droplets className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-                    <div className="text-sm text-gray-600">Độ ẩm</div>
-                    <div className="font-semibold text-[#1f2937]">{weatherData.humidity}%</div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                      <div 
-                        className="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${weatherData.humidity}%` }}
-                      ></div>
+                {/* Weather Details Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-blue-200/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Droplets className="w-4 h-4 text-blue-500" />
+                      <span className="text-xs font-medium text-gray-700">Độ ẩm</span>
                     </div>
+                    <div className="text-lg font-bold text-[#1f2937]">{weatherData.humidity}%</div>
                   </div>
-
-                  {/* Wind Speed */}
-                  <div className="text-center">
-                    <Wind className="w-6 h-6 text-green-500 mx-auto mb-2" />
-                    <div className="text-sm text-gray-600">Gió</div>
-                    <div className="font-semibold text-[#1f2937]">{weatherData.windSpeed} km/h</div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                      <div 
-                        className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${(weatherData.windSpeed / 30) * 100}%` }}
-                      ></div>
+                  
+                  <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-blue-200/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Wind className="w-4 h-4 text-blue-500" />
+                      <span className="text-xs font-medium text-gray-700">Gió</span>
                     </div>
+                    <div className="text-lg font-bold text-[#1f2937]">{weatherData.windSpeed} km/h</div>
                   </div>
-
-                  {/* Visibility */}
-                  <div className="text-center">
-                    <Eye className="w-6 h-6 text-purple-500 mx-auto mb-2" />
-                    <div className="text-sm text-gray-600">Tầm nhìn</div>
-                    <div className="font-semibold text-[#1f2937]">{weatherData.visibility} km</div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                      <div 
-                        className="bg-purple-500 h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${(weatherData.visibility / 15) * 100}%` }}
-                      ></div>
+                  
+                  <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-blue-200/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Eye className="w-4 h-4 text-blue-500" />
+                      <span className="text-xs font-medium text-gray-700">Tầm nhìn</span>
+                    </div>
+                    <div className="text-lg font-bold text-[#1f2937]">{weatherData.visibility} km</div>
+                  </div>
+                  
+                  <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-blue-200/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Thermometer className="w-4 h-4 text-blue-500" />
+                      <span className="text-xs font-medium text-gray-700">Điều kiện</span>
+                    </div>
+                    <div className="text-sm font-bold text-[#1f2937] capitalize">
+                      {weatherData.condition === 'sunny' ? 'Nắng' : 
+                       weatherData.condition === 'cloudy' ? 'Nhiều mây' : 'Mưa'}
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Important Warnings */}
-            <Card className="border-amber-200 bg-amber-50 shadow-lg">
+            {/* Dynamic Alert System */}
+            <Card className="border-amber-200 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-amber-50/30">
               <CardHeader className="pb-4">
                 <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
-                  <AlertTriangle className="w-8 h-8 text-amber-600" />
-                  Cảnh Báo Quan Trọng
+                  <Zap className="w-8 h-8 text-amber-600" />
+                  Hệ Thống Cảnh Báo Động
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Alert className="border-amber-300 bg-amber-100">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  <AlertDescription className="font-inter text-[#1f2937]">
-                    <strong>Sương mù dày buổi sáng</strong> – hạn chế di chuyển bằng xe máy từ 5:00-8:00
-                  </AlertDescription>
-                </Alert>
-                
-                <Alert className="border-amber-300 bg-amber-100">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  <AlertDescription className="font-inter text-[#1f2937]">
-                    <strong>Nhiệt độ giảm sâu ban đêm</strong> – mang theo áo ấm và đèn pin
-                  </AlertDescription>
-                </Alert>
-              </CardContent>
-            </Card>
-
-          </div>
-
-          {/* Right Column - Tools, Guides & Contacts */}
-          <div className="space-y-6">
-            
-            {/* Safety Handbook - Interactive Checklist */}
-            <Card className="border-[#15803d]/20 shadow-lg">
-              <CardHeader className="pb-4">
-                <CardTitle className="font-playfair text-2xl text-[#1f2937]">
-                  Cẩm Nang An Toàn
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {['before', 'during', 'gear'].map((category) => (
-                  <div key={category} className="space-y-3">
-                    <h3 className="font-semibold text-[#15803d] text-lg border-b border-[#15803d]/20 pb-2">
-                      {getCategoryTitle(category)}
-                    </h3>
-                    <div className="space-y-2">
-                      {checklistItems
-                        .filter(item => item.category === category)
-                        .map((item) => (
-                          <div 
-                            key={item.id} 
-                            className={`flex items-center space-x-3 p-2 rounded-lg transition-all duration-200 ${
-                              item.completed ? 'bg-green-50 text-green-800' : 'hover:bg-gray-50'
-                            }`}
-                          >
-                            <Checkbox
-                              id={item.id}
-                              checked={item.completed}
-                              onCheckedChange={() => toggleChecklistItem(item.id)}
-                              className="data-[state=checked]:bg-[#15803d] data-[state=checked]:border-[#15803d]"
-                            />
-                            <label 
-                              htmlFor={item.id} 
-                              className={`font-inter text-sm cursor-pointer flex-1 ${
-                                item.completed ? 'line-through' : ''
-                              }`}
-                            >
-                              {item.text}
-                            </label>
+                {alerts.map((alert) => (
+                  <Alert 
+                    key={alert.id} 
+                    className={`${getAlertColor(alert.level)} border-l-4 hover:shadow-md transition-all duration-300`}
+                  >
+                    <AlertTriangle className={`h-5 w-5 ${
+                      alert.level === 'yellow' ? 'text-yellow-600' :
+                      alert.level === 'orange' ? 'text-orange-600' : 'text-red-600'
+                    }`} />
+                    <AlertDescription className="ml-2">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-semibold text-[#1f2937]">{alert.title}</h4>
+                          <div className={`text-xs font-medium px-2 py-1 rounded-md inline-block ${
+                            alert.level === 'yellow' ? 'bg-yellow-200 text-yellow-800' :
+                            alert.level === 'orange' ? 'bg-orange-200 text-orange-800' : 'bg-red-200 text-red-800'
+                          }`}>
+                            {alert.level === 'yellow' ? 'Cảnh báo' : 
+                             alert.level === 'orange' ? 'Nguy hiểm' : 'Rất nguy hiểm'}
                           </div>
-                        ))}
-                    </div>
-                  </div>
+                        </div>
+                        <p className="text-sm text-gray-700">{alert.description}</p>
+                        {alert.action && (
+                          <div className="bg-white/80 rounded-md p-2 border-l-2 border-amber-400">
+                            <p className="text-xs font-medium text-amber-800">
+                              💡 Khuyến nghị: {alert.action}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </AlertDescription>
+                  </Alert>
                 ))}
               </CardContent>
             </Card>
+          </div>
+        </div>
 
-            {/* Emergency Contact List */}
-            <Card className="border-[#15803d]/20 shadow-lg">
-              <CardHeader className="pb-4">
-                <CardTitle className="font-playfair text-2xl text-[#1f2937]">
-                  Danh Bạ Khẩn Cấp
+        {/* 2. Smart Safety Checklist Section */}
+        <div 
+          id="safety-checklist-section"
+          className={`transition-all duration-1000 delay-200 ${checklistAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          ref={checklistAnimation.elementRef as React.RefObject<HTMLDivElement>}
+        >
+          <Card className="border-[#15803d]/20 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-green-50/30">
+            <CardHeader className="pb-4">
+              <div className="flex items-center justify-between">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+                  <CheckCircle className="w-8 h-8 text-[#15803d]" />
+                  Danh Sách An Toàn Thông Minh
                 </CardTitle>
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={downloadChecklistPDF}
+                    variant="outline"
+                    size="sm"
+                    className="border-[#15803d] text-[#15803d] hover:bg-[#15803d] hover:text-white font-inter"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Tải PDF
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {['before', 'during', 'gear'].map((category) => (
+                <div key={category} className="space-y-3">
+                  <h3 className="font-semibold text-[#15803d] text-lg border-b border-[#15803d]/20 pb-2 flex items-center gap-2">
+                    <Target className="w-5 h-5" />
+                    {getCategoryTitle(category)}
+                  </h3>
+                  <div className="space-y-2">
+                    {checklistItems
+                      .filter(item => item.category === category)
+                      .map((item) => (
+                        <div 
+                          key={item.id}
+                          className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-300 cursor-pointer hover:shadow-md ${
+                            item.completed 
+                              ? 'bg-green-50 border-green-200 hover:bg-green-100' 
+                              : 'bg-white border-gray-200 hover:bg-gray-50'
+                          }`}
+                          onClick={() => toggleChecklistItem(item.id)}
+                        >
+                          <Checkbox 
+                            checked={item.completed}
+                            onChange={() => toggleChecklistItem(item.id)}
+                            className="data-[state=checked]:bg-[#15803d] data-[state=checked]:border-[#15803d]"
+                          />
+                          <label 
+                            className={`flex-1 text-sm cursor-pointer transition-all duration-300 ${
+                              item.completed 
+                                ? 'text-green-700 line-through' 
+                                : 'text-gray-700 hover:text-[#15803d]'
+                            }`}
+                          >
+                            {item.text}
+                          </label>
+                          {item.completed && (
+                            <CheckCircle className="w-5 h-5 text-green-600" />
+                          )}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
+
+              {/* Local Tips Section */}
+              <div className="border-t border-[#15803d]/20 pt-6">
+                <h3 className="font-semibold text-[#15803d] text-lg mb-4 flex items-center gap-2">
+                  <Star className="w-5 h-5" />
+                  Mẹo Hay Từ Địa Phương
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {localTips.map((tip) => (
+                    <div key={tip.id} className="bg-white/80 backdrop-blur-sm border border-amber-200 rounded-lg p-4 hover:shadow-md transition-all duration-300">
+                      {tip.image && (
+                        <div className="w-full h-24 bg-gradient-to-r from-amber-100 to-orange-100 rounded-md mb-3 flex items-center justify-center">
+                          <span className="text-2xl">{tip.image}</span>
+                        </div>
+                      )}
+                      <h4 className="font-semibold text-[#1f2937] text-sm mb-2">{tip.title}</h4>
+                      <p className="text-xs text-gray-700 mb-2">{tip.content}</p>
+                      <div className="flex items-center gap-2">
+                        <Star className="w-3 h-3 text-amber-500" />
+                        <span className="text-xs text-gray-600">Từ {tip.author}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 3. Interactive Safety Map Section */}
+        <div 
+          className={`transition-all duration-1000 delay-400 ${mapAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          ref={mapAnimation.elementRef as React.RefObject<HTMLDivElement>}
+        >
+          <Card className="border-[#15803d]/20 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-blue-50/30">
+            <CardHeader className="pb-4">
+              <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+                <MapPin className="w-8 h-8 text-[#15803d]" />
+                Bản Đồ An Toàn Tương Tác
+              </CardTitle>
+              <p className="text-sm text-gray-600 font-inter">
+                Xem vị trí các trạm cứu hộ, khu vực nguy hiểm và đường đi an toàn
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Map Container */}
+              <div className="relative">
+                <div 
+                  id="safety-map" 
+                  className="w-full h-[400px] rounded-lg border border-[#15803d]/20 bg-gray-100"
+                ></div>
+                
+                {/* Map Legend */}
+                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-gray-200">
+                  <h4 className="font-semibold text-sm mb-2 text-[#1f2937]">Chú thích</h4>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span>Trạm cứu hộ</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span>Khu vực nguy hiểm</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Emergency Contacts */}
+              <div id="emergency-contacts-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {emergencyContacts.map((contact) => (
+                  <div key={contact.id} className="bg-white/80 backdrop-blur-sm border border-[#15803d]/20 rounded-lg p-4 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        contact.type === 'medical' ? 'bg-red-100 text-red-600' :
+                        contact.type === 'police' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
+                      }`}>
+                        {contact.type === 'medical' ? <Heart className="w-4 h-4" /> :
+                         contact.type === 'police' ? <Shield className="w-4 h-4" /> : <Phone className="w-4 h-4" />}
+                      </div>
+                      <div className={`w-2 h-2 rounded-full ${
+                        contact.status === 'available' ? 'bg-green-500' :
+                        contact.status === 'busy' ? 'bg-yellow-500' : 'bg-red-500'
+                      }`}></div>
+                    </div>
+                    <h4 className="font-semibold text-[#1f2937] text-sm mb-1">{contact.name}</h4>
+                    <p className="text-xs text-gray-600 mb-2">{contact.phone}</p>
+                    <Button 
+                      onClick={() => window.open(`tel:${contact.phone}`)}
+                      size="sm"
+                      className="w-full bg-[#15803d] hover:bg-[#15803d]/90 text-white font-inter py-1 text-xs"
+                    >
+                      <Phone className="w-3 h-3 mr-1" />
+                      Gọi ngay
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Quick Action Buttons */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button 
+                  onClick={() => window.open('tel:115')}
+                  className="bg-red-600 hover:bg-red-700 text-white font-inter py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <Phone className="w-5 h-5 mr-2" />
+                  Gọi Cứu Hộ (115)
+                </Button>
+                <Button 
+                  onClick={sendGPSLocation}
+                  variant="outline"
+                  className="border-[#15803d] text-[#15803d] hover:bg-[#15803d] hover:text-white font-inter py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <Navigation className="w-5 h-5 mr-2" />
+                  Gửi Định Vị GPS
+                </Button>
+                <Button 
+                  onClick={() => window.open('https://maps.google.com/maps?q=21.3099,103.6137', '_blank')}
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-inter py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                  Đường An Toàn
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 4. Emergency Response & Community Support Section */}
+        <div 
+          className={`transition-all duration-1000 delay-600 ${communityAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          ref={communityAnimation.elementRef as React.RefObject<HTMLDivElement>}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* Emergency Response Form */}
+            <Card className="border-red-200 bg-gradient-to-br from-red-50 to-pink-50/30 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+                  <AlertTriangle className="w-8 h-8 text-red-600" />
+                  Trợ Giúp Khẩn Cấp
+                </CardTitle>
+                <p className="text-sm text-gray-600 font-inter">
+                  Gửi yêu cầu hỗ trợ khẩn cấp với định vị GPS tự động
+                </p>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid gap-3">
-                  {emergencyContacts.map((contact) => (
-                    <div 
-                      key={contact.id}
-                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-[#15803d]/30 transition-colors"
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">
+                      Họ và tên
+                    </label>
+                    <Input
+                      placeholder="Nhập họ tên của bạn"
+                      value={emergencyForm.name}
+                      onChange={(e) => setEmergencyForm(prev => ({ ...prev, name: e.target.value }))}
+                      className="border-red-200 focus:border-red-400 focus:ring-red-400"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">
+                      Số điện thoại
+                    </label>
+                    <Input
+                      placeholder="Số điện thoại liên lạc"
+                      value={emergencyForm.phone}
+                      onChange={(e) => setEmergencyForm(prev => ({ ...prev, phone: e.target.value }))}
+                      className="border-red-200 focus:border-red-400 focus:ring-red-400"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">
+                      Tình huống khẩn cấp
+                    </label>
+                    <Textarea
+                      placeholder="Mô tả chi tiết tình huống và vị trí hiện tại..."
+                      value={emergencyForm.situation}
+                      onChange={(e) => setEmergencyForm(prev => ({ ...prev, situation: e.target.value }))}
+                      className="border-red-200 focus:border-red-400 focus:ring-red-400 min-h-[100px]"
+                    />
+                  </div>
+                </div>
+                
+                <div className="bg-red-100 border border-red-200 rounded-lg p-4">
+                  <div className="flex items-center gap-2 text-red-800 text-sm font-medium mb-2">
+                    <Navigation className="w-4 h-4" />
+                    Định vị GPS sẽ được gửi kèm
+                  </div>
+                  <div className="text-xs text-red-700">
+                    Thông tin vị trí của bạn sẽ được gửi tự động để hỗ trợ cứu hộ nhanh chóng
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handleEmergencySubmit}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-inter py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+                  disabled={!emergencyForm.name || !emergencyForm.situation}
+                >
+                  <Send className="w-5 h-5 mr-2" />
+                  Gửi Yêu Cầu Khẩn Cấp
+                </Button>
+                
+                <div className="text-center">
+                  <div className="text-xs text-gray-500 mb-2">Hoặc gọi trực tiếp:</div>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => window.open('tel:115')}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
                     >
-                      <div className="flex items-center gap-3">
-                        {getContactIcon(contact.type)}
-                        <div>
-                          <div className="font-semibold text-[#1f2937]">{contact.name}</div>
-                          <div className="text-sm text-gray-600">{contact.phone}</div>
+                      <Phone className="w-4 h-4 mr-1" />
+                      Cứu hộ 115
+                    </Button>
+                    <Button 
+                      onClick={() => window.open('tel:113')}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                    >
+                      <Phone className="w-4 h-4 mr-1" />
+                      Công an 113
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Community Support Feed */}
+            <Card className="border-[#15803d]/20 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-green-50/30">
+              <CardHeader className="pb-4">
+                <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
+                  <Users className="w-8 h-8 text-[#15803d]" />
+                  Cộng Đồng Hỗ Trợ
+                </CardTitle>
+                <p className="text-sm text-gray-600 font-inter">
+                  Cập nhật mới nhất từ cộng đồng du lịch Tà Xùa
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="max-h-[500px] overflow-y-auto space-y-4 pr-2">
+                  {communityPosts.map((post) => (
+                    <div key={post.id} className="bg-white/80 backdrop-blur-sm border border-[#15803d]/20 rounded-lg p-4 hover:shadow-md transition-all duration-300">
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-[#15803d] to-[#22c55e] rounded-full flex items-center justify-center text-white font-bold text-sm">
+                          {post.author.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="font-semibold text-[#1f2937] text-sm">{post.author}</span>
+                            <Badge 
+                              variant="outline" 
+                              className={`text-xs ${
+                                post.type === 'warning' ? 'border-red-300 text-red-700 bg-red-50' :
+                                post.type === 'tip' ? 'border-blue-300 text-blue-700 bg-blue-50' :
+                                'border-green-300 text-green-700 bg-green-50'
+                              }`}
+                            >
+                              {post.type === 'warning' ? '⚠️ Cảnh báo' : 
+                               post.type === 'tip' ? '💡 Mẹo hay' : '✅ Cập nhật'}
+                            </Badge>
+                          </div>
+                          <h4 className="font-semibold text-[#1f2937] text-sm mb-2">{post.title}</h4>
+                          <p className="text-xs text-gray-700 mb-3 leading-relaxed">{post.content}</p>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3 text-xs text-gray-500">
+                              <div className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {post.timestamp}
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <MessageSquare className="w-3 h-3" />
+                                {post.likes} thích
+                              </div>
+                            </div>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              className="text-[#15803d] hover:text-[#15803d] hover:bg-[#15803d]/10 p-1 h-auto"
+                            >
+                              <Star className="w-4 h-4" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="border-[#15803d] text-[#15803d] hover:bg-[#15803d] hover:text-white"
-                        onClick={() => window.open(`tel:${contact.phone}`)}
-                      >
-                        <Phone className="w-4 h-4" />
-                      </Button>
                     </div>
                   ))}
                 </div>
                 
                 <Button 
-                  onClick={downloadVCard}
-                  className="w-full bg-[#15803d] hover:bg-[#15803d]/90 text-white font-inter"
+                  variant="outline"
+                  className="w-full border-[#15803d] text-[#15803d] hover:bg-[#15803d] hover:text-white font-inter"
                 >
-                  <Download className="w-4 h-4 mr-2" />
-                  Lưu Danh Bạ Khẩn Cấp
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Xem Thêm Cập Nhật
                 </Button>
               </CardContent>
             </Card>
-
           </div>
         </div>
-
-        {/* Interactive Safety Map */}
-        <Card className="mt-8 border-[#15803d]/20 shadow-lg">
-          <CardHeader className="pb-4">
-            <CardTitle className="font-playfair text-2xl text-[#1f2937] flex items-center gap-3">
-              <MapPin className="w-8 h-8 text-[#15803d]" />
-              Bản Đồ An Toàn Tương Tác
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-4 flex flex-wrap gap-2">
-              <Button 
-                variant={activeFilters.medical ? "default" : "outline"} 
-                size="sm" 
-                className={`transition-all duration-200 ${
-                  activeFilters.medical 
-                    ? 'bg-[#22c55e] hover:bg-[#22c55e]/90 text-white border-[#22c55e]' 
-                    : 'border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white'
-                }`}
-                onClick={() => toggleFilter('medical')}
-              >
-                <div className="w-3 h-3 rounded-full bg-[#22c55e] mr-2"></div>
-                Trạm y tế
-              </Button>
-              <Button 
-                variant={activeFilters.police ? "default" : "outline"} 
-                size="sm" 
-                className={`transition-all duration-200 ${
-                  activeFilters.police 
-                    ? 'bg-[#3b82f6] hover:bg-[#3b82f6]/90 text-white border-[#3b82f6]' 
-                    : 'border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white'
-                }`}
-                onClick={() => toggleFilter('police')}
-              >
-                <div className="w-3 h-3 rounded-full bg-[#3b82f6] mr-2"></div>
-                Đồn công an
-              </Button>
-              <Button 
-                variant={activeFilters.shelter ? "default" : "outline"} 
-                size="sm" 
-                className={`transition-all duration-200 ${
-                  activeFilters.shelter 
-                    ? 'bg-[#facc15] hover:bg-[#facc15]/90 text-black border-[#facc15]' 
-                    : 'border-[#facc15] text-[#facc15] hover:bg-[#facc15] hover:text-black'
-                }`}
-                onClick={() => toggleFilter('shelter')}
-              >
-                <div className="w-3 h-3 rounded-full bg-[#facc15] mr-2"></div>
-                Điểm trú ẩn
-              </Button>
-              <Button 
-                variant={activeFilters.danger ? "default" : "outline"} 
-                size="sm" 
-                className={`transition-all duration-200 ${
-                  activeFilters.danger 
-                    ? 'bg-[#ef4444] hover:bg-[#ef4444]/90 text-white border-[#ef4444]' 
-                    : 'border-[#ef4444] text-[#ef4444] hover:bg-[#ef4444] hover:text-white'
-                }`}
-                onClick={() => toggleFilter('danger')}
-              >
-                <div className="w-3 h-3 rounded-full bg-[#ef4444] mr-2"></div>
-                Khu vực nguy hiểm
-              </Button>
-            </div>
-            
-            {/* Google Maps Container */}
-            <div className="w-full relative">
-              <div 
-                ref={mapRef}
-                className="w-full h-[500px] md:h-[300px] rounded-lg border border-gray-200 shadow-inner"
-                style={{ minHeight: '300px' }}
-              />
-              {!map && (
-                <div className="absolute inset-0 bg-gradient-to-br from-[#15803d]/10 to-[#15803d]/5 rounded-lg border-2 border-dashed border-[#15803d]/30 flex items-center justify-center">
-                  <div className="text-center text-[#15803d]">
-                    <MapPin className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                    <p className="font-inter text-lg">Đang tải bản đồ...</p>
-                    <p className="font-inter text-sm opacity-70 mt-2">
-                      Vui lòng chờ trong giây lát
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
+        
       </div>
     </div>
   );

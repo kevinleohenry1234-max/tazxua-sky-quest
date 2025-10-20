@@ -18,7 +18,10 @@ export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element) return;
+    if (!element || !(element instanceof Element)) {
+      console.warn('useScrollAnimation: elementRef is not a valid Element');
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -37,10 +40,21 @@ export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
       }
     );
 
-    observer.observe(element);
+    try {
+      observer.observe(element);
+    } catch (error) {
+      console.error('Error observing element:', error);
+      return;
+    }
 
     return () => {
-      observer.unobserve(element);
+      try {
+        if (element && observer) {
+          observer.unobserve(element);
+        }
+      } catch (error) {
+        console.error('Error unobserving element:', error);
+      }
     };
   }, [threshold, rootMargin, triggerOnce]);
 
