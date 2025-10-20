@@ -1,0 +1,113 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient cho bầu trời năng động -->
+    <linearGradient id="energeticSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#D9F99D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A7F3D0;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient cho rừng xa -->
+    <linearGradient id="forestFar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#65A30D;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#166534;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- Gradient cho rừng gần -->
+    <linearGradient id="forestNear" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#16A34A;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#14532D;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient cho đường mòn -->
+    <linearGradient id="trailPath" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#92400E;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#A16207;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#78350F;stop-opacity:0.7" />
+    </linearGradient>
+    
+    <!-- Filter cho hiệu ứng sáng -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+  </defs>
+  
+  <!-- Nền bầu trời năng động -->
+  <rect width="800" height="400" fill="url(#energeticSky)"/>
+  
+  <!-- Rừng xa tầng 1 -->
+  <path d="M0,200 Q50,150 100,160 Q150,140 200,150 Q250,130 300,140 Q350,120 400,130 Q450,110 500,120 Q550,100 600,110 Q650,90 700,100 Q750,80 800,90 L800,400 L0,400 Z" 
+        fill="url(#forestFar)" opacity="0.6"/>
+  
+  <!-- Rừng tầng 2 -->
+  <path d="M0,240 Q40,190 80,200 Q120,180 160,190 Q200,170 240,180 Q280,160 320,170 Q360,150 400,160 Q440,140 480,150 Q520,130 560,140 Q600,120 640,130 Q680,110 720,120 Q760,100 800,110 L800,400 L0,400 Z" 
+        fill="url(#forestFar)" opacity="0.7"/>
+  
+  <!-- Rừng gần -->
+  <path d="M0,280 Q30,230 60,240 Q90,220 120,230 Q150,210 180,220 Q210,200 240,210 Q270,190 300,200 Q330,180 360,190 Q390,170 420,180 Q450,160 480,170 Q510,150 540,160 Q570,140 600,150 Q630,130 660,140 Q690,120 720,130 Q760,110 800,120 L800,400 L0,400 Z" 
+        fill="url(#forestNear)" opacity="0.8"/>
+  
+  <!-- Đường mòn trekking -->
+  <path d="M0,350 Q100,340 200,345 Q300,340 400,342 Q500,338 600,340 Q700,335 800,338" 
+        stroke="url(#trailPath)" stroke-width="8" fill="none" opacity="0.7"/>
+  
+  <!-- Đường mòn phụ -->
+  <path d="M0,360 Q80,355 160,358 Q240,355 320,357 Q400,354 480,356 Q560,353 640,355 Q720,352 800,354" 
+        stroke="url(#trailPath)" stroke-width="4" fill="none" opacity="0.5"/>
+  
+  <!-- Cây cối chi tiết -->
+  <g opacity="0.8">
+    <!-- Cây 1 -->
+    <ellipse cx="100" cy="220" rx="15" ry="40" fill="#166534"/>
+    <ellipse cx="95" cy="200" rx="25" ry="25" fill="#16A34A"/>
+    <ellipse cx="105" cy="195" rx="20" ry="20" fill="#22C55E"/>
+    
+    <!-- Cây 2 -->
+    <ellipse cx="300" cy="200" rx="18" ry="45" fill="#166534"/>
+    <ellipse cx="295" cy="175" rx="30" ry="30" fill="#16A34A"/>
+    <ellipse cx="305" cy="170" rx="25" ry="25" fill="#22C55E"/>
+    
+    <!-- Cây 3 -->
+    <ellipse cx="600" cy="180" rx="20" ry="50" fill="#166534"/>
+    <ellipse cx="595" cy="150" rx="35" ry="35" fill="#16A34A"/>
+    <ellipse cx="605" cy="145" rx="28" ry="28" fill="#22C55E"/>
+  </g>
+  
+  <!-- Ánh nắng xuyên qua -->
+  <g opacity="0.4">
+    <path d="M200,0 L220,0 L250,400 L230,400 Z" fill="#FEF3C7">
+      <animate attributeName="opacity" values="0.2;0.6;0.2" dur="8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M450,0 L470,0 L500,400 L480,400 Z" fill="#FEF3C7">
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="10s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Hiệu ứng ánh sáng năng động -->
+  <radialGradient id="energyLight" cx="60%" cy="25%" r="60%">
+    <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:0.5" />
+    <stop offset="40%" style="stop-color:#FDE047;stop-opacity:0.3" />
+    <stop offset="100%" style="stop-color:#FACC15;stop-opacity:0.1" />
+  </radialGradient>
+  
+  <ellipse cx="480" cy="100" rx="300" ry="200" fill="url(#energyLight)">
+    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="6s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Lá bay -->
+  <g opacity="0.6">
+    <ellipse cx="150" cy="150" rx="3" ry="8" fill="#22C55E">
+      <animateTransform attributeName="transform" type="translate" 
+                        values="0,0; 100,50; 200,100; 300,150" dur="15s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="rotate" additive="sum"
+                        values="0; 360; 720; 1080" dur="15s" repeatCount="indefinite"/>
+    </ellipse>
+    
+    <ellipse cx="400" cy="120" rx="4" ry="10" fill="#16A34A">
+      <animateTransform attributeName="transform" type="translate" 
+                        values="0,0; -80,60; -160,120; -240,180" dur="20s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="rotate" additive="sum"
+                        values="0; -270; -540; -810" dur="20s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+</svg>
