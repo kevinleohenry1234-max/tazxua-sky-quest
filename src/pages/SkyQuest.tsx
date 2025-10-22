@@ -26,12 +26,16 @@ import {
   Quote
 } from 'lucide-react';
 import { questModes } from '@/data/skyquest-challenges';
+import LazyImage from '@/components/LazyImage';
+import Header from '@/components/Header';
 
 const SkyQuest: React.FC = () => {
   const navigate = useNavigate();
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [parallaxY, setParallaxY] = useState(0);
+  const [activeSection, setActiveSection] = useState<'hero'|'mode-selection'|'journey-structure'|'common-system'>('hero');
 
   // Load saved mode preference
   useEffect(() => {
@@ -39,6 +43,12 @@ const SkyQuest: React.FC = () => {
     if (savedMode) {
       setSelectedMode(savedMode);
     }
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setParallaxY(window.scrollY * 0.15);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const handleModeSelect = (modeId: string) => {
@@ -78,6 +88,36 @@ const SkyQuest: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Observe sections to highlight active nav
+  useEffect(() => {
+    const ids = ['hero','mode-selection','journey-structure','common-system'];
+    const observers: IntersectionObserver[] = [];
+    const handle = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && (entry.target as HTMLElement).id) {
+          const id = (entry.target as HTMLElement).id as 'hero'|'mode-selection'|'journey-structure'|'common-system';
+          setActiveSection(id);
+        }
+      });
+    };
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const obs = new IntersectionObserver((entries) => handle(entries), { root: null, threshold: 0.4 });
+        obs.observe(el);
+        observers.push(obs);
+      }
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  const navItems = [
+    { id: 'hero', label: 'Giới thiệu' },
+    { id: 'mode-selection', label: 'Phong cách' },
+    { id: 'journey-structure', label: 'Hành trình' },
+    { id: 'common-system', label: 'Hệ thống' },
+  ];
+
   const journeySteps = [
     { icon: <Camera className="w-4 h-4" />, label: "Bước 1" },
     { icon: <MapPin className="w-4 h-4" />, label: "Bước 2" },
@@ -88,6 +128,7 @@ const SkyQuest: React.FC = () => {
 
   return (
     <Layout>
+      <Header />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-green-50 relative overflow-hidden">
         
         {/* 3D Background with Natural Gradient */}
@@ -105,64 +146,78 @@ const SkyQuest: React.FC = () => {
           <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.1),transparent_70%)]" />
         </div>
         
-        {/* Hero Section - Refined ViViet Style */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Hero Section - Realistic Tà Xùa Parallax */}
+        <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          {/* Real Tà Xùa landscape background with parallax */}
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <img 
+              src="/hero-taxua-clouds.jpg" 
+              alt="Tà Xùa - biển mây, sương len qua dãy núi xanh buổi sớm" 
+              className="w-full h-full object-cover"
+              style={{ transform: `translateY(${parallaxY * 0.2}px)`, transition: 'transform 0.1s linear' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-white/20" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent_60%)]" />
+          </div>
+
           {/* Hero Content */}
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto animate-fadeInUp">
-            {/* Sky Quest Logo - Enhanced Typography */}
-            <div className="mb-12 animate-float">
-              <div className="inline-flex items-center justify-center w-28 h-28 bg-white/95 backdrop-blur-md rounded-full shadow-2xl mb-8 border border-white/50">
-                <div className="relative">
-                  <Mountain className="w-12 h-12 text-green-600" />
-                  <Leaf className="w-7 h-7 text-green-500 absolute -top-1 -right-1" />
-                </div>
-              </div>
-              
-              {/* Enhanced Title with ViViet Typography */}
-              <h1 className="font-['Inter'] text-6xl md:text-7xl font-bold text-slate-800 mb-6 tracking-tight leading-tight">
-                Sky Quest
-              </h1>
-              
-              {/* Refined Tagline */}
-              <p className="font-['Inter'] text-xl md:text-2xl text-slate-700/80 font-medium leading-relaxed tracking-wide">
-                Hành trình du lịch xanh tại Tà Xùa
-              </p>
-            </div>
+            {/* Sky Quest Logo image */}
+            <img 
+              src="/Logo/Official Logo.png" 
+              alt="Sky Quest Logo" 
+              className="mx-auto w-24 h-24 object-contain drop-shadow-2xl mb-8"
+            />
+            {/* Title */}
+            <h1 className="font-['Inter'] text-6xl md:text-7xl font-bold text-slate-50 drop-shadow-[0_6px_18px_rgba(0,0,0,0.35)] mb-4 tracking-tight leading-tight">
+              Sky Quest
+            </h1>
+            {/* Tagline */}
+            <p className="font-['Inter'] text-xl md:text-2xl text-slate-100/90 font-normal leading-relaxed tracking-wide">
+              Hành trình du lịch xanh tại Tà Xùa
+            </p>
 
-            {/* Progress Indicator */}
-            <div className="mb-16">
-              <div className="max-w-md mx-auto">
-                <p className="font-['Inter'] text-sm text-slate-600/90 mb-4 font-medium">Hành trình của bạn sắp bắt đầu</p>
-                <div className="w-full bg-white/60 backdrop-blur-sm rounded-full h-3 shadow-inner border border-white/30">
-                  <div className="bg-gradient-to-r from-green-500 to-blue-500 h-3 rounded-full w-0 transition-all duration-1000 animate-pulse-gentle" />
+            {/* Progress Indicator with light reflection on hover */}
+            <div className="mt-10 mb-14">
+              <div className="max-w-md mx-auto group">
+                <div className="w-full h-3 rounded-full bg-white/50 backdrop-blur-sm shadow-inner border border-white/30 overflow-hidden relative">
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute -top-3 left-0 w-24 h-10 bg-white/40 blur-md rotate-6 animate-pulse-gentle" />
+                  </div>
+                  <div className="bg-gradient-to-r from-[#16A34A] via-[#34D399] to-[#2563EB] h-3 w-0 group-hover:w-[35%] rounded-full transition-all duration-700" />
                 </div>
-                <p className="font-['Inter'] text-xs text-slate-500/80 mt-3">0% hoàn thành</p>
+                <p className="font-['Inter'] text-xs text-slate-100/90 mt-3">0% hoàn thành</p>
               </div>
             </div>
 
-            {/* Call to Action - Enhanced Button */}
+            {/* CTA button */}
             <div className="animate-fadeInUp">
-              <Button 
+              <Button
                 onClick={() => document.getElementById('mode-selection')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-['Inter'] font-semibold px-10 py-5 rounded-2xl text-lg shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-1 border border-white/20"
+                className="bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300 font-['Inter'] font-semibold px-10 py-5 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-translate-y-1"
               >
                 Bắt đầu hành trình
                 <ArrowRight className="ml-3 w-5 h-5" />
               </Button>
             </div>
           </div>
-
-          {/* Floating Elements - Enhanced */}
-          <div className="absolute top-24 left-12 animate-float-delayed opacity-60">
-            <Cloud className="w-10 h-10 text-blue-400/70" />
-          </div>
-          <div className="absolute bottom-40 right-20 animate-float opacity-70">
-            <Sparkles className="w-8 h-8 text-yellow-400/80" />
-          </div>
-          <div className="absolute top-1/3 right-12 animate-float-slow opacity-50">
-            <Mountain className="w-6 h-6 text-green-500/60" />
-          </div>
         </section>
+
+        {/* Sub Navigation - Sticky */}
+        <nav className="sticky top-[80px] z-40 bg-white/90 backdrop-blur-md border-b border-white/40 shadow-sm">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-center gap-8 overflow-x-auto">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className={`font-['Inter'] font-medium text-sm md:text-base relative group transition-colors duration-300 ${activeSection === item.id ? 'text-sky-700' : 'text-slate-700 hover:text-sky-600'}`}
+              >
+                {item.label}
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-sky-500 transition-all duration-300 ${activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+              </button>
+            ))}
+          </div>
+        </nav>
 
         {/* Description Block - Restored with ViViet Styling */}
         <section className="py-16 px-4 relative">
@@ -191,14 +246,18 @@ const SkyQuest: React.FC = () => {
                 }`}
                 onClick={() => handleModeSelect('calm')}
               >
-                {/* Background Gradient - Mây Mây Sương Sương */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" />
-                
-                {/* Hover Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-100/60 via-indigo-100/40 to-purple-100/60 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                {/* Soft Light Effect */}
-                <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                {/* Background Photo - Misty Calm */}
+                <div className="absolute inset-0">
+                  <img src="/images/website background/Tà Xùa 10.png" alt="Sương núi Tà Xùa buổi sớm" className="w-full h-full object-cover" />
+                </div>
+                {/* Blue-lilac tint overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-indigo-800/20 to-purple-900/20 mix-blend-multiply" />
+                {/* Subtle glow border on hover */}
+                <div className="absolute inset-0 rounded-3xl border border-white/20 group-hover:border-indigo-300/60 transition-colors duration-500" />
+                {/* Soft morning light */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.16),transparent_60%)] opacity-60" />
+                </div>
                 
                 <div className="relative z-10 p-10">
                   {/* Icon */}
@@ -218,25 +277,16 @@ const SkyQuest: React.FC = () => {
                     Hành trình cảm xúc – nơi du khách kết nối lại với thiên nhiên bằng sự tĩnh lặng và thả mình trong làn sương.
                   </p>
 
-                  {/* Features */}
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center text-slate-600">
-                      <Heart className="w-5 h-5 text-blue-500 mr-4 flex-shrink-0" />
-                      <span className="font-['Inter'] text-sm font-medium">Không yêu cầu xác thực phức tạp</span>
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <Sparkles className="w-5 h-5 text-indigo-500 mr-4 flex-shrink-0" />
-                      <span className="font-['Inter'] text-sm font-medium">Tông màu nhẹ nhàng, thư giãn</span>
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <Smile className="w-5 h-5 text-purple-500 mr-4 flex-shrink-0" />
-                      <span className="font-['Inter'] text-sm font-medium">Animation mềm mại, âm thanh thiên nhiên</span>
-                    </div>
+                  {/* Features (text-only, no flat icons) */}
+                  <div className="space-y-3 mb-8 text-slate-600">
+                    <p className="font-['Inter'] text-sm">Không yêu cầu xác thực phức tạp</p>
+                    <p className="font-['Inter'] text-sm">Tông màu nhẹ nhàng, thư giãn</p>
+                    <p className="font-['Inter'] text-sm">Chuyển động sương nhẹ, âm thanh thiên nhiên</p>
                   </div>
 
                   {/* Enhanced Button */}
                   <Button 
-                    className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-['Inter'] font-semibold py-4 rounded-2xl text-base transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-xl border border-white/20"
+                    className="w-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300 font-['Inter'] font-semibold py-4 rounded-2xl text-base transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     Bắt đầu hành trình bình yên
                     <ArrowRight className="ml-2 w-5 h-5" />
@@ -251,14 +301,18 @@ const SkyQuest: React.FC = () => {
                 }`}
                 onClick={() => handleModeSelect('energetic')}
               >
-                {/* Background Gradient - Hăng Say Săn Thưởng */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50" />
-                
-                {/* Hover Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-100/60 via-yellow-100/40 to-orange-100/60 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                {/* Radiant Light Effect */}
-                <div className="absolute inset-0 bg-gradient-radial from-yellow-200/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                {/* Background Photo - Energetic Trekking */}
+                <div className="absolute inset-0">
+                  <img src="/images/website background/Tà Xùa 6.png" alt="Trekking rừng Tà Xùa, nắng xuyên qua tán lá" className="w-full h-full object-cover" />
+                </div>
+                {/* Green–orange tint overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 via-yellow-800/20 to-orange-900/20 mix-blend-multiply" />
+                {/* Reflective glow border on hover */}
+                <div className="absolute inset-0 rounded-3xl border border-white/20 group-hover:border-yellow-300/60 transition-colors duration-500" />
+                {/* Sunlight reflection */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.12),transparent)] opacity-60" />
+                </div>
                 
                 <div className="relative z-10 p-10">
                   {/* Icon */}
@@ -278,25 +332,16 @@ const SkyQuest: React.FC = () => {
                     Hành trình chinh phục – nơi người tham gia vừa khám phá vừa hành động vì môi trường, ghi dấu những đóng góp thật.
                   </p>
 
-                  {/* Features */}
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center text-slate-600">
-                      <Camera className="w-5 h-5 text-green-500 mr-4 flex-shrink-0" />
-                      <span className="font-['Inter'] text-sm font-medium">Yêu cầu xác thực bằng ảnh, GPS</span>
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <Target className="w-5 h-5 text-yellow-500 mr-4 flex-shrink-0" />
-                      <span className="font-['Inter'] text-sm font-medium">Điểm số rõ ràng, thành tựu cụ thể</span>
-                    </div>
-                    <div className="flex items-center text-slate-600">
-                      <Zap className="w-5 h-5 text-orange-500 mr-4 flex-shrink-0" />
-                      <span className="font-['Inter'] text-sm font-medium">Animation năng động, màu sắc tươi sáng</span>
-                    </div>
+                  {/* Features (text-only, no flat icons) */}
+                  <div className="space-y-3 mb-8 text-slate-600">
+                    <p className="font-['Inter'] text-sm">Yêu cầu xác thực bằng ảnh, GPS</p>
+                    <p className="font-['Inter'] text-sm">Điểm số rõ ràng, thành tựu cụ thể</p>
+                    <p className="font-['Inter'] text-sm">Chuyển động phản chiếu dọc mép thẻ khi hover</p>
                   </div>
 
                   {/* Enhanced Button */}
                   <Button 
-                    className="w-full bg-gradient-to-r from-green-600 to-yellow-500 hover:from-green-700 hover:to-yellow-600 text-white font-['Inter'] font-semibold py-4 rounded-2xl text-base transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-xl border border-white/20"
+                    className="w-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300 font-['Inter'] font-semibold py-4 rounded-2xl text-base transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     Bắt đầu hành trình năng động
                     <Trophy className="ml-2 w-5 h-5" />
@@ -305,54 +350,74 @@ const SkyQuest: React.FC = () => {
               </div>
             </div>
 
-            {/* Journey Structure - Enhanced */}
-            <div className="text-center mb-20 animate-slideInUp">
+            {/* Journey Structure - Ancient Tree 3D */}
+            <div id="journey-structure" className="text-center mb-20 animate-slideInUp">
               <h3 className="font-['Inter'] text-3xl font-bold text-slate-800 mb-12 tracking-tight">Cấu Trúc Hành Trình</h3>
-              
-              {/* Journey Path */}
-              <div className="max-w-3xl mx-auto">
-                <div className="flex items-center justify-between relative">
-                  {/* Enhanced Curved Path SVG */}
-                  <svg className="absolute inset-0 w-full h-20" viewBox="0 0 500 80" fill="none">
-                    <path 
-                      d="M25 40 Q125 20 250 40 T475 40" 
-                      stroke="url(#enhancedGradient)" 
-                      strokeWidth="4" 
-                      fill="none"
-                      className="animate-draw-path"
-                    />
-                    <defs>
-                      <linearGradient id="enhancedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#16A34A" />
-                        <stop offset="25%" stopColor="#3B82F6" />
-                        <stop offset="50%" stopColor="#8B5CF6" />
-                        <stop offset="75%" stopColor="#F59E0B" />
-                        <stop offset="100%" stopColor="#EF4444" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  
-                  {/* Journey Steps */}
-                  {journeySteps.map((step, index) => (
-                    <div key={index} className="relative z-10 flex flex-col items-center group">
-                      <div className="w-16 h-16 bg-white border-4 border-green-400 rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-all duration-300 group-hover:border-blue-500 group-hover:shadow-2xl">
-                        {step.icon}
-                      </div>
-                      <span className="font-['Inter'] text-sm text-slate-600 mt-3 font-medium group-hover:text-slate-800 transition-colors">{step.label}</span>
-                    </div>
-                  ))}
+
+              <div className="relative max-w-6xl mx-auto min-h-[700px]">
+                {/* Tree trunk */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 md:w-32 lg:w-40 h-[80%] rounded-[999px] overflow-hidden shadow-2xl">
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(60,50,40,0.5),rgba(25,20,15,0.8))]" />
+                  <div className="absolute inset-0 bg-[url('/images/website background/Tà Xùa 3.png')] bg-cover bg-center opacity-30 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
                 </div>
+
+                {/* Energy line along trunk */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-[12%] h-[68%] w-[6px] rounded-full overflow-hidden shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#60A5FA] via-[#34D399] to-[#34D399] animate-glow-flow" />
+                  <div className="absolute inset-0 blur-[6px] bg-gradient-to-b from-[#60A5FA]/70 via-[#34D399]/60 to-[#34D399]/60" />
+                </div>
+
+                {/* Dynamic SVG energy path */}
+                <svg className="absolute inset-0 pointer-events-none" viewBox="0 0 1200 800" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="energyGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#60A5FA"/>
+                      <stop offset="50%" stopColor="#34D399"/>
+                      <stop offset="100%" stopColor="#2563EB"/>
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M600,800 C600,700 620,650 600,600 C580,550 620,500 600,450 C580,400 620,350 600,300"
+                    stroke="url(#energyGradient)"
+                    strokeWidth="6"
+                    fill="none"
+                    className="animate-draw-path"
+                    style={{ filter: 'drop-shadow(0 0 8px rgba(52,211,153,0.6))' }}
+                  />
+                </svg>
+
+                {/* Branches and checkpoints */}
+                {[
+                  { pos: { left: '8%', top: '65%' }, rot: -20 },
+                  { pos: { right: '6%', top: '58%' }, rot: 18 },
+                  { pos: { left: '10%', top: '45%' }, rot: -22 },
+                  { pos: { right: '8%', top: '36%' }, rot: 20 },
+                  { pos: { left: '12%', top: '25%' }, rot: -18 },
+                ].map((b, i) => (
+                  <div key={i} className="absolute" style={b.pos as React.CSSProperties}>
+                    <div 
+                      className="w-32 md:w-40 h-1.5 bg-gradient-to-r from-stone-700/70 via-stone-600/70 to-stone-500/60 shadow-md"
+                      style={{ transform: `rotate(${b.rot}deg)`, transformOrigin: 'left center' }}
+                    />
+                    <div className="mt-3">
+                      <div className="w-16 h-16 rounded-full bg-white/80 backdrop-blur-md border-4 border-[#60A5FA] shadow-2xl hover:border-[#34D399] hover:shadow-green-200/60 transition-all duration-300 flex items-center justify-center">
+                        <span className="font-['Inter'] text-sm font-semibold text-slate-700">Bước {i + 1}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              
+
               <p className="font-['Inter'] text-slate-600 mt-8 max-w-2xl mx-auto leading-relaxed">
-                Mỗi bước trong hành trình đều mang ý nghĩa riêng, dẫn dắt bạn khám phá vẻ đẹp Tà Xùa theo cách của riêng mình.
+                Mỗi nhánh cây là một chặng, checkpoint sẽ phát sáng khi hover hoặc hoàn thành. Dải năng lượng lam–lục chạy dọc thân cây gợi hành trình sống động.
               </p>
             </div>
           </div>
         </section>
 
         {/* Sky Quest System - Restored with Light Blue Background */}
-        <section className="py-24 px-4 relative">
+        <section id="common-system" className="py-24 px-4 relative">
           {/* Light Blue Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-indigo-50/60 to-blue-100/40" />
           <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-white/30" />
@@ -369,10 +434,11 @@ const SkyQuest: React.FC = () => {
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Points & Levels */}
-              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-white/50 animate-slideInUp">
+              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift border border-white/50 animate-slideInUp">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
-                    <Star className="w-10 h-10 text-white" />
+                  <div className="relative w-full h-40 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1556157383-13a495f694d2?auto=format&fit=crop&w=1200&q=80" alt="Điểm thưởng chung - Bàn tay cầm huy hiệu" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
                   </div>
                   <h3 className="font-['Inter'] text-2xl font-bold text-slate-800 mb-6 tracking-tight">
                     Điểm Thưởng Chung
@@ -384,10 +450,11 @@ const SkyQuest: React.FC = () => {
               </div>
 
               {/* Real & Virtual Rewards */}
-              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-white/50 animate-slideInUp" style={{animationDelay: '0.1s'}}>
+              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift border border-white/50 animate-slideInUp" style={{animationDelay: '0.1s'}}>
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
-                    <Gift className="w-10 h-10 text-white" />
+                  <div className="relative w-full h-40 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1511974035430-5de47d3b95da?auto=format&fit=crop&w=1200&q=80" alt="Phần thưởng đa dạng - Hộp quà mở ra ánh sáng" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
                   </div>
                   <h3 className="font-['Inter'] text-2xl font-bold text-slate-800 mb-6 tracking-tight">
                     Phần Thưởng Đa Dạng
@@ -399,10 +466,11 @@ const SkyQuest: React.FC = () => {
               </div>
 
               {/* Flexible Switching */}
-              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-white/50 animate-slideInUp" style={{animationDelay: '0.2s'}}>
+              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift border border-white/50 animate-slideInUp" style={{animationDelay: '0.2s'}}>
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
-                    <Users className="w-10 h-10 text-white" />
+                  <div className="relative w-full h-40 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=1200&q=80" alt="Chuyển đổi linh hoạt - Con đường chia nhánh trong rừng" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
                   </div>
                   <h3 className="font-['Inter'] text-2xl font-bold text-slate-800 mb-6 tracking-tight">
                     Chuyển Đổi Linh Hoạt
@@ -416,58 +484,30 @@ const SkyQuest: React.FC = () => {
           </div>
         </section>
 
-        {/* Inspiration Corner - Enhanced */}
+        {/* Final CTA - aligned with homepage style */}
         <section className="py-24 px-4 relative">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16 animate-slideInUp">
-              <h2 className="font-['Inter'] text-4xl md:text-5xl font-bold text-slate-800 mb-8 tracking-tight">
-                Góc Cảm Hứng Sky Quest
-              </h2>
-              <p className="font-['Inter'] text-xl text-slate-600 leading-relaxed">
-                Những chia sẻ chân thật từ cộng đồng Sky Quest
-              </p>
-            </div>
-
-            {/* Enhanced Testimonial Slider */}
-            <div className="relative animate-slideInUp">
-              <div className="bg-white/95 backdrop-blur-md rounded-3xl p-12 md:p-16 shadow-2xl border border-white/50">
-                <div className="text-center">
-                  <Quote className="w-16 h-16 text-green-400 mx-auto mb-8" />
-                  
-                  <blockquote className="font-['Inter'] text-2xl md:text-3xl text-slate-700 font-medium leading-relaxed mb-10 tracking-wide">
-                    "{testimonials[currentTestimonial].text}"
-                  </blockquote>
-                  
-                  <div className="flex items-center justify-center space-x-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                      <Users className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="text-left">
-                      <p className="font-['Inter'] font-bold text-slate-800 text-lg">
-                        {testimonials[currentTestimonial].author}
-                      </p>
-                      <p className="font-['Inter'] text-slate-500 text-base">
-                        {testimonials[currentTestimonial].mode}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enhanced Testimonial Indicators */}
-              <div className="flex justify-center mt-8 space-x-3">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                      index === currentTestimonial 
-                        ? 'bg-gradient-to-r from-green-500 to-blue-500 scale-125' 
-                        : 'bg-slate-300 hover:bg-slate-400'
-                    }`}
-                  />
-                ))}
-              </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-blue-500/20 to-indigo-500/20" />
+          <div className="max-w-6xl mx-auto relative z-10 text-center">
+            <h3 className="font-['Inter'] text-3xl md:text-4xl font-bold text-slate-800 mb-6 tracking-tight">
+              Sẵn sàng bắt đầu Sky Quest?
+            </h3>
+            <p className="font-['Inter'] text-lg text-slate-600 mb-8 leading-relaxed">
+              Khám phá lộ trình phù hợp và tạo dấu ấn xanh tại Tà Xùa.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                onClick={() => document.getElementById('mode-selection')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300 px-8 py-4 rounded-2xl text-base shadow-xl hover:shadow-2xl"
+              >
+                Chọn phong cách trải nghiệm
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+              <Link to="/sky-quest/journey">
+                <Button className="bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300 px-8 py-4 rounded-2xl text-base shadow-xl hover:shadow-2xl">
+                  Khám phá lộ trình
+                  <Compass className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
@@ -557,6 +597,14 @@ const SkyQuest: React.FC = () => {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.7; transform: scale(1.02); }
         }
+
+        /* Energy glow flow along the tree trunk */
+        @keyframes glow-flow {
+          0% { transform: translateY(-10%); filter: drop-shadow(0 0 6px rgba(96,165,250,0.6)); }
+          50% { transform: translateY(0%); filter: drop-shadow(0 0 10px rgba(52,211,153,0.6)); }
+          100% { transform: translateY(-10%); filter: drop-shadow(0 0 6px rgba(96,165,250,0.6)); }
+        }
+        .animate-glow-flow { animation: glow-flow 3.6s ease-in-out infinite; }
         
         @keyframes spin-gentle {
           from { transform: rotate(0deg); }

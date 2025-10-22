@@ -1,33 +1,45 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Environment variable validation
-const validateEnvironmentVariables = () => {
-  const requiredVars = {
-    VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
-    VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY
-  };
+// Read environment variables instead of hardcoding credentials
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-  // Use the known working values from .env file
-  return {
-    url: 'https://jmtombrnyjovlbjgqntd.supabase.co',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptdG9tYnJueWpvdmxiamdxbnRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMjI4MzAsImV4cCI6MjA3MzU5ODgzMH0.4YIomT2Qt9hgsJ8W_5NglEo5PkOadDyY8pnTEVHhSKc'
-  };
-};
+// Determine if Supabase is properly configured
+const SUPABASE_READY = Boolean(
+  supabaseUrl &&
+  supabaseAnonKey &&
+  !supabaseUrl.includes('your-project-id') &&
+  !supabaseAnonKey.includes('your-anon-key-here')
+);
 
-// Validate environment variables on module load
-const { url: supabaseUrl, key: supabaseAnonKey } = validateEnvironmentVariables();
+// Create Supabase client; disable auto-refresh when not configured to avoid noisy network errors
+export const supabase = SUPABASE_READY
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+      },
+    })
+  : createClient('https://invalid.supabase.local', 'invalid', {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+      },
+    });
 
-// Check if Supabase is properly configured
-const isSupabaseConfigured = () => {
-  try {
-    validateEnvironmentVariables();
-    return true;
-  } catch {
-    return false;
+// Helper to check configuration status (for UI/diagnostics)
+export const isSupabaseConfigured = () => SUPABASE_READY;
+
+// Guard to provide clear feedback when Supabase is not configured
+const ensureConfigured = () => {
+  if (!SUPABASE_READY) {
+    throw new Error(
+      'Supabase chưa được cấu hình. Vui lòng thiết lập VITE_SUPABASE_URL và VITE_SUPABASE_ANON_KEY trong file .env.'
+    );
   }
 };
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Types for user registration
 export interface UserRegistration {
@@ -40,6 +52,7 @@ export interface UserRegistration {
 // Function to register a new user
 export const registerUser = async (userData: UserRegistration) => {
   try {
+    ensureConfigured();
     // First, create the user account with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: userData.email,
@@ -96,6 +109,10 @@ export const registerUser = async (userData: UserRegistration) => {
       if (error.message.includes('Password should be at least 6 characters')) {
         throw new Error('Mật khẩu phải có ít nhất 6 ký tự.');
       }
+      // Config guard message
+      if (error.message.includes('Supabase chưa được cấu hình')) {
+        throw new Error('Hệ thống đăng ký chưa được cấu hình Supabase. Vui lòng thiết lập .env.');
+      }
       throw new Error(error.message);
     }
     
@@ -106,6 +123,7 @@ export const registerUser = async (userData: UserRegistration) => {
 // Function to check if user is logged in
 export const getCurrentUser = async () => {
   try {
+    ensureConfigured();
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) throw error;
     return user;
@@ -118,6 +136,7 @@ export const getCurrentUser = async () => {
 // Function to sign in user
 export const signInUser = async (email: string, password: string) => {
   try {
+    ensureConfigured();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -166,6 +185,7 @@ export const signInUser = async (email: string, password: string) => {
 // Function to sign out
 export const signOut = async () => {
   try {
+    ensureConfigured();
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     return { success: true };
@@ -178,6 +198,7 @@ export const signOut = async () => {
 // Function to get user session
 export const getSession = async () => {
   try {
+    ensureConfigured();
     const { data: { session }, error } = await supabase.auth.getSession();
     if (error) throw error;
     return session;
@@ -190,6 +211,7 @@ export const getSession = async () => {
 // Function to sign in with Google
 export const signInWithGoogle = async () => {
   try {
+    ensureConfigured();
     const redirectUrl = import.meta.env.VITE_APP_URL || window.location.origin;
     
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -235,5 +257,8 @@ export const signUpWithGoogle = async () => {
 
 // Function to listen to auth state changes
 export const onAuthStateChange = (callback: (event: string, session: any) => void) => {
+  if (!SUPABASE_READY) {
+    return { data: { subscription: { unsubscribe: () => {} } } } as any;
+  }
   return supabase.auth.onAuthStateChange(callback);
 };

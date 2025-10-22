@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import LazyImage from '@/components/LazyImage';
@@ -27,15 +27,26 @@ const Header = ({
   const { t } = useTranslation();
   const location = useLocation();
 
+  const [isAtTop, setIsAtTop] = useState(true);
+  useEffect(() => {
+    const onScroll = () => setIsAtTop(window.scrollY < 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const navLinks = [
     { href: '/', label: t('header.home') },
     { href: '/safety', label: 'Trung tâm An toàn' },
     { href: '/contact', label: 'Liên Hệ' },
     { href: '/about', label: 'Về chúng tôi' },
+    { href: '/skyquest', label: 'Sky Quest' },
   ];
 
+  const isSkyQuestActive = location.pathname.startsWith('/skyquest') || location.pathname.startsWith('/sky-quest');
+
   return (
-    <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+    <header className={`${isAtTop ? 'bg-white/60 border-white/20' : 'bg-white/80 border-white/30'} fixed top-0 w-full z-50 backdrop-blur-xl transition-all duration-300 border-b ${isAtTop ? 'shadow-none' : 'shadow-lg'}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -53,7 +64,7 @@ const Header = ({
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.href;
+              const isActive = link.href === '/skyquest' ? isSkyQuestActive : location.pathname === link.href;
               return (
                 <Link
                   key={link.href}
@@ -76,7 +87,7 @@ const Header = ({
           {/* Auth Section & Language Switcher */}
           <div className="hidden md:flex items-center space-x-4">
             <LanguageSwitcher />
-            
+            {/* Keep existing auth controls */}
             {isLoggedIn ? (
               <div className="flex items-center space-x-3">
                 <Button
@@ -128,7 +139,7 @@ const Header = ({
           <div className="md:hidden py-4 border-t border-border/50">
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => {
-                const isActive = location.pathname === link.href;
+                const isActive = link.href === '/skyquest' ? isSkyQuestActive : location.pathname === link.href;
                 return (
                   <Link
                     key={link.href}
