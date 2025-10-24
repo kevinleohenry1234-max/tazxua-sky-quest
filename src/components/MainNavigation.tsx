@@ -72,23 +72,30 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-xl border-b border-emerald-100/60 shadow-lg shadow-emerald-50/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo/Brand with breadcrumb */}
-          <div className="flex items-center space-x-2">
-            <Mountain className="w-6 h-6 text-green-600" />
-            <span className="font-bold text-lg text-gray-900">Tà Xùa</span>
-            {getBreadcrumb() && (
-              <>
-                <span className="text-gray-400">/</span>
-                <span className="text-green-600 font-semibold">{getBreadcrumb()}</span>
-              </>
-            )}
+        <div className="flex items-center justify-between h-16">
+          {/* Logo/Brand with breadcrumb - Enhanced */}
+          <div className="flex items-center space-x-3 group">
+            <div className="relative">
+              <Mountain className="w-7 h-7 text-emerald-600 transition-all duration-300 group-hover:text-emerald-700 group-hover:scale-110" />
+              <div className="absolute -inset-1 bg-emerald-100/50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 -z-10"></div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="font-bold text-xl text-gray-900 transition-colors duration-300 group-hover:text-emerald-800">Tà Xùa</span>
+              {getBreadcrumb() && (
+                <>
+                  <span className="text-gray-400 text-lg">/</span>
+                  <span className="text-emerald-600 font-semibold text-sm bg-emerald-50 px-2 py-1 rounded-full border border-emerald-200">
+                    {getBreadcrumb()}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          {/* Desktop Navigation - Enhanced */}
+          <div className="hidden md:flex items-center space-x-2">
             {/* Main navigation links */}
             {mainNavLinks.map((link) => {
               const isActive = location.pathname === link.href || 
@@ -97,25 +104,31 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
               
               if (link.hasDropdown) {
                 return (
-                  <div key={link.href} className="relative">
+                  <div key={link.href} className="relative group">
                     <button
                       onClick={() => handleDropdownToggle(link.label)}
-                      className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
+                      className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 group/btn relative overflow-hidden ${
                         isActive 
-                          ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                          : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                          ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                          : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
                       }`}
                     >
-                      <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                      <span className="transition-all duration-300">{link.label}</span>
-                      <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${
-                        activeDropdown === link.label ? 'rotate-180' : ''
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 to-teal-600/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                      <Icon className={`w-4 h-4 transition-all duration-300 group-hover/btn:scale-110 relative z-10 ${
+                        isActive ? 'text-white' : 'text-emerald-600'
                       }`} />
+                      <span className="transition-all duration-300 relative z-10">{link.label}</span>
+                      <ChevronDown className={`w-3 h-3 transition-all duration-300 relative z-10 ${
+                        activeDropdown === link.label ? 'rotate-180' : ''
+                      } ${isActive ? 'text-white' : 'text-emerald-600'}`} />
                     </button>
                     
-                    {/* Dropdown Menu */}
+                    {/* Enhanced Dropdown Menu */}
                     {activeDropdown === link.label && (
-                      <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                      <div className="absolute top-full left-0 mt-2 w-64 bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-emerald-100/60 py-3 z-50 animate-in slide-in-from-top-2 duration-200">
+                        <div className="px-3 pb-2 mb-2 border-b border-emerald-100">
+                          <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">{link.label}</p>
+                        </div>
                         {link.dropdownItems?.map((item) => {
                           const ItemIcon = item.icon;
                           const isItemActive = location.pathname === item.href;
@@ -124,12 +137,22 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                               key={item.href}
                               to={item.href}
                               onClick={closeDropdown}
-                              className={`flex items-center space-x-3 px-4 py-2 text-sm transition-colors hover:bg-gray-50 ${
-                                isItemActive ? 'text-green-600 bg-green-50' : 'text-gray-700'
+                              className={`flex items-center space-x-3 px-4 py-3 mx-2 rounded-xl text-sm transition-all duration-300 hover:scale-[1.02] group/item ${
+                                isItemActive 
+                                  ? 'text-emerald-700 bg-gradient-to-r from-emerald-50 to-teal-50 shadow-sm border border-emerald-200' 
+                                  : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50'
                               }`}
                             >
-                              <ItemIcon className="w-4 h-4" />
-                              <span>{item.label}</span>
+                              <div className={`p-1.5 rounded-lg transition-all duration-300 group-hover/item:scale-110 ${
+                                isItemActive 
+                                  ? 'bg-emerald-100 text-emerald-700' 
+                                  : 'bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700'
+                              }`}>
+                                <ItemIcon className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="flex-1">
+                                <span className="font-medium">{item.label}</span>
+                              </div>
                             </Link>
                           );
                         })}
@@ -143,19 +166,22 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 group/btn relative overflow-hidden ${
                     isActive 
-                      ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                      : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                      ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                      : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
                   }`}
                 >
-                  <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                  <span className="transition-all duration-300">{link.label}</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 to-teal-600/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                  <Icon className={`w-4 h-4 transition-all duration-300 group-hover/btn:scale-110 relative z-10 ${
+                    isActive ? 'text-white' : 'text-emerald-600'
+                  }`} />
+                  <span className="transition-all duration-300 relative z-10">{link.label}</span>
                 </Link>
               );
             })}
 
-            {/* User navigation links */}
+            {/* User navigation links - Enhanced */}
             {userNavLinks.map((link) => {
               const isActive = location.pathname === link.href;
               const Icon = link.icon;
@@ -163,46 +189,49 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 group/btn relative overflow-hidden ${
                     isActive 
-                      ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                      : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                      ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                      : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
                   }`}
                 >
-                  <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                  <span className="transition-all duration-300">{link.label}</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 to-teal-600/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                  <Icon className={`w-4 h-4 transition-all duration-300 group-hover/btn:scale-110 relative z-10 ${
+                    isActive ? 'text-white' : 'text-emerald-600'
+                  }`} />
+                  <span className="transition-all duration-300 relative z-10">{link.label}</span>
                 </Link>
               );
             })}
 
-            {/* Login button for non-logged in users */}
+            {/* Enhanced Login button for non-logged in users */}
             {!isLoggedIn && onLoginClick && (
               <Button
                 onClick={onLoginClick}
                 variant="outline"
                 size="sm"
-                className="flex items-center space-x-1"
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border-2 border-emerald-200 text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:border-emerald-600 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-200/50 group/login"
               >
-                <User className="w-4 h-4" />
-                <span>Đăng nhập</span>
+                <User className="w-4 h-4 transition-all duration-300 group-hover/login:scale-110" />
+                <span className="font-medium">Đăng nhập</span>
               </Button>
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Enhanced Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-green-600 hover:bg-gray-50"
+            className="md:hidden p-3 rounded-xl text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-300 hover:scale-105 border border-transparent hover:border-emerald-200"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Enhanced Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-3 border-t border-gray-200/50">
-            <div className="flex flex-col space-y-1">
-              {/* Main navigation links */}
+          <div className="md:hidden py-4 border-t border-emerald-100/50 bg-gradient-to-b from-white to-emerald-50/30 backdrop-blur-sm">
+            <div className="flex flex-col space-y-2 px-2">
+              {/* Main navigation links - Mobile Enhanced */}
               {mainNavLinks.map((link) => {
                 const isActive = location.pathname === link.href ||
                                 (link.dropdownItems && link.dropdownItems.some(item => location.pathname === item.href));
@@ -213,24 +242,26 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                     <div key={link.href}>
                       <button
                         onClick={() => handleDropdownToggle(link.label)}
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-[1.02] group/mobile ${
                           isActive 
-                            ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                            : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                            ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                            : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
                         }`}
                       >
-                        <div className="flex items-center space-x-2">
-                          <Icon className="w-4 h-4" />
-                          <span>{link.label}</span>
+                        <div className="flex items-center space-x-3">
+                          <Icon className={`w-5 h-5 transition-all duration-300 group-hover/mobile:scale-110 ${
+                            isActive ? 'text-white' : 'text-emerald-600'
+                          }`} />
+                          <span className="font-medium">{link.label}</span>
                         </div>
-                        <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${
+                        <ChevronDown className={`w-4 h-4 transition-all duration-300 group-hover/mobile:scale-110 ${
                           activeDropdown === link.label ? 'rotate-180' : ''
-                        }`} />
+                        } ${isActive ? 'text-white' : 'text-emerald-600'}`} />
                       </button>
                       
-                      {/* Mobile Dropdown Items */}
+                      {/* Enhanced Mobile Dropdown Items */}
                       {activeDropdown === link.label && (
-                        <div className="ml-6 mt-1 space-y-1">
+                        <div className="ml-4 mt-2 space-y-1 pl-4 border-l-2 border-emerald-200">
                           {link.dropdownItems?.map((item) => {
                             const ItemIcon = item.icon;
                             const isItemActive = location.pathname === item.href;
@@ -242,13 +273,15 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                                   setIsMobileMenuOpen(false);
                                   closeDropdown();
                                 }}
-                                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                                className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-[1.02] group/item ${
                                   isItemActive 
-                                    ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                                    : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                                    ? 'text-white bg-gradient-to-r from-emerald-500 to-teal-500 shadow-md shadow-emerald-200/40' 
+                                    : 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 hover:shadow-sm'
                                 }`}
                               >
-                                <ItemIcon className="w-4 h-4" />
+                                <ItemIcon className={`w-4 h-4 transition-all duration-300 group-hover/item:scale-110 ${
+                                  isItemActive ? 'text-white' : 'text-emerald-500'
+                                }`} />
                                 <span>{item.label}</span>
                               </Link>
                             );
@@ -263,20 +296,22 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                   <Link
                     key={link.href}
                     to={link.href}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-[1.02] group/mobile ${
                       isActive 
-                        ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                        : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                        ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                        : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                    <span className="transition-all duration-300">{link.label}</span>
+                    <Icon className={`w-5 h-5 transition-all duration-300 group-hover/mobile:scale-110 ${
+                      isActive ? 'text-white' : 'text-emerald-600'
+                    }`} />
+                    <span className="font-medium">{link.label}</span>
                   </Link>
                 );
               })}
 
-              {/* User navigation links */}
+              {/* Enhanced User navigation links - Mobile */}
               {userNavLinks.map((link) => {
                 const isActive = location.pathname === link.href;
                 const Icon = link.icon;
@@ -284,30 +319,32 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                   <Link
                     key={link.href}
                     to={link.href}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:scale-105 group ${
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-[1.02] group/mobile ${
                       isActive 
-                        ? 'text-primary bg-primary/10 shadow-sm border border-primary/20' 
-                        : 'text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm'
+                        ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                        : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                    <span className="transition-all duration-300">{link.label}</span>
+                    <Icon className={`w-5 h-5 transition-all duration-300 group-hover/mobile:scale-110 ${
+                      isActive ? 'text-white' : 'text-emerald-600'
+                    }`} />
+                    <span className="font-medium">{link.label}</span>
                   </Link>
                 );
               })}
 
-              {/* Login button for mobile */}
+              {/* Enhanced Login button for mobile */}
               {!isLoggedIn && onLoginClick && (
                 <button
                   onClick={() => {
                     onLoginClick();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-primary hover:bg-primary/5 hover:shadow-sm transition-all duration-300"
+                  className="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-emerald-700 hover:text-white hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:shadow-lg hover:shadow-emerald-200/50 border border-emerald-200 hover:border-emerald-600 transition-all duration-300 hover:scale-[1.02] group/login-mobile"
                 >
-                  <User className="w-4 h-4" />
-                  <span>Đăng nhập</span>
+                  <User className="w-5 h-5 transition-all duration-300 group-hover/login-mobile:scale-110" />
+                  <span className="font-medium">Đăng nhập</span>
                 </button>
               )}
             </div>

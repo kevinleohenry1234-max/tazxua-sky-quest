@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#98D8E8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B0E0E6;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2F5233;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4A7C59;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#228B22;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#696969;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2F2F2F;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="carGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D32F2F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="800" height="400" fill="url(#skyGradient)"/>
+  
+  <!-- Mountains -->
+  <path d="M0,300 Q200,200 400,250 Q600,180 800,220 L800,600 L0,600 Z" fill="url(#mountainGradient)"/>
+  
+  <!-- Road -->
+  <path d="M0,450 Q400,420 800,440 L800,500 Q400,480 0,510 Z" fill="url(#roadGradient)"/>
+  
+  <!-- Road markings -->
+  <rect x="100" y="465" width="60" height="8" fill="#FFFF00" rx="4"/>
+  <rect x="220" y="462" width="60" height="8" fill="#FFFF00" rx="4"/>
+  <rect x="340" y="460" width="60" height="8" fill="#FFFF00" rx="4"/>
+  <rect x="460" y="462" width="60" height="8" fill="#FFFF00" rx="4"/>
+  <rect x="580" y="465" width="60" height="8" fill="#FFFF00" rx="4"/>
+  
+  <!-- Car -->
+  <g transform="translate(350,430)">
+    <!-- Car body -->
+    <rect x="0" y="10" width="100" height="30" fill="url(#carGradient)" rx="5"/>
+    <!-- Car roof -->
+    <rect x="15" y="0" width="70" height="20" fill="url(#carGradient)" rx="8"/>
+    <!-- Windows -->
+    <rect x="20" y="3" width="25" height="15" fill="#87CEEB" rx="2"/>
+    <rect x="55" y="3" width="25" height="15" fill="#87CEEB" rx="2"/>
+    <!-- Wheels -->
+    <circle cx="20" cy="45" r="8" fill="#2F2F2F"/>
+    <circle cx="80" cy="45" r="8" fill="#2F2F2F"/>
+    <circle cx="20" cy="45" r="5" fill="#696969"/>
+    <circle cx="80" cy="45" r="5" fill="#696969"/>
+    <!-- Headlights -->
+    <circle cx="100" cy="20" r="3" fill="#FFFF99"/>
+    <circle cx="100" cy="30" r="3" fill="#FFFF99"/>
+  </g>
+  
+  <!-- Bus/Van -->
+  <g transform="translate(150,425)">
+    <!-- Bus body -->
+    <rect x="0" y="15" width="120" height="35" fill="#4169E1" rx="5"/>
+    <!-- Bus roof -->
+    <rect x="5" y="5" width="110" height="20" fill="#4169E1" rx="8"/>
+    <!-- Windows -->
+    <rect x="10" y="8" width="20" height="12" fill="#87CEEB" rx="2"/>
+    <rect x="35" y="8" width="20" height="12" fill="#87CEEB" rx="2"/>
+    <rect x="60" y="8" width="20" height="12" fill="#87CEEB" rx="2"/>
+    <rect x="85" y="8" width="20" height="12" fill="#87CEEB" rx="2"/>
+    <!-- Wheels -->
+    <circle cx="25" cy="55" r="10" fill="#2F2F2F"/>
+    <circle cx="95" cy="55" r="10" fill="#2F2F2F"/>
+    <circle cx="25" cy="55" r="6" fill="#696969"/>
+    <circle cx="95" cy="55" r="6" fill="#696969"/>
+    <!-- Door -->
+    <rect x="110" y="20" width="8" height="25" fill="#2F4F4F" rx="2"/>
+  </g>
+  
+  <!-- Motorcycle -->
+  <g transform="translate(550,445)">
+    <!-- Bike body -->
+    <rect x="20" y="10" width="40" height="15" fill="#FF8C00" rx="3"/>
+    <!-- Wheels -->
+    <circle cx="15" cy="25" r="12" fill="#2F2F2F"/>
+    <circle cx="65" cy="25" r="12" fill="#2F2F2F"/>
+    <circle cx="15" cy="25" r="8" fill="#696969"/>
+    <circle cx="65" cy="25" r="8" fill="#696969"/>
+    <!-- Handlebars -->
+    <rect x="60" y="5" width="15" height="3" fill="#2F2F2F" rx="1"/>
+    <!-- Seat -->
+    <rect x="25" y="8" width="20" height="5" fill="#8B4513" rx="2"/>
+  </g>
+  
+  <!-- Trees -->
+  <g transform="translate(50,350)">
+    <rect x="15" y="20" width="8" height="30" fill="#8B4513"/>
+    <circle cx="19" cy="20" r="15" fill="#228B22"/>
+  </g>
+  
+  <g transform="translate(650,320)">
+    <rect x="12" y="25" width="6" height="25" fill="#8B4513"/>
+    <circle cx="15" cy="25" r="12" fill="#228B22"/>
+  </g>
+  
+  <!-- Clouds -->
+  <g opacity="0.8">
+    <circle cx="150" cy="80" r="25" fill="white"/>
+    <circle cx="170" cy="75" r="30" fill="white"/>
+    <circle cx="190" cy="80" r="25" fill="white"/>
+  </g>
+  
+  <g opacity="0.6">
+    <circle cx="600" cy="100" r="20" fill="white"/>
+    <circle cx="615" cy="95" r="25" fill="white"/>
+    <circle cx="630" cy="100" r="20" fill="white"/>
+  </g>
+  
+  <!-- Transport icons overlay -->
+  <g transform="translate(20,20)" opacity="0.3">
+    <!-- Car icon -->
+    <rect x="0" y="8" width="30" height="12" fill="#FF6B35" rx="2"/>
+    <circle cx="8" cy="22" r="3" fill="#2F2F2F"/>
+    <circle cx="22" cy="22" r="3" fill="#2F2F2F"/>
+  </g>
+  
+  <g transform="translate(60,20)" opacity="0.3">
+    <!-- Bus icon -->
+    <rect x="0" y="6" width="35" height="15" fill="#4169E1" rx="2"/>
+    <circle cx="8" cy="23" r="3" fill="#2F2F2F"/>
+    <circle cx="27" cy="23" r="3" fill="#2F2F2F"/>
+  </g>
+  
+  <g transform="translate(105,20)" opacity="0.3">
+    <!-- Motorcycle icon -->
+    <rect x="5" y="8" width="15" height="8" fill="#FF8C00" rx="1"/>
+    <circle cx="3" cy="18" r="4" fill="#2F2F2F"/>
+    <circle cx="22" cy="18" r="4" fill="#2F2F2F"/>
+  </g>
+</svg>

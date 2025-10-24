@@ -1,204 +1,294 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserProgress, Reward, CompletedChallenge } from '../types/skyquest';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import { SkyQuestAPI, SessionWithDetails, SkyQuestMode } from '../api/skyquest';
 
+// Types
+export interface SkyQuestState {
+  mode: 'calm' | 'energetic' | null;
+  sessionId: string | null;
+  sessionData: SessionWithDetails | null;
+  modes: SkyQuestMode[];
+  loading: boolean;
+  error: string | null;
+  initialized: boolean;
+}
+
+export type SkyQuestAction =
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'SET_MODES'; payload: SkyQuestMode[] }
+  | { type: 'SET_SESSION'; payload: SessionWithDetails }
+  | { type: 'CLEAR_SESSION' }
+  | { type: 'SET_INITIALIZED'; payload: boolean }
+  | { type: 'UPDATE_PROGRESS'; payload: { stepId: string; status: string } };
+
+// Initial state
+const initialState: SkyQuestState = {
+  mode: null,
+  sessionId: null,
+  sessionData: null,
+  modes: [],
+  loading: false,
+  error: null,
+  initialized: false,
+};
+
+// Reducer
+function skyQuestReducer(state: SkyQuestState, action: SkyQuestAction): SkyQuestState {
+  switch (action.type) {
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload };
+    
+    case 'SET_ERROR':
+      return { ...state, error: action.payload, loading: false };
+    
+    case 'SET_MODES':
+      return { ...state, modes: action.payload };
+    
+    case 'SET_SESSION':
+      return {
+        ...state,
+        sessionData: action.payload,
+        sessionId: action.payload.session.id,
+        mode: action.payload.mode.key,
+        error: null,
+        loading: false,
+      };
+    
+    case 'CLEAR_SESSION':
+      return {
+        ...state,
+        sessionData: null,
+        sessionId: null,
+        mode: null,
+      };
+    
+    case 'SET_INITIALIZED':
+      return { ...state, initialized: action.payload };
+    
+    case 'UPDATE_PROGRESS':
+      if (!state.sessionData) return state;
+      
+      const updatedSteps = state.sessionData.steps.map(step =>
+        step.id === action.payload.stepId
+          ? { ...step, status: action.payload.status as any }
+          : step
+      );
+      
+      const completed = updatedSteps.filter(s => s.status === 'done' || s.status === 'verified').length;
+      
+      return {
+        ...state,
+        sessionData: {
+          ...state.sessionData,
+          steps: updatedSteps,
+          totals: {
+            ...state.sessionData.totals,
+            completed,
+          },
+        },
+      };
+    
+    default:
+      return state;
+  }
+}
+
+// Context
 interface SkyQuestContextType {
-  userProgress: UserProgress;
-  updateProgress: (modeId: string, challengeId: string, completed: boolean, score?: number) => void;
-  addReward: (reward: Reward) => void;
-  getTotalExp: () => number;
-  getTotalScore: () => number;
-  getLevel: () => number;
-  getAvailableRewards: () => Reward[];
-  claimReward: (rewardId: string) => void;
-  resetProgress: () => void;
+  state: SkyQuestState;
+  dispatch: React.Dispatch<SkyQuestAction>;
+  // Actions
+  loadModes: () => Promise<void>;
+  startSession: (modeKey: 'calm' | 'energetic') => Promise<void>;
+  loadSession: (sessionId?: string) => Promise<void>;
+  updateProgress: (stepId: string, status: string, proofUrl?: string, note?: string) => Promise<void>;
+  switchMode: (targetModeKey: 'calm' | 'energetic') => Promise<void>;
+  clearSession: () => void;
+  initialize: () => Promise<void>;
 }
 
 const SkyQuestContext = createContext<SkyQuestContextType | undefined>(undefined);
 
+// Provider
 interface SkyQuestProviderProps {
   children: ReactNode;
 }
 
-const STORAGE_KEY = 'skyquest_progress';
+export function SkyQuestProvider({ children }: SkyQuestProviderProps) {
+  const [state, dispatch] = useReducer(skyQuestReducer, initialState);
 
-const initialProgress: UserProgress = {
-  userId: 'user_001',
-  totalExp: 0,
-  level: 1,
-  completedChallenges: [],
-  rewards: [],
-  achievements: [],
-  lastActivity: new Date()
-};
+  // LocalStorage keys
+  const STORAGE_KEYS = {
+    SESSION_ID: 'skyquest.sessionId',
+    MODE: 'skyquest.mode',
+  };
 
-export const SkyQuestProvider: React.FC<SkyQuestProviderProps> = ({ children }) => {
-  const [userProgress, setUserProgress] = useState<UserProgress>(initialProgress);
-
-  // Load progress from localStorage on mount
-  useEffect(() => {
-    const savedProgress = localStorage.getItem(STORAGE_KEY);
-    if (savedProgress) {
-      try {
-        const parsed = JSON.parse(savedProgress);
-        // Convert date strings back to Date objects
-        parsed.lastActivity = new Date(parsed.lastActivity);
-        parsed.completedChallenges = parsed.completedChallenges.map((challenge: any) => ({
-          ...challenge,
-          completedAt: new Date(challenge.completedAt)
-        }));
-        setUserProgress(parsed);
-      } catch (error) {
-        console.error('Error loading Sky Quest progress:', error);
-      }
+  // Save to localStorage
+  const saveToStorage = (sessionData: SessionWithDetails) => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.SESSION_ID, sessionData.session.id);
+      localStorage.setItem(STORAGE_KEYS.MODE, sessionData.mode.key);
+    } catch (error) {
+      console.warn('Failed to save to localStorage:', error);
     }
+  };
+
+  // Load from localStorage
+  const loadFromStorage = () => {
+    try {
+      const sessionId = localStorage.getItem(STORAGE_KEYS.SESSION_ID);
+      const mode = localStorage.getItem(STORAGE_KEYS.MODE) as 'calm' | 'energetic' | null;
+      return { sessionId, mode };
+    } catch (error) {
+      console.warn('Failed to load from localStorage:', error);
+      return { sessionId: null, mode: null };
+    }
+  };
+
+  // Clear localStorage
+  const clearStorage = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEYS.SESSION_ID);
+      localStorage.removeItem(STORAGE_KEYS.MODE);
+    } catch (error) {
+      console.warn('Failed to clear localStorage:', error);
+    }
+  };
+
+  // Actions
+  const loadModes = async () => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const modes = await SkyQuestAPI.getModes();
+      dispatch({ type: 'SET_MODES', payload: modes });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load modes' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  };
+
+  const startSession = async (modeKey: 'calm' | 'energetic') => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const sessionData = await SkyQuestAPI.startSession(modeKey);
+      dispatch({ type: 'SET_SESSION', payload: sessionData });
+      saveToStorage(sessionData);
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to start session' });
+    }
+  };
+
+  const loadSession = async (sessionId?: string) => {
+    const targetSessionId = sessionId || state.sessionId;
+    if (!targetSessionId) return;
+
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const sessionData = await SkyQuestAPI.getSession(targetSessionId);
+      dispatch({ type: 'SET_SESSION', payload: sessionData });
+      saveToStorage(sessionData);
+    } catch (error) {
+      // If session not found or invalid, clear it
+      clearSession();
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load session' });
+    }
+  };
+
+  const updateProgress = async (stepId: string, status: string, proofUrl?: string, note?: string) => {
+    if (!state.sessionId) {
+      dispatch({ type: 'SET_ERROR', payload: 'No active session' });
+      return;
+    }
+
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      await SkyQuestAPI.updateProgress(state.sessionId, stepId, status as any, proofUrl, note);
+      
+      // Update local state
+      dispatch({ type: 'UPDATE_PROGRESS', payload: { stepId, status } });
+      
+      // Reload session to get updated points and unlocked steps
+      await loadSession();
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to update progress' });
+    }
+  };
+
+  const switchMode = async (targetModeKey: 'calm' | 'energetic') => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const sessionData = await SkyQuestAPI.switchMode(targetModeKey);
+      dispatch({ type: 'SET_SESSION', payload: sessionData });
+      saveToStorage(sessionData);
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to switch mode' });
+    }
+  };
+
+  const clearSession = () => {
+    dispatch({ type: 'CLEAR_SESSION' });
+    clearStorage();
+  };
+
+  const initialize = async () => {
+    if (state.initialized) return;
+
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      
+      // Load modes first
+      await loadModes();
+      
+      // Try to restore session from localStorage
+      const { sessionId } = loadFromStorage();
+      if (sessionId) {
+        try {
+          // Check if there's an active session
+          const activeSession = await SkyQuestAPI.getActiveSession();
+          if (activeSession) {
+            dispatch({ type: 'SET_SESSION', payload: activeSession });
+            saveToStorage(activeSession);
+          } else {
+            // Clear invalid session from storage
+            clearStorage();
+          }
+        } catch (error) {
+          // Clear invalid session from storage
+          clearStorage();
+        }
+      }
+      
+      dispatch({ type: 'SET_INITIALIZED', payload: true });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to initialize' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  };
+
+  // Initialize on mount
+  useEffect(() => {
+    initialize();
   }, []);
 
-  // Save progress to localStorage whenever it changes
+  // Auto-save to localStorage when session changes
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userProgress));
-  }, [userProgress]);
-
-  const updateProgress = (modeId: string, challengeId: string, completed: boolean, score: number = 0) => {
-    setUserProgress(prev => {
-      const existingChallengeIndex = prev.completedChallenges.findIndex(
-        c => c.challengeId === challengeId && c.modeId === modeId
-      );
-
-      let newCompletedChallenges = [...prev.completedChallenges];
-      let expGain = 0;
-
-      if (completed) {
-        const challengeData = {
-          challengeId,
-          modeId,
-          completedAt: new Date(),
-          score
-        };
-
-        if (existingChallengeIndex >= 0) {
-          // Update existing challenge
-          newCompletedChallenges[existingChallengeIndex] = challengeData;
-        } else {
-          // Add new completed challenge
-          newCompletedChallenges.push(challengeData);
-          // Calculate EXP gain based on mode
-          expGain = modeId === 'calm' ? 30 : 50; // Different EXP for different modes
-        }
-      } else {
-        // Remove challenge if uncompleted
-        if (existingChallengeIndex >= 0) {
-          newCompletedChallenges.splice(existingChallengeIndex, 1);
-        }
-      }
-
-      const newTotalExp = prev.totalExp + expGain;
-      const newLevel = Math.floor(newTotalExp / 100) + 1; // Level up every 100 EXP
-
-      return {
-        ...prev,
-        completedChallenges: newCompletedChallenges,
-        totalExp: newTotalExp,
-        level: newLevel,
-        lastActivity: new Date()
-      };
-    });
-  };
-
-  const addReward = (reward: Reward) => {
-    setUserProgress(prev => ({
-      ...prev,
-      rewards: [...prev.rewards, reward],
-      lastActivity: new Date()
-    }));
-  };
-
-  const getTotalExp = () => userProgress.totalExp;
-
-  const getTotalScore = () => {
-    return userProgress.completedChallenges.reduce((total, challenge) => total + challenge.score, 0);
-  };
-
-  const getLevel = () => userProgress.level;
-
-  const getAvailableRewards = (): Reward[] => {
-    const level = getLevel();
-    const totalScore = getTotalScore();
-    
-    const rewards: Reward[] = [
-      {
-        id: 'badge_peace',
-        name: 'Huy hiệu Bình An',
-        description: 'Hoàn thành mode Mây Mây Sương Sương',
-        type: 'badge',
-        requirement: 'Complete calm mode',
-        unlocked: userProgress.completedChallenges.filter(c => c.modeId === 'calm').length >= 5,
-        claimed: userProgress.rewards.some(r => r.id === 'badge_peace')
-      },
-      {
-        id: 'badge_warrior',
-        name: 'Huy hiệu Chiến Binh Xanh',
-        description: 'Hoàn thành mode Hăng Say Săn Thưởng',
-        type: 'badge',
-        requirement: 'Complete energetic mode',
-        unlocked: userProgress.completedChallenges.filter(c => c.modeId === 'energetic').length >= 5,
-        claimed: userProgress.rewards.some(r => r.id === 'badge_warrior')
-      },
-      {
-        id: 'voucher_10',
-        name: 'Voucher giảm giá 10%',
-        description: 'Giảm giá cho tour du lịch',
-        type: 'voucher',
-        requirement: 'Reach level 2',
-        unlocked: level >= 2,
-        claimed: userProgress.rewards.some(r => r.id === 'voucher_10')
-      },
-      {
-        id: 'voucher_25',
-        name: 'Voucher giảm giá 25%',
-        description: 'Giảm giá đặc biệt cho tour premium',
-        type: 'voucher',
-        requirement: 'Reach level 5',
-        unlocked: level >= 5,
-        claimed: userProgress.rewards.some(r => r.id === 'voucher_25')
-      },
-      {
-        id: 'vip_access',
-        name: 'Quyền truy cập VIP',
-        description: 'Truy cập sớm các tour mới',
-        type: 'access',
-        requirement: 'Total score 800+',
-        unlocked: totalScore >= 800,
-        claimed: userProgress.rewards.some(r => r.id === 'vip_access')
-      }
-    ];
-
-    return rewards.filter(reward => reward.unlocked && !reward.claimed);
-  };
-
-  const claimReward = (rewardId: string) => {
-    const availableRewards = getAvailableRewards();
-    const reward = availableRewards.find(r => r.id === rewardId);
-    
-    if (reward) {
-      addReward(reward);
+    if (state.sessionData) {
+      saveToStorage(state.sessionData);
     }
-  };
-
-  const resetProgress = () => {
-    setUserProgress(initialProgress);
-    localStorage.removeItem(STORAGE_KEY);
-  };
+  }, [state.sessionData]);
 
   const contextValue: SkyQuestContextType = {
-    userProgress,
+    state,
+    dispatch,
+    loadModes,
+    startSession,
+    loadSession,
     updateProgress,
-    addReward,
-    getTotalExp,
-    getTotalScore,
-    getLevel,
-    getAvailableRewards,
-    claimReward,
-    resetProgress
+    switchMode,
+    clearSession,
+    initialize,
   };
 
   return (
@@ -206,14 +296,13 @@ export const SkyQuestProvider: React.FC<SkyQuestProviderProps> = ({ children }) 
       {children}
     </SkyQuestContext.Provider>
   );
-};
+}
 
-export const useSkyQuest = (): SkyQuestContextType => {
+// Hook
+export function useSkyQuest() {
   const context = useContext(SkyQuestContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useSkyQuest must be used within a SkyQuestProvider');
   }
   return context;
-};
-
-export default SkyQuestContext;
+}

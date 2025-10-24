@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -22,6 +22,20 @@ import LazyImage from './LazyImage';
 const CategoryCards = () => {
   const navigate = useNavigate();
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Check for reduced motion preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   const categories = [
     {
@@ -79,7 +93,7 @@ const CategoryCards = () => {
   };
 
   return (
-    <section id="category-cards-section" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section id="category-cards-section" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -103,7 +117,7 @@ const CategoryCards = () => {
                 data-category={category.id}
                 className={`group relative overflow-hidden rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer 
                   h-[460px] md:h-[460px] sm:h-[380px]
-                  ${isHovered ? 'md:scale-[1.03] scale-100' : 'scale-100'}
+                  ${!prefersReducedMotion && isHovered ? 'md:scale-[1.03] scale-100' : 'scale-100'}
                   ${category.id === 'skyquest' ? 'md:col-span-2 lg:col-span-1' : ''}
                   animate-fade-up
                 `}
@@ -121,11 +135,13 @@ const CategoryCards = () => {
                     src={category.backgroundImage}
                     alt={`${category.title} - Khám phá ${category.shortDescription} tại Tà Xùa`}
                     className={`w-full h-full object-cover transition-all duration-700 ${
-                      isHovered ? 'md:scale-105 md:brightness-[1.05] scale-100' : 'scale-100'
+                      !prefersReducedMotion && isHovered ? 'md:scale-105 md:brightness-[1.05] scale-100' : 'scale-100'
                     }`}
                   />
-                  {/* Subtle text readability overlay only */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  {/* Enhanced gradient overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
+                  {/* Additional bottom overlay for text area */}
+                  <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/50 via-black/25 to-transparent" />
                 </div>
 
                 <CardContent className="relative h-full p-6 sm:p-4 flex flex-col text-white z-10">
@@ -141,32 +157,35 @@ const CategoryCards = () => {
                     </div>
                   </div>
 
-                  {/* Main Content */}
+                  {/* Main Content - Always visible at bottom */}
                   <div className="flex-1 flex flex-col justify-end">
-                    <div className="mb-4">
-                      <h3 className="font-inter text-2xl sm:text-xl font-bold text-white mb-2 leading-tight">
+                    {/* Text content area with enhanced readability */}
+                    <div className="bg-gradient-to-t from-black/40 via-black/20 to-transparent p-4 rounded-2xl backdrop-blur-sm">
+                      {/* Title with enhanced styling */}
+                      <h3 className="font-inter text-2xl sm:text-xl font-bold text-white mb-2 leading-tight drop-shadow-lg" 
+                          style={{ textShadow: '0 3px 8px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.8)' }}>
                         {category.title}
                       </h3>
+                      
                       {category.subtitle && (
-                        <p className="font-inter text-lg sm:text-base font-medium text-white/90 mb-2">
+                        <p className="font-inter text-lg sm:text-base font-medium text-white/95 mb-3 drop-shadow-md"
+                           style={{ textShadow: '0 2px 6px rgba(0,0,0,0.5)' }}>
                           {category.subtitle}
                         </p>
                       )}
-                      <p className="font-inter text-white/90 text-base sm:text-sm leading-relaxed">
+                      
+                      {/* Short description - always visible */}
+                      <p className="font-inter text-white/92 text-base sm:text-sm leading-relaxed mb-3 drop-shadow-md"
+                         style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
                         {category.shortDescription}
                       </p>
-                    </div>
 
-                    {/* Detailed Description - Slides up on hover (desktop only) */}
-                    <div 
-                      className={`transition-all duration-500 ease-out ${
-                        isHovered 
-                          ? 'md:transform md:translate-y-0 md:opacity-100 transform translate-y-0 opacity-100' 
-                          : 'md:transform md:translate-y-2 md:opacity-0 transform translate-y-0 opacity-100'
-                      }`}
-                    >
-                      <div className="mb-4">
-                        <p className="font-inter text-white/80 text-sm leading-relaxed mb-3 hidden md:block">
+                      {/* Detailed Description - always visible but with subtle opacity */}
+                      <div className={`transition-all duration-500 ease-out ${
+                        isHovered ? 'opacity-100' : 'opacity-85'
+                      }`}>
+                        <p className="font-inter text-white/88 text-sm leading-relaxed mb-4 drop-shadow-sm"
+                           style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
                           {category.detailedDescription}
                         </p>
                         
@@ -175,7 +194,8 @@ const CategoryCards = () => {
                           {category.highlights.map((highlight, index) => (
                             <span 
                               key={index}
-                              className="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white"
+                              className="px-3 py-1.5 bg-white/25 backdrop-blur-sm rounded-full text-xs font-medium text-white border border-white/20 drop-shadow-sm"
+                              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
                             >
                               {highlight}
                             </span>
@@ -184,16 +204,17 @@ const CategoryCards = () => {
 
                         {/* Exhibition Section for Explore Card */}
                         {category.hasExhibition && (
-                          <div className="mb-4 p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                          <div className="mb-4 p-3 bg-white/15 backdrop-blur-sm rounded-xl border border-white/25">
                             <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-inter text-sm font-semibold text-white flex items-center">
+                              <h4 className="font-inter text-sm font-semibold text-white flex items-center drop-shadow-sm"
+                                  style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
                                 <Camera className="w-4 h-4 mr-2" />
                                 Triển lãm văn hóa số
                               </h4>
                             </div>
                             <div className="flex gap-2 mb-2">
                               {category.exhibitionImages?.slice(0, 3).map((img, idx) => (
-                                <div key={idx} className="w-12 h-8 sm:w-10 sm:h-6 rounded overflow-hidden">
+                                <div key={idx} className="w-12 h-8 sm:w-10 sm:h-6 rounded overflow-hidden border border-white/20">
                                   <LazyImage
                                     src={img}
                                     alt={`Triển lãm ${idx + 1}`}
@@ -205,22 +226,27 @@ const CategoryCards = () => {
                             <Button
                               onClick={handleExhibitionClick}
                               size="sm"
-                              className="w-full bg-white/20 hover:bg-white/30 text-white border-0 text-xs py-1 h-7"
+                              className="w-full bg-white/25 hover:bg-white/35 text-white border border-white/30 text-xs py-1 h-7 drop-shadow-sm transition-all duration-300"
                             >
                               <Eye className="w-3 h-3 mr-1" />
                               Xem triển lãm
                             </Button>
                           </div>
                         )}
-                      </div>
 
-                      {/* CTA Button */}
-                      <Button 
-                        className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 backdrop-blur-sm rounded-xl py-3 sm:py-2 font-semibold transition-all duration-300 group/btn"
-                      >
-                        <span className="mr-2">{category.ctaText}</span>
-                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                      </Button>
+                        {/* CTA Button with enhanced styling */}
+                        <Button 
+                          className={`w-full bg-white/25 text-white border border-white/40 backdrop-blur-sm rounded-xl py-3 sm:py-2 font-semibold transition-all duration-300 group/btn drop-shadow-lg ${
+                            !prefersReducedMotion && isHovered 
+                              ? 'hover:bg-white/35 hover:border-white/60 hover:shadow-lg transform hover:scale-[1.02]' 
+                              : 'hover:bg-white/30 hover:border-white/50'
+                          }`}
+                          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}
+                        >
+                          <span className="mr-2">{category.ctaText}</span>
+                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

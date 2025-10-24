@@ -15,6 +15,7 @@ import LoginModal from '@/components/LoginModal';
 import ImagePreloader from '@/components/ImagePreloader';
 import QuickNavigation from '@/components/QuickNavigation';
 import SafetyHub from '@/components/SafetyHub';
+import SectionTransition from '@/components/SectionTransition';
 import { supabase, getCurrentUser, signOut, getSession, onAuthStateChange, signInUser, registerUser } from '@/lib/supabase';
 import { LoginData } from '@/components/LoginModal';
 import { RegisterData } from '@/components/RegisterModal';
@@ -243,21 +244,61 @@ const Index = () => {
                 onLoginClick={() => setIsLoginModalOpen(true)}
               />
               
-              {/* Seamless Content Section */}
-              <div className="py-16">
-                {/* Category Cards with Full-width Layout - Moved to top */}
-                <div className="mb-16">
+              {/* Seamless Transition from Hero */}
+              <SectionTransition 
+                variant="wave1" 
+                fromColor="from-transparent" 
+                toColor="to-gradient-to-b from-gray-50 to-white" 
+                height="h-24"
+              />
+              
+              {/* Unified Background Section - No white cuts */}
+              <div className="bg-gradient-to-b from-gray-50 via-white to-emerald-50/30 section-seamless">
+                {/* Category Cards with seamless integration */}
+                <div className="pb-20">
                   <CategoryCards />
                 </div>
                 
-                {/* Mô hình Tà Xùa Xanh with Enhanced Spacing */}
-                <div className="mb-16">
+                {/* Soft internal transition */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white h-16 -mt-8"></div>
+                  <SectionTransition 
+                    variant="wave2" 
+                    fromColor="from-transparent" 
+                    toColor="to-white/80" 
+                    height="h-12"
+                  />
+                </div>
+                
+                {/* Mô hình Tà Xùa Xanh with seamless background */}
+                <div className="py-16 bg-gradient-to-b from-white to-emerald-50/50">
                   <TaXuaGreenModel />
                 </div>
-              </div>
+                
+                {/* Soft transition to Impact */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-emerald-50 h-20 -mt-10"></div>
+                  <SectionTransition 
+                    variant="wave3" 
+                    fromColor="from-emerald-50/50" 
+                    toColor="to-emerald-50" 
+                    height="h-16"
+                  />
+                </div>
 
-              {/* Real Impact Section */}
-              <ImpactSection />
+                {/* Real Impact Section with unified background */}
+                <div className="bg-emerald-50 pt-8">
+                  <ImpactSection />
+                </div>
+              </div>
+              
+              {/* Final Transition to Footer */}
+              <SectionTransition 
+                variant="curve" 
+                fromColor="from-emerald-50" 
+                toColor="to-slate-900" 
+                height="h-28"
+              />
             </main>
             
             <Footer />

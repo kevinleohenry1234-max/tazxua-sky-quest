@@ -194,7 +194,7 @@ const ExploreSection = () => {
             {/* Locations Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredLocations.map((location) => (
-                <Card key={location.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                <Card key={location.id} className="overflow-visible hover:shadow-lg transition-shadow group">
                   <AttractionImageSlider
                     images={location.images}
                     attractionName={location.name}
@@ -282,7 +282,7 @@ const ExploreSection = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {itineraries.map((itinerary) => (
-                <Card key={itinerary.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <Card key={itinerary.id} className="overflow-visible hover:shadow-lg transition-shadow">
                   <div className={`h-48 ${itinerary.image} flex items-center justify-center`}>
                     <div className="text-white text-center">
                       <h3 className="font-playfair text-xl font-bold mb-2">{itinerary.title}</h3>

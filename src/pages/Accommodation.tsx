@@ -91,12 +91,12 @@ const serviceCategories: ServiceCategory[] = [
     bgColor: 'from-blue-500 to-blue-600'
   },
   {
-    id: 'rental',
-    title: 'Thuê Xe & Di Chuyển',
-    description: 'Tự do khám phá Tà Xùa theo cách của bạn.',
+    id: 'transport',
+    title: 'Di chuyển',
+    description: 'Tự do khám phá Tà Xùa và kết nối liên tuyến',
     icon: <CarFront className="w-8 h-8" />,
-    route: '/rental',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
+    route: '/transport',
+    bgImage: `/images/categories/transport-cover.jpg`,
     bgColor: 'from-purple-500 to-purple-600'
   },
   {
@@ -116,15 +116,6 @@ const serviceCategories: ServiceCategory[] = [
     route: '/entertainment',
     bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
     bgColor: 'from-orange-500 to-orange-600'
-  },
-  {
-    id: 'ticket',
-    title: 'Đặt Vé Xe Liên Tuyến',
-    description: 'Dễ dàng đặt vé xe Hà Nội – Tà Xùa chỉ trong vài bước.',
-    icon: <Ticket className="w-8 h-8" />,
-    route: '/ticket',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
-    bgColor: 'from-sky-500 to-sky-600'
   }
 ];
 
@@ -181,6 +172,34 @@ const Accommodation: React.FC = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Parallax and scroll effects for Hero section
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const heroElement = document.querySelector('.hero-parallax') as HTMLElement;
+      const scrollOverlay = document.getElementById('scroll-overlay') as HTMLElement;
+      
+      if (heroElement) {
+        // Parallax effect - move background slower than scroll
+        heroElement.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+      
+      if (scrollOverlay) {
+        // Fade out hero as user scrolls
+        const fadeStart = 100;
+        const fadeEnd = 400;
+        const opacity = Math.min(Math.max((scrolled - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+        scrollOverlay.style.opacity = opacity.toString();
+      }
+    };
+
+    // Only add scroll listener if not in accommodation detail view
+    if (!selectedCategory) {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [selectedCategory]);
 
   const handleLogout = async () => {
     try {
@@ -336,12 +355,7 @@ const Accommodation: React.FC = () => {
   }
 
   return (
-    <div 
-      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
-      style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
-      }}
-    >
+    <div className="min-h-screen">
       <Header
         isLoggedIn={isLoggedIn}
         userName={userName}
@@ -352,61 +366,56 @@ const Accommodation: React.FC = () => {
       />
       
       <div className="pt-16">
-        {/* Hero Section */}
-        <div className="relative py-32 text-center">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto animate-fade-in-up">
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 drop-shadow-lg tracking-tight">
-                Dịch Vụ Tại Tà Xùa
-              </h1>
-              <p className="text-xl md:text-2xl text-white/85 mb-12 drop-shadow-md font-medium leading-relaxed tracking-wide max-w-3xl mx-auto">
-                Khám phá trọn vẹn Tà Xùa – từ nghỉ dưỡng, ẩm thực đến hành trình xanh đầy cảm hứng
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Service Categories Grid */}
-        <div style={{ backgroundColor: '#F9FAF9' }} className="py-16">
-          <div className="container mx-auto px-4">
-            {/* Search Bar */}
-            <div className="mb-12">
-              <div className="bg-white rounded-2xl shadow-lg p-8 max-w-5xl mx-auto" style={{ width: '70%' }}>
-                <div className="flex flex-col lg:flex-row gap-6">
-                  <div className="flex-1 relative">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    <input
-                      type="text"
-                      placeholder="Tìm kiếm dịch vụ, homestay, nhà hàng hoặc tour bạn quan tâm…"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-gray-700 placeholder-gray-500 text-base"
-                    />
-                  </div>
-                  <Button
-                    onClick={() => setShowFilters(!showFilters)}
-                    variant="outline"
-                    className="px-6 py-4 border-2 hover:bg-gray-50 rounded-xl transition-all duration-200"
-                    style={{ borderColor: '#0A7B61', color: '#0A7B61' }}
-                  >
-                    <Filter className="w-5 h-5" />
-                  </Button>
-                </div>
+        {/* Hero Section with Parallax */}
+        <div 
+          className="relative h-[70vh] bg-cover bg-center bg-fixed overflow-hidden hero-parallax"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url('/images/hero/taxua-homestay-hero.jpg')`
+          }}
+        >
+          {/* Parallax content */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="container mx-auto px-4 text-center">
+              <div className="max-w-4xl mx-auto animate-fade-in-up">
+                <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 drop-shadow-2xl tracking-tight">
+                  Dịch Vụ Tại Tà Xùa
+                </h1>
+                <p className="text-xl md:text-2xl text-white/90 mb-12 drop-shadow-lg font-medium leading-relaxed tracking-wide max-w-3xl mx-auto">
+                  Khám phá trọn vẹn Tà Xùa — từ nghỉ dưỡng, ẩm thực đến hành trình xanh đầy cảm hứng.
+                </p>
                 
-                {/* Search Suggestions Dropdown */}
-                {searchTerm && (
-                  <div className="mt-4 bg-white rounded-xl shadow-md border border-gray-100 p-4">
-                    <div className="text-sm text-gray-600 mb-2">Gợi ý tìm kiếm:</div>
-                    <div className="space-y-2">
-                      <div className="text-gray-700 hover:text-emerald-600 cursor-pointer py-1">Homestay view núi</div>
-                      <div className="text-gray-700 hover:text-emerald-600 cursor-pointer py-1">Ẩm thực H'Mông</div>
-                      <div className="text-gray-700 hover:text-emerald-600 cursor-pointer py-1">Tour trekking</div>
+                {/* Search Bar in Hero */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 max-w-3xl mx-auto">
+                  <div className="flex flex-col lg:flex-row gap-4">
+                    <div className="flex-1 relative">
+                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <input
+                        type="text"
+                        placeholder="Tìm homestay, nhà hàng, tour, di chuyển…"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-gray-700 placeholder-gray-500 text-base"
+                      />
                     </div>
+                    <Button
+                      onClick={() => setShowFilters(!showFilters)}
+                      className="px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200"
+                    >
+                      <Filter className="w-5 h-5" />
+                    </Button>
                   </div>
-                )}
+                </div>
               </div>
             </div>
+          </div>
+          
+          {/* Scroll fade overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F9FAF9] opacity-0 transition-opacity duration-500" id="scroll-overlay"></div>
+        </div>
 
+        {/* Service Categories Grid - Seamless transition */}
+        <div style={{ backgroundColor: '#F9FAF9' }} className="py-16 -mt-1">
+          <div className="container mx-auto px-4">
             {/* Service Categories Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {serviceCategories.map((category, index) => (
@@ -422,7 +431,9 @@ const Accommodation: React.FC = () => {
                   <div 
                     className="relative h-80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 bg-cover bg-center"
                     style={{
-                      backgroundImage: category.bgImage
+                      backgroundImage: category.bgImage.startsWith('/') 
+                        ? `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('${category.bgImage}')`
+                        : category.bgImage
                     }}
                   >
                     {/* Icon at top-left */}

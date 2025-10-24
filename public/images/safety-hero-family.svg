@@ -1,0 +1,111 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient with warm tones -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8C77A;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#F4D03F;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#0D5C4C;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0D5C4C;stop-opacity:1" />
+    </linearGradient>
+    
+    <radialGradient id="sunGradient" cx="80%" cy="20%" r="15%">
+      <stop offset="0%" style="stop-color:#F7DC6F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#E8C77A;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#E8C77A;stop-opacity:0.3" />
+    </radialGradient>
+    
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+    </filter>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1920" height="1080" fill="url(#skyGradient)"/>
+  
+  <!-- Sun -->
+  <circle cx="1536" cy="216" r="120" fill="url(#sunGradient)"/>
+  
+  <!-- Mountain layers -->
+  <path d="M0 600 Q480 400 960 500 Q1440 450 1920 550 L1920 1080 L0 1080 Z" fill="#0D5C4C" opacity="0.9"/>
+  <path d="M0 700 Q320 550 640 600 Q1280 580 1920 650 L1920 1080 L0 1080 Z" fill="#148A6B" opacity="0.8"/>
+  <path d="M0 800 Q480 700 960 750 Q1440 720 1920 780 L1920 1080 L0 1080 Z" fill="#1ABC9C" opacity="0.7"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="300" cy="200" rx="80" ry="40" fill="white" opacity="0.6" filter="url(#blur)"/>
+  <ellipse cx="320" cy="180" rx="60" ry="30" fill="white" opacity="0.7" filter="url(#blur)"/>
+  <ellipse cx="280" cy="190" rx="50" ry="25" fill="white" opacity="0.8" filter="url(#blur)"/>
+  
+  <ellipse cx="800" cy="150" rx="100" ry="50" fill="white" opacity="0.5" filter="url(#blur)"/>
+  <ellipse cx="830" cy="130" rx="70" ry="35" fill="white" opacity="0.6" filter="url(#blur)"/>
+  
+  <ellipse cx="1400" cy="180" rx="90" ry="45" fill="white" opacity="0.6" filter="url(#blur)"/>
+  <ellipse cx="1420" cy="160" rx="60" ry="30" fill="white" opacity="0.7" filter="url(#blur)"/>
+  
+  <!-- Trees on mountains -->
+  <g opacity="0.6">
+    <!-- Pine trees -->
+    <polygon points="200,650 220,550 240,650" fill="#0D5C4C"/>
+    <polygon points="190,680 230,580 270,680" fill="#0D5C4C"/>
+    <polygon points="350,620 370,520 390,620" fill="#148A6B"/>
+    <polygon points="500,680 520,580 540,680" fill="#0D5C4C"/>
+    <polygon points="700,640 720,540 740,640" fill="#148A6B"/>
+    <polygon points="1200,660 1220,560 1240,660" fill="#0D5C4C"/>
+    <polygon points="1500,620 1520,520 1540,620" fill="#148A6B"/>
+    <polygon points="1700,680 1720,580 1740,680" fill="#0D5C4C"/>
+  </g>
+  
+  <!-- Family silhouettes on mountain slope -->
+  <g transform="translate(800, 600)" opacity="0.8">
+    <!-- Parent 1 (standing, pointing) -->
+    <ellipse cx="0" cy="0" rx="15" ry="12" fill="#2C3E50"/> <!-- head -->
+    <rect x="-8" y="12" width="16" height="35" rx="8" fill="#E74C3C"/> <!-- body -->
+    <rect x="-12" y="20" width="8" height="25" rx="4" fill="#E74C3C"/> <!-- arm pointing -->
+    <rect x="4" y="20" width="8" height="25" rx="4" fill="#E74C3C"/> <!-- arm -->
+    <rect x="-6" y="47" width="6" height="30" rx="3" fill="#34495E"/> <!-- leg -->
+    <rect x="0" y="47" width="6" height="30" rx="3" fill="#34495E"/> <!-- leg -->
+  </g>
+  
+  <g transform="translate(850, 620)" opacity="0.8">
+    <!-- Parent 2 (sitting) -->
+    <ellipse cx="0" cy="0" rx="12" ry="10" fill="#2C3E50"/> <!-- head -->
+    <rect x="-6" y="10" width="12" height="25" rx="6" fill="#9B59B6"/> <!-- body -->
+    <rect x="-8" y="15" width="6" height="20" rx="3" fill="#9B59B6"/> <!-- arm -->
+    <rect x="2" y="15" width="6" height="20" rx="3" fill="#9B59B6"/> <!-- arm -->
+    <rect x="-8" y="35" width="16" height="8" rx="4" fill="#34495E"/> <!-- sitting legs -->
+  </g>
+  
+  <g transform="translate(780, 640)" opacity="0.8">
+    <!-- Child 1 (running) -->
+    <ellipse cx="0" cy="0" rx="8" ry="6" fill="#2C3E50"/> <!-- head -->
+    <rect x="-4" y="6" width="8" height="18" rx="4" fill="#F39C12"/> <!-- body -->
+    <rect x="-6" y="10" width="4" height="12" rx="2" fill="#F39C12"/> <!-- arm -->
+    <rect x="2" y="10" width="4" height="12" rx="2" fill="#F39C12"/> <!-- arm -->
+    <rect x="-3" y="24" width="3" height="15" rx="2" fill="#34495E"/> <!-- leg -->
+    <rect x="0" y="24" width="3" height="15" rx="2" fill="#34495E"/> <!-- leg -->
+  </g>
+  
+  <g transform="translate(880, 635)" opacity="0.8">
+    <!-- Child 2 (playing) -->
+    <ellipse cx="0" cy="0" rx="7" ry="5" fill="#2C3E50"/> <!-- head -->
+    <rect x="-3" y="5" width="6" height="15" rx="3" fill="#E67E22"/> <!-- body -->
+    <rect x="-5" y="8" width="3" height="10" rx="2" fill="#E67E22"/> <!-- arm -->
+    <rect x="2" y="8" width="3" height="10" rx="2" fill="#E67E22"/> <!-- arm -->
+    <rect x="-2" y="20" width="2" height="12" rx="1" fill="#34495E"/> <!-- leg -->
+    <rect x="0" y="20" width="2" height="12" rx="1" fill="#34495E"/> <!-- leg -->
+  </g>
+  
+  <!-- Mist/fog effect -->
+  <ellipse cx="400" cy="700" rx="200" ry="50" fill="white" opacity="0.3" filter="url(#blur)"/>
+  <ellipse cx="800" cy="750" rx="300" ry="60" fill="white" opacity="0.2" filter="url(#blur)"/>
+  <ellipse cx="1200" cy="720" rx="250" ry="40" fill="white" opacity="0.25" filter="url(#blur)"/>
+  
+  <!-- Overlay gradient for text readability -->
+  <rect width="1920" height="1080" fill="url(#overlayGradient)"/>
+  <defs>
+    <linearGradient id="overlayGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(0,0,0,0);stop-opacity:0" />
+      <stop offset="60%" style="stop-color:rgba(0,0,0,0.1);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(0,0,0,0.35);stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
