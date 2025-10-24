@@ -1749,13 +1749,21 @@ html {
 
 /* Color schemes */
 :root {
-  /* Safety Center color scheme */
+  /* Ta Xua Safety Center color scheme - Updated for 3D realistic design */
   --safety-emerald: #10B981;
+  --safety-emerald-light: #34D399;
+  --safety-emerald-dark: #065F46;
   --safety-sunrise: #F59E0B;
-  --safety-light: #F0FDF4;
+  --safety-sunrise-light: #FDE68A;
+  --safety-sunrise-dark: #D97706;
+  --safety-mist: #F8FAFC;
+  --safety-mist-light: #FFFFFF;
+  --safety-mist-dark: #E2E8F0;
   --safety-red: #EF4444;
   --safety-orange: #F97316;
   --safety-yellow: #EAB308;
+  --safety-teal: #14B8A6;
+  --safety-amber: #F59E0B;
 
   /* Explore page color scheme */
   --explore-emerald: #1E7C70;
@@ -1767,17 +1775,36 @@ html {
   --explore-sunrise-dark: #D97706;
 }
 
-/* Safety-specific styles */
+/* Ta Xua Safety Center utility classes */
 .safety-emerald { color: var(--safety-emerald); }
+.safety-emerald-light { color: var(--safety-emerald-light); }
+.safety-emerald-dark { color: var(--safety-emerald-dark); }
 .safety-sunrise { color: var(--safety-sunrise); }
-.safety-light { color: var(--safety-light); }
+.safety-sunrise-light { color: var(--safety-sunrise-light); }
+.safety-sunrise-dark { color: var(--safety-sunrise-dark); }
+.safety-mist { color: var(--safety-mist); }
+.safety-mist-light { color: var(--safety-mist-light); }
+.safety-mist-dark { color: var(--safety-mist-dark); }
 
 .bg-safety-emerald { background-color: var(--safety-emerald); }
+.bg-safety-emerald-light { background-color: var(--safety-emerald-light); }
+.bg-safety-emerald-dark { background-color: var(--safety-emerald-dark); }
 .bg-safety-sunrise { background-color: var(--safety-sunrise); }
-.bg-safety-light { background-color: var(--safety-light); }
+.bg-safety-sunrise-light { background-color: var(--safety-sunrise-light); }
+.bg-safety-sunrise-dark { background-color: var(--safety-sunrise-dark); }
+.bg-safety-mist { background-color: var(--safety-mist); }
+.bg-safety-mist-light { background-color: var(--safety-mist-light); }
+.bg-safety-mist-dark { background-color: var(--safety-mist-dark); }
 
 .border-safety-emerald { border-color: var(--safety-emerald); }
+.border-safety-emerald-light { border-color: var(--safety-emerald-light); }
+.border-safety-emerald-dark { border-color: var(--safety-emerald-dark); }
 .border-safety-sunrise { border-color: var(--safety-sunrise); }
+.border-safety-sunrise-light { border-color: var(--safety-sunrise-light); }
+.border-safety-sunrise-dark { border-color: var(--safety-sunrise-dark); }
+.border-safety-mist { border-color: var(--safety-mist); }
+.border-safety-mist-light { border-color: var(--safety-mist-light); }
+.border-safety-mist-dark { border-color: var(--safety-mist-dark); }
 
 /* Explore-specific styles */
 .explore-emerald { color: var(--explore-emerald); }
