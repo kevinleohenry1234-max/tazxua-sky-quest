@@ -70,7 +70,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Nghỉ dưỡng giữa mây trời Tây Bắc.',
     icon: <Home className="w-8 h-8" />,
     route: '/accommodation',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/Homestay.png')`,
     bgColor: 'from-emerald-500 to-emerald-600'
   },
   {
@@ -79,7 +79,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Thưởng thức hương vị H\'Mông và Shan Tuyết.',
     icon: <UtensilsCrossed className="w-8 h-8" />,
     route: '/restaurant',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/Restaurant.png')`,
     bgColor: 'from-red-500 to-red-600'
   },
   {
@@ -88,7 +88,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Khám phá hành trình xanh cùng hướng dẫn viên địa phương.',
     icon: <MapIcon className="w-8 h-8" />,
     route: '/tour',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/Tour.png')`,
     bgColor: 'from-blue-500 to-blue-600'
   },
   {
@@ -97,7 +97,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Tự do khám phá Tà Xùa và kết nối liên tuyến',
     icon: <CarFront className="w-8 h-8" />,
     route: '/transport',
-    bgImage: `/images/categories/transport-cover.jpg`,
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/transportation.png')`,
     bgColor: 'from-purple-500 to-purple-600'
   },
   {
@@ -106,7 +106,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Thư giãn giữa núi rừng với spa và trị liệu thảo mộc.',
     icon: <Sparkles className="w-8 h-8" />,
     route: '/wellness',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/relax.png')`,
     bgColor: 'from-pink-500 to-pink-600'
   },
   {
@@ -115,7 +115,7 @@ const serviceCategories: ServiceCategory[] = [
     description: 'Âm nhạc, cà phê, không gian nghệ thuật và triển lãm số.',
     icon: <Music className="w-8 h-8" />,
     route: '/entertainment',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`,
+    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/activity.png')`,
     bgColor: 'from-orange-500 to-orange-600'
   }
 ];

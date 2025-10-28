@@ -1,0 +1,108 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sunsetSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE0B2;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#FFCC80;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FF8A65;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF7043;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sunGradient2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFF59D;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FFB74D;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#FF8A65;stop-opacity:0.3" />
+    </radialGradient>
+    <linearGradient id="grassGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8BC34A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#689F38;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sunset sky -->
+  <rect width="400" height="300" fill="url(#sunsetSky)"/>
+  
+  <!-- Sun -->
+  <circle cx="320" cy="80" r="25" fill="url(#sunGradient2)"/>
+  
+  <!-- Mountain silhouettes -->
+  <path d="M0,150 Q100,130 200,140 Q300,125 400,135 L400,300 L0,300 Z" fill="#2E7D32" opacity="0.8"/>
+  <path d="M0,170 Q150,155 300,160 Q350,158 400,160 L400,300 L0,300 Z" fill="#1B5E20" opacity="0.6"/>
+  
+  <!-- Grassy hilltop -->
+  <ellipse cx="200" cy="220" rx="100" ry="25" fill="url(#grassGradient)"/>
+  
+  <!-- Tea mat/blanket -->
+  <ellipse cx="200" cy="225" rx="60" ry="15" fill="#8D6E63" opacity="0.7"/>
+  <ellipse cx="200" cy="223" rx="55" ry="12" fill="#A1887F"/>
+  
+  <!-- People sitting in circle -->
+  <!-- Local person 1 -->
+  <g transform="translate(170,210)">
+    <circle cx="0" cy="-10" r="4" fill="#FFDBCB"/>
+    <rect x="-6" y="-4" width="12" height="15" fill="#1A237E"/>
+    <rect x="-8" y="11" width="16" height="12" fill="#4A148C"/>
+    <!-- Traditional headwrap -->
+    <ellipse cx="0" cy="-12" rx="6" ry="2" fill="#212121"/>
+    <!-- Tea cup -->
+    <ellipse cx="5" cy="5" rx="2" ry="1" fill="#8D6E63"/>
+  </g>
+  
+  <!-- Tourist 1 -->
+  <g transform="translate(200,215)">
+    <circle cx="0" cy="-8" r="3.5" fill="#FFDBCB"/>
+    <rect x="-5" y="-3" width="10" height="12" fill="#2196F3"/>
+    <rect x="-6" y="9" width="12" height="10" fill="#424242"/>
+    <!-- Tea cup -->
+    <ellipse cx="-5" cy="3" rx="2" ry="1" fill="#8D6E63"/>
+  </g>
+  
+  <!-- Local person 2 -->
+  <g transform="translate(230,210)">
+    <circle cx="0" cy="-9" r="4" fill="#FFDBCB"/>
+    <rect x="-6" y="-3" width="12" height="14" fill="#4A148C"/>
+    <rect x="-7" y="11" width="14" height="11" fill="#E91E63"/>
+    <!-- Traditional hat -->
+    <ellipse cx="0" cy="-11" rx="5" ry="2" fill="#212121"/>
+    <!-- Tea cup -->
+    <ellipse cx="6" cy="4" rx="2" ry="1" fill="#8D6E63"/>
+  </g>
+  
+  <!-- Tourist 2 -->
+  <g transform="translate(180,220)">
+    <circle cx="0" cy="-7" r="3" fill="#FFDBCB"/>
+    <rect x="-4" y="-2" width="8" height="10" fill="#4CAF50"/>
+    <rect x="-5" y="8" width="10" height="8" fill="#795548"/>
+    <!-- Tea cup -->
+    <ellipse cx="4" cy="2" rx="2" ry="1" fill="#8D6E63"/>
+  </g>
+  
+  <!-- Tea set in center -->
+  <!-- Tea pot -->
+  <ellipse cx="200" cy="230" rx="6" ry="4" fill="#8D6E63"/>
+  <ellipse cx="200" cy="228" rx="4" ry="3" fill="#A1887F"/>
+  <line x1="206" y1="228" x2="210" y2="225" stroke="#8D6E63" stroke-width="1"/>
+  
+  <!-- Additional tea cups -->
+  <ellipse cx="190" cy="235" rx="2" ry="1" fill="#6D4C41"/>
+  <ellipse cx="210" cy="233" rx="2" ry="1" fill="#6D4C41"/>
+  <ellipse cx="195" cy="240" rx="2" ry="1" fill="#6D4C41"/>
+  
+  <!-- Steam from tea -->
+  <path d="M200,225 Q202,220 200,215 Q198,210 200,205" stroke="#E0E0E0" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M195,227 Q197,222 195,217" stroke="#E0E0E0" stroke-width="1" fill="none" opacity="0.4"/>
+  
+  <!-- Sunset lighting on people -->
+  <ellipse cx="200" cy="200" rx="80" ry="40" fill="#FFB74D" opacity="0.2"/>
+  
+  <!-- Grass details -->
+  <line x1="150" y1="240" x2="150" y2="245" stroke="#689F38" stroke-width="2"/>
+  <line x1="155" y1="242" x2="155" y2="247" stroke="#8BC34A" stroke-width="1"/>
+  <line x1="245" y1="238" x2="245" y2="243" stroke="#689F38" stroke-width="2"/>
+  <line x1="250" y1="240" x2="250" y2="245" stroke="#8BC34A" stroke-width="1"/>
+  
+  <!-- Distant clouds -->
+  <ellipse cx="100" cy="100" rx="30" ry="8" fill="#FFFFFF" opacity="0.6"/>
+  <ellipse cx="150" cy="95" rx="25" ry="6" fill="#FFFFFF" opacity="0.5"/>
+  
+  <!-- Peaceful atmosphere glow -->
+  <ellipse cx="200" cy="180" rx="120" ry="60" fill="#FFF59D" opacity="0.1"/>
+</svg>

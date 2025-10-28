@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, ArrowRight, Mountain, Play, Search, User, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LazyImage from '@/components/LazyImage';
-import SearchBar from '@/components/SearchBar';
+import SearchDashboard from '@/components/SearchDashboard';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
 import heroImage3 from '@/assets/shan-tuyet-tea.jpg';
@@ -139,14 +139,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
         </div>
 
-        {/* Soft Search Experience */}
-         <div className="mb-12 max-w-2xl mx-auto">
-             <SearchBar
-               onSearch={(query, category) => {
-                 console.log('Search:', query, category);
+        {/* Modern Search Dashboard */}
+         <div className="mb-12 max-w-6xl mx-auto">
+             <SearchDashboard
+               onSearch={(searchData) => {
+                 console.log('Search:', searchData);
                  handleDirectSearch();
                }}
-               onExploreClick={handleDirectSearch}
              />
          </div>
 

@@ -1,0 +1,100 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="forestCanopy" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E7D32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1B5E20;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sunlight" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" style="stop-color:#FFF9C4;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#FFF9C4;stop-opacity:0.1" />
+    </radialGradient>
+    <linearGradient id="fernGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2E7D32;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Forest canopy background -->
+  <rect width="400" height="300" fill="url(#forestCanopy)"/>
+  
+  <!-- Sunlight filtering through trees -->
+  <ellipse cx="150" cy="0" rx="60" ry="120" fill="url(#sunlight)"/>
+  <ellipse cx="280" cy="0" rx="40" ry="100" fill="url(#sunlight)"/>
+  
+  <!-- Large tree trunks -->
+  <rect x="50" y="0" width="15" height="300" fill="#5D4037"/>
+  <rect x="320" y="0" width="20" height="300" fill="#6D4C41"/>
+  <rect x="380" y="50" width="12" height="250" fill="#5D4037"/>
+  <rect x="10" y="80" width="18" height="220" fill="#8D6E63"/>
+  
+  <!-- Tree branches -->
+  <ellipse cx="57" cy="100" rx="25" ry="8" fill="#4CAF50"/>
+  <ellipse cx="330" cy="80" rx="30" ry="10" fill="#2E7D32"/>
+  <ellipse cx="386" cy="120" rx="20" ry="6" fill="#388E3C"/>
+  
+  <!-- Large ferns -->
+  <g transform="translate(100,200)">
+    <path d="M0,0 Q-15,-20 -25,-15 Q-20,-10 -10,-5 Q-5,0 0,0" fill="url(#fernGradient)"/>
+    <path d="M0,0 Q15,-18 25,-12 Q20,-8 10,-3 Q5,2 0,0" fill="url(#fernGradient)"/>
+    <path d="M0,0 Q-10,-25 -20,-20 Q-15,-15 -5,-8 Q0,-3 0,0" fill="#4CAF50"/>
+    <path d="M0,0 Q10,-22 20,-18 Q15,-12 5,-6 Q2,-1 0,0" fill="#4CAF50"/>
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#2E7D32" stroke-width="3"/>
+  </g>
+  
+  <g transform="translate(250,180)">
+    <path d="M0,0 Q-20,-25 -30,-18 Q-25,-12 -12,-6 Q-6,0 0,0" fill="url(#fernGradient)"/>
+    <path d="M0,0 Q18,-22 28,-15 Q23,-10 12,-4 Q6,1 0,0" fill="url(#fernGradient)"/>
+    <path d="M0,0 Q-12,-28 -22,-22 Q-18,-16 -8,-9 Q-2,-2 0,0" fill="#4CAF50"/>
+    <line x1="0" y1="0" x2="0" y2="35" stroke="#2E7D32" stroke-width="3"/>
+  </g>
+  
+  <!-- Smaller vegetation -->
+  <ellipse cx="150" cy="250" rx="20" ry="8" fill="#4CAF50"/>
+  <ellipse cx="200" cy="260" rx="15" ry="6" fill="#2E7D32"/>
+  <ellipse cx="300" cy="240" rx="25" ry="10" fill="#388E3C"/>
+  
+  <!-- Forest path -->
+  <path d="M0,280 Q100,270 200,275 Q300,280 400,275" stroke="#8D6E63" stroke-width="20" fill="none" opacity="0.6"/>
+  <path d="M0,280 Q100,270 200,275 Q300,280 400,275" stroke="#A1887F" stroke-width="15" fill="none" opacity="0.4"/>
+  
+  <!-- Trekking group -->
+  <!-- Person 1 (leading) -->
+  <g transform="translate(180,250)">
+    <circle cx="0" cy="-15" r="4" fill="#FFDBCB"/>
+    <rect x="-6" y="-8" width="12" height="15" fill="#FF5722"/>
+    <rect x="-7" y="7" width="14" height="12" fill="#424242"/>
+    <!-- Backpack -->
+    <rect x="-8" y="-5" width="4" height="10" fill="#2196F3"/>
+    <!-- Trekking pole -->
+    <line x1="8" y1="-5" x2="12" y2="10" stroke="#8D6E63" stroke-width="2"/>
+  </g>
+  
+  <!-- Person 2 -->
+  <g transform="translate(160,255)">
+    <circle cx="0" cy="-12" r="3.5" fill="#FFDBCB"/>
+    <rect x="-5" y="-6" width="10" height="12" fill="#4CAF50"/>
+    <rect x="-6" y="6" width="12" height="10" fill="#795548"/>
+    <!-- Backpack -->
+    <rect x="-7" y="-3" width="3" height="8" fill="#E91E63"/>
+  </g>
+  
+  <!-- Person 3 -->
+  <g transform="translate(200,260)">
+    <circle cx="0" cy="-10" r="3" fill="#FFDBCB"/>
+    <rect x="-4" y="-4" width="8" height="10" fill="#9C27B0"/>
+    <rect x="-5" y="6" width="10" height="8" fill="#424242"/>
+    <!-- Backpack -->
+    <rect x="-6" y="-2" width="3" height="7" fill="#FF9800"/>
+  </g>
+  
+  <!-- Wet forest floor -->
+  <ellipse cx="200" cy="290" rx="150" ry="10" fill="#3E2723" opacity="0.5"/>
+  
+  <!-- Moss on trees -->
+  <ellipse cx="55" cy="150" rx="8" ry="15" fill="#4CAF50" opacity="0.7"/>
+  <ellipse cx="325" cy="180" rx="10" ry="20" fill="#2E7D32" opacity="0.6"/>
+  
+  <!-- Atmospheric mist -->
+  <ellipse cx="120" cy="200" rx="40" ry="15" fill="#E0E0E0" opacity="0.3"/>
+  <ellipse cx="280" cy="220" rx="35" ry="12" fill="#E0E0E0" opacity="0.2"/>
+</svg>

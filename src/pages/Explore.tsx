@@ -5,19 +5,41 @@ import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Mountain, UtensilsCrossed, Palette, Users, ArrowRight, Sparkles } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { 
+  MapPin, 
+  Mountain, 
+  UtensilsCrossed, 
+  Palette, 
+  Users, 
+  ArrowRight, 
+  Sparkles, 
+  Search,
+  Calendar as CalendarIcon,
+  Star,
+  Heart,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react';
 import LazyImage from '@/components/LazyImage';
 import { useNavigate } from 'react-router-dom';
 import { useScrollAnimation, animationClasses } from '@/hooks/useScrollAnimation';
 import { useParallax } from '@/hooks/useParallax';
-import ActivitiesSection from '@/components/ActivitiesSection';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 const Explore = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [favoriteActivities, setFavoriteActivities] = useState<Set<string>>(new Set());
+  const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
 
   // Parallax effect for hero background
-  const parallaxOffset = useParallax(-0.3);
+  const parallaxOffset = useParallax(-0.2);
 
   // Scroll animations for different sections
   const heroAnimation = useScrollAnimation({ threshold: 0.2 });
@@ -28,234 +50,533 @@ const Explore = () => {
     setIsVisible(true);
   }, []);
 
-  // Dữ liệu cho 4 khối nội dung chính
-  const exploreBlocks = [
+  // Dữ liệu cho 4 khối khám phá chính
+  const exploreCategories = [
     {
       id: 'locations',
       title: 'Địa Điểm',
-      subtitle: 'Khám phá những điểm đến tuyệt vời',
-      description: 'Từ đỉnh núi hùng vĩ đến những bản làng yên bình, khám phá vẻ đẹp nguyên sơ của Tà Xùa với những địa điểm được xác thực bởi cộng đồng.',
+      description: 'Từ đỉnh núi, bản làng đến rừng nguyên sinh.',
+      hashtags: ['#Đỉnh Tà Xùa', '#Bản Phình Hồ', '#Sống lưng khủng long'],
       image: '/images/explore/DESTINATION.png',
-      fallbackImage: '/hero-taxua-clouds.jpg',
       icon: <Mountain className="w-8 h-8" />,
       route: '/attractions',
-      gradient: 'from-emerald-600 to-teal-700',
-      highlights: ['Đỉnh Tà Xùa', 'Sống lưng khủng long', 'Bản Phình Hồ', 'Rừng thông nguyên sinh']
+      gradient: 'from-emerald-500 to-teal-600'
     },
     {
       id: 'cuisine',
       title: 'Ẩm Thực',
-      subtitle: 'Trải nghiệm hương vị Tây Bắc',
-      description: 'Thưởng thức những món ăn truyền thống H\'Mông, trà Shan Tuyết thơm ngon và không gian ẩm thực đặc trưng giữa núi rừng Tà Xùa.',
+      description: 'Thưởng thức món truyền thống H\'Mông, trà Shan Tuyết.',
+      hashtags: ['#Thịt trâu gác bếp', '#Trà Shan Tuyết', '#Cơm lam'],
       image: '/images/explore/CUISINE.png',
-      fallbackImage: '/images/categories/restaurant-cover.jpg',
       icon: <UtensilsCrossed className="w-8 h-8" />,
       route: '/accommodation',
-      gradient: 'from-orange-600 to-red-700',
-      highlights: ['Thịt trâu gác bếp', 'Trà Shan Tuyết', 'Cơm lam', 'Rượu cần H\'Mông']
+      gradient: 'from-orange-500 to-red-600'
     },
     {
       id: 'culture',
-      title: 'Văn Hoá',
-      subtitle: 'Nghệ thuật và trải nghiệm sáng tạo',
-      description: 'Khám phá văn hóa bản địa qua triển lãm số, công nghệ AR/VR, âm thanh tự nhiên và những câu chuyện qua hình ảnh độc đáo.',
+      title: 'Triển Lãm Số "Hồn Tà Xùa',
+      description: 'Triển lãm số, công nghệ AR/VR, âm thanh tự nhiên.',
+      hashtags: ['#Triển lãm số', '#Câu chuyện ảnh', '#AR/VR'],
       image: '/images/explore/CULTURAL EXHIBITION.png',
-      fallbackImage: '/images/skyquest/hero-bg.jpg',
       icon: <Palette className="w-8 h-8" />,
       route: '/digital-exhibition',
-      gradient: 'from-purple-600 to-indigo-700',
-      highlights: ['Triển lãm số', 'AR/VR Experience', 'Âm thanh tự nhiên', 'Câu chuyện ảnh']
+      gradient: 'from-purple-500 to-indigo-600'
     },
     {
       id: 'viemunity',
       title: 'Viemunity',
-      subtitle: 'Cộng đồng chia sẻ và kết nối',
-      description: 'Nơi du khách, người dân và doanh nghiệp chia sẻ trải nghiệm, câu chuyện và kết nối với nhau trong hành trình khám phá Tà Xùa.',
+      description: 'Cộng đồng chia sẻ trải nghiệm, kết nối du khách.',
+      hashtags: ['#Chia sẻ trải nghiệm', '#Kết nối cộng đồng', '#Forum'],
       image: '/images/explore/VIEMUNITY.png',
-      fallbackImage: '/images/viviet/community-bg.jpg',
       icon: <Users className="w-8 h-8" />,
       route: '/hall-of-stories',
-      gradient: 'from-blue-600 to-cyan-700',
-      highlights: ['Chia sẻ trải nghiệm', 'Kết nối cộng đồng', 'Tin tức địa phương', 'Forum thảo luận']
+      gradient: 'from-blue-500 to-cyan-600'
     }
   ];
+
+  // Dữ liệu hoạt động nên thử
+  const activities = [
+    {
+      id: 'cloud-hunting-summit',
+      name: 'Trải nghiệm săn mây tại đỉnh Tà Xùa',
+      description: 'Đứng trên đỉnh núi cao nhất, ngắm biển mây trắng và bình minh tuyệt đẹp',
+      rating: 4.9,
+      reviewCount: 1234,
+      image: '/images/explore/cloud-hunting-summit.svg',
+      category: 'Tour ngắm cảnh'
+    },
+    {
+      id: 'motorbike-dragon-spine',
+      name: 'Lái xe máy xuyên rừng đến Sống lưng khủng long',
+      description: 'Phiêu lưu trên cung đường rừng xanh đến điểm check-in nổi tiếng',
+      rating: 4.8,
+      reviewCount: 987,
+      image: '/images/explore/motorbike-dragon-spine.svg',
+      category: 'Phiêu lưu'
+    },
+    {
+      id: 'local-market',
+      name: 'Khám phá chợ phiên địa phương',
+      description: 'Trải nghiệm văn hóa chợ phiên, mua sắm đặc sản và thổ cẩm H\'Mông',
+      rating: 4.6,
+      reviewCount: 756,
+      image: '/images/explore/local-market.svg',
+      category: 'Văn hóa'
+    },
+    {
+      id: 'shan-tuyet-tea',
+      name: 'Thưởng trà Shan Tuyết cùng người bản địa',
+      description: 'Ngồi bên bếp củi, thưởng thức trà Shan Tuyết thơm ngon trong không gian ấm cúng',
+      rating: 4.9,
+      reviewCount: 643,
+      image: '/images/explore/shan-tuyet-tea.svg',
+      category: 'Ẩm thực'
+    },
+    {
+      id: 'photography-tour',
+      name: 'Chụp ảnh săn mây tại Sống lưng khủng long',
+      description: 'Tour chụp ảnh chuyên nghiệp tại những điểm ngắm cảnh đẹp nhất',
+      rating: 4.7,
+      reviewCount: 521,
+      image: '/images/explore/photography-tour.svg',
+      category: 'Tour ngắm cảnh'
+    },
+    {
+      id: 'hmong-cooking-workshop',
+      name: 'Workshop Ẩm thực H\'Mông',
+      description: 'Học nấu các món ăn truyền thống cùng đầu bếp bản địa',
+      rating: 5.0,
+      reviewCount: 432,
+      image: '/images/explore/hmong-cooking-workshop.svg',
+      category: 'Ẩm thực'
+    },
+    {
+      id: 'forest-trekking',
+      name: 'Trekking xuyên rừng nguyên sinh',
+      description: 'Khám phá rừng nguyên sinh với hệ sinh thái đa dạng và phong cảnh hoang sơ',
+      rating: 4.8,
+      reviewCount: 389,
+      image: '/images/explore/forest-trekking.svg',
+      category: 'Phiêu lưu'
+    },
+    {
+      id: 'traditional-music',
+      name: 'Trải nghiệm văn hóa qua nhạc cụ dân tộc',
+      description: 'Thưởng thức và học chơi khèn Mông, trống và sáo giữa núi đồi',
+      rating: 4.5,
+      reviewCount: 298,
+      image: '/images/explore/traditional-music.svg',
+      category: 'Văn hóa'
+    },
+    {
+      id: 'sunset-tea',
+      name: 'Trà chiều trên đỉnh núi với người bản địa',
+      description: 'Thưởng thức trà và ngắm hoàng hôn tuyệt đẹp trên đỉnh núi Tà Xùa',
+      rating: 4.9,
+      reviewCount: 567,
+      image: '/images/explore/sunset-tea.svg',
+      category: 'Ẩm thực'
+    }
+  ];
+
+  const toggleFavorite = (activityId: string) => {
+    setFavoriteActivities(prev => {
+      const newFavorites = new Set(prev);
+      if (newFavorites.has(activityId)) {
+        newFavorites.delete(activityId);
+      } else {
+        newFavorites.add(activityId);
+      }
+      return newFavorites;
+    });
+  };
+
+  // Carousel navigation functions
+  const getItemsPerView = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1280) return 4; // xl: 4 items
+      if (window.innerWidth >= 768) return 3;  // md: 3 items  
+      if (window.innerWidth >= 640) return 2;  // sm: 2 items
+      return 1; // mobile: 1 item
+    }
+    return 4;
+  };
+
+  const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerView(getItemsPerView());
+      setCurrentSlide(0); // Reset slide when screen size changes
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const maxSlide = Math.max(0, activities.length - itemsPerView);
+
+  const nextSlide = () => {
+    setCurrentSlide(prev => Math.min(prev + 1, maxSlide));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide(prev => Math.max(prev - 1, 0));
+  };
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <Star
+        key={index}
+        className={`w-4 h-4 ${
+          index < Math.floor(rating)
+            ? 'fill-yellow-400 text-yellow-400'
+            : index < rating
+            ? 'fill-yellow-200 text-yellow-400'
+            : 'fill-gray-200 text-gray-200'
+        }`}
+      />
+    ));
+  };
 
   return (
     <Layout>
       <MainNavigation />
       <Header />
-      <main 
-        className="min-h-screen overflow-x-hidden relative"
-        style={{
-          background: `
-            linear-gradient(180deg, var(--explore-mist) 0%, #F7FAFC 50%, var(--explore-mist) 100%),
-            radial-gradient(ellipse at top right, rgba(30,124,112,0.15), transparent),
-            radial-gradient(ellipse at bottom left, rgba(52,211,153,0.1), transparent)
-          `,
-          backgroundImage: `url('/textures/noise-light.svg')`,
-          backgroundBlendMode: 'overlay',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px 200px',
-          minHeight: '100vh',
-          position: 'relative'
-        }}
-      >
-        {/* Hero Section with Integrated Cards */}
+      <main className="min-h-screen overflow-x-hidden relative bg-gray-50">
+        {/* Hero Section - Reduced Height */}
         <section 
-          className={`relative min-h-[75vh] flex flex-col items-center justify-center overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+          className={`relative h-[60vh] flex flex-col items-center justify-center overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         >
-          {/* Parallax background image container */}
-           <div 
-             className="absolute inset-0 will-change-transform transform-gpu"
-             style={{
-               backgroundImage: `url('/hero-taxua-clouds.jpg')`,
-               backgroundSize: 'cover',
-               backgroundPosition: '50% 30%',
-               transform: `translateY(${parallaxOffset}px) scale(1.1)`,
-               willChange: 'transform'
-             }}
-           />
+          {/* Parallax background image */}
+          <div 
+            className="absolute inset-0 will-change-transform transform-gpu"
+            style={{
+              backgroundImage: `url('/hero-taxua-clouds.jpg')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              transform: `translateY(${parallaxOffset}px) scale(1.05)`,
+              willChange: 'transform'
+            }}
+          />
           
-          {/* Enhanced overlay gradient for better text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/20 z-10"></div>
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/40 z-10"></div>
           
           {/* Content container */}
-          <div className="relative z-20 text-center px-4 max-w-7xl mx-auto w-full">
+          <div className="relative z-20 text-center px-4 max-w-4xl mx-auto w-full">
             {/* Hero Title */}
-            <div 
-              className="backdrop-blur-[2px] bg-black/20 px-8 py-6 rounded-2xl inline-block mb-8"
-              style={{
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15) inset'
-              }}
-            >
-              <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold text-white leading-tight tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
-                Khám Phá Tà Xùa –
-                <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
-                  Những Câu Chuyện Đang Chờ Bạn
-                </span>
-              </h1>
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold text-white leading-tight tracking-tight mb-4 drop-shadow-lg">
+              Khám Phá Tà Xùa –
+              <br />
+              <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                Những Câu Chuyện Đang Chờ Bạn
+              </span>
+            </h1>
+            
+            {/* Subtitle */}
+            <p className="text-lg md:text-xl text-white/90 mb-8 drop-shadow-md">
+              Tìm hành trình phù hợp với sở thích của bạn
+            </p>
+            
+            {/* Booking.com Style Search Bar */}
+            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-4xl mx-auto">
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                {/* Search Input */}
+                <div className="flex-1 relative">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Input
+                    type="text"
+                    placeholder="Bạn muốn khám phá điều gì?"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-12 h-14 text-lg border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
+                  />
+                </div>
+                
+                {/* Date Picker */}
+                <div className="w-full md:w-auto">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="h-14 px-6 justify-start text-left font-normal border-gray-200 hover:border-emerald-500 w-full md:w-[200px]"
+                      >
+                        <CalendarIcon className="mr-3 h-5 w-5 text-gray-400" />
+                        {selectedDate ? (
+                          format(selectedDate, "dd/MM/yyyy", { locale: vi })
+                        ) : (
+                          <span className="text-gray-500">Chọn ngày</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={setSelectedDate}
+                        initialFocus
+                        locale={vi}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                
+                {/* Search Button */}
+                <Button 
+                  className="h-14 px-8 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-semibold text-lg w-full md:w-auto"
+                  onClick={() => {
+                    // Handle search logic here
+                    console.log('Search:', searchQuery, selectedDate);
+                  }}
+                >
+                  Khám phá ngay
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: "Bạn muốn khám phá điều gì?" */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Bạn muốn khám phá điều gì?
+              </h2>
             </div>
             
-            {/* 4 Topic Cards - Integrated into Hero */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-6 max-w-6xl mx-auto px-4">
-              {exploreBlocks.map((block, index) => (
-                <div
-                  key={block.id}
-                  className={`group relative overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-1.5 ${animationClasses.fadeUp.transition} ${isVisible ? animationClasses.fadeUp.animate : animationClasses.fadeUp.initial}`}
+            {/* 4 Category Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+              {exploreCategories.map((category, index) => (
+                <Card
+                  key={category.id}
+                  className={`group relative overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${animationClasses.fadeUp.transition} ${isVisible ? animationClasses.fadeUp.animate : animationClasses.fadeUp.initial}`}
                   style={{ 
-                    animationDelay: `${index * 200 + 800}ms`,
-                    width: '100%',
-                    maxWidth: '280px',
-                    height: '280px',
-                    borderRadius: '20px',
-                    boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.25)',
-                    margin: '0 auto'
+                    animationDelay: `${index * 150}ms`,
+                    height: '320px'
                   }}
-                  onClick={() => navigate(block.route)}
+                  onClick={() => navigate(category.route)}
                 >
-                  {/* Background Image with Overlay */}
+                  {/* Background Image */}
                   <div 
-                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:brightness-110"
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-105"
                     style={{
-                      backgroundImage: `url('${block.image}')`,
-                      borderRadius: '20px'
+                      backgroundImage: `url('${category.image}')`,
                     }}
                   >
-                    {/* Theme-specific Overlay Gradient with increased opacity for better contrast */}
+                    {/* Gradient Overlay */}
                     <div 
-                      className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-80`}
-                      style={{
-                        background: block.id === 'locations' 
-                          ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.85) 0%, rgba(5, 150, 105, 0.95) 100%)'
-                          : block.id === 'cuisine'
-                          ? 'linear-gradient(135deg, rgba(220, 38, 38, 0.85) 0%, rgba(153, 27, 27, 0.95) 100%)'
-                          : block.id === 'culture'
-                          ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.85) 0%, rgba(109, 40, 217, 0.95) 100%)'
-                          : 'linear-gradient(135deg, rgba(59, 130, 246, 0.85) 0%, rgba(37, 99, 235, 0.95) 100%)',
-                        borderRadius: '20px',
-                        opacity: 0.9
-                      }}
-                    />
-                    
-                    {/* Additional blur overlay for better text readability */}
-                    <div 
-                      className="absolute inset-0 backdrop-blur-[1px]"
-                      style={{
-                        borderRadius: '20px',
-                        background: 'rgba(0, 0, 0, 0.15)'
-                      }}
+                      className={`absolute inset-0 bg-gradient-to-b ${category.gradient} opacity-80 group-hover:opacity-70 transition-opacity duration-300`}
                     />
                   </div>
 
-                  {/* Content Container */}
-                  <div className="relative z-10 p-4 h-full flex flex-col justify-between text-white">
-                    {/* Top Content */}
+                  {/* Content */}
+                  <CardContent className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
                     <div>
+                      {/* Icon */}
+                      <div className="mb-4">
+                        {category.icon}
+                      </div>
+                      
                       {/* Title */}
-                      <h3 className="text-lg font-bold mb-2 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
-                        {block.title}
+                      <h3 className="text-xl font-bold mb-3 drop-shadow-md">
+                        {category.title}
                       </h3>
                       
                       {/* Description */}
-                      <p 
-                        className="text-sm leading-relaxed mb-3 line-clamp-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]"
-                        style={{ 
-                          color: 'rgba(255, 255, 255, 0.95)',
-                          lineHeight: '1.4'
-                        }}
-                      >
-                        {block.description}
+                      <p className="text-sm leading-relaxed mb-4 text-white/90 drop-shadow-sm">
+                        {category.description}
                       </p>
 
                       {/* Hashtags */}
-                      <div className="flex flex-wrap gap-1.5 mb-3">
-                        {block.highlights.slice(0, 3).map((highlight, idx) => (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {category.hashtags.map((hashtag, idx) => (
                           <span 
                             key={idx}
-                            className="px-2.5 py-1 bg-white/25 backdrop-blur-sm text-xs font-medium text-white rounded-full border border-white/20 drop-shadow-sm"
+                            className="px-2 py-1 bg-white/20 backdrop-blur-sm text-xs font-medium rounded-full border border-white/30"
                           >
-                            #{highlight}
+                            {hashtag}
                           </span>
                         ))}
                       </div>
                     </div>
 
-                    {/* Bottom CTA */}
-                    <button 
-                      className="w-full py-2.5 bg-white/25 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-gray-900 transition-all duration-300 font-semibold group-hover:bg-white group-hover:text-gray-900 text-sm drop-shadow-sm"
-                      style={{ borderRadius: '12px' }}
+                    {/* CTA Button */}
+                    <Button 
+                      className="w-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white hover:text-gray-900 transition-all duration-300 font-semibold group-hover:bg-white group-hover:text-gray-900"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(block.route);
+                        navigate(category.route);
                       }}
                     >
                       Khám phá ngay
-                    </button>
-                  </div>
-                </div>
+                    </Button>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Activities Section - New section below hero */}
-        <ActivitiesSection />
+        {/* Section: "Những hoạt động nên thử tại Tà Xùa" */}
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            {/* Section Header */}
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Những hoạt động nên thử tại Tà Xùa
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Tận hưởng những trải nghiệm hấp dẫn giữa thiên nhiên Tây Bắc
+              </p>
+            </div>
 
-        {/* Bottom CTA Section - Moved up to replace the removed section */}
-        <section className="py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-          <div className="container mx-auto px-4 relative z-10">
-            <div className={`text-center ${animationClasses.fadeUp.transition} ${sectionsAnimation.isVisible ? animationClasses.fadeUp.animate : animationClasses.fadeUp.initial}`} style={{ animationDelay: '200ms' }}>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl max-w-4xl mx-auto">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            {/* Activities Carousel */}
+            <div className="relative max-w-7xl mx-auto">
+              {/* Navigation Arrows */}
+              <button
+                onClick={prevSlide}
+                disabled={currentSlide === 0}
+                className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center transition-all duration-300 ${
+                  currentSlide === 0 
+                    ? 'opacity-50 cursor-not-allowed' 
+                    : 'hover:bg-gray-50 hover:shadow-xl'
+                } -translate-x-6`}
+              >
+                <ChevronLeft className="w-6 h-6 text-gray-600" />
+              </button>
+
+              <button
+                onClick={nextSlide}
+                disabled={currentSlide >= maxSlide}
+                className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center transition-all duration-300 ${
+                  currentSlide >= maxSlide 
+                    ? 'opacity-50 cursor-not-allowed' 
+                    : 'hover:bg-gray-50 hover:shadow-xl'
+                } translate-x-6`}
+              >
+                <ChevronRight className="w-6 h-6 text-gray-600" />
+              </button>
+
+              {/* Carousel Container */}
+              <div className="overflow-hidden mx-12">
+                <div 
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{
+                    transform: `translateX(-${currentSlide * (100 / itemsPerView)}%)`,
+                    width: `${(activities.length / itemsPerView) * 100}%`
+                  }}
+                >
+                  {activities.map((activity, index) => (
+                    <div
+                      key={activity.id}
+                      className="flex-shrink-0 px-3"
+                      style={{ width: `${100 / itemsPerView}%` }}
+                    >
+                      <Card
+                        className={`group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer h-full ${animationClasses.fadeUp.transition} ${isVisible ? animationClasses.fadeUp.animate : animationClasses.fadeUp.initial}`}
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        {/* Activity Image */}
+                        <div className="relative h-48 overflow-hidden">
+                          <img
+                            src={activity.image}
+                            alt={activity.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = '/placeholder.svg';
+                            }}
+                          />
+                          
+                          {/* Favorite Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleFavorite(activity.id);
+                            }}
+                            className="absolute top-3 right-3 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-300 shadow-md"
+                          >
+                            <Heart
+                              className={`w-5 h-5 transition-colors duration-300 ${
+                                favoriteActivities.has(activity.id)
+                                  ? 'fill-red-500 text-red-500'
+                                  : 'text-gray-600 hover:text-red-500'
+                              }`}
+                            />
+                          </button>
+                        </div>
+
+                        {/* Activity Content */}
+                        <CardContent className="p-5">
+                          {/* Activity Name */}
+                          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">
+                            {activity.name}
+                          </h3>
+
+                          {/* Description */}
+                          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                            {activity.description}
+                          </p>
+
+                          {/* Rating */}
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="flex items-center gap-1">
+                              {renderStars(activity.rating)}
+                            </div>
+                            <span className="text-sm font-semibold text-gray-900">
+                              {activity.rating.toFixed(1)}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              ({activity.reviewCount.toLocaleString()})
+                            </span>
+                          </div>
+
+                          {/* Category */}
+                          <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-medium rounded-full">
+                            {activity.category}
+                          </span>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Slide Indicators */}
+              <div className="flex justify-center mt-6 gap-2">
+                {Array.from({ length: maxSlide + 1 }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      currentSlide === index 
+                        ? 'bg-emerald-600 w-6' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom CTA Section */}
+        <section className="py-16 bg-gradient-to-b from-white to-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center">
+              <div className="bg-white rounded-2xl p-8 shadow-xl max-w-4xl mx-auto border border-gray-100">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                   Không biết bắt đầu từ đâu?
                 </h3>
-                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                <p className="text-gray-600 mb-8 max-w-2xl mx-auto text-lg">
                   Hãy để chúng tôi gợi ý cho bạn hành trình phù hợp nhất dựa trên sở thích và thời gian của bạn.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button 
-                    className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white hover:from-emerald-700 hover:to-teal-800 rounded-xl px-8 py-3 font-semibold"
+                    className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white hover:from-emerald-700 hover:to-teal-800 rounded-xl px-8 py-4 font-semibold text-lg"
                     onClick={() => navigate('/skyquest')}
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
@@ -263,7 +584,7 @@ const Explore = () => {
                   </Button>
                   <Button 
                     variant="outline"
-                    className="border-2 border-gray-300 hover:border-gray-400 rounded-xl px-8 py-3 font-semibold"
+                    className="border-2 border-gray-300 hover:border-gray-400 rounded-xl px-8 py-4 font-semibold text-lg"
                     onClick={() => navigate('/safety')}
                   >
                     <MapPin className="w-5 h-5 mr-2" />
