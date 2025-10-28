@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import Header from '@/components/Header';
+import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import ImageSlider from '@/components/ImageSlider';
 import HotelGrid from '@/components/HotelGrid';
@@ -297,6 +298,7 @@ const Accommodation: React.FC = () => {
   if (selectedCategory === 'accommodation') {
     return (
       <div className="min-h-screen" style={{ backgroundColor: '#F9FAF9' }}>
+        <MainNavigation />
         <Header
           isLoggedIn={isLoggedIn}
           userName={userName}

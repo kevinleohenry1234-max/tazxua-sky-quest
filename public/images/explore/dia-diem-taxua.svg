@@ -1,0 +1,142 @@
+<svg viewBox="0 0 3840 2160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for sky and atmosphere -->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#B0E0E6;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#F0F8FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFFAF0;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Mountain gradients -->
+    <linearGradient id="mountainGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A5568;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2D3748;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A202C;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="mountainGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#718096;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4A5568;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2D3748;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Forest gradient -->
+    <linearGradient id="forestGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#22543D;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2F855A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38A169;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Cloud gradients -->
+    <radialGradient id="cloudGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="70%" style="stop-color:#F7FAFC;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#EDF2F7;stop-opacity:0.3" />
+    </radialGradient>
+    
+    <!-- Mist gradient -->
+    <linearGradient id="mistGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0" />
+      <stop offset="30%" style="stop-color:#F7FAFC;stop-opacity:0.4" />
+      <stop offset="70%" style="stop-color:#EDF2F7;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0" />
+    </linearGradient>
+    
+    <!-- Path gradient -->
+    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D69E2E;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#B7791F;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#975A16;stop-opacity:0.4" />
+    </linearGradient>
+    
+    <!-- Filters for depth and atmosphere -->
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+    </filter>
+    
+    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1"/>
+    </filter>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="3840" height="2160" fill="url(#skyGradient)"/>
+  
+  <!-- Distant mountains (background layer) -->
+  <path d="M0,1400 Q960,1200 1920,1300 Q2880,1250 3840,1350 L3840,2160 L0,2160 Z" 
+        fill="url(#mountainGradient2)" opacity="0.6" filter="url(#blur)"/>
+  
+  <!-- Middle mountains -->
+  <path d="M0,1500 Q480,1350 960,1400 Q1440,1320 1920,1380 Q2400,1300 2880,1350 Q3360,1280 3840,1320 L3840,2160 L0,2160 Z" 
+        fill="url(#mountainGradient1)" opacity="0.8"/>
+  
+  <!-- Foreground mountains -->
+  <path d="M0,1600 Q320,1450 640,1500 Q960,1420 1280,1480 Q1600,1400 1920,1460 Q2240,1380 2560,1440 Q2880,1360 3200,1420 Q3520,1340 3840,1400 L3840,2160 L0,2160 Z" 
+        fill="url(#mountainGradient1)"/>
+  
+  <!-- Forest coverage on mountains -->
+  <path d="M0,1650 Q400,1500 800,1550 Q1200,1470 1600,1530 Q2000,1450 2400,1510 Q2800,1430 3200,1490 Q3600,1410 3840,1470 L3840,2160 L0,2160 Z" 
+        fill="url(#forestGradient)" opacity="0.7"/>
+  
+  <!-- Cloud sea (biển mây) -->
+  <ellipse cx="960" cy="1600" rx="800" ry="200" fill="url(#cloudGradient)" opacity="0.8"/>
+  <ellipse cx="1920" cy="1650" rx="1000" ry="250" fill="url(#cloudGradient)" opacity="0.7"/>
+  <ellipse cx="2880" cy="1620" rx="900" ry="220" fill="url(#cloudGradient)" opacity="0.6"/>
+  <ellipse cx="480" cy="1680" rx="600" ry="180" fill="url(#cloudGradient)" opacity="0.5"/>
+  <ellipse cx="3360" cy="1700" rx="700" ry="200" fill="url(#cloudGradient)" opacity="0.4"/>
+  
+  <!-- Additional cloud layers for depth -->
+  <ellipse cx="1440" cy="1580" rx="600" ry="150" fill="url(#cloudGradient)" opacity="0.6" filter="url(#softBlur)"/>
+  <ellipse cx="2400" cy="1720" rx="800" ry="180" fill="url(#cloudGradient)" opacity="0.5" filter="url(#softBlur)"/>
+  
+  <!-- Winding mountain path -->
+  <path d="M200,1800 Q600,1700 1000,1750 Q1400,1650 1800,1700 Q2200,1600 2600,1650 Q3000,1550 3400,1600" 
+        stroke="url(#pathGradient)" stroke-width="12" fill="none" opacity="0.8"/>
+  
+  <!-- Path edges for realism -->
+  <path d="M200,1800 Q600,1700 1000,1750 Q1400,1650 1800,1700 Q2200,1600 2600,1650 Q3000,1550 3400,1600" 
+        stroke="#8B4513" stroke-width="16" fill="none" opacity="0.4"/>
+  
+  <!-- Morning mist effects -->
+  <rect x="0" y="1400" width="3840" height="400" fill="url(#mistGradient)" opacity="0.3"/>
+  <rect x="0" y="1500" width="3840" height="300" fill="url(#mistGradient)" opacity="0.2"/>
+  
+  <!-- Pine trees silhouettes for forest detail -->
+  <g opacity="0.6">
+    <!-- Tree group 1 -->
+    <polygon points="300,1700 320,1600 340,1700" fill="#1A365D"/>
+    <polygon points="310,1650 330,1580 350,1650" fill="#1A365D"/>
+    
+    <!-- Tree group 2 -->
+    <polygon points="800,1650 820,1550 840,1650" fill="#2D3748"/>
+    <polygon points="810,1600 830,1530 850,1600" fill="#2D3748"/>
+    
+    <!-- Tree group 3 -->
+    <polygon points="1200,1680 1220,1580 1240,1680" fill="#1A365D"/>
+    <polygon points="1210,1630 1230,1560 1250,1630" fill="#1A365D"/>
+    
+    <!-- Tree group 4 -->
+    <polygon points="2800,1620 2820,1520 2840,1620" fill="#2D3748"/>
+    <polygon points="2810,1570 2830,1500 2850,1570" fill="#2D3748"/>
+    
+    <!-- Tree group 5 -->
+    <polygon points="3200,1650 3220,1550 3240,1650" fill="#1A365D"/>
+    <polygon points="3210,1600 3230,1530 3250,1600" fill="#1A365D"/>
+  </g>
+  
+  <!-- Atmospheric lighting effects -->
+  <circle cx="3200" cy="400" r="150" fill="#FFE4B5" opacity="0.3"/>
+  <circle cx="3200" cy="400" r="100" fill="#FFF8DC" opacity="0.5"/>
+  <circle cx="3200" cy="400" r="50" fill="#FFFAF0" opacity="0.7"/>
+  
+  <!-- Light rays -->
+  <g opacity="0.2">
+    <path d="M3200,400 L2800,1200 L2850,1200 L3250,400 Z" fill="#FFE4B5"/>
+    <path d="M3200,400 L3000,1300 L3050,1300 L3250,400 Z" fill="#FFF8DC"/>
+    <path d="M3200,400 L3200,1400 L3250,1400 L3250,400 Z" fill="#FFFAF0"/>
+  </g>
+  
+  <!-- Final atmospheric overlay -->
+  <rect width="3840" height="2160" fill="url(#mistGradient)" opacity="0.1"/>
+</svg>

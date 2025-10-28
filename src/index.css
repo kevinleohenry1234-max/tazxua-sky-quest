@@ -6,6 +6,17 @@
 
 /* Tà Xùa Design System - Inspired by the natural beauty of Tà Xùa, Sơn La */
 
+/* Custom scrollbar hide utility */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   :root {
     /* Base colors */

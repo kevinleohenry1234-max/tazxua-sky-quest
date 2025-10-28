@@ -1,0 +1,84 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient cho bầu trời bình minh -->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#B0E0E6;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#F0F8FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFF8DC;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient cho ánh sáng bình minh -->
+    <radialGradient id="sunlightGradient" cx="80%" cy="20%" r="40%">
+      <stop offset="0%" style="stop-color:#FFE4B5;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#F0E68C;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:0" />
+    </radialGradient>
+    
+    <!-- Gradient cho núi xa -->
+    <linearGradient id="distantMountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#708090;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#2F4F4F;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <!-- Gradient cho núi gần -->
+    <linearGradient id="nearMountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#556B2F;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#2F4F4F;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- Gradient cho mây -->
+    <radialGradient id="cloudGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="70%" style="stop-color:#F0F8FF;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#E6E6FA;stop-opacity:0.3" />
+    </radialGradient>
+    
+    <!-- Filter cho hiệu ứng mờ -->
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+    </filter>
+  </defs>
+  
+  <!-- Bầu trời nền -->
+  <rect width="1920" height="1080" fill="url(#skyGradient)"/>
+  
+  <!-- Ánh sáng bình minh -->
+  <ellipse cx="1536" cy="216" rx="400" ry="200" fill="url(#sunlightGradient)"/>
+  
+  <!-- Dãy núi xa nhất (hậu cảnh) -->
+  <path d="M0,600 Q200,500 400,520 T800,480 Q1000,460 1200,500 T1600,520 Q1800,540 1920,560 L1920,1080 L0,1080 Z" 
+        fill="url(#distantMountainGradient)" opacity="0.4" filter="url(#blur)"/>
+  
+  <!-- Dãy núi thứ hai -->
+  <path d="M0,650 Q150,580 300,600 Q450,620 600,590 Q750,560 900,580 Q1050,600 1200,570 Q1350,540 1500,560 Q1650,580 1800,600 Q1860,610 1920,620 L1920,1080 L0,1080 Z" 
+        fill="url(#distantMountainGradient)" opacity="0.6"/>
+  
+  <!-- Dãy núi thứ ba (trung cảnh) -->
+  <path d="M0,720 Q100,650 250,680 Q400,710 550,670 Q700,630 850,660 Q1000,690 1150,650 Q1300,610 1450,640 Q1600,670 1750,690 Q1835,700 1920,710 L1920,1080 L0,1080 Z" 
+        fill="url(#nearMountainGradient)" opacity="0.7"/>
+  
+  <!-- Dãy núi gần nhất (tiền cảnh) -->
+  <path d="M0,800 Q80,720 200,750 Q320,780 450,740 Q580,700 720,730 Q860,760 1000,720 Q1140,680 1280,710 Q1420,740 1560,760 Q1700,780 1840,790 Q1880,795 1920,800 L1920,1080 L0,1080 Z" 
+        fill="url(#nearMountainGradient)" opacity="0.8"/>
+  
+  <!-- Mây tầng thấp -->
+  <ellipse cx="300" cy="650" rx="150" ry="40" fill="url(#cloudGradient)" opacity="0.6" filter="url(#blur)"/>
+  <ellipse cx="600" cy="620" rx="120" ry="35" fill="url(#cloudGradient)" opacity="0.5" filter="url(#blur)"/>
+  <ellipse cx="1000" cy="680" rx="180" ry="45" fill="url(#cloudGradient)" opacity="0.7" filter="url(#blur)"/>
+  <ellipse cx="1400" cy="640" rx="140" ry="38" fill="url(#cloudGradient)" opacity="0.6" filter="url(#blur)"/>
+  
+  <!-- Mây tầng cao -->
+  <ellipse cx="200" cy="400" rx="200" ry="60" fill="url(#cloudGradient)" opacity="0.4" filter="url(#blur)"/>
+  <ellipse cx="700" cy="350" rx="250" ry="70" fill="url(#cloudGradient)" opacity="0.5" filter="url(#blur)"/>
+  <ellipse cx="1200" cy="380" rx="180" ry="50" fill="url(#cloudGradient)" opacity="0.4" filter="url(#blur)"/>
+  <ellipse cx="1600" cy="320" rx="220" ry="65" fill="url(#cloudGradient)" opacity="0.5" filter="url(#blur)"/>
+  
+  <!-- Mây bồng bềnh nhỏ -->
+  <ellipse cx="450" cy="500" rx="80" ry="25" fill="url(#cloudGradient)" opacity="0.3" filter="url(#blur)"/>
+  <ellipse cx="850" cy="480" rx="100" ry="30" fill="url(#cloudGradient)" opacity="0.4" filter="url(#blur)"/>
+  <ellipse cx="1300" cy="520" rx="90" ry="28" fill="url(#cloudGradient)" opacity="0.3" filter="url(#blur)"/>
+  
+  <!-- Hiệu ứng sương mù nhẹ -->
+  <rect width="1920" height="1080" fill="url(#cloudGradient)" opacity="0.1"/>
+</svg>
