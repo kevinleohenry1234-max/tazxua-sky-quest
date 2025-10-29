@@ -135,7 +135,13 @@ export class PerformanceTestSuite {
     });
   }
 
-  private calculatePerformanceScore(metrics: any): number {
+  private calculatePerformanceScore(metrics: {
+    firstContentfulPaint?: number;
+    largestContentfulPaint?: number;
+    cumulativeLayoutShift?: number;
+    firstInputDelay?: number;
+    pageLoadTime?: number;
+  }): number {
     // Simple scoring algorithm (0-100)
     let score = 100;
 

@@ -18,6 +18,7 @@ import {
   WifiOff
 } from 'lucide-react';
 import { weatherApi, type WeatherData, type WeatherAlert } from '@/services/safetyApi';
+import { useErrorHandler } from '@/utils/errorHandler';
 
 // Weather icon mapping
 const getWeatherIcon = (description: string) => {
@@ -46,21 +47,26 @@ const WeatherWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const { withErrorHandling } = useErrorHandler();
 
   // Fetch weather data
   const fetchWeatherData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await weatherApi.getCurrentWeather();
-      setWeatherData(data);
+    setLoading(true);
+    setError(null);
+    
+    const result = await withErrorHandling(
+      () => weatherApi.getCurrentWeather(),
+      'WeatherWidget - fetchWeatherData'
+    );
+
+    if (result) {
+      setWeatherData(result);
       setLastUpdated(new Date());
-    } catch (err) {
+    } else {
       setError('Không thể tải dữ liệu thời tiết. Đang hiển thị dữ liệu dự phòng.');
-      console.error('Weather fetch error:', err);
-    } finally {
-      setLoading(false);
     }
+    
+    setLoading(false);
   };
 
   // Initial load and periodic refresh

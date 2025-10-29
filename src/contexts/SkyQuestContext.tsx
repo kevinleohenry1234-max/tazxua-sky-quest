@@ -161,8 +161,21 @@ export function SkyQuestProvider({ children }: SkyQuestProviderProps) {
       dispatch({ type: 'SET_LOADING', payload: true });
       const modes = await SkyQuestAPI.getModes();
       dispatch({ type: 'SET_MODES', payload: modes });
+      
+      // Check if we're using fallback data (indicates offline mode)
+      if (modes.length === 2 && modes.every(mode => 
+        mode.id === 'journey-calm' || mode.id === 'journey-dynamic'
+      )) {
+        console.info('SkyQuest running in offline mode with fallback data');
+        // Optionally show a subtle notification to user about offline mode
+      }
+      
+      // Clear any previous errors if modes loaded successfully
+      dispatch({ type: 'SET_ERROR', payload: null });
     } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to load modes' });
+      console.error('Error loading SkyQuest modes:', error);
+      // Don't set error state here as getModes() provides fallback data
+      // The "Offline" message in console is expected behavior when Supabase is not configured
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }

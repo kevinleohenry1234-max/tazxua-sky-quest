@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Mail, Phone, User, MessageSquare, Send, CheckCircle, Loader2, Upload, X, FileText, Leaf } from 'lucide-react';
+import { useErrorHandler } from '@/utils/errorHandler';
 
 interface ContactFormData {
   name: string;
@@ -37,6 +38,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const { withErrorHandling } = useErrorHandler();
 
   // Use useEffect to handle success message timeout
   useEffect(() => {
@@ -116,8 +118,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
   };
 
   const sendToTelegram = async (data: ContactFormData): Promise<void> => {
-    const botToken = '8347095665:AAEYqeYRoc6qUYMtfr1U8wT9x5S1nQRkM0U';
+    // Use environment variable for bot token instead of hardcoded value
+    const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
     const chatId = '-1002908510780';
+    
+    if (!botToken) {
+      throw new Error('Telegram bot token không được cấu hình');
+    }
     
     // Prepare message text
     const messageText = `
@@ -137,50 +144,60 @@ ${data.message}
 🌐 Nguồn: Website VIVIET Tà Xùa
     `;
 
-    try {
-      // Send text message first
-      const textResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: messageText,
-          parse_mode: 'Markdown'
-        })
-      });
+    // Send text message first
+    const textResult = await withErrorHandling(
+      async () => {
+        const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: messageText,
+            parse_mode: 'Markdown'
+          })
+        });
 
-      const textResult = await textResponse.json();
-      
-      if (!textResponse.ok) {
-        console.error('Telegram API Error:', textResult);
-        throw new Error(`Failed to send message to Telegram: ${textResult.description || 'Unknown error'}`);
-      }
-
-      // Send attachments if any
-      if (data.attachments && data.attachments.length > 0) {
-        for (const file of data.attachments) {
-          const formData = new FormData();
-          formData.append('chat_id', chatId);
-          formData.append('document', file);
-          formData.append('caption', `📎 File đính kèm từ ${data.name}`);
-
-          const fileResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
-            method: 'POST',
-            body: formData
-          });
-
-          if (!fileResponse.ok) {
-            const fileResult = await fileResponse.json();
-            console.warn(`Failed to send file ${file.name} to Telegram:`, fileResult);
-          }
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(`Telegram API Error: ${result.description || 'Unknown error'}`);
         }
-      }
 
-    } catch (error) {
-      console.error('Error sending to Telegram:', error);
-      throw error;
+        return response.json();
+      },
+      'ContactForm - sendToTelegram - text message'
+    );
+
+    if (!textResult) {
+      throw new Error('Không thể gửi tin nhắn đến Telegram');
+    }
+
+    // Send attachments if any
+    if (data.attachments && data.attachments.length > 0) {
+      for (const file of data.attachments) {
+        await withErrorHandling(
+          async () => {
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('document', file);
+            formData.append('caption', `📎 File đính kèm từ ${data.name}`);
+
+            const response = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
+              method: 'POST',
+              body: formData
+            });
+
+            if (!response.ok) {
+              const result = await response.json();
+              console.warn(`Failed to send file ${file.name}:`, result);
+            }
+
+            return response.json();
+          },
+          `ContactForm - sendToTelegram - file ${file.name}`
+        );
+      }
     }
   };
 
@@ -217,7 +234,7 @@ ${data.message}
     <>
       <Card className={`rounded-3xl border-0 bg-white/95 backdrop-blur-sm ${className}`}>
         <CardHeader className="pb-8">
-          <CardTitle className="font-inter text-3xl font-bold text-[#0E4F45] flex items-center">
+          <CardTitle className="font-inter text-4xl font-bold text-[#0E4F45] flex items-center">
             <div className="w-12 h-12 bg-gradient-to-br from-[#3CB89E] to-[#0E4F45] rounded-full flex items-center justify-center mr-4">
               <Mail className="w-6 h-6 text-white" />
             </div>
@@ -306,9 +323,9 @@ ${data.message}
                     <SelectValue placeholder="Chọn thể loại tin nhắn" />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-[#DDE5E2] shadow-2xl">
-                    <SelectItem value="help" className="font-inter">Trợ giúp thông tin</SelectItem>
-                    <SelectItem value="complaint" className="font-inter">Khiếu nại</SelectItem>
-                    <SelectItem value="feedback" className="font-inter">Đóng góp ý kiến</SelectItem>
+                    <SelectItem value="tour-consultation" className="font-inter">Tư vấn tour</SelectItem>
+                    <SelectItem value="service-feedback" className="font-inter">Phản ánh dịch vụ</SelectItem>
+                    <SelectItem value="technical-support" className="font-inter">Hỗ trợ kỹ thuật</SelectItem>
                     <SelectItem value="other" className="font-inter">Khác</SelectItem>
                   </SelectContent>
                 </Select>
@@ -446,6 +463,13 @@ ${data.message}
                 </>
               )}
             </Button>
+            
+            {/* Note phản hồi 24h */}
+            <div className="mt-4 text-center">
+              <p className="text-sm text-[#6B7280] font-inter">
+                💬 Chúng tôi sẽ phản hồi trong vòng 24h qua email hoặc số điện thoại bạn cung cấp.
+              </p>
+            </div>
           </form>
 
           <div className="mt-8 pt-8 border-t border-[#E2ECE9]">

@@ -127,25 +127,12 @@ Total Size: ${(imageStats.totalSize / 1024).toFixed(2)}KB
    * Get Largest Contentful Paint metric
    */
   private getLargestContentfulPaint(): number | undefined {
-    return new Promise<number | undefined>((resolve) => {
-      if ('PerformanceObserver' in window) {
-        const observer = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          resolve(lastEntry?.startTime);
-          observer.disconnect();
-        });
-        observer.observe({ entryTypes: ['largest-contentful-paint'] });
-        
-        // Timeout after 5 seconds
-        setTimeout(() => {
-          observer.disconnect();
-          resolve(undefined);
-        }, 5000);
-      } else {
-        resolve(undefined);
-      }
-    }) as any;
+    try {
+      const entries = performance.getEntriesByType('largest-contentful-paint');
+      return entries.length > 0 ? entries[entries.length - 1].startTime : undefined;
+    } catch {
+      return undefined;
+    }
   }
 
   /**

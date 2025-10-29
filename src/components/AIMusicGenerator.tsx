@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Music, Download, Play, Pause, Loader2, Sparkles, Wand2 } from 'lucide-react';
 import AIPromptGenerator from './AIPromptGenerator';
+import { useErrorHandler } from '@/utils/errorHandler';
 
 interface GeneratedMusic {
   id: string;
@@ -22,6 +23,7 @@ const AIMusicGenerator = () => {
   const [generatedMusic, setGeneratedMusic] = useState<GeneratedMusic[]>([]);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const { withErrorHandling } = useErrorHandler();
 
   const generateMusic = async () => {
     if (!prompt.trim()) return;
@@ -39,137 +41,172 @@ const AIMusicGenerator = () => {
     setIsGenerating(true);
     setGenerationProgress(0);
 
-    try {
-      // Step 1: Generate music using Suno API
-      const generateResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer cf27cde4b79cf21c2a515bd4e1ccbd49',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          prompt: prompt.trim(),
-          style: "Classical",
-          title: `AI Generated Music - ${Date.now()}`,
-          customMode: true,
-          instrumental: true,
-          model: "V3_5",
-          negativeTags: "Heavy Metal, Upbeat Drums",
-          vocalGender: "m",
-          styleWeight: 0.65,
-          weirdnessConstraint: 0.65,
-          audioWeight: 0.65,
-          callBackUrl: "https://api.example.com/callback"
-        })
-      });
-
-      const generateResult = await generateResponse.json();
-      
-      // Debug logging
-      console.log('Suno API Response:', generateResult);
-      
-      if (!generateResponse.ok || !generateResult.data) {
-        throw new Error(`API Error: ${generateResult.msg || 'Failed to generate music'}`);
-      }
-
-      // Extract task ID from response
-      let taskId;
-      if (generateResult.data.taskId) {
-        taskId = generateResult.data.taskId;
-      } else if (Array.isArray(generateResult.data)) {
-        taskId = generateResult.data.join(',');
-      } else if (typeof generateResult.data === 'string') {
-        taskId = generateResult.data;
-      } else if (generateResult.data && generateResult.data.id) {
-        taskId = generateResult.data.id;
-      } else if (generateResult.data && Array.isArray(generateResult.data) && generateResult.data.length > 0) {
-        // Handle case where data is array of objects with id
-        taskId = generateResult.data.map(item => item.id).join(',');
-      } else {
-        console.error('Unexpected response format:', generateResult);
-        throw new Error(`Invalid response format from Suno API. Received: ${JSON.stringify(generateResult.data)}`);
-      }
-
-      // Step 2: Poll for completion and get audio URL
-      let attempts = 0;
-      const maxAttempts = 30; // 5 minutes max wait time
-      
-      while (attempts < maxAttempts) {
-        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
-        attempts++;
-        setGenerationProgress(attempts * 10000); // Update progress (10 seconds per attempt)
-        
-        const statusResponse = await fetch(`https://api.sunoapi.org/api/v1/generate/record-info?taskId=${taskId}`, {
+    // Step 1: Generate music using Suno API
+    const generateResult = await withErrorHandling(
+      async () => {
+        const response = await fetch('https://api.sunoapi.org/api/v1/generate', {
+          method: 'POST',
           headers: {
             'Authorization': 'Bearer cf27cde4b79cf21c2a515bd4e1ccbd49',
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({
+            prompt: prompt.trim(),
+            style: "Classical",
+            title: `AI Generated Music - ${Date.now()}`,
+            customMode: true,
+            instrumental: true,
+            model: "V3_5",
+            negativeTags: "Heavy Metal, Upbeat Drums",
+            vocalGender: "m",
+            styleWeight: 0.65,
+            weirdnessConstraint: 0.65,
+            audioWeight: 0.65,
+            callBackUrl: "https://api.example.com/callback"
+          })
         });
 
-        if (!statusResponse.ok) {
-          if (attempts >= maxAttempts) {
-            throw new Error(`Status check failed: ${statusResponse.status}`);
-          }
-          continue; // Try again instead of throwing immediately
+        if (!response.ok) {
+          throw new Error(`Suno API Error: ${response.status}`);
         }
 
-        const statusResult = await statusResponse.json();
-        console.log('Status check result:', statusResult);
+        const result = await response.json();
         
-        // Handle different response formats
-        if (statusResult.data && statusResult.data.status === 'SUCCESS' && statusResult.data.response) {
-          const musicData = statusResult.data.response.data || statusResult.data.response.sunoData;
-          if (musicData && musicData.length > 0) {
-            const track = musicData[0];
-            if (track.audio_url || track.audioUrl) {
-              // Update the music item with the audio URL
-              setGeneratedMusic(prev => 
-                prev.map(music => 
-                  music.id === tempId 
-                    ? { ...music, audioUrl: track.audio_url || track.audioUrl, status: 'completed' }
-                    : music
-                )
-              );
-              break;
-            }
-          }
-        } else if (statusResult.data && Array.isArray(statusResult.data) && statusResult.data.length > 0) {
-          // Handle direct array response
-          const musicData = statusResult.data[0];
-          if (musicData.status === 'complete' && (musicData.audio_url || musicData.audioUrl)) {
-            setGeneratedMusic(prev => 
-              prev.map(music => 
-                music.id === tempId 
-                  ? { ...music, audioUrl: musicData.audio_url || musicData.audioUrl, status: 'completed' }
-                  : music
-              )
-            );
-            break;
-          }
+        if (!result.data) {
+          throw new Error(`API Error: ${result.msg || 'Failed to generate music'}`);
         }
-        
-        attempts++;
-      }
 
-      if (attempts >= maxAttempts) {
-        throw new Error('Music generation timed out');
-      }
+        return result;
+      },
+      'AIMusicGenerator - generateMusic - initial request'
+    );
 
-    } catch (error) {
-      console.error('Error generating music:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi tạo nhạc';
+    if (!generateResult) {
       setGeneratedMusic(prev => 
         prev.map(music => 
           music.id === tempId 
-            ? { ...music, status: 'error', errorMessage }
+            ? { ...music, status: 'error', errorMessage: 'Không thể tạo nhạc. Vui lòng thử lại.' }
             : music
         )
       );
-    } finally {
       setIsGenerating(false);
       setGenerationProgress(0);
       setPrompt('');
+      return;
     }
+
+    // Extract task ID from response
+    let taskId;
+    if (generateResult.data.taskId) {
+      taskId = generateResult.data.taskId;
+    } else if (Array.isArray(generateResult.data)) {
+      taskId = generateResult.data.join(',');
+    } else if (typeof generateResult.data === 'string') {
+      taskId = generateResult.data;
+    } else if (generateResult.data && generateResult.data.id) {
+      taskId = generateResult.data.id;
+    } else if (generateResult.data && Array.isArray(generateResult.data) && generateResult.data.length > 0) {
+      taskId = generateResult.data.map(item => item.id).join(',');
+    } else {
+      console.error('Unexpected response format:', generateResult);
+      setGeneratedMusic(prev => 
+        prev.map(music => 
+          music.id === tempId 
+            ? { ...music, status: 'error', errorMessage: 'Định dạng phản hồi không hợp lệ từ Suno API' }
+            : music
+        )
+      );
+      setIsGenerating(false);
+      setGenerationProgress(0);
+      setPrompt('');
+      return;
+    }
+
+    // Step 2: Poll for completion and get audio URL
+    let attempts = 0;
+    const maxAttempts = 30; // 5 minutes max wait time
+    
+    while (attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+      attempts++;
+      setGenerationProgress(attempts * 10000); // Update progress (10 seconds per attempt)
+      
+      const statusResult = await withErrorHandling(
+        async () => {
+          const response = await fetch(`https://api.sunoapi.org/api/v1/generate/record-info?taskId=${taskId}`, {
+            headers: {
+              'Authorization': 'Bearer cf27cde4b79cf21c2a515bd4e1ccbd49',
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error(`Status check failed: ${response.status}`);
+          }
+
+          return response.json();
+        },
+        `AIMusicGenerator - generateMusic - status check ${attempts}`
+      );
+
+      if (!statusResult) {
+        if (attempts >= maxAttempts) {
+          break;
+        }
+        continue;
+      }
+
+      // Handle different response formats
+      if (statusResult.data && statusResult.data.status === 'SUCCESS' && statusResult.data.response) {
+        const musicData = statusResult.data.response.data || statusResult.data.response.sunoData;
+        if (musicData && musicData.length > 0) {
+          const track = musicData[0];
+          if (track.audio_url || track.audioUrl) {
+            // Update the music item with the audio URL
+            setGeneratedMusic(prev => 
+              prev.map(music => 
+                music.id === tempId 
+                  ? { ...music, audioUrl: track.audio_url || track.audioUrl, status: 'completed' }
+                  : music
+              )
+            );
+            setIsGenerating(false);
+            setGenerationProgress(0);
+            setPrompt('');
+            return;
+          }
+        }
+      } else if (statusResult.data && Array.isArray(statusResult.data) && statusResult.data.length > 0) {
+        // Handle direct array response
+        const musicData = statusResult.data[0];
+        if (musicData.status === 'complete' && (musicData.audio_url || musicData.audioUrl)) {
+          setGeneratedMusic(prev => 
+            prev.map(music => 
+              music.id === tempId 
+                ? { ...music, audioUrl: musicData.audio_url || musicData.audioUrl, status: 'completed' }
+                : music
+            )
+          );
+          setIsGenerating(false);
+          setGenerationProgress(0);
+          setPrompt('');
+          return;
+        }
+      }
+    }
+
+    // If we reach here, generation timed out
+    setGeneratedMusic(prev => 
+      prev.map(music => 
+        music.id === tempId 
+          ? { ...music, status: 'error', errorMessage: 'Quá thời gian tạo nhạc. Vui lòng thử lại.' }
+          : music
+      )
+    );
+    
+    setIsGenerating(false);
+    setGenerationProgress(0);
+    setPrompt('');
   };
 
   const togglePlay = (musicId: string, audioUrl: string) => {

@@ -223,7 +223,7 @@ const RewardShop: React.FC = () => {
             ].map(({ key, label, icon: Icon, count, color }) => (
               <button
                 key={key}
-                onClick={() => setSelectedCategory(key as any)}
+                onClick={() => setSelectedCategory(key as 'all' | 'homestay' | 'food' | 'activity' | 'tour')}
                 className={`flex items-center space-x-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                   selectedCategory === key
                     ? `bg-gradient-to-r ${color} text-white shadow-lg scale-105`

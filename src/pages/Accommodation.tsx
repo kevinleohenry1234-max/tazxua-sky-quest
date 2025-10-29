@@ -36,6 +36,8 @@ import {
 import { getSession, onAuthStateChange, signOut } from '@/lib/supabase';
 import { homestayRealData } from '@/data/homestayRealData';
 import heroImage from '@/assets/hero-taxua-clouds.jpg';
+import { getOptimizedImageUrl, preloadImage } from '@/utils/imageOptimizer';
+import ImagePreloader from '@/components/ImagePreloader';
 
 interface Homestay {
   id: string;
@@ -99,24 +101,6 @@ const serviceCategories: ServiceCategory[] = [
     route: '/transport',
     bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/transportation.png')`,
     bgColor: 'from-purple-500 to-purple-600'
-  },
-  {
-    id: 'wellness',
-    title: 'Chăm Sóc & Nghỉ Dưỡng',
-    description: 'Thư giãn giữa núi rừng với spa và trị liệu thảo mộc.',
-    icon: <Sparkles className="w-8 h-8" />,
-    route: '/wellness',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/relax.png')`,
-    bgColor: 'from-pink-500 to-pink-600'
-  },
-  {
-    id: 'entertainment',
-    title: 'Giải Trí & Hoạt Động',
-    description: 'Âm nhạc, cà phê, không gian nghệ thuật và triển lãm số.',
-    icon: <Music className="w-8 h-8" />,
-    route: '/entertainment',
-    bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/activity.png')`,
-    bgColor: 'from-orange-500 to-orange-600'
   }
 ];
 
@@ -137,6 +121,7 @@ const Accommodation: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [optimizedHeroImage, setOptimizedHeroImage] = useState<string>('/images/service/HERO.png');
 
   // Check for existing session on component mount
   useEffect(() => {
@@ -176,6 +161,28 @@ const Accommodation: React.FC = () => {
 
   // Parallax and scroll effects for Hero section
   useEffect(() => {
+    // Optimize hero image for better performance
+    const optimizeHeroImage = async () => {
+      try {
+        const optimized = await getOptimizedImageUrl('/images/service/HERO.png', {
+          quality: 0.85,
+          maxWidth: 1920,
+          maxHeight: 1080
+        });
+        setOptimizedHeroImage(optimized);
+      } catch (error) {
+        console.warn('Hero image optimization failed:', error);
+        setOptimizedHeroImage('/images/service/HERO.png');
+      }
+    };
+
+    optimizeHeroImage();
+
+    // Preload hero image for better performance
+    preloadImage('/images/service/HERO.png').catch(error => {
+      console.warn('Hero image preload failed:', error);
+    });
+
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const heroElement = document.querySelector('.hero-parallax') as HTMLElement;
@@ -219,7 +226,7 @@ const Accommodation: React.FC = () => {
       setSelectedCategory(categoryId);
     } else {
       // Navigate to other routes (placeholder for now)
-      console.log(`Navigating to ${route}`);
+
       // In a real app, you would use router.push(route) here
     }
   };
@@ -357,7 +364,13 @@ const Accommodation: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Preload critical images */}
+      <ImagePreloader 
+        images={['/images/service/HERO.png']} 
+        priority={true} 
+      />
+      
       <Header
         isLoggedIn={isLoggedIn}
         userName={userName}
@@ -369,61 +382,90 @@ const Accommodation: React.FC = () => {
       
       <div className="pt-16">
         {/* Hero Section with Parallax */}
-        <div 
-          className="relative h-[70vh] bg-cover bg-center bg-fixed overflow-hidden hero-parallax"
+        <section 
+          className={`relative min-h-[70vh] sm:min-h-[60vh] flex items-center justify-center text-white overflow-hidden hero-parallax transition-all duration-500 ease-in-out ${
+            typeof window !== 'undefined' && window.innerWidth <= 768 ? 'bg-scroll' : 'bg-fixed'
+          }`}
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url('/images/hero/taxua-homestay-hero.jpg')`
+            backgroundImage: `linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(30, 41, 59, 0.6) 50%, rgba(51, 65, 85, 0.5) 100%), url(${optimizedHeroImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 30%',
+            backgroundRepeat: 'no-repeat',
+            minHeight: typeof window !== 'undefined' && window.innerWidth <= 768 ? '60vh' : '70vh'
           }}
         >
-          {/* Parallax content */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="container mx-auto px-4 text-center">
-              <div className="max-w-4xl mx-auto animate-fade-in-up">
-                <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 drop-shadow-2xl tracking-tight">
-                  Dịch Vụ Tại Tà Xùa
-                </h1>
-                <p className="text-xl md:text-2xl text-white/90 mb-12 drop-shadow-lg font-medium leading-relaxed tracking-wide max-w-3xl mx-auto">
-                  Khám phá trọn vẹn Tà Xùa — từ nghỉ dưỡng, ẩm thực đến hành trình xanh đầy cảm hứng.
-                </p>
-                
-                {/* Search Bar in Hero */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 max-w-3xl mx-auto">
-                  <div className="flex flex-col lg:flex-row gap-4">
-                    <div className="flex-1 relative">
-                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                      <input
-                        type="text"
-                        placeholder="Tìm homestay, nhà hàng, tour, di chuyển…"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-gray-700 placeholder-gray-500 text-base"
-                      />
-                    </div>
-                    <Button
-                      onClick={() => setShowFilters(!showFilters)}
-                      className="px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200"
-                    >
-                      <Filter className="w-5 h-5" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
+          {/* Enhanced gradient overlays for better text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-transparent to-slate-900/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-slate-900/30"></div>
+          
+          {/* Content Container with improved responsive design */}
+          <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+            {/* Main Title with hover effects */}
+            <h1 
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 
+                            bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent
+                            transform transition-all duration-500 ease-in-out hover:scale-105 hover:drop-shadow-2xl
+                            leading-tight tracking-wide"
+              style={{
+                textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)',
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.8))'
+              }}
+            >
+              Dịch Vụ Tại Tà Xùa
+            </h1>
+            
+            {/* Subtitle with responsive text */}
+            <p 
+              className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-blue-100 
+                            max-w-2xl mx-auto leading-relaxed transform transition-all duration-300 
+                            hover:text-white"
+              style={{
+                textShadow: '0 2px 8px rgba(0,0,0,0.7)'
+              }}
+            >
+              Khám phá những dịch vụ tuyệt vời tại vùng đất thiên đường Tà Xùa
+            </p>
+            
+            {/* Enhanced Search Bar with hover effects */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 max-w-2xl mx-auto 
+                          transform transition-all duration-300 hover:scale-105">
+              <input
+                type="text"
+                placeholder="Tìm kiếm dịch vụ..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="flex-1 px-4 sm:px-6 py-3 sm:py-4 text-gray-800 rounded-l-full sm:rounded-r-none 
+                           rounded-r-full sm:rounded-l-full border-none outline-none text-sm sm:text-base
+                           bg-white/95 backdrop-blur-sm shadow-lg transition-all duration-300
+                           hover:bg-white hover:shadow-2xl focus:bg-white focus:shadow-2xl
+                           focus:ring-4 focus:ring-blue-300/50"
+              />
+              <button 
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-700 
+                         text-white rounded-r-full sm:rounded-l-none rounded-l-full sm:rounded-r-full 
+                         font-semibold text-sm sm:text-base shadow-lg transition-all duration-300 
+                         hover:from-blue-700 hover:to-blue-800 hover:shadow-2xl hover:scale-105
+                         active:scale-95 focus:ring-4 focus:ring-blue-300/50"
+              >
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
+                Tìm kiếm
+              </button>
             </div>
           </div>
-          
+
           {/* Scroll fade overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F9FAF9] opacity-0 transition-opacity duration-500" id="scroll-overlay"></div>
-        </div>
+        </section>
 
         {/* Service Categories Grid - Seamless transition */}
         <div style={{ backgroundColor: '#F9FAF9' }} className="py-16 -mt-1">
           <div className="container mx-auto px-4">
             {/* Service Categories Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
               {serviceCategories.map((category, index) => (
                 <div
                   key={category.id}
-                  className="group cursor-pointer transform transition-all duration-500 hover:scale-105 animate-fade-up"
+                  className="group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl animate-fade-up"
                   style={{
                     animationDelay: `${index * 150}ms`,
                     animationFillMode: 'both'
@@ -431,7 +473,7 @@ const Accommodation: React.FC = () => {
                   onClick={() => handleCategoryClick(category.id, category.route)}
                 >
                   <div 
-                    className="relative h-80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 bg-cover bg-center"
+                    className="relative h-80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 bg-cover bg-center group-hover:ring-4 group-hover:ring-white/50"
                     style={{
                       backgroundImage: category.bgImage.startsWith('/') 
                         ? `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('${category.bgImage}')`
@@ -453,8 +495,8 @@ const Accommodation: React.FC = () => {
                       </p>
                     </div>
 
-                    {/* Hover Effect Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Hover Effect Overlay - Dimmed background + Glowing border */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                 </div>
               ))}

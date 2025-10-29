@@ -327,7 +327,7 @@ const Explore = () => {
                   className="h-14 px-8 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-semibold text-lg w-full md:w-auto"
                   onClick={() => {
                     // Handle search logic here
-                    console.log('Search:', searchQuery, selectedDate);
+
                   }}
                 >
                   Khám phá ngay

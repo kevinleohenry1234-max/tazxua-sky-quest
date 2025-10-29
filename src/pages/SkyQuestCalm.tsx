@@ -51,10 +51,10 @@ export const SkyQuestCalm: React.FC = () => {
       ...updatedProgress[currentChallenge],
       completed: true,
       completedAt: new Date(),
-      reflection: userReflection
-    };
-    setProgress(updatedProgress);
-    setExpPoints(prev => prev + challenges[currentChallenge].points);
+        reflection: userReflection
+      };
+      setProgress(updatedProgress);
+      setExpPoints(prev => prev + challenges[currentChallenge].points);
     
     // Show completion animation
     setShowCompletion(true);
@@ -326,3 +326,5 @@ export const SkyQuestCalm: React.FC = () => {
     </Layout>
   );
 };
+
+export default SkyQuestCalm;

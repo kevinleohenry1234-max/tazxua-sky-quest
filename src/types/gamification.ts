@@ -84,7 +84,7 @@ export interface ChallengeLocation {
 export interface ChallengeRequirement {
   type: 'gps' | 'photo' | 'qr' | 'review' | 'checkin' | 'social_share';
   description: string;
-  data?: any; // GPS coordinates, QR code, etc.
+  data?: Record<string, unknown>; // GPS coordinates, QR code, etc.
 }
 
 export interface UserChallenge {
@@ -107,7 +107,7 @@ export interface ChallengeProgress {
   requirementId: string;
   completed: boolean;
   completedAt?: Date;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export interface ChallengeEvidence {

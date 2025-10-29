@@ -240,7 +240,7 @@ const UserProfilePage: React.FC = () => {
                       {themeOptions.map((theme) => (
                         <button
                           key={theme.name}
-                          onClick={() => setProfileSettings(prev => ({ ...prev, theme: theme.name as any }))}
+                          onClick={() => setProfileSettings(prev => ({ ...prev, theme: theme.name as 'green' | 'blue' | 'purple' | 'orange' }))}
                           className={`p-3 rounded-lg border-2 transition-all ${
                             profileSettings.theme === theme.name 
                               ? 'border-blue-500 bg-blue-50' 

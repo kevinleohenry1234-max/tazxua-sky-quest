@@ -41,13 +41,13 @@ const CategoryCards = () => {
     {
       id: 'explore',
       title: 'Khám Phá',
-      shortDescription: 'Những câu chuyện đang chờ bạn khám phá',
-      detailedDescription: 'Mỗi con đường, mỗi ngọn núi đều có câu chuyện riêng. Hãy để Tà Xùa kể cho bạn nghe về những điều kỳ diệu mà thiên nhiên đã ban tặng.',
+      shortDescription: 'Từ đỉnh Tà Xùa đến rừng nguyên sinh, mỗi hành trình là một câu chuyện thiên nhiên kỳ diệu.',
+      detailedDescription: 'Từ đỉnh Tà Xùa đến rừng nguyên sinh, mỗi hành trình là một câu chuyện thiên nhiên kỳ diệu.',
       icon: Compass,
       path: '/explore',
       backgroundImage: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
       ctaText: 'Bắt đầu khám phá',
-      highlights: ['Đỉnh Tà Xùa', 'Cây cô đơn', 'Biển mây'],
+      highlights: ['Đỉnh Tà Xùa', 'Cây cổ thụ', 'Biển mây'],
       hasExhibition: true,
       exhibitionImages: [
         '/images/digital-exhibition-hero.png',
@@ -58,25 +58,25 @@ const CategoryCards = () => {
     {
       id: 'services',
       title: 'Dịch Vụ',
-      shortDescription: 'Nơi bạn có thể gọi là nhà',
-      detailedDescription: 'Chị Hường và những người bạn địa phương đang chờ đón bạn với tách trà Shan ấm và những câu chuyện về cuộc sống nơi đây.',
+      shortDescription: 'Khám phá không gian lưu trú độc đáo, ẩm thực bản địa và sự hiếu khách của người dân Tà Xùa.',
+      detailedDescription: 'Khám phá không gian lưu trú độc đáo, ẩm thực bản địa và sự hiếu khách của người dân Tà Xùa.',
       icon: Home,
       path: '/accommodation',
       backgroundImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80',
       ctaText: 'Tìm nơi nghỉ ngơi',
-      highlights: ['Homestay truyền thống', 'View núi đồi', 'Ẩm thực địa phương']
+      highlights: ['Homestay truyền thống', 'View núi', 'Ẩm thực địa phương']
     },
     {
       id: 'skyquest',
       title: 'Sky Quest',
       subtitle: 'Hành trình du lịch xanh tại Tà Xùa',
-      shortDescription: 'Hành trình để trở thành phiên bản tốt hơn của chính bạn.',
-      detailedDescription: 'Mỗi hành động nhỏ của bạn đều góp phần làm Tà Xùa xanh hơn. Cùng nhau viết nên câu chuyện bảo vệ thiên nhiên qua những trải nghiệm đầy ý nghĩa.',
+      shortDescription: 'Hành trình du lịch xanh tại Tà Xùa – nơi mỗi trải nghiệm đóng góp cho một tương lai bền vững.',
+      detailedDescription: 'Hành trình du lịch xanh tại Tà Xùa – nơi mỗi trải nghiệm đóng góp cho một tương lai bền vững.',
       icon: Mountain,
       path: '/skyquest',
       backgroundImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
       ctaText: 'Bắt đầu hành trình',
-      highlights: ['Thử thách xanh', 'Kỷ vật độc đáo', 'Câu chuyện cảm xúc'],
+      highlights: ['Thử thách xanh', 'Ký ức đặc sắc', 'Câu chuyện cảm xúc'],
       isSpecial: true,
       specialBadge: 'Du lịch Bền vững',
       gradient: 'from-emerald-400 via-teal-500 to-purple-400'
@@ -160,28 +160,28 @@ const CategoryCards = () => {
                     {/* Content container with enhanced overlay for text readability */}
                     <div className="bg-gradient-to-t from-black/60 via-black/40 to-transparent p-6 sm:p-4 space-y-4">
                       
-                      {/* Title Section */}
+                      {/* Title Section - Increased font size and weight */}
                       <div className="space-y-2">
-                        <h3 className="font-inter text-2xl sm:text-xl font-bold text-white leading-tight drop-shadow-lg" 
+                        <h3 className="font-inter text-3xl md:text-2xl sm:text-xl font-bold text-white leading-tight drop-shadow-lg" 
                             style={{ textShadow: '0 3px 8px rgba(0,0,0,0.8)' }}>
                           {category.title}
                         </h3>
                         
                         {category.subtitle && (
-                          <p className="font-inter text-base sm:text-sm font-medium text-white/95 drop-shadow-md"
+                          <p className="font-inter text-lg md:text-base sm:text-sm font-semibold text-white/95 drop-shadow-md"
                              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.6)' }}>
                             {category.subtitle}
                           </p>
                         )}
                       </div>
                       
-                      {/* Description Section - Giới hạn 3 dòng */}
-                      <div className="space-y-3">
-                        <p className="font-inter text-white/90 text-sm leading-relaxed drop-shadow-md line-clamp-3"
+                      {/* Description Section - Clean and concise, max 2 lines */}
+                      <div className="space-y-4 mt-4">
+                        <p className="font-inter text-white/90 text-base md:text-sm leading-relaxed drop-shadow-md line-clamp-2"
                            style={{ 
                              textShadow: '0 2px 4px rgba(0,0,0,0.6)',
                              display: '-webkit-box',
-                             WebkitLineClamp: 3,
+                             WebkitLineClamp: 2,
                              WebkitBoxOrient: 'vertical',
                              overflow: 'hidden'
                            }}>
@@ -189,8 +189,8 @@ const CategoryCards = () => {
                         </p>
                       </div>
 
-                      {/* Tags Section - Badges bo tròn xếp ngang */}
-                      <div className="flex flex-wrap gap-2">
+                      {/* Tags Section - Separated with clear spacing */}
+                      <div className="flex flex-wrap gap-2 mt-6">
                         {category.highlights.map((highlight, index) => (
                           <span 
                             key={index}
@@ -202,9 +202,9 @@ const CategoryCards = () => {
                         ))}
                       </div>
 
-                      {/* Exhibition Section for Explore Card */}
+                      {/* Exhibition Section for Explore Card - Moved below tags */}
                       {category.hasExhibition && (
-                        <div className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+                        <div className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 mt-4">
                           <div className="flex items-center justify-between mb-2">
                             <h4 className="font-inter text-sm font-semibold text-white flex items-center drop-shadow-sm"
                                 style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
@@ -234,8 +234,8 @@ const CategoryCards = () => {
                         </div>
                       )}
 
-                      {/* CTA Button - Đặt ở cuối với màu chính và hover effect */}
-                      <div className="pt-2">
+                      {/* CTA Button - Clear separation with proper spacing */}
+                      <div className="pt-6 mt-6">
                         <Button 
                           className={`w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white border-0 rounded-2xl py-3 sm:py-2.5 font-semibold transition-all duration-300 group/btn drop-shadow-lg shadow-lg hover:shadow-xl ${
                             !prefersReducedMotion && isHovered 

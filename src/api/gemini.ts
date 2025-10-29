@@ -20,9 +20,20 @@ interface GeminiResponse {
   }[];
 }
 
-export const generatePromptWithGemini = async (systemPrompt: string, context: any): Promise<string> => {
+export const generatePromptWithGemini = async (
+  systemPrompt: string, 
+  context: Record<string, unknown>,
+  retryCount: number = 3
+): Promise<string> => {
+  // Fallback to template if API key is missing
   if (!GEMINI_API_KEY) {
-    throw new Error('Gemini API key not found in environment variables');
+    console.warn('Gemini API key not found, using fallback prompt');
+    return generateFallbackPrompt({
+      userIdea: String(context.userIdea || 'peaceful mountain music'),
+      instrument: String(context.instrument || ''),
+      mood: String(context.mood || ''),
+      timeOfDay: String(context.timeOfDay || '')
+    });
   }
 
   const requestBody: GeminiRequest = {
@@ -37,33 +48,70 @@ export const generatePromptWithGemini = async (systemPrompt: string, context: an
     ]
   };
 
-  try {
-    const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody)
-    });
+  for (let attempt = 1; attempt <= retryCount; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Gemini API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = `Gemini API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`;
+        
+        // Don't retry on client errors (4xx)
+        if (response.status >= 400 && response.status < 500) {
+          console.error(errorMessage);
+          break;
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      const data: GeminiResponse = await response.json();
+      
+      if (!data.candidates || data.candidates.length === 0) {
+        throw new Error('No response generated from Gemini API');
+      }
+
+      const generatedText = data.candidates[0].content.parts[0].text;
+      return generatedText.trim();
+
+    } catch (error) {
+      console.error(`Gemini API attempt ${attempt}/${retryCount} failed:`, error);
+      
+      // If this is the last attempt or a non-retryable error, use fallback
+      if (attempt === retryCount || (error as Error).name === 'AbortError') {
+        console.warn('All Gemini API attempts failed, using fallback prompt');
+        return generateFallbackPrompt({
+          userIdea: String(context.userIdea || 'peaceful mountain music'),
+          instrument: String(context.instrument || ''),
+          mood: String(context.mood || ''),
+          timeOfDay: String(context.timeOfDay || '')
+        });
+      }
+      
+      // Wait before retry (exponential backoff)
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
     }
-
-    const data: GeminiResponse = await response.json();
-    
-    if (!data.candidates || data.candidates.length === 0) {
-      throw new Error('No response generated from Gemini API');
-    }
-
-    const generatedText = data.candidates[0].content.parts[0].text;
-    return generatedText.trim();
-
-  } catch (error) {
-    console.error('Error calling Gemini API:', error);
-    throw error;
   }
+
+  // This should never be reached, but just in case
+  return generateFallbackPrompt({
+    userIdea: String(context.userIdea || 'peaceful mountain music'),
+    instrument: String(context.instrument || ''),
+    mood: String(context.mood || ''),
+    timeOfDay: String(context.timeOfDay || '')
+  });
 };
 
 // Fallback prompt templates for when Gemini API is not available

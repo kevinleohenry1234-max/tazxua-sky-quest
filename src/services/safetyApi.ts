@@ -50,16 +50,18 @@ export interface WasteLocation {
   lastUpdated: string;
 }
 
-// API Base URL Configuration
+// API Configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
-// Utility function để xử lý API calls với error handling
+// Enhanced API call function with better error handling
 async function apiCall<T>(
   endpoint: string, 
   options: RequestInit = {}
 ): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
@@ -67,13 +69,27 @@ async function apiCall<T>(
       ...options,
     });
 
+    // Check if response is ok
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get('Content-Type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.warn(`API returned non-JSON response for ${endpoint}:`, text.substring(0, 200));
+      throw new Error(`API returned non-JSON response: ${contentType || 'text/html'}`);
     }
 
     return await response.json();
   } catch (error) {
-    console.error(`API call failed for ${endpoint}:`, error);
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      console.warn(`Network error for ${endpoint}: API server may be unavailable`);
+      throw new Error(`Network error: API server unavailable`);
+    }
+    
+    console.warn(`API call failed for ${endpoint}:`, error);
     throw error;
   }
 }
@@ -83,26 +99,25 @@ export const weatherApi = {
   // Lấy thông tin thời tiết hiện tại
   async getCurrentWeather(): Promise<WeatherData> {
     try {
-      const data = await apiCall<WeatherData>('/weather/current');
-      return data;
+      return await apiCall<WeatherData>('/weather/current');
     } catch (error) {
-      // Fallback data nếu API không khả dụng
-      console.warn('Weather API unavailable, using fallback data');
+      console.info('Weather API unavailable, using fallback data');
+      // Return fallback weather data when API is unavailable
       return {
-        temperature: 18,
-        humidity: 85,
+        temperature: 22,
+        humidity: 75,
         description: 'Sương mù nhẹ',
         windSpeed: 5,
-        visibility: 2000,
+        visibility: 8,
         pressure: 1013,
         uvIndex: 3,
         alerts: [
           {
-            id: '1',
+            id: 'fog-advisory',
             type: 'advisory',
             title: 'Cảnh báo sương mù',
-            description: 'Tầm nhìn hạn chế dưới 500m vào sáng sớm',
-            severity: 'medium',
+            description: 'Sương mù có thể ảnh hưởng đến tầm nhìn khi leo núi vào sáng sớm',
+            severity: 'low',
             startTime: new Date().toISOString(),
             endTime: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString()
           }
@@ -111,13 +126,28 @@ export const weatherApi = {
     }
   },
 
-  // Lấy dự báo thời tiết 7 ngày
+  // Lấy dự báo thời tiết
   async getWeatherForecast(): Promise<WeatherData[]> {
     try {
       return await apiCall<WeatherData[]>('/weather/forecast');
     } catch (error) {
-      console.warn('Weather forecast API unavailable');
-      return [];
+      console.info('Weather forecast API unavailable, using fallback data');
+      // Return basic forecast fallback data
+      const baseWeather = {
+        temperature: 20,
+        humidity: 70,
+        description: 'Có mây',
+        windSpeed: 3,
+        visibility: 10,
+        pressure: 1015,
+        uvIndex: 4
+      };
+      
+      return [
+        { ...baseWeather, temperature: 22 },
+        { ...baseWeather, temperature: 25 },
+        { ...baseWeather, temperature: 18 }
+      ];
     }
   }
 };
@@ -179,8 +209,8 @@ export const reportsApi = {
     try {
       return await apiCall<CommunityReport[]>(`/report?limit=${limit}`);
     } catch (error) {
-      console.warn('Reports API unavailable, using fallback data');
-      // Fallback data
+      console.info('Reports API unavailable, using fallback data');
+      // Return fallback community reports when API is unavailable
       return [
         {
           id: '1',

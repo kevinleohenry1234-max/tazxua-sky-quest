@@ -416,3 +416,5 @@ export const SkyQuestEnergetic: React.FC = () => {
     </Layout>
   );
 };
+
+export default SkyQuestEnergetic;

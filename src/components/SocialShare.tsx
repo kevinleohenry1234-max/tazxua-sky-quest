@@ -81,7 +81,7 @@ const SocialShare: React.FC<SocialShareProps> = ({
           url
         });
       } catch (err) {
-        console.log('Error sharing:', err);
+
       }
     } else {
       setIsOpen(!isOpen);

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import { SWRConfig } from 'swr';
 import { useAttractions, useAccommodations, useWeather } from '@/hooks/useSWR';
+import { ErrorHandler } from '@/utils/errorHandler';
 
 interface DataContextType {
   attractions: any;
@@ -25,24 +26,29 @@ const swrConfig = {
   errorRetryInterval: 5000,
   // Global fetcher function
   fetcher: async (url: string) => {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      // Check if response is JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        console.warn(`API endpoint ${url} returned non-JSON response, using mock data`);
-        return { data: [] }; // Return empty data structure
-      }
-      
-      return response.json();
-    } catch (error) {
+    return ErrorHandler.withRetry(
+      async () => {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          console.warn(`API endpoint ${url} returned non-JSON response, using mock data`);
+          return { data: [] }; // Return empty data structure
+        }
+        
+        return response.json();
+      },
+      3,
+      1000,
+      `DataProvider - fetcher for ${url}`
+    ).catch((error) => {
       console.warn(`API call failed for ${url}, using fallback data:`, error);
       return { data: [] }; // Return empty data structure on error
-    }
+    });
   },
   // Cache provider for better performance
   provider: () => new Map(),

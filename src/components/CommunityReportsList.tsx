@@ -15,6 +15,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { reportsApi, type CommunityReport } from '@/services/safetyApi';
+import { useErrorHandler } from '@/utils/errorHandler';
 
 interface CommunityReportsListProps {
   refreshTrigger?: number;
@@ -25,21 +26,26 @@ const CommunityReportsList: React.FC<CommunityReportsListProps> = ({ refreshTrig
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const { withErrorHandling } = useErrorHandler();
 
   // Fetch reports from API
   const fetchReports = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await reportsApi.getReports(20);
-      setReports(data);
+    setLoading(true);
+    setError(null);
+    
+    const result = await withErrorHandling(
+      () => reportsApi.getReports(20),
+      'CommunityReportsList - fetchReports'
+    );
+
+    if (result) {
+      setReports(result);
       setLastUpdated(new Date());
-    } catch (err) {
+    } else {
       setError('Không thể tải danh sách báo cáo. Vui lòng thử lại sau.');
-      console.error('Reports fetch error:', err);
-    } finally {
-      setLoading(false);
     }
+    
+    setLoading(false);
   };
 
   // Initial load and refresh trigger

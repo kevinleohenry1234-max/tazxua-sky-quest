@@ -81,14 +81,14 @@ class GoogleMapsLoader {
         // Kiểm tra xem Google Maps đã sẵn sàng chưa
         if (window.google?.maps) {
           this.isLoaded = true;
-          console.log('Google Maps API loaded successfully');
+
           this.executeCallbacks();
         } else {
           // Đợi một chút để Google Maps khởi tạo
           setTimeout(() => {
             if (window.google?.maps) {
               this.isLoaded = true;
-              console.log('Google Maps API loaded successfully (delayed)');
+
               this.executeCallbacks();
             } else {
               console.error('Google Maps API loaded but not available');

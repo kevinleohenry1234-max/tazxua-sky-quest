@@ -19,6 +19,7 @@ import SectionTransition from '@/components/SectionTransition';
 import { supabase, getCurrentUser, signOut, getSession, onAuthStateChange, signInUser, registerUser } from '@/lib/supabase';
 import { LoginData } from '@/components/LoginModal';
 import { RegisterData } from '@/components/RegisterModal';
+import { seoOptimizer } from '@/utils/seoOptimizer';
 import heroImage1 from '@/assets/hero-taxua-clouds.jpg';
 import heroImage2 from '@/assets/hmong-culture.jpg';
 import heroImage3 from '@/assets/shan-tuyet-tea.jpg';
@@ -82,6 +83,56 @@ const Index = () => {
     return () => {
       subscription?.unsubscribe();
     };
+  }, []);
+
+  // SEO optimization for homepage
+  useEffect(() => {
+    seoOptimizer.updateMetaTags({
+      title: 'Tà Xùa Mùa Xanh - Khám Phá Vẻ Đẹp Tây Bắc Việt Nam',
+      description: 'Khám phá vẻ đẹp hùng vĩ của Tà Xùa với biển mây bồng bềnh, sống lưng khủng long và văn hóa dân tộc H\'Mông độc đáo. Trải nghiệm du lịch sinh thái bền vững tại Tây Bắc Việt Nam.',
+      keywords: 'Tà Xùa, du lịch Tây Bắc, biển mây, sống lưng khủng long, H\'Mông, du lịch sinh thái, Việt Nam',
+      image: heroImage1,
+      type: 'website',
+      locale: 'vi_VN'
+    });
+
+    // Add structured data for homepage
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "TouristDestination",
+      "name": "Tà Xùa Mùa Xanh",
+      "description": "Điểm đến du lịch sinh thái hàng đầu Tây Bắc Việt Nam với biển mây, sống lưng khủng long và văn hóa dân tộc",
+      "image": [heroImage1, heroImage2, heroImage3],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "VN",
+        "addressRegion": "Sơn La",
+        "addressLocality": "Bắc Yên"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 21.3099,
+        "longitude": 104.4569
+      },
+      "touristType": ["EcoTourist", "AdventureTourist", "CulturalTourist"],
+      "availableLanguage": ["vi", "en"],
+      "isAccessibleForFree": false,
+      "publicAccess": true
+    };
+
+    seoOptimizer.addStructuredData(structuredData);
+
+    // Add breadcrumb for homepage
+    seoOptimizer.addBreadcrumbStructuredData([
+      { name: 'Trang chủ', url: window.location.origin }
+    ]);
+
+    // Preload critical resources
+    seoOptimizer.preloadCriticalResources([
+      heroImage1,
+      heroImage2,
+      heroImage3
+    ]);
   }, []);
 
   const handleLogin = () => {
@@ -265,13 +316,7 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Final Transition to Footer */}
-              <SectionTransition 
-                variant="curve" 
-                fromColor="from-emerald-50" 
-                toColor="to-slate-900" 
-                height="h-28"
-              />
+
             </main>
             
             <Footer />

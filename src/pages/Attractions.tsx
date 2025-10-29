@@ -9,17 +9,60 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MapPin, Clock, Camera, Mountain, Filter, Search, Calendar, Users, Star, Share2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LazyImage from '@/components/LazyImage';
 import dragonSpineImage from '@/assets/dragon-spine.jpg';
 import SearchAutocomplete from '@/components/SearchAutocomplete';
 import RatingSystem from '@/components/RatingSystem';
 import SocialShare from '@/components/SocialShare';
+import { seoOptimizer } from '@/utils/seoOptimizer';
 
 const Attractions = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('all');
   const [durationFilter, setDurationFilter] = useState('all');
+
+  // SEO optimization for attractions page
+  useEffect(() => {
+    seoOptimizer.updateMetaTags({
+      title: 'Điểm Tham Quan Tà Xùa - Khám Phá Các Địa Điểm Hấp Dẫn',
+      description: 'Khám phá các điểm tham quan nổi tiếng tại Tà Xùa: Sống Lưng Khủng Long, Đỉnh Phu Sang, Cây Cô Đơn, Đồi Chè Shan Tuyết. Hướng dẫn chi tiết về thời gian, độ khó và cách di chuyển.',
+      keywords: 'điểm tham quan Tà Xùa, sống lưng khủng long, đỉnh Phu Sang, cây cô đơn, đồi chè Shan Tuyết, du lịch Tây Bắc',
+      image: dragonSpineImage,
+      type: 'article',
+      locale: 'vi_VN'
+    });
+
+    // Add structured data for attractions
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Điểm Tham Quan Tà Xùa",
+      "description": "Danh sách các điểm tham quan hấp dẫn tại Tà Xùa",
+      "numberOfItems": 6,
+      "itemListElement": [
+        {
+          "@type": "TouristAttraction",
+          "name": "Sống Lưng Khủng Long",
+          "description": "Dãy núi hùng vĩ với hình dáng giống như sống lưng khủng long khổng lồ",
+          "image": dragonSpineImage,
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 21.3099,
+            "longitude": 104.4569
+          }
+        }
+      ]
+    };
+
+    seoOptimizer.addStructuredData(structuredData);
+
+    // Add breadcrumb
+    seoOptimizer.addBreadcrumbStructuredData([
+      { name: 'Trang chủ', url: window.location.origin },
+      { name: 'Điểm tham quan', url: window.location.href }
+    ]);
+  }, []);
 
   const attractions = [
     {
@@ -366,7 +409,7 @@ const Attractions = () => {
                       }
                     ]}
                     onSubmitReview={(review) => {
-                      console.log('New review:', review);
+
                       // Handle review submission
                     }}
                   />

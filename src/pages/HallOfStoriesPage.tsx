@@ -98,12 +98,12 @@ const HallOfStoriesPage: React.FC = () => {
   ]);
 
   const handleCloudLike = (storyId: string) => {
-    console.log('Cloud like for story:', storyId);
+
     // Implement cloud like functionality
   };
 
   const handleSendWish = (storyId: string, wish: Omit<StoryWish, 'id' | 'createdAt'>) => {
-    console.log('Send wish for story:', storyId, wish);
+
     // Implement send wish functionality
   };
 

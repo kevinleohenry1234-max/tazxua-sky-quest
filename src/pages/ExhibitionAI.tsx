@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LazyImage from '@/components/LazyImage';
+import { seoOptimizer } from '@/utils/seoOptimizer';
 
 // Import sample images
 import heroImage from '@/assets/hero-taxua-clouds.jpg';
@@ -43,6 +44,54 @@ const ExhibitionAI = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedArtwork, setSelectedArtwork] = useState<number | null>(null);
   const navigate = useNavigate();
+
+  // SEO optimization for AI exhibition page
+  useEffect(() => {
+    seoOptimizer.updateMetaTags({
+      title: 'Triển Lãm AI Tà Xùa - Nghệ Thuật Số Và Công Nghệ Hiện Đại',
+      description: 'Khám phá bộ sưu tập nghệ thuật số độc đáo về Tà Xùa được tạo ra bởi AI. Trải nghiệm sự kết hợp giữa vẻ đẹp thiên nhiên và công nghệ trí tuệ nhân tạo tiên tiến.',
+      keywords: 'triển lãm AI, nghệ thuật số Tà Xùa, AI art, DALL-E, Midjourney, công nghệ AI, nghệ thuật hiện đại',
+      image: heroImage,
+      type: 'article',
+      locale: 'vi_VN'
+    });
+
+    // Add structured data for AI exhibition
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "ExhibitionEvent",
+      "name": "Triển Lãm AI Tà Xùa",
+      "description": "Triển lãm nghệ thuật số về Tà Xùa được tạo ra bởi trí tuệ nhân tạo",
+      "image": [heroImage, hmongCultureImage, terraceFieldsImage, shanTuyetTeaImage],
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+      "location": {
+        "@type": "VirtualLocation",
+        "url": window.location.href
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Tà Xùa Mùa Xanh",
+        "url": window.location.origin
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "VND",
+        "availability": "https://schema.org/InStock"
+      }
+    };
+
+    seoOptimizer.addStructuredData(structuredData);
+
+    // Add breadcrumb
+    seoOptimizer.addBreadcrumbStructuredData([
+      { name: 'Trang chủ', url: window.location.origin },
+      { name: 'Triển lãm AI', url: window.location.href }
+    ]);
+  }, []);
 
   const handleLogin = async (data: LoginData) => {
     setIsLoggedIn(true);

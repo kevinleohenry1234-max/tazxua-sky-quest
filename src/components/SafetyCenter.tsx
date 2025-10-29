@@ -341,11 +341,11 @@ const SafetyCenter: React.FC = () => {
       
       // Show success toast
       // This would be implemented with a toast library
-      console.log(`Dữ liệu của bạn đã được cập nhật lúc ${now}.`);
+
     } catch (error) {
       console.error('Sync failed:', error);
       // Show error toast
-      console.log('Không thể cập nhật dữ liệu mới. Tiếp tục dùng dữ liệu đã lưu.');
+
     }
   };
 

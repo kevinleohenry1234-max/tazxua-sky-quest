@@ -143,7 +143,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
          <div className="mb-12 max-w-6xl mx-auto">
              <SearchDashboard
                onSearch={(searchData) => {
-                 console.log('Search:', searchData);
+
                  handleDirectSearch();
                }}
              />

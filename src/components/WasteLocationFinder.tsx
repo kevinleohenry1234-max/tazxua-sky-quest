@@ -15,6 +15,7 @@ import {
   Locate
 } from 'lucide-react';
 import { wasteLocationApi, gpsUtils, type WasteLocation } from '@/services/safetyApi';
+import { useErrorHandler } from '@/utils/errorHandler';
 
 const WasteLocationFinder: React.FC = () => {
   const [locations, setLocations] = useState<WasteLocation[]>([]);
@@ -25,6 +26,7 @@ const WasteLocationFinder: React.FC = () => {
     type: 'success' | 'error' | 'info' | null;
     message: string;
   }>({ type: null, message: '' });
+  const { withErrorHandling } = useErrorHandler();
 
   // Get waste location type badge
   const getTypeBadge = (type: WasteLocation['type']) => {
@@ -48,24 +50,35 @@ const WasteLocationFinder: React.FC = () => {
 
   // Find nearest waste locations
   const findNearestLocations = async () => {
-    try {
-      setGettingLocation(true);
-      setStatus({ type: 'info', message: 'Đang lấy vị trí hiện tại...' });
+    setGettingLocation(true);
+    setStatus({ type: 'info', message: 'Đang lấy vị trí hiện tại...' });
 
-      // Get current GPS location
-      const position = await gpsUtils.getCurrentPosition();
-      setUserLocation(position);
+    // Get current GPS location
+    const position = await withErrorHandling(
+      () => gpsUtils.getCurrentPosition(),
+      'WasteLocationFinder - getCurrentPosition'
+    );
 
-      setLoading(true);
-      setStatus({ type: 'info', message: 'Đang tìm điểm bỏ rác gần nhất...' });
+    if (!position) {
+      setStatus({
+        type: 'error',
+        message: 'Không thể lấy vị trí hiện tại. Vui lòng kiểm tra quyền truy cập GPS.'
+      });
+      setGettingLocation(false);
+      return;
+    }
 
-      // Find nearest waste locations
-      const nearestLocations = await wasteLocationApi.findNearestWasteLocations(
-        position.lat,
-        position.lng,
-        3
-      );
+    setUserLocation(position);
+    setLoading(true);
+    setStatus({ type: 'info', message: 'Đang tìm điểm bỏ rác gần nhất...' });
 
+    // Find nearest waste locations
+    const nearestLocations = await withErrorHandling(
+      () => wasteLocationApi.findNearestWasteLocations(position.lat, position.lng, 3),
+      'WasteLocationFinder - findNearestWasteLocations'
+    );
+
+    if (nearestLocations) {
       setLocations(nearestLocations);
       
       if (nearestLocations.length > 0) {
@@ -79,17 +92,15 @@ const WasteLocationFinder: React.FC = () => {
           message: 'Không tìm thấy điểm bỏ rác nào trong khu vực'
         });
       }
-
-    } catch (error) {
-      console.error('Waste location finder error:', error);
+    } else {
       setStatus({
         type: 'error',
-        message: 'Không thể tìm điểm bỏ rác. Vui lòng kiểm tra quyền truy cập GPS và thử lại.'
+        message: 'Không thể tìm điểm bỏ rác. Vui lòng thử lại sau.'
       });
-    } finally {
-      setGettingLocation(false);
-      setLoading(false);
     }
+
+    setGettingLocation(false);
+    setLoading(false);
   };
 
   // Open Google Maps

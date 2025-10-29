@@ -1,0 +1,28 @@
+{
+  "name": "Tà Xùa - Khám Phá Vẻ Đẹp Núi Rừng Tây Bắc",
+  "short_name": "Tà Xùa",
+  "description": "Khám phá vẻ đẹp hùng vĩ của Tà Xùa, Sơn La với những trải nghiệm độc đáo về văn hóa H'Mông, chè Shan Tuyết cổ thụ và biển mây bạt ngàn.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["travel", "tourism", "lifestyle"],
+  "lang": "vi",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

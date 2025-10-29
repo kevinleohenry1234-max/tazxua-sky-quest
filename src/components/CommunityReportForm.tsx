@@ -15,6 +15,7 @@ import {
   Locate
 } from 'lucide-react';
 import { reportsApi, gpsUtils } from '@/services/safetyApi';
+import { useErrorHandler } from '@/utils/errorHandler';
 
 interface CommunityReportFormProps {
   onReportSubmitted?: () => void;
@@ -31,6 +32,7 @@ const CommunityReportForm: React.FC<CommunityReportFormProps> = ({ onReportSubmi
     type: 'success' | 'error' | 'info' | null;
     message: string;
   }>({ type: null, message: '' });
+  const { withErrorHandling } = useErrorHandler();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -80,11 +82,15 @@ const CommunityReportForm: React.FC<CommunityReportFormProps> = ({ onReportSubmi
 
   // Get current GPS location
   const getCurrentLocation = async () => {
-    try {
-      setGettingLocation(true);
-      setStatus({ type: 'info', message: 'Đang lấy vị trí hiện tại...' });
-      
-      const position = await gpsUtils.getCurrentPosition();
+    setGettingLocation(true);
+    setStatus({ type: 'info', message: 'Đang lấy vị trí hiện tại...' });
+    
+    const position = await withErrorHandling(
+      () => gpsUtils.getCurrentPosition(),
+      'CommunityReportForm - getCurrentPosition'
+    );
+
+    if (position) {
       setCoordinates({
         lat: position.lat,
         lng: position.lng
@@ -94,15 +100,14 @@ const CommunityReportForm: React.FC<CommunityReportFormProps> = ({ onReportSubmi
         type: 'success',
         message: `Đã lấy vị trí: ${position.lat.toFixed(6)}, ${position.lng.toFixed(6)}`
       });
-    } catch (error) {
-      console.error('GPS Error:', error);
+    } else {
       setStatus({
         type: 'error',
         message: 'Không thể lấy vị trí hiện tại. Vui lòng kiểm tra quyền truy cập GPS.'
       });
-    } finally {
-      setGettingLocation(false);
     }
+    
+    setGettingLocation(false);
   };
 
   // Submit report
@@ -126,17 +131,20 @@ const CommunityReportForm: React.FC<CommunityReportFormProps> = ({ onReportSubmi
       return;
     }
 
-    try {
-      setLoading(true);
-      setStatus({ type: 'info', message: 'Đang gửi báo cáo...' });
+    setLoading(true);
+    setStatus({ type: 'info', message: 'Đang gửi báo cáo...' });
 
-      await reportsApi.submitReport({
+    const result = await withErrorHandling(
+      () => reportsApi.submitReport({
         content: content.trim(),
         image,
         location: coordinates,
         type: 'safety'
-      });
+      }),
+      'CommunityReportForm - submitReport'
+    );
 
+    if (result) {
       // Success
       setStatus({
         type: 'success',
@@ -154,16 +162,14 @@ const CommunityReportForm: React.FC<CommunityReportFormProps> = ({ onReportSubmi
 
       // Notify parent component
       onReportSubmitted?.();
-
-    } catch (error) {
-      console.error('Submit Error:', error);
+    } else {
       setStatus({
         type: 'error',
         message: 'Có lỗi xảy ra khi gửi báo cáo. Vui lòng thử lại sau.'
       });
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
