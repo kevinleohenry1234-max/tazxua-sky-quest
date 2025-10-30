@@ -6,6 +6,7 @@ import removeConsole from "vite-plugin-removelog";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: './',
   server: {
     host: "::",
     port: 5173,
