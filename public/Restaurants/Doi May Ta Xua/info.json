@@ -1,0 +1,40 @@
+{
+  "id": "rest-004",
+  "name": "Đồi Mây Tà Xùa",
+  "description": "Nhà hàng với view đồi mây tuyệt đẹp, chuyên các món nướng và đặc sản địa phương. Tổ hợp nhà hàng lẩu-nướng, cơm món, cà phê và homestay.",
+  "address": "Cách cổng chào 50m, cạnh Nhà Nghỉ Mùa Trứ, trung tâm xã Tà Xùa, Bắc Yên, Sơn La",
+  "phone": "0355 360 227",
+  "openHours": "08:00 - 22:00",
+  "priceRange": "200.000 - 350.000đ/người",
+  "cuisine": "Nướng & Đặc sản",
+  "rating": 4.4,
+  "capacity": "100 người",
+  "specialties": [
+    "Mẹt nướng Tây Bắc",
+    "Gà nướng",
+    "Cơm lam",
+    "Cá nướng",
+    "Lẩu gà đen",
+    "Món khô đặc sản"
+  ],
+  "amenities": [
+    "Chỗ đậu xe",
+    "View đồi mây",
+    "Phù hợp gia đình",
+    "Khuôn viên rộng rãi",
+    "Homestay kết hợp"
+  ],
+  "features": [
+    "View đồi mây tuyệt đẹp",
+    "Món nướng đặc sắc",
+    "Đặc sản địa phương",
+    "Không gian sống ảo",
+    "Tổ hợp đa dịch vụ"
+  ],
+  "images": [
+    "quan_an_ngon_tai_ta_xua_1.png",
+    "quan_an_ngon_tai_ta_xua_2.png",
+    "quan_an_ngon_tai_ta_xua_3.png"
+  ],
+  "note": "Nên đặt bàn trước để được phục vụ chu đáo"
+}

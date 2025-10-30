@@ -76,15 +76,16 @@ export async function convertToWebP(
     };
 
     // Handle URL encoding properly for spaces and special characters
-    // Only encode the path parts that need encoding, not the entire URL
-    const urlParts = imageUrl.split('/');
-    const encodedParts = urlParts.map((part, index) => {
-      // Don't encode protocol (http:, https:) or empty parts
-      if (index < 3 || part === '') return part;
-      // Encode only the filename and directory parts
-      return encodeURIComponent(part);
-    });
-    const encodedUrl = encodedParts.join('/');
+    // Smart encoding: only encode if not already encoded
+    let encodedUrl = imageUrl;
+    
+    // Check if URL is already encoded by looking for %20 or other encoded characters
+    const isAlreadyEncoded = /%[0-9A-Fa-f]{2}/.test(imageUrl);
+    
+    if (!isAlreadyEncoded) {
+      // Only encode spaces and other problematic characters, preserve URL structure
+      encodedUrl = imageUrl.replace(/ /g, '%20');
+    }
     
     img.src = encodedUrl;
   });

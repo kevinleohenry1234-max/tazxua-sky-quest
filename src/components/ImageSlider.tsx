@@ -8,6 +8,7 @@ interface ImageSliderProps {
   className?: string;
   autoPlay?: boolean;
   autoPlayInterval?: number;
+  enableZoom?: boolean;
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({
@@ -15,7 +16,8 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
   alt,
   className = '',
   autoPlay = true,
-  autoPlayInterval = 4000
+  autoPlayInterval = 4000,
+  enableZoom = false
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -73,7 +75,9 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
       <LazyImage
         src={images[currentIndex]}
         alt={`${alt} - ${currentIndex + 1}`}
-        className="w-full h-full object-cover transition-all duration-500 ease-in-out"
+        className={`w-full h-full object-cover transition-all duration-500 ease-in-out ${
+          enableZoom ? 'hover:scale-105' : ''
+        }`}
       />
       
       {/* Gradient Overlay */}

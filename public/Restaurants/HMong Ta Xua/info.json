@@ -1,0 +1,40 @@
+{
+  "id": "rest-005",
+  "name": "H'Mông Tà Xùa",
+  "description": "Nhà hàng chuyên phục vụ cá tầm, cá hồi tươi ngon và các đặc sản Tây Bắc. Không gian rộng rãi, phục vụ nhiệt tình với giá cả hợp lý.",
+  "address": "Trung tâm Tà Xùa, Bắc Yên, Tà Xùa, Sơn La",
+  "phone": "0979 810 892",
+  "openHours": "08:00 - 22:00",
+  "priceRange": "200.000 - 300.000đ/người",
+  "cuisine": "Hải sản & Đặc sản",
+  "rating": 4.3,
+  "capacity": "80 người",
+  "specialties": [
+    "Cá tầm tươi",
+    "Cá hồi tươi",
+    "Lợn bản",
+    "Gà đồi",
+    "Vịt bản",
+    "Cá suối"
+  ],
+  "amenities": [
+    "Chỗ đậu xe",
+    "Không gian rộng rãi",
+    "Phù hợp gia đình",
+    "Phục vụ nhiệt tình",
+    "Giá cả hợp lý"
+  ],
+  "features": [
+    "Cá tầm, cá hồi tươi ngon",
+    "Đặc sản Tây Bắc",
+    "Phục vụ chuyên nghiệp",
+    "Không gian thoải mái",
+    "Giá cả phải chăng"
+  ],
+  "images": [
+    "hmong_ta_xua_1.png",
+    "hmong_ta_xua_2.png",
+    "hmong_ta_xua_3.png"
+  ],
+  "note": "Các món đặc biệt cần đặt trước để được phục vụ tốt nhất"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "rest-001",
+  "name": "Nhà Hàng A Phủ",
+  "description": "Tinh hoa ẩm thực Tà Xùa với đặc sản gà bản, gà đen, lợn đen, thịt gác bếp và rau rừng. View biển mây tuyệt đẹp.",
+  "address": "Trung tâm xã Tà Xùa, Bắc Yên, Sơn La",
+  "phone": "0978 426 813",
+  "openHours": "Cả ngày",
+  "priceRange": "150.000 - 250.000đ/người",
+  "cuisine": "Đặc sản Tây Bắc",
+  "rating": 4.6,
+  "capacity": "300 người",
+  "specialties": [
+    "Gà bản",
+    "Gà đen", 
+    "Lợn đen",
+    "Thịt gác bếp",
+    "Rau rừng",
+    "Cơm lam",
+    "Vịt quay Tây Bắc"
+  ],
+  "amenities": [
+    "Chỗ đậu xe",
+    "View biển mây",
+    "Phù hợp gia đình",
+    "Sức chứa lớn",
+    "Không gian rộng rãi"
+  ],
+  "features": [
+    "Đặc sản núi rừng",
+    "View panorama",
+    "Tiệc nhóm lớn",
+    "Liên hoan công ty",
+    "Sinh nhật"
+  ],
+  "images": [
+    "Screenshot 2025-10-03 011500.png",
+    "Screenshot 2025-10-03 011541.png", 
+    "Screenshot 2025-10-03 011625.png"
+  ]
+}

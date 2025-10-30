@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Header from '@/components/Header';
 import MainNavigation from '@/components/MainNavigation';
@@ -79,7 +80,7 @@ const serviceCategories: ServiceCategory[] = [
     title: 'Nhà hàng & Ẩm thực địa phương',
     description: 'Thưởng thức hương vị H\'Mông và Shan Tuyết.',
     icon: <UtensilsCrossed className="w-8 h-8" />,
-    route: '/restaurant',
+    route: '/accommodation/restaurant',
     bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/Restaurant.png')`,
     bgColor: 'from-red-500 to-red-600'
   },
@@ -88,7 +89,7 @@ const serviceCategories: ServiceCategory[] = [
     title: 'Tour Du Lịch',
     description: 'Khám phá hành trình xanh cùng hướng dẫn viên địa phương.',
     icon: <MapIcon className="w-8 h-8" />,
-    route: '/tour',
+    route: '/accommodation/tour',
     bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/Tour.png')`,
     bgColor: 'from-blue-500 to-blue-600'
   },
@@ -97,7 +98,7 @@ const serviceCategories: ServiceCategory[] = [
     title: 'Di chuyển',
     description: 'Tự do khám phá Tà Xùa và kết nối liên tuyến',
     icon: <CarFront className="w-8 h-8" />,
-    route: '/transport',
+    route: '/accommodation/transport',
     bgImage: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('/images/service/transportation.png')`,
     bgColor: 'from-purple-500 to-purple-600'
   }
@@ -114,6 +115,7 @@ const heroImages = [
 ];
 
 const Accommodation: React.FC = () => {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -181,9 +183,8 @@ const Accommodation: React.FC = () => {
     if (categoryId === 'accommodation') {
       setSelectedCategory(categoryId);
     } else {
-      // Navigate to other routes (placeholder for now)
-
-      // In a real app, you would use router.push(route) here
+      // Navigate to other routes
+      navigate(route);
     }
   };
 

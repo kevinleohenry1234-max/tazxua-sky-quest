@@ -22,7 +22,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
     if (hotel.images.length > 1 && isAutoPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentImageIndex((prev) => (prev + 1) % hotel.images.length);
-      }, 5000); // 5 seconds
+      }, 4000); // 4 seconds for smooth slideshow
     }
 
     return () => {
@@ -124,11 +124,12 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
           </>
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-            <div className="text-center text-gray-500">
-              <div className="w-16 h-16 mx-auto mb-2 bg-blue-300 rounded-full flex items-center justify-center">
+            <div className="text-center text-gray-600">
+              <div className="w-16 h-16 mx-auto mb-3 bg-blue-300 rounded-full flex items-center justify-center">
                 <Users className="w-8 h-8 text-blue-600" />
               </div>
-              <p className="text-sm">Hình ảnh không khả dụng</p>
+              <p className="text-sm font-medium">Ảnh đang được cập nhật</p>
+              <p className="text-xs text-gray-500 mt-1">Vui lòng quay lại sau</p>
             </div>
           </div>
         )}

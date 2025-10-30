@@ -18,15 +18,11 @@ export const homestayData: HomestayData[] = [
     name: "1941M Homestay Tà Xùa",
     description: "Homestay cao cấp với view tuyệt đẹp nhìn ra biển mây Tà Xùa, nằm ở độ cao 1941m so với mực nước biển. Không gian thoáng mát với thiết kế hiện đại, phù hợp cho những ai yêu thích sự tiện nghi và muốn trải nghiệm săn mây tại Tà Xùa.",
     images: [
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_01.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_02.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_03.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_04.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_05.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_06.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_07.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_08.png",
-      "/Hotels/1941M_Homestay_Ta_Xua/accomodation image/1941m_homestay_ta_xua_09.png"
+      "/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/HÌNH ẢNH /1 (1).webp",
+      "/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/HÌNH ẢNH /2 (1).webp",
+      "/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/HÌNH ẢNH /2.webp",
+      "/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/HÌNH ẢNH /3 (1).webp",
+      "/cơ sở lưu trú/1. 1941M Homestay Tà Xùa/HÌNH ẢNH /3 (2).webp"
     ],
     rating: 4.9,
     priceRange: "1.000.000 - 1.500.000 VNĐ/đêm",
@@ -253,8 +249,8 @@ export const homestayData: HomestayData[] = [
     name: "Homestay Coffee Đỉnh Núi Tà Xùa",
     description: "Homestay kết hợp quán cà phê với vị trí tuyệt đẹp trên đỉnh núi",
     images: [
-      "/Hotels/Homestay_Coffee_Đinh_Nui_Ta_Xua/accomodation image/homestay_coffee_dinh_nui_ta_xua_01.png",
-      "/Hotels/Homestay_Coffee_Đinh_Nui_Ta_Xua/accomodation image/homestay_coffee_dinh_nui_ta_xua_02.png"
+      "/cơ sở lưu trú/14. Homestay Coffee Đỉnh Núi Tà Xùa/HÌNH ẢNH /Screenshot 2025-09-24 173040.png",
+      "/cơ sở lưu trú/14. Homestay Coffee Đỉnh Núi Tà Xùa/HÌNH ẢNH /Screenshot 2025-09-24 173100.png"
     ],
     rating: 4.6,
     priceRange: "500.000 - 800.000 VNĐ/đêm",
@@ -269,8 +265,8 @@ export const homestayData: HomestayData[] = [
     name: "Anh Tài Mây Homestay",
     description: "Homestay được điều hành bởi anh Tài với dịch vụ thân thiện và chuyên nghiệp",
     images: [
-      "/Hotels/Anh_Tai_May_Homestay/accomodation image/anh_tai_may_homestay_01.png",
-      "/Hotels/Anh_Tai_May_Homestay/accomodation image/anh_tai_may_homestay_02.png"
+      "/cơ sở lưu trú/15. Anh Tài Mây Homestay/HÌNH ẢNH /Screenshot 2025-09-24 173649.png",
+      "/cơ sở lưu trú/15. Anh Tài Mây Homestay/HÌNH ẢNH /Screenshot 2025-09-24 173713.png"
     ],
     rating: 4.5,
     priceRange: "400.000 - 700.000 VNĐ/đêm",

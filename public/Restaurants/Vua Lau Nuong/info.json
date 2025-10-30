@@ -1,0 +1,40 @@
+{
+  "id": "rest-007",
+  "name": "Vua Lẩu Nướng",
+  "description": "Nhà hàng lẩu nướng giá rẻ với menu đa dạng và view săn mây tuyệt đẹp. Không gian rộng rãi, phục vụ nhanh chóng.",
+  "address": "Đường tỉnh 112, Bắc Yên, Tà Xùa, Sơn La",
+  "phone": "0983 310 765",
+  "openHours": "10:00 - 22:00",
+  "priceRange": "200.000 - 300.000đ/người",
+  "cuisine": "Lẩu & Nướng",
+  "rating": 4.2,
+  "capacity": "120 người",
+  "specialties": [
+    "Lẩu đa dạng",
+    "Thịt nướng",
+    "Hải sản nướng",
+    "Gà nướng",
+    "Bò nướng",
+    "Heo nướng"
+  ],
+  "amenities": [
+    "Chỗ đậu xe",
+    "Không gian rộng rãi",
+    "View săn mây",
+    "Phục vụ nhanh",
+    "Giá cả phải chăng"
+  ],
+  "features": [
+    "View săn mây đỉnh cao",
+    "Menu đa dạng",
+    "Giá thành hợp lý",
+    "Phục vụ nhanh chóng",
+    "Thích hợp nhóm đông"
+  ],
+  "images": [
+    "vua_lau_nuong_1.png",
+    "vua_lau_nuong_2.png",
+    "vua_lau_nuong_3.png"
+  ],
+  "note": "Thường xuyên đông khách, nên đặt bàn trước"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "rest-006",
+  "name": "Tiệm Nướng Cánh Cam",
+  "description": "Không gian lãng mạn với view ngắm hoàng hôn và biển mây. Chuyên các món nướng đa dạng từ hương vị Tây Bắc đến món kiểu Âu.",
+  "address": "Đối diện trường mầm non xã Tà Xùa, đi lên 200m, trung tâm xã Tà Xùa",
+  "phone": "0965 957 761",
+  "openHours": "17:00 - 23:00",
+  "priceRange": "250.000 - 400.000đ/người",
+  "cuisine": "Nướng & Âu Á",
+  "rating": 4.5,
+  "capacity": "60 người",
+  "specialties": [
+    "Món nướng Tây Bắc",
+    "Món kiểu Âu",
+    "Rượu vang",
+    "Tiệc sinh nhật",
+    "Tiệc kỷ niệm"
+  ],
+  "amenities": [
+    "View hoàng hôn",
+    "Không gian lãng mạn",
+    "Bàn ghế gỗ",
+    "Phù hợp cặp đôi",
+    "Chụp ảnh sống ảo"
+  ],
+  "features": [
+    "View ngắm hoàng hôn tuyệt đẹp",
+    "Không gian ngoài trời",
+    "Bày trí lãng mạn",
+    "Thực đơn đa dạng",
+    "Nhận đặt tiệc"
+  ],
+  "images": [
+    "tiem_nuong_canh_cam_1.png",
+    "tiem_nuong_canh_cam_2.png",
+    "tiem_nuong_canh_cam_3.png"
+  ],
+  "note": "Thích hợp cho bữa tối lãng mạn và chụp ảnh sống ảo"
+}

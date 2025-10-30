@@ -1,0 +1,39 @@
+{
+  "id": "rest-002",
+  "name": "Bếp Tấm",
+  "description": "Nhà hàng nổi tiếng với lẩu cá tầm và lẩu gà đen. Phục vụ nhiệt tình, giá cả phải chăng.",
+  "address": "Trung tâm xã Tà Xùa, Bắc Yên, Sơn La",
+  "phone": "0846 951 111",
+  "openHours": "07:00 - 22:00",
+  "priceRange": "200.000 - 300.000đ/người",
+  "cuisine": "Lẩu & Đặc sản Tây Bắc",
+  "rating": 4.3,
+  "capacity": "80 người",
+  "specialties": [
+    "Lẩu cá tầm",
+    "Lẩu gà đen",
+    "Cơm suất",
+    "Đặc sản Tây Bắc",
+    "Lẩu truyền thống"
+  ],
+  "amenities": [
+    "Chỗ đậu xe",
+    "Phù hợp gia đình",
+    "Đặt bàn trước",
+    "Phục vụ nhiệt tình"
+  ],
+  "features": [
+    "Lẩu cá tầm đặc sắc",
+    "Lẩu gà đen",
+    "Cơm suất giá rẻ",
+    "Phục vụ tận tình",
+    "Giá cả phải chăng"
+  ],
+  "images": [
+    "FB_IMG_1708699363083.png",
+    "FB_IMG_1708699375305.png",
+    "FB_IMG_1708699476233.png",
+    "Screenshot 2025-10-03 010804.png"
+  ],
+  "note": "Nên đặt bàn trước do thường xuyên quá tải"
+}
