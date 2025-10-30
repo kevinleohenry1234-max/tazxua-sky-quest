@@ -1,0 +1,354 @@
+❌ ./viviet/taxua-rewards-collection.jpg
+   Kích thước: 1024x618
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-services-overview.jpg
+   Kích thước: 1000x667
+   Dung lượng: 1MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-ancient-forest.jpg
+   Kích thước: 2560x1707
+   Dung lượng: 3MB
+   Định dạng: jpg
+   Vấn đề: Kích thước file quá lớn: 3MB (tối đa 2MB)
+
+❌ ./viviet/taxua-mountain-range.jpg
+   Kích thước: 1024x618
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-hero-cinematic.jpg
+   Kích thước: 900x600
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-misty-morning.jpg
+   Kích thước: 825x600
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-trekking-adventure.jpg
+   Kích thước: 1920x2560
+   Dung lượng: 6MB
+   Định dạng: jpg
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+
+❌ ./viviet/taxua-panoramic-view.jpg
+   Kích thước: 1200x1800
+   Dung lượng: 2MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-path-choices.jpg
+   Kích thước: 1000x667
+   Dung lượng: 1MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-featured-experiences.jpg
+   Kích thước: 1280x720
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-sunset-peaks.jpg
+   Kích thước: 1280x720
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+
+❌ ./viviet/taxua-achievement-badge.jpg
+   Kích thước: 1200x1800
+   Dung lượng: 2MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+
+❌ ./taxua-mist-mountain.jpg
+   Kích thước: 900x600
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+
+❌ ./digital-exhibition-hero.png
+   Kích thước: 1920x2560
+   Dung lượng: 6MB
+   Định dạng: png
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+
+❌ ./digital-exhibition-fallback.png
+   Kích thước: 825x600
+   Dung lượng: 0MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+
+❌ ./website background/Tà Xùa 9.png
+   Kích thước: 2560x1707
+   Dung lượng: 3MB
+   Định dạng: png
+   Vấn đề: Kích thước file quá lớn: 3MB (tối đa 2MB)
+
+❌ ./website background/Tà Xùa 8.png
+   Kích thước: 1920x2560
+   Dung lượng: 6MB
+   Định dạng: png
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+
+❌ ./website background/Tà Xùa 5.png
+   Kích thước: 1280x720
+   Dung lượng: 0MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+
+❌ ./website background/Tà Xùa 4.png
+   Kích thước: 1000x667
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+
+❌ ./website background/Tà Xùa 6.png
+   Kích thước: 900x600
+   Dung lượng: 0MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+
+❌ ./website background/Tà Xùa 7.png
+   Kích thước: 825x600
+   Dung lượng: 0MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+
+❌ ./website background/Tà Xùa 3.png
+   Kích thước: 1024x618
+   Dung lượng: 0MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+
+❌ ./website background/Tà Xùa 1.png
+   Kích thước: 1200x1800
+   Dung lượng: 2MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+
+❌ ./explore/CUISINE.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/VIEMUNITY.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/thumbs/thumb1.jpg
+   Kích thước: 900x600
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+
+❌ ./explore/thumbs/thumb3.jpg
+   Kích thước: 1920x2560
+   Dung lượng: 6MB
+   Định dạng: jpg
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+
+❌ ./explore/thumbs/thumb2.jpg
+   Kích thước: 825x600
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/8.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/9.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/4.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/5.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/7.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/6.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/2.png
+   Kích thước: 1024x1024
+   Dung lượng: 2MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/3.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/các hoạt động/1.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/CULTURAL EXHIBITION.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/places/hmong-village.jpg
+   Kích thước: 1280x720
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+
+❌ ./explore/places/dragon-spine.jpg
+   Kích thước: 1024x618
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+
+❌ ./explore/places/pine-forest.jpg
+   Kích thước: 1000x667
+   Dung lượng: 1MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+
+❌ ./explore/DESTINATION.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/hero section.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./explore/hero-taxua.jpg
+   Kích thước: 1200x1800
+   Dung lượng: 2MB
+   Định dạng: jpg
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+
+❌ ./skyquest/herosection.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./safety/safte_hero.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/Homestay.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/Tour.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/transportation.png
+   Kích thước: 1080x1080
+   Dung lượng: 2MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1080x1080 (tối thiểu 1920x1080)
+
+❌ ./service/relax.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/Restaurant.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/HERO 4.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/hero section.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/HERO 3.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/HERO 2.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./service/activity.png
+   Kích thước: 1024x1024
+   Dung lượng: 1MB
+   Định dạng: png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+
+❌ ./hero/taxua-homestay-hero.jpg
+   Kích thước: 0x0
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Không thể xác định kích thước ảnh
+
+❌ ./taxua-map-fallback.jpg
+   Kích thước: 0x0
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Không thể xác định kích thước ảnh
+
+❌ ./categories/transport-cover.jpg
+   Kích thước: 0x0
+   Dung lượng: 0MB
+   Định dạng: jpg
+   Vấn đề: Không thể xác định kích thước ảnh
+

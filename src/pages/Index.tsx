@@ -7,7 +7,6 @@ import HeroSection from '@/components/HeroSection';
 import BackgroundSlider from '@/components/BackgroundSlider';
 import CategoryCards from '@/components/CategoryCards';
 import TaXuaGreenModel from '@/components/TaXuaGreenModel';
-import ImpactSection from '@/components/ImpactSection';
 import Footer from '@/components/Footer';
 import UserDashboard from '@/components/UserDashboard';
 import RegisterModal from '@/components/RegisterModal';
@@ -276,43 +275,16 @@ const Index = () => {
                 height="h-24"
               />
               
-              {/* Unified Background Section - No white cuts */}
-              <div className="bg-gradient-to-b from-gray-50 via-white to-emerald-50/30 section-seamless">
-                {/* Category Cards with seamless integration */}
+              {/* Clean Background Section */}
+              <div className="bg-white">
+                {/* Category Cards */}
                 <div className="pb-20">
                   <CategoryCards />
                 </div>
                 
-                {/* Soft internal transition */}
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white h-16 -mt-8"></div>
-                  <SectionTransition 
-                    variant="wave2" 
-                    fromColor="from-transparent" 
-                    toColor="to-white/80" 
-                    height="h-12"
-                  />
-                </div>
-                
-                {/* Mô hình Tà Xùa Xanh with seamless background */}
-                <div className="py-16 bg-gradient-to-b from-white to-emerald-50/50">
+                {/* Mô hình Tà Xùa Xanh */}
+                <div className="py-16 bg-white">
                   <TaXuaGreenModel />
-                </div>
-                
-                {/* Soft transition to Impact */}
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-emerald-50 h-20 -mt-10"></div>
-                  <SectionTransition 
-                    variant="wave3" 
-                    fromColor="from-emerald-50/50" 
-                    toColor="to-emerald-50" 
-                    height="h-16"
-                  />
-                </div>
-
-                {/* Real Impact Section with unified background */}
-                <div className="bg-emerald-50 pt-8">
-                  <ImpactSection />
                 </div>
               </div>
               

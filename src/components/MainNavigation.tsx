@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Info, MapPin, BookOpen, Phone, Mountain, Search, User, Compass, ChevronDown, Shield, Users, Target, Trophy, Sparkles, Camera, Activity, Map } from 'lucide-react';
+import { Menu, X, Home, Info, MapPin, BookOpen, Phone, Mountain, Search, User, Compass, ChevronDown, Shield, Users, Target, Trophy, Sparkles, Camera, Activity, Map, Settings, Palette, Globe, HelpCircle } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { accessibilityHelper } from '@/utils/accessibilityHelper';
 
@@ -24,7 +24,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
     { href: '/', label: 'Trang chủ', icon: Home },
     { 
       href: '/explore', 
-      label: 'Khám Phá', 
+      label: 'Khám phá', 
       icon: Compass,
       hasDropdown: true,
       dropdownItems: [
@@ -34,6 +34,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
         { href: '/explore/blog', label: 'Blog & Câu chuyện', icon: BookOpen },
       ]
     },
+    { href: '/accommodation', label: 'Dịch vụ', icon: Home },
     { 
       href: '/skyquest', 
       label: 'Sky Quest', 
@@ -46,9 +47,9 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
         { href: '/skyquest/challenges', label: 'Thử thách nổi bật', icon: Trophy },
       ]
     },
-    { href: '/accommodation', label: 'Dịch vụ', icon: Home },
-    { href: '/community', label: 'Cộng đồng', icon: Users },
-    { href: '/safety', label: 'Trung tâm An toàn', icon: Shield },
+    { href: '/safety', label: 'Trung Tâm An Toàn', icon: Shield },
+    { href: '/contact', label: 'Liên Hệ', icon: Phone },
+    { href: '/about', label: 'Về ViViet', icon: Info },
   ];
 
   // User-specific links when logged in
@@ -228,6 +229,75 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                 );
               }
             })}
+
+            {/* Settings Dropdown */}
+            <div className="relative group ml-4 pl-4 border-l border-emerald-200">
+              <button
+                onClick={() => handleDropdownToggle('Cài đặt')}
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 group/btn relative overflow-hidden ${
+                  activeDropdown === 'Cài đặt'
+                    ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                    : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
+                }`}
+                aria-expanded={activeDropdown === 'Cài đặt'}
+                aria-haspopup="menu"
+                aria-label="Cài đặt - có menu con"
+                role="menuitem"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 to-teal-600/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                <Settings className={`w-4 h-4 transition-all duration-300 group-hover/btn:scale-110 relative z-10 ${
+                  activeDropdown === 'Cài đặt' ? 'text-white' : 'text-emerald-600'
+                }`} aria-hidden="true" />
+                <span className="transition-all duration-300 relative z-10">Cài đặt</span>
+                <ChevronDown className={`w-3 h-3 transition-all duration-300 relative z-10 ${
+                  activeDropdown === 'Cài đặt' ? 'rotate-180' : ''
+                } ${activeDropdown === 'Cài đặt' ? 'text-white' : 'text-emerald-600'}`} aria-hidden="true" />
+              </button>
+              
+              {/* Settings Dropdown Menu */}
+              {activeDropdown === 'Cài đặt' && (
+                <div 
+                  className="absolute top-full right-0 mt-2 w-56 bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-emerald-100/60 py-3 z-50 animate-in slide-in-from-top-2 duration-200"
+                  role="menu"
+                  aria-label="Menu cài đặt"
+                >
+                  <div className="px-3 pb-2 mb-2 border-b border-emerald-100">
+                    <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Cài đặt</p>
+                  </div>
+                  <button
+                    onClick={closeDropdown}
+                    className="flex items-center space-x-3 px-4 py-3 mx-2 rounded-xl text-sm transition-all duration-300 hover:scale-[1.02] group/item text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 w-full text-left"
+                    role="menuitem"
+                  >
+                    <div className="p-1 rounded transition-all duration-300 group-hover/item:scale-110 bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700">
+                      <Palette className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <span className="font-medium">Giao diện</span>
+                  </button>
+                  <button
+                    onClick={closeDropdown}
+                    className="flex items-center space-x-3 px-4 py-3 mx-2 rounded-xl text-sm transition-all duration-300 hover:scale-[1.02] group/item text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 w-full text-left"
+                    role="menuitem"
+                  >
+                    <div className="p-1 rounded transition-all duration-300 group-hover/item:scale-110 bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700">
+                      <Globe className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <span className="font-medium">Ngôn ngữ</span>
+                  </button>
+                  <Link
+                    to="/help"
+                    onClick={closeDropdown}
+                    className="flex items-center space-x-3 px-4 py-3 mx-2 rounded-xl text-sm transition-all duration-300 hover:scale-[1.02] group/item text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50"
+                    role="menuitem"
+                  >
+                    <div className="p-1 rounded transition-all duration-300 group-hover/item:scale-110 bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700">
+                      <HelpCircle className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <span className="font-medium">Trợ giúp</span>
+                  </Link>
+                </div>
+              )}
+            </div>
 
             {/* Login/User Section */}
             {isLoggedIn ? (
@@ -412,6 +482,82 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ isLoggedIn, onLoginClic
                 </Link>
               );
             })}
+
+            {/* Mobile Settings Dropdown */}
+            <div className="border-t border-emerald-100 pt-4 mt-4">
+              <button
+                onClick={() => handleDropdownToggle('Cài đặt')}
+                className={`flex items-center justify-between w-full px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-[1.02] group/mobile ${
+                  activeDropdown === 'Cài đặt'
+                    ? 'text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-200/50 border border-emerald-300' 
+                    : 'text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-md hover:shadow-emerald-100/50 border border-transparent hover:border-emerald-200'
+                }`}
+                aria-expanded={activeDropdown === 'Cài đặt'}
+                aria-haspopup="menu"
+                aria-label="Cài đặt - có menu con"
+                role="menuitem"
+              >
+                <div className="flex items-center space-x-3">
+                  <Settings className={`w-5 h-5 transition-all duration-300 group-hover/mobile:scale-110 ${
+                    activeDropdown === 'Cài đặt' ? 'text-white' : 'text-emerald-600'
+                  }`} aria-hidden="true" />
+                  <span className="font-medium">Cài đặt</span>
+                </div>
+                <ChevronDown className={`w-4 h-4 transition-all duration-300 ${
+                  activeDropdown === 'Cài đặt' ? 'rotate-180' : ''
+                } ${activeDropdown === 'Cài đặt' ? 'text-white' : 'text-emerald-600'}`} aria-hidden="true" />
+              </button>
+              
+              {/* Mobile Settings Dropdown Items */}
+              {activeDropdown === 'Cài đặt' && (
+                <div 
+                  className="ml-4 space-y-1 border-l-2 border-emerald-200 pl-4 mt-2"
+                  role="menu"
+                  aria-label="Menu cài đặt"
+                >
+                  <button
+                    onClick={() => {
+                      closeDropdown();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-300 hover:scale-[1.02] group/item text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 w-full text-left"
+                    role="menuitem"
+                  >
+                    <div className="p-1 rounded transition-all duration-300 group-hover/item:scale-110 bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700">
+                      <Palette className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <span className="font-medium">Giao diện</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      closeDropdown();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-300 hover:scale-[1.02] group/item text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 w-full text-left"
+                    role="menuitem"
+                  >
+                    <div className="p-1 rounded transition-all duration-300 group-hover/item:scale-110 bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700">
+                      <Globe className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <span className="font-medium">Ngôn ngữ</span>
+                  </button>
+                  <Link
+                    to="/help"
+                    onClick={() => {
+                      closeDropdown();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-300 hover:scale-[1.02] group/item text-gray-700 hover:text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50"
+                    role="menuitem"
+                  >
+                    <div className="p-1 rounded transition-all duration-300 group-hover/item:scale-110 bg-gray-100 text-gray-600 group-hover/item:bg-emerald-100 group-hover/item:text-emerald-700">
+                      <HelpCircle className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <span className="font-medium">Trợ giúp</span>
+                  </Link>
+                </div>
+              )}
+            </div>
 
             {/* Mobile Login Button */}
             {!isLoggedIn && (

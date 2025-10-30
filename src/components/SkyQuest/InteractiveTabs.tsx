@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Map, Target, Gift, Leaf, Mountain, Star, Clock, ArrowRight } from 'lucide-react';
+import { Map, Target, Gift, Leaf, Mountain, Star, Clock, ArrowRight, Shield, TrendingUp } from 'lucide-react';
 
 interface TabContent {
   id: string;
@@ -81,6 +81,45 @@ const InteractiveTabs: React.FC = () => {
         ],
         illustration: <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
           <Gift className="w-8 h-8 text-white" />
+        </div>
+      }
+    },
+    {
+      id: 'level-system',
+      title: 'Hệ thống cấp độ',
+      icon: <TrendingUp className="w-5 h-5" />,
+      content: {
+        title: 'Thăng hạng qua 5 cấp độ từ Bronze đến Platinum',
+        description: 'Mỗi cấp độ mở khóa những đặc quyền và phần thưởng độc quyền, khuyến khích bạn tiếp tục hành trình bền vững.',
+        features: [
+          'Bronze (0-99 điểm): Giảm giá 5%, huy hiệu cơ bản',
+          'Silver (100-299 điểm): Giảm giá 10%, ưu tiên booking',
+          'Gold (300-699 điểm): Giảm giá 15%, tour VIP',
+          'Platinum (700+ điểm): Giảm giá 25%, trải nghiệm độc quyền'
+        ],
+        illustration: <div className="flex gap-1">
+          <div className="w-4 h-8 bg-gradient-to-t from-amber-600 to-amber-400 rounded-sm" />
+          <div className="w-4 h-10 bg-gradient-to-t from-gray-500 to-gray-300 rounded-sm" />
+          <div className="w-4 h-12 bg-gradient-to-t from-yellow-500 to-yellow-300 rounded-sm" />
+          <div className="w-4 h-14 bg-gradient-to-t from-purple-600 to-purple-400 rounded-sm" />
+        </div>
+      }
+    },
+    {
+      id: 'verification',
+      title: 'Hệ thống xác minh',
+      icon: <Shield className="w-5 h-5" />,
+      content: {
+        title: 'Xác minh hoạt động minh bạch và đáng tin cậy',
+        description: 'Hệ thống xác minh đa lớp đảm bảo tính chính xác và công bằng cho mọi hoạt động bền vững.',
+        features: [
+          'Xác minh GPS tự động cho các địa điểm',
+          'Peer verification từ cộng đồng',
+          'Admin review cho các nhiệm vụ phức tạp',
+          'Blockchain tracking cho tính minh bạch'
+        ],
+        illustration: <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center">
+          <Shield className="w-8 h-8 text-white" />
         </div>
       }
     }

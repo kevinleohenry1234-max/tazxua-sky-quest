@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { HomestayReal } from '../data/homestayRealData';
-import { Star, MapPin, Phone, Wifi, Car, Coffee, Users } from 'lucide-react';
+import { Star, MapPin, Phone, Wifi, Car, Coffee, Users, Play, Pause } from 'lucide-react';
 import LazyImage from './LazyImage';
 
 interface HotelCardProps {
@@ -10,9 +10,39 @@ interface HotelCardProps {
 const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleImageError = () => {
     setImageError(true);
+  };
+
+  // Auto slideshow effect
+  useEffect(() => {
+    if (hotel.images.length > 1 && isAutoPlaying) {
+      intervalRef.current = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % hotel.images.length);
+      }, 5000); // 5 seconds
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [hotel.images.length, isAutoPlaying]);
+
+  // Pause auto slideshow on hover
+  const handleMouseEnter = () => {
+    setIsAutoPlaying(false);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+
+  // Resume auto slideshow on mouse leave
+  const handleMouseLeave = () => {
+    setIsAutoPlaying(true);
   };
 
   const nextImage = () => {
@@ -27,6 +57,10 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
     }
   };
 
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying);
+  };
+
   const getAmenityIcon = (amenity: string) => {
     if (amenity.toLowerCase().includes('wifi')) return <Wifi className="w-4 h-4" />;
     if (amenity.toLowerCase().includes('xe') || amenity.toLowerCase().includes('đậu')) return <Car className="w-4 h-4" />;
@@ -36,36 +70,51 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <div className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       {/* Image Section */}
-      <div className="relative h-64 overflow-hidden">
+      <div 
+        className="relative h-64 overflow-hidden"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {hotel.images.length > 0 && !imageError ? (
           <>
             <LazyImage
               src={hotel.images[currentImageIndex]}
               alt={`${hotel.name} - Homestay tại ${hotel.location}, Tà Xùa`}
-              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
             />
             {hotel.images.length > 1 && (
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
                 >
                   ←
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
                 >
                   →
                 </button>
+                
+                {/* Auto-play control button */}
+                <button
+                  onClick={toggleAutoPlay}
+                  className="absolute top-3 left-3 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
+                  title={isAutoPlaying ? 'Tạm dừng slideshow' : 'Phát slideshow'}
+                >
+                  {isAutoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                </button>
+
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
                   {hotel.images.map((_, index) => (
-                    <div
+                    <button
                       key={index}
-                      className={`w-2 h-2 rounded-full ${
-                        index === currentImageIndex ? 'bg-white' : 'bg-white bg-opacity-50'
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === currentImageIndex ? 'bg-white' : 'bg-white bg-opacity-50 hover:bg-opacity-75'
                       }`}
                     />
                   ))}

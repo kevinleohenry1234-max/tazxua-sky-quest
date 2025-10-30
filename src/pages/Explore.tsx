@@ -94,7 +94,7 @@ const Explore = () => {
     }
   ];
 
-  // Dữ liệu hoạt động nên thử
+  // Dữ liệu hoạt động nên thử - Updated to use PNG images from 'các hoạt động' folder
   const activities = [
     {
       id: 'cloud-hunting-summit',
@@ -102,7 +102,7 @@ const Explore = () => {
       description: 'Đứng trên đỉnh núi cao nhất, ngắm biển mây trắng và bình minh tuyệt đẹp',
       rating: 4.9,
       reviewCount: 1234,
-      image: '/images/explore/cloud-hunting-summit.svg',
+      image: '/images/explore/các hoạt động/1.png',
       category: 'Tour ngắm cảnh'
     },
     {
@@ -111,7 +111,7 @@ const Explore = () => {
       description: 'Phiêu lưu trên cung đường rừng xanh đến điểm check-in nổi tiếng',
       rating: 4.8,
       reviewCount: 987,
-      image: '/images/explore/motorbike-dragon-spine.svg',
+      image: '/images/explore/các hoạt động/2.png',
       category: 'Phiêu lưu'
     },
     {
@@ -120,7 +120,7 @@ const Explore = () => {
       description: 'Trải nghiệm văn hóa chợ phiên, mua sắm đặc sản và thổ cẩm H\'Mông',
       rating: 4.6,
       reviewCount: 756,
-      image: '/images/explore/local-market.svg',
+      image: '/images/explore/các hoạt động/3.png',
       category: 'Văn hóa'
     },
     {
@@ -129,7 +129,7 @@ const Explore = () => {
       description: 'Ngồi bên bếp củi, thưởng thức trà Shan Tuyết thơm ngon trong không gian ấm cúng',
       rating: 4.9,
       reviewCount: 643,
-      image: '/images/explore/shan-tuyet-tea.svg',
+      image: '/images/explore/các hoạt động/4.png',
       category: 'Ẩm thực'
     },
     {
@@ -138,7 +138,7 @@ const Explore = () => {
       description: 'Tour chụp ảnh chuyên nghiệp tại những điểm ngắm cảnh đẹp nhất',
       rating: 4.7,
       reviewCount: 521,
-      image: '/images/explore/photography-tour.svg',
+      image: '/images/explore/các hoạt động/5.png',
       category: 'Tour ngắm cảnh'
     },
     {
@@ -147,7 +147,7 @@ const Explore = () => {
       description: 'Học nấu các món ăn truyền thống cùng đầu bếp bản địa',
       rating: 5.0,
       reviewCount: 432,
-      image: '/images/explore/hmong-cooking-workshop.svg',
+      image: '/images/explore/các hoạt động/6.png',
       category: 'Ẩm thực'
     },
     {
@@ -156,26 +156,8 @@ const Explore = () => {
       description: 'Khám phá rừng nguyên sinh với hệ sinh thái đa dạng và phong cảnh hoang sơ',
       rating: 4.8,
       reviewCount: 389,
-      image: '/images/explore/forest-trekking.svg',
+      image: '/images/explore/các hoạt động/7.png',
       category: 'Phiêu lưu'
-    },
-    {
-      id: 'traditional-music',
-      name: 'Trải nghiệm văn hóa qua nhạc cụ dân tộc',
-      description: 'Thưởng thức và học chơi khèn Mông, trống và sáo giữa núi đồi',
-      rating: 4.5,
-      reviewCount: 298,
-      image: '/images/explore/traditional-music.svg',
-      category: 'Văn hóa'
-    },
-    {
-      id: 'sunset-tea',
-      name: 'Trà chiều trên đỉnh núi với người bản địa',
-      description: 'Thưởng thức trà và ngắm hoàng hôn tuyệt đẹp trên đỉnh núi Tà Xùa',
-      rating: 4.9,
-      reviewCount: 567,
-      image: '/images/explore/sunset-tea.svg',
-      category: 'Ẩm thực'
     }
   ];
 

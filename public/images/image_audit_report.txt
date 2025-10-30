@@ -1,0 +1,129 @@
+❌ ./viviet/taxua-rewards-collection.jpg
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-services-overview.jpg
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-ancient-forest.jpg
+   Vấn đề: Kích thước file quá lớn: 3MB (tối đa 2MB)
+❌ ./viviet/taxua-mountain-range.jpg
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-hero-cinematic.jpg
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+✅ ./viviet/taxua-sky-view.jpg - 2048x1366, 2MB, jpg
+❌ ./viviet/taxua-misty-morning.jpg
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-trekking-adventure.jpg
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+❌ ./viviet/taxua-panoramic-view.jpg
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-path-choices.jpg
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-featured-experiences.jpg
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-sunset-peaks.jpg
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+❌ ./viviet/taxua-achievement-badge.jpg
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+❌ ./taxua-mist-mountain.jpg
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+❌ ./digital-exhibition-hero.png
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+❌ ./digital-exhibition-fallback.png
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+❌ ./website background/Tà Xùa 9.png
+   Vấn đề: Kích thước file quá lớn: 3MB (tối đa 2MB)
+❌ ./website background/Tà Xùa 8.png
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+❌ ./website background/Tà Xùa 5.png
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+❌ ./website background/Tà Xùa 4.png
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+❌ ./website background/Tà Xùa 6.png
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+✅ ./website background/Tà Xùa 10.png - 2048x1366, 2MB, png
+❌ ./website background/Tà Xùa 7.png
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+❌ ./website background/Tà Xùa 3.png
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+❌ ./website background/Tà Xùa 1.png
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+❌ ./explore/CUISINE.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/VIEMUNITY.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/thumbs/thumb1.jpg
+   Vấn đề: Độ phân giải thấp: 900x600 (tối thiểu 1920x1080)
+❌ ./explore/thumbs/thumb3.jpg
+   Vấn đề: Kích thước file quá lớn: 6MB (tối đa 2MB)
+❌ ./explore/thumbs/thumb2.jpg
+   Vấn đề: Độ phân giải thấp: 825x600 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/8.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/9.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/4.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/5.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/7.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/6.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/2.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/3.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/các hoạt động/1.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/CULTURAL EXHIBITION.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/places/hmong-village.jpg
+   Vấn đề: Độ phân giải thấp: 1280x720 (tối thiểu 1920x1080)
+❌ ./explore/places/dragon-spine.jpg
+   Vấn đề: Độ phân giải thấp: 1024x618 (tối thiểu 1920x1080)
+❌ ./explore/places/pine-forest.jpg
+   Vấn đề: Độ phân giải thấp: 1000x667 (tối thiểu 1920x1080)
+❌ ./explore/DESTINATION.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/hero section.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./explore/hero-taxua.jpg
+   Vấn đề: Độ phân giải thấp: 1200x1800 (tối thiểu 1920x1080)
+✅ ./explore/hero section ofi.png - 1920x1080, 1MB, png
+❌ ./skyquest/herosection.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./safety/safte_hero.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+✅ ./safety/Hero Section Safety.png - 1920x1080, 2MB, png
+❌ ./service/Homestay.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/Tour.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/transportation.png
+   Vấn đề: Độ phân giải thấp: 1080x1080 (tối thiểu 1920x1080)
+❌ ./service/relax.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/Restaurant.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/HERO 4.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/hero section.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/HERO 3.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/HERO 2.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+❌ ./service/activity.png
+   Vấn đề: Độ phân giải thấp: 1024x1024 (tối thiểu 1920x1080)
+✅ ./service/HERO 1.png - 1920x1080, 2MB, png
+❌ ./hero/taxua-homestay-hero.jpg
+   Vấn đề: Không thể xác định kích thước ảnh
+❌ ./taxua-map-fallback.jpg
+   Vấn đề: Không thể xác định kích thước ảnh
+❌ ./categories/transport-cover.jpg
+   Vấn đề: Không thể xác định kích thước ảnh
+=== TỔNG KẾT ===
+Tổng số ảnh kiểm tra: 64
+Ảnh đạt chuẩn: 5
+Ảnh không đạt chuẩn: 59
+Tỷ lệ đạt chuẩn: 7%
+

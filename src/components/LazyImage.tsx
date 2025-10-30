@@ -37,7 +37,7 @@ const LazyImage = ({
         const optimized = await getOptimizedImageUrl(src, { quality });
         setOptimizedSrc(optimized);
       } catch (error) {
-        console.warn('Image optimization failed:', error);
+        console.warn('LazyImage: Image optimization failed, using original:', error);
         setOptimizedSrc(src);
       }
     };

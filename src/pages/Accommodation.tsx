@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import ImageSlider from '@/components/ImageSlider';
 import HotelGrid from '@/components/HotelGrid';
 import BookingModal from '@/components/BookingModal';
+import HeroCarousel from '@/components/HeroCarousel';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -35,8 +36,6 @@ import {
 } from 'lucide-react';
 import { getSession, onAuthStateChange, signOut } from '@/lib/supabase';
 import { homestayRealData } from '@/data/homestayRealData';
-import heroImage from '@/assets/hero-taxua-clouds.jpg';
-import { getOptimizedImageUrl, preloadImage } from '@/utils/imageOptimizer';
 import ImagePreloader from '@/components/ImagePreloader';
 
 interface Homestay {
@@ -106,6 +105,14 @@ const serviceCategories: ServiceCategory[] = [
 
 const homestayData: Homestay[] = homestayRealData;
 
+// Hero carousel images
+const heroImages = [
+  '/images/service/HERO 1.png',
+  '/images/service/HERO 2.png',
+  '/images/service/HERO 3.png',
+  '/images/service/HERO 4.png'
+];
+
 const Accommodation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
@@ -121,7 +128,6 @@ const Accommodation: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [optimizedHeroImage, setOptimizedHeroImage] = useState<string>('/images/service/HERO.png');
 
   // Check for existing session on component mount
   useEffect(() => {
@@ -158,56 +164,6 @@ const Accommodation: React.FC = () => {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  // Parallax and scroll effects for Hero section
-  useEffect(() => {
-    // Optimize hero image for better performance
-    const optimizeHeroImage = async () => {
-      try {
-        const optimized = await getOptimizedImageUrl('/images/service/HERO.png', {
-          quality: 0.85,
-          maxWidth: 1920,
-          maxHeight: 1080
-        });
-        setOptimizedHeroImage(optimized);
-      } catch (error) {
-        console.warn('Hero image optimization failed:', error);
-        setOptimizedHeroImage('/images/service/HERO.png');
-      }
-    };
-
-    optimizeHeroImage();
-
-    // Preload hero image for better performance
-    preloadImage('/images/service/HERO.png').catch(error => {
-      console.warn('Hero image preload failed:', error);
-    });
-
-    const handleScroll = () => {
-      const scrolled = window.pageYOffset;
-      const heroElement = document.querySelector('.hero-parallax') as HTMLElement;
-      const scrollOverlay = document.getElementById('scroll-overlay') as HTMLElement;
-      
-      if (heroElement) {
-        // Parallax effect - move background slower than scroll
-        heroElement.style.transform = `translateY(${scrolled * 0.5}px)`;
-      }
-      
-      if (scrollOverlay) {
-        // Fade out hero as user scrolls
-        const fadeStart = 100;
-        const fadeEnd = 400;
-        const opacity = Math.min(Math.max((scrolled - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-        scrollOverlay.style.opacity = opacity.toString();
-      }
-    };
-
-    // Only add scroll listener if not in accommodation detail view
-    if (!selectedCategory) {
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
-  }, [selectedCategory]);
 
   const handleLogout = async () => {
     try {
@@ -381,34 +337,21 @@ const Accommodation: React.FC = () => {
       />
       
       <div className="pt-16">
-        {/* Hero Section with Parallax */}
-        <section 
-          className={`relative min-h-[70vh] sm:min-h-[60vh] flex items-center justify-center text-white overflow-hidden hero-parallax transition-all duration-500 ease-in-out ${
-            typeof window !== 'undefined' && window.innerWidth <= 768 ? 'bg-scroll' : 'bg-fixed'
-          }`}
-          style={{
-            backgroundImage: `linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(30, 41, 59, 0.6) 50%, rgba(51, 65, 85, 0.5) 100%), url(${optimizedHeroImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 30%',
-            backgroundRepeat: 'no-repeat',
-            minHeight: typeof window !== 'undefined' && window.innerWidth <= 768 ? '60vh' : '70vh'
-          }}
+        {/* Hero Section with Carousel */}
+        <HeroCarousel 
+          images={heroImages}
+          autoplayInterval={6000} // 6 seconds
         >
-          {/* Enhanced gradient overlays for better text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-transparent to-slate-900/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-slate-900/30"></div>
-          
           {/* Content Container with improved responsive design */}
-          <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-            {/* Main Title with hover effects */}
+          <div className="text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+            {/* Main Title with updated styling per requirements */}
             <h1 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 
-                            bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent
-                            transform transition-all duration-500 ease-in-out hover:scale-105 hover:drop-shadow-2xl
+                            text-white transform transition-all duration-500 ease-in-out hover:scale-105
                             leading-tight tracking-wide"
               style={{
-                textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)',
-                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.8))'
+                color: '#FFFFFF',
+                textShadow: '0 2px 4px rgba(0,0,0,0.3)'
               }}
             >
               Dịch Vụ Tại Tà Xùa
@@ -452,10 +395,7 @@ const Accommodation: React.FC = () => {
               </button>
             </div>
           </div>
-
-          {/* Scroll fade overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F9FAF9] opacity-0 transition-opacity duration-500" id="scroll-overlay"></div>
-        </section>
+        </HeroCarousel>
 
         {/* Service Categories Grid - Seamless transition */}
         <div style={{ backgroundColor: '#F9FAF9' }} className="py-16 -mt-1">
@@ -502,144 +442,261 @@ const Accommodation: React.FC = () => {
               ))}
             </div>
 
-            {/* Featured Experiences Section */}
-            <div className="mt-24 py-20 bg-gradient-to-b from-emerald-50 to-white relative overflow-hidden">
+            {/* New Service Categories - Horizontal Scrollable Cards */}
+            <section className="service-categories py-16 bg-gray-50">
               <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-                    Trải Nghiệm Nổi Bật Tại Tà Xùa
-                  </h2>
-                  <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Khám phá những trải nghiệm độc đáo và đáng nhớ nhất tại vùng đất Tà Xùa huyền diệu
-                  </p>
-                </div>
-
-                <div className="space-y-12 max-w-6xl mx-auto">
-                  {/* Experience 1: Homestay giữa biển mây */}
-                  <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 hover:scale-105">
-                    <div 
-                      className="h-96 bg-cover bg-center relative"
-                      style={{
-                        backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')`
-                      }}
-                    >
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="container mx-auto px-8">
-                          <div className="max-w-2xl">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                              Homestay giữa biển mây
-                            </h3>
-                            <p className="text-lg text-white/90 mb-6 leading-relaxed drop-shadow-md">
-                              Thức dậy trong làn sương mờ ảo, ngắm nhìn biển mây bao phủ khắp thung lũng. 
-                              Trải nghiệm nghỉ dưỡng độc đáo chỉ có tại Tà Xùa.
-                            </p>
-                            <Button 
-                              className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
-                              onClick={() => handleCategoryClick('accommodation', '/accommodation')}
-                            >
-                              Khám phá ngay
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                
+                {/* Category 1: Top Accommodations */}
+                <div className="mb-16">
+                  <div className="mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                      Chỗ nghỉ ngơi hàng đầu
+                    </h2>
+                    <p className="text-gray-600">
+                      Cho những giấc ngủ êm ái xuyên suốt kì nghỉ
+                    </p>
                   </div>
-
-                  {/* Experience 2: Ẩm thực H'Mông */}
-                  <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 hover:scale-105">
-                    <div 
-                      className="h-96 bg-cover bg-center relative"
-                      style={{
-                        backgroundImage: `linear-gradient(to left, rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')`
-                      }}
-                    >
-                      <div className="absolute inset-0 flex items-center justify-end">
-                        <div className="container mx-auto px-8">
-                          <div className="max-w-2xl text-right">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                              Ẩm thực H'Mông đậm đà bản sắc
-                            </h3>
-                            <p className="text-lg text-white/90 mb-6 leading-relaxed drop-shadow-md">
-                              Thưởng thức hương vị truyền thống của người H'Mông với thịt nướng, rau rừng 
-                              và ly trà Shan Tuyết thơm ngát giữa không gian núi rừng.
-                            </p>
-                            <Button 
-                              className="bg-white text-red-700 hover:bg-red-50 font-semibold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
-                              onClick={() => handleCategoryClick('restaurant', '/restaurant')}
-                            >
-                              Khám phá ngay
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Experience 3: Tour xanh */}
-                  <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 hover:scale-105">
-                    <div 
-                      className="h-96 bg-cover bg-center relative"
-                      style={{
-                        backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')`
-                      }}
-                    >
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="container mx-auto px-8">
-                          <div className="max-w-2xl">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                              Tour xanh – hành trình trồng cây & chill an lành
-                            </h3>
-                            <p className="text-lg text-white/90 mb-6 leading-relaxed drop-shadow-md">
-                              Tham gia hành trình du lịch có trách nhiệm, trồng cây gây rừng và khám phá 
-                              thiên nhiên hoang sơ cùng cộng đồng địa phương.
-                            </p>
-                            <Button 
-                              className="bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
-                              onClick={() => handleCategoryClick('tour', '/tour')}
-                            >
-                              Khám phá ngay
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Call to Action - Redesigned Support Section */}
-            <div className="mt-20 mb-16 max-w-4xl mx-auto">
-              <div className="bg-gradient-to-r from-emerald-600 to-emerald-800 rounded-3xl p-12 text-center text-white shadow-2xl transform hover:scale-105 transition-all duration-500">
-                <div className="max-w-2xl mx-auto">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4 drop-shadow-lg">
-                    Cần hỗ trợ đặt dịch vụ?
-                  </h2>
-                  <p className="text-lg text-white/90 mb-8 leading-relaxed">
-                    Đội ngũ ViViet luôn sẵn sàng hỗ trợ bạn lên kế hoạch nghỉ dưỡng và khám phá Tà Xùa trọn vẹn.
-                  </p>
                   
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button 
-                      className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-3 min-w-[200px]"
-                      onClick={() => window.open('tel:1900-xxxx', '_self')}
-                    >
-                      <Phone className="w-5 h-5" />
-                      Gọi Ngay 1900-xxxx
-                    </Button>
-                    
-                    <Button 
-                      variant="outline"
-                      className="border-2 border-white text-white hover:bg-white hover:text-emerald-700 font-semibold px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-3 min-w-[200px] bg-transparent"
-                      onClick={() => window.open('https://m.me/viviet', '_blank')}
-                    >
-                      <MessageCircle className="w-5 h-5" />
-                      Chat với chúng tôi
-                    </Button>
+                  <div className="overflow-x-auto pb-4">
+                    <div className="flex gap-6 min-w-max">
+                      {homestayData.slice(0, 5).map((homestay) => (
+                        <div key={homestay.id} className="flex-shrink-0 w-80 bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                          <div className="relative overflow-hidden">
+                            <img 
+                              src={homestay.images[0] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"} 
+                              alt={homestay.name}
+                              className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-200">
+                              <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                          </div>
+                          <div className="p-5">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1">
+                              {homestay.name}
+                            </h3>
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star key={i} className={`w-4 h-4 ${i < homestay.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                                ))}
+                              </div>
+                              <span className="text-sm text-gray-600">({homestay.rating})</span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                              {homestay.description}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-lg font-bold text-emerald-600">
+                                {homestay.price}
+                              </span>
+                              <Button 
+                                size="sm"
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2"
+                                onClick={() => handleViewDetails(homestay)}
+                              >
+                                Xem chi tiết
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
+
+                {/* Category 2: Delicious Cuisine */}
+                <div className="mb-16">
+                  <div className="mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                      Ẩm thực mỹ vị
+                    </h2>
+                    <p className="text-gray-600">
+                      Thổi bừng xúc cảm bằng hương vị bản địa
+                    </p>
+                  </div>
+                  
+                  <div className="overflow-x-auto pb-4">
+                    <div className="flex gap-6 min-w-max">
+                      {[
+                        {
+                          id: 'restaurant-1',
+                          name: 'Nhà hàng H\'Mông Tà Xùa',
+                          description: 'Thưởng thức ẩm thực H\'Mông truyền thống giữa núi rừng Tà Xùa',
+                          rating: 4.8,
+                          price: '150.000đ - 300.000đ',
+                          image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                          id: 'restaurant-2', 
+                          name: 'Quán Shan Tuyết',
+                          description: 'Trà Shan Tuyết nguyên chất và các món ăn từ rau rừng tươi ngon',
+                          rating: 4.7,
+                          price: '80.000đ - 200.000đ',
+                          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                          id: 'restaurant-3',
+                          name: 'Bếp Núi Rừng',
+                          description: 'Thịt nướng trên than hoa và các đặc sản núi rừng Tây Bắc',
+                          rating: 4.6,
+                          price: '120.000đ - 250.000đ',
+                          image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                          id: 'restaurant-4',
+                          name: 'Cơm Lam Tà Xùa',
+                          description: 'Cơm lam nướng trong ống tre và canh chua cá suối',
+                          rating: 4.5,
+                          price: '100.000đ - 180.000đ',
+                          image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        }
+                      ].map((restaurant) => (
+                        <div key={restaurant.id} className="flex-shrink-0 w-80 bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                          <div className="relative overflow-hidden">
+                            <img 
+                              src={restaurant.image} 
+                              alt={restaurant.name}
+                              className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-200">
+                              <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                          </div>
+                          <div className="p-5">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1">
+                              {restaurant.name}
+                            </h3>
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star key={i} className={`w-4 h-4 ${i < restaurant.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                                ))}
+                              </div>
+                              <span className="text-sm text-gray-600">({restaurant.rating})</span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                              {restaurant.description}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-lg font-bold text-red-600">
+                                {restaurant.price}
+                              </span>
+                              <Button 
+                                size="sm"
+                                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2"
+                              >
+                                Xem chi tiết
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Category 3: Complete Tours */}
+                <div className="mb-16">
+                  <div className="mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                      Du lịch trọn gói
+                    </h2>
+                    <p className="text-gray-600">
+                      Du lịch gọn gàng – tận hưởng trọn thời gian
+                    </p>
+                  </div>
+                  
+                  <div className="overflow-x-auto pb-4">
+                    <div className="flex gap-6 min-w-max">
+                      {[
+                        {
+                          id: 'tour-1',
+                          name: 'Tour Săn Mây 2N1Đ',
+                          description: 'Trải nghiệm săn mây hoàng hôn và bình minh trên đỉnh Tà Xùa',
+                          rating: 4.9,
+                          price: '1.200.000đ/người',
+                          image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                          id: 'tour-2',
+                          name: 'Tour Khám Phá Văn Hóa H\'Mông',
+                          description: 'Tìm hiểu văn hóa, ẩm thực và nghề thủ công truyền thống',
+                          rating: 4.7,
+                          price: '800.000đ/người',
+                          image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                          id: 'tour-3',
+                          name: 'Tour Trekking Đỉnh Phu Sang',
+                          description: 'Chinh phục đỉnh cao thứ 2 Việt Nam với hướng dẫn viên chuyên nghiệp',
+                          rating: 4.8,
+                          price: '1.500.000đ/người',
+                          image: 'https://images.unsplash.com/photo-1464822759844-d150baec0494?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                          id: 'tour-4',
+                          name: 'Tour Ẩm Thực & Trà Shan Tuyết',
+                          description: 'Khám phá hương vị đặc trưng và quy trình làm trà truyền thống',
+                          rating: 4.6,
+                          price: '600.000đ/người',
+                          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        }
+                      ].map((tour) => (
+                        <div key={tour.id} className="flex-shrink-0 w-80 bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                          <div className="relative overflow-hidden">
+                            <img 
+                              src={tour.image} 
+                              alt={tour.name}
+                              className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors duration-200">
+                              <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                          </div>
+                          <div className="p-5">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1">
+                              {tour.name}
+                            </h3>
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star key={i} className={`w-4 h-4 ${i < tour.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                                ))}
+                              </div>
+                              <span className="text-sm text-gray-600">({tour.rating})</span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                              {tour.description}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-lg font-bold text-blue-600">
+                                {tour.price}
+                              </span>
+                              <Button 
+                                size="sm"
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2"
+                              >
+                                Đặt ngay
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
               </div>
-            </div>
+            </section>
+
+
 
 
           </div>

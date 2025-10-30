@@ -7,7 +7,7 @@ interface EmeraldDiamond3DProps {
 }
 
 const EmeraldDiamond3D: React.FC<EmeraldDiamond3DProps> = ({ 
-  size = 200, 
+  size = 260, // Increased by 30% from 200 to 260
   className = '' 
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -70,40 +70,60 @@ const EmeraldDiamond3D: React.FC<EmeraldDiamond3DProps> = ({
     });
   }, []);
 
-  // Create particle system
+  // Create particle system with enhanced sparkle effect
   const createParticleSystem = useMemo(() => {
-    const particleCount = 50;
+    const particleCount = 80; // Increased from 50 for more sparkle
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
     
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
       
-      // Create elliptical orbit positions
+      // Create elliptical orbit positions with more variation
       const angle = (i / particleCount) * Math.PI * 2;
-      const radius = 3 + Math.random() * 2;
-      const height = (Math.random() - 0.5) * 4;
+      const radius = 2.5 + Math.random() * 2.5; // Increased spread
+      const height = (Math.random() - 0.5) * 5; // Increased height variation
       
       positions[i3] = Math.cos(angle) * radius;
       positions[i3 + 1] = height;
       positions[i3 + 2] = Math.sin(angle) * radius * 0.6;
       
-      // Particle colors (white to cyan)
-      colors[i3] = 0.8 + Math.random() * 0.2;     // R
-      colors[i3 + 1] = 0.9 + Math.random() * 0.1; // G
-      colors[i3 + 2] = 1.0;                       // B
+      // Enhanced particle colors with more variety
+      const colorVariation = Math.random();
+      if (colorVariation < 0.3) {
+        // White sparkles
+        colors[i3] = 1.0;
+        colors[i3 + 1] = 1.0;
+        colors[i3 + 2] = 1.0;
+      } else if (colorVariation < 0.6) {
+        // Cyan sparkles
+        colors[i3] = 0.3 + Math.random() * 0.3;
+        colors[i3 + 1] = 0.9 + Math.random() * 0.1;
+        colors[i3 + 2] = 1.0;
+      } else {
+        // Emerald green sparkles
+        colors[i3] = 0.2 + Math.random() * 0.3;
+        colors[i3 + 1] = 1.0;
+        colors[i3 + 2] = 0.4 + Math.random() * 0.4;
+      }
+      
+      // Variable sizes for more dynamic sparkle
+      sizes[i] = 0.03 + Math.random() * 0.08;
     }
     
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
     
     const material = new THREE.PointsMaterial({
-      size: 0.05,
+      size: 0.08, // Increased base size
       vertexColors: true,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.9, // Increased opacity
       blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
     });
     
     return new THREE.Points(geometry, material);
@@ -187,24 +207,31 @@ const EmeraldDiamond3D: React.FC<EmeraldDiamond3DProps> = ({
         diamondRef.current.rotation.x = Math.sin(time * 0.2) * 0.1;
       }
 
-      // Animate particles in elliptical orbits
+      // Animate particles in elliptical orbits with enhanced sparkle
       if (particlesRef.current) {
         const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
+        const sizes = particlesRef.current.geometry.attributes.size.array as Float32Array;
         const particleCount = positions.length / 3;
         
         for (let i = 0; i < particleCount; i++) {
           const i3 = i * 3;
-          const angle = (i / particleCount) * Math.PI * 2 + time * 0.5;
-          const radius = 3 + Math.sin(time + i) * 0.5;
-          const height = Math.sin(time * 0.3 + i) * 2;
+          const angle = (i / particleCount) * Math.PI * 2 + time * 0.8; // Faster rotation
+          const radius = 2.5 + Math.sin(time * 1.5 + i) * 0.8; // Dynamic radius
+          const height = Math.sin(time * 0.4 + i * 0.5) * 2.5; // Smoother height variation
           
           positions[i3] = Math.cos(angle) * radius;
           positions[i3 + 1] = height;
           positions[i3 + 2] = Math.sin(angle) * radius * 0.6;
+          
+          // Dynamic size animation for twinkling effect
+          const baseSizeIndex = i;
+          const baseSize = 0.03 + (i % 10) * 0.008;
+          sizes[baseSizeIndex] = baseSize + Math.sin(time * 3 + i * 0.7) * 0.04;
         }
         
         particlesRef.current.geometry.attributes.position.needsUpdate = true;
-        particlesRef.current.rotation.y = time * 0.1;
+        particlesRef.current.geometry.attributes.size.needsUpdate = true;
+        particlesRef.current.rotation.y = time * 0.15; // Slower overall rotation
       }
 
       // Animate lighting

@@ -75,7 +75,18 @@ export async function convertToWebP(
       reject(new Error('Failed to load image'));
     };
 
-    img.src = imageUrl;
+    // Handle URL encoding properly for spaces and special characters
+    // Only encode the path parts that need encoding, not the entire URL
+    const urlParts = imageUrl.split('/');
+    const encodedParts = urlParts.map((part, index) => {
+      // Don't encode protocol (http:, https:) or empty parts
+      if (index < 3 || part === '') return part;
+      // Encode only the filename and directory parts
+      return encodeURIComponent(part);
+    });
+    const encodedUrl = encodedParts.join('/');
+    
+    img.src = encodedUrl;
   });
 }
 

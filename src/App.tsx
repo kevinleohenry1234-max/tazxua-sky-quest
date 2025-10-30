@@ -41,6 +41,9 @@ const ReturningUserDashboard = lazy(() => import('./pages/ReturningUserDashboard
 const SkyQuest = lazy(() => import('./pages/SkyQuest'));
 const SkyQuestCalm = lazy(() => import('./pages/SkyQuestCalm'));
 const SkyQuestEnergetic = lazy(() => import('./pages/SkyQuestEnergetic'));
+const Restaurant = lazy(() => import('./pages/Restaurant'));
+const Tour = lazy(() => import('./pages/Tour'));
+const Transport = lazy(() => import('./pages/Transport'));
 
 const queryClient = new QueryClient();
 
@@ -86,6 +89,21 @@ const App = () => (
             <Route path="/accommodation" element={
               <Suspense fallback={<LoadingSpinner />}>
                 <Accommodation />
+              </Suspense>
+            } />
+            <Route path="/accommodation/restaurant" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Restaurant />
+              </Suspense>
+            } />
+            <Route path="/accommodation/tour" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Tour />
+              </Suspense>
+            } />
+            <Route path="/accommodation/transport" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Transport />
               </Suspense>
             } />
             <Route path="/transport" element={
