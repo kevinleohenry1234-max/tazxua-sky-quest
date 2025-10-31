@@ -18,6 +18,8 @@ import RatingSystem from '@/components/RatingSystem';
 import SocialShare from '@/components/SocialShare';
 import { seoOptimizer } from '@/utils/seoOptimizer';
 import { ATTRACTIONS_DATA } from '@/data/attractionsData';
+import InteractiveMap from '@/components/InteractiveMap';
+import ItineraryPlanner from '@/components/ItineraryPlanner';
 
 const Attractions = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -296,15 +298,7 @@ const Attractions = () => {
 
             {/* Map Tab */}
             <TabsContent value="map" className="space-y-8">
-              <div className="bg-muted/30 p-8 rounded-lg text-center">
-                <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h3 className="font-playfair text-2xl font-bold text-foreground mb-4">
-                  Bản Đồ Tương Tác
-                </h3>
-                <p className="font-inter text-muted-foreground max-w-md mx-auto">
-                  Bản đồ tương tác với các điểm đến sẽ được tích hợp trong phiên bản tiếp theo.
-                </p>
-              </div>
+              <InteractiveMap />
             </TabsContent>
 
             {/* Reviews Tab */}
@@ -410,15 +404,7 @@ const Attractions = () => {
 
             {/* Itineraries Tab */}
             <TabsContent value="itineraries" className="space-y-8">
-              <div className="bg-muted/30 p-8 rounded-lg text-center">
-                <Calendar className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h3 className="font-playfair text-2xl font-bold text-foreground mb-4">
-                  Lịch Trình Sắp Ra Mắt
-                </h3>
-                <p className="font-inter text-muted-foreground max-w-md mx-auto">
-                  Chúng tôi đang phát triển tính năng lập lịch trình tự động để giúp bạn có những chuyến đi hoàn hảo.
-                </p>
-              </div>
+              <ItineraryPlanner />
             </TabsContent>
           </Tabs>
         </section>
