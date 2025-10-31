@@ -11,11 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MapPin, Clock, Camera, Mountain, Filter, Search, Calendar, Users, Star, Share2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import LazyImage from '@/components/LazyImage';
+import AttractionImageSlider from '@/components/AttractionImageSlider';
 import dragonSpineImage from '@/assets/dragon-spine.jpg';
 import SearchAutocomplete from '@/components/SearchAutocomplete';
 import RatingSystem from '@/components/RatingSystem';
 import SocialShare from '@/components/SocialShare';
 import { seoOptimizer } from '@/utils/seoOptimizer';
+import { ATTRACTIONS_DATA } from '@/data/attractionsData';
 
 const Attractions = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -64,73 +66,7 @@ const Attractions = () => {
     ]);
   }, []);
 
-  const attractions = [
-    {
-      id: 1,
-      name: 'Sống Lưng Khủng Long',
-      description: 'Dãy núi hùng vĩ với hình dáng giống như sống lưng khủng long khổng lồ, là điểm đến không thể bỏ qua khi đến Tà Xùa.',
-      image: dragonSpineImage,
-      duration: '3-4 giờ',
-      difficulty: 'Trung bình',
-      bestTime: 'Sáng sớm (5-7h)',
-      coordinates: [21.3099, 104.4569],
-      rating: 4.8,
-      category: 'Núi đá',
-      highlights: ['Điểm săn mây tuyệt đẹp', 'View toàn cảnh Tà Xùa', 'Chụp ảnh sống ảo']
-    },
-    {
-      id: 2,
-      name: 'Đỉnh Phu Sang',
-      description: 'Đỉnh núi cao nhất khu vực với độ cao 2.865m, nơi có thể ngắm nhìn toàn cảnh vùng núi Tây Bắc.',
-      image: dragonSpineImage,
-      duration: '5-6 giờ',
-      difficulty: 'Khó',
-      bestTime: 'Cả ngày',
-      coordinates: [21.3199, 104.4669],
-      rating: 4.9,
-      category: 'Đỉnh núi',
-      highlights: ['Đỉnh cao nhất', 'Thử thách leo núi', 'Cảnh quan hùng vĩ']
-    },
-    {
-      id: 3,
-      name: 'Cây Cô Đơn',
-      description: 'Cây thông cô đơn đứng giữa đồi chè, biểu tượng nổi tiếng của Tà Xùa với vẻ đẹp thơ mộng.',
-      image: dragonSpineImage,
-      duration: '1-2 giờ',
-      difficulty: 'Dễ',
-      bestTime: 'Chiều tà (16-18h)',
-      coordinates: [21.2999, 104.4469],
-      rating: 4.7,
-      category: 'Cảnh quan',
-      highlights: ['Biểu tượng Tà Xùa', 'Dễ dàng tiếp cận', 'Ảnh đẹp hoàng hôn']
-    },
-    {
-      id: 4,
-      name: 'Đồi Chè Shan Tuyết',
-      description: 'Những đồi chè cổ thụ hàng trăm năm tuổi với hương vị đặc biệt và cảnh quan xanh mướt.',
-      image: dragonSpineImage,
-      duration: '2-3 giờ',
-      difficulty: 'Dễ',
-      bestTime: 'Buổi sáng',
-      coordinates: [21.3049, 104.4519],
-      rating: 4.6,
-      category: 'Nông nghiệp',
-      highlights: ['Chè cổ thụ', 'Trải nghiệm hái chè', 'Thưởng thức trà tươi']
-    },
-    {
-      id: 5,
-      name: 'Thác Dải Yếm',
-      description: 'Thác nước hùng vĩ với độ cao gần 100m, tạo thành những dải nước trắng như yếm đào.',
-      image: dragonSpineImage,
-      duration: '4-5 giờ',
-      difficulty: 'Trung bình',
-      bestTime: 'Mùa mưa (6-9)',
-      coordinates: [21.2899, 104.4369],
-      rating: 4.5,
-      category: 'Thác nước',
-      highlights: ['Thác cao 100m', 'Cảnh quan hùng vĩ', 'Tắm thác tự nhiên']
-    }
-  ];
+  const attractions = ATTRACTIONS_DATA;
 
   const filteredAttractions = attractions.filter(attraction => {
     const matchesSearch = attraction.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -167,10 +103,18 @@ const Attractions = () => {
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">
-          <div className="relative text-center text-white z-10">
+        <section 
+          className="relative h-96 md:h-[600px] bg-cover bg-center bg-no-repeat flex items-center justify-center"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('/Locations/HEro Section.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            minHeight: '400px'
+          }}
+        >
+          <div className="relative text-center text-white z-10 px-4">
             <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
-              Điểm Tham Quan
+              🌟 Điểm Tham Quan Tà Xùa 🌟
             </h1>
             <p className="font-inter text-xl md:text-2xl max-w-3xl mx-auto drop-shadow-lg">
               Khám phá những địa điểm tuyệt đẹp và độc đáo của Tà Xùa
@@ -270,22 +214,18 @@ const Attractions = () => {
                 {filteredAttractions.map((attraction) => (
                   <Card key={attraction.id} className="group overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-2">
                     <div className="relative h-64 overflow-hidden">
-                      <LazyImage
-                        src={attraction.image}
-                        alt={attraction.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      <AttractionImageSlider
+                        images={attraction.images}
+                        attractionName={attraction.name}
+                        autoPlay={true}
+                        autoPlayInterval={4000}
+                        className="h-64"
                       />
-                      <div className="absolute top-4 left-4 flex gap-2">
+                      <div className="absolute top-4 left-4 flex gap-2 z-10">
                         <Badge className={getDifficultyColor(attraction.difficulty)}>
                           {attraction.difficulty}
                         </Badge>
                         <Badge variant="secondary">{attraction.category}</Badge>
-                      </div>
-                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 text-yellow-500 fill-current" />
-                          <span className="text-xs font-semibold">{attraction.rating}</span>
-                        </div>
                       </div>
                     </div>
 

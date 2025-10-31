@@ -1,0 +1,32 @@
+export interface Attraction {
+  id: string;
+  name: string;
+  description: string;
+  shortDescription: string;
+  location: string;
+  highlights: string[];
+  bestTime: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  duration: string;
+  tips: string[];
+  images: string[];
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  category: 'mountain' | 'forest' | 'viewpoint' | 'cultural';
+}
+
+export const ATTRACTIONS_DATA: Attraction[] = [];
+
+export const getAttractionById = (id: string): Attraction | undefined => {
+  return ATTRACTIONS_DATA.find(attraction => attraction.id === id);
+};
+
+export const getAttractionsByCategory = (category: string): Attraction[] => {
+  return ATTRACTIONS_DATA.filter(attraction => attraction.category === category);
+};
+
+export const getAttractionsByDifficulty = (difficulty: string): Attraction[] => {
+  return ATTRACTIONS_DATA.filter(attraction => attraction.difficulty === difficulty);
+};

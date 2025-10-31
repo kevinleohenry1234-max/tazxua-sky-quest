@@ -1,0 +1,407 @@
+export interface Attraction {
+  id: string;
+  name: string;
+  description: string;
+  shortDescription: string;
+  location: string;
+  highlights: string[];
+  bestTime: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  duration: string;
+  tips: string[];
+  images: string[];
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  category: 'mountain' | 'forest' | 'viewpoint' | 'cultural';
+}
+
+export const ATTRACTIONS_DATA: Attraction[] = [
+  {
+    "id": "ba-n-be-ta-xu-a",
+    "name": "Bản Bẹ Tà Xùa",
+    "description": "Bản làng của người Mông nằm giữa núi rừng Tà Xùa, nơi du khách có thể trải nghiệm văn hóa bản địa độc đáo và thưởng thức cảnh quan thiên nhiên hùng vĩ.",
+    "shortDescription": "Bản làng Mông truyền thống với văn hóa bản địa độc đáo",
+    "location": "Xã Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Trải nghiệm văn hóa người Mông truyền thống",
+      "Kiến trúc nhà sàn đặc trưng vùng núi cao",
+      "Cảnh quan thiên nhiên hùng vĩ xung quanh bản làng",
+      "Thưởng thức ẩm thực địa phương đặc sắc"
+    ],
+    "bestTime": "Quanh năm, tốt nhất từ tháng 10 - tháng 4",
+    "difficulty": "easy",
+    "duration": "2-3 giờ",
+    "tips": [
+      "Tôn trọng văn hóa và phong tục địa phương",
+      "Mang theo quà nhỏ cho trẻ em bản địa",
+      "Học vài câu chào hỏi bằng tiếng Mông",
+      "Không chụp ảnh người dân mà không xin phép"
+    ],
+    "images": [
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_01.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_02.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_03.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_04.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_05.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_06.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_07.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_08.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_09.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_10.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_11.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_12.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_13.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_14.webp",
+      "/Attractions/ba_n_be_ta_xu_a/ba_n_be_ta_xu_a_15.webp"
+    ],
+    "coordinates": {
+      "lat": 21.318,
+      "lng": 104.418
+    },
+    "category": "cultural"
+  },
+  {
+    "id": "ca-y-co-o-n",
+    "name": "Cây Cô Đơn",
+    "description": "Một cây đứng lẻ loi giữa khoảng đất trống, xung quanh là mây núi mênh mông. Hình ảnh cây nhỏ bé giữa không gian rộng lớn tạo cảm giác vừa hùng vĩ vừa trữ tình.",
+    "shortDescription": "Biểu tượng săn mây nổi tiếng với góc check-in huyền thoại",
+    "location": "Sườn núi cao thuộc ngã 3 Xím Vàng xã Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Biểu tượng \"săn mây\" nổi tiếng",
+      "Góc check-in huyền thoại với nền biển mây trắng xóa",
+      "Cảnh sắc thay đổi theo mùa",
+      "Điểm chụp ảnh cưới, ảnh kỷ niệm lý tưởng"
+    ],
+    "bestTime": "Tháng 11 - tháng 4 (mùa khô), sáng sớm 5h30-7h và chiều muộn 16h30-17h30",
+    "difficulty": "medium",
+    "duration": "2-3 giờ",
+    "tips": [
+      "Chuẩn bị áo khoác vì sáng sớm trời lạnh",
+      "Đi giày bám tốt khi leo lên sườn dốc",
+      "Tránh chen lấn, đứng quá sát mép vực để an toàn",
+      "Giữ vệ sinh, không khắc tên lên thân cây"
+    ],
+    "images": [
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_01.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_02.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_03.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_04.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_05.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_06.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_07.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_08.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_09.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_10.webp",
+      "/Attractions/ca_y_co_o_n/ca_y_co_o_n_11.webp"
+    ],
+    "coordinates": {
+      "lat": 21.3167,
+      "lng": 104.4167
+    },
+    "category": "viewpoint"
+  },
+  {
+    "id": "co-t-mo-c-ta-xu-a",
+    "name": "Cột Mốc Tà Xùa",
+    "description": "Cột mốc đánh dấu ranh giới địa lý quan trọng của vùng Tà Xùa, nơi du khách có thể chụp ảnh lưu niệm và ngắm nhìn cảnh quan núi non hùng vĩ xung quanh.",
+    "shortDescription": "Cột mốc địa lý quan trọng với tầm nhìn panorama tuyệt đẹp",
+    "location": "Khu vực đỉnh cao Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Điểm đánh dấu địa lý quan trọng của Tà Xùa",
+      "Tầm nhìn panorama 360 độ ra núi non",
+      "Điểm check-in với ý nghĩa đặc biệt",
+      "Cảnh quan núi rừng hùng vĩ xung quanh"
+    ],
+    "bestTime": "Tháng 10 - tháng 4, sáng sớm để tránh sương mù",
+    "difficulty": "medium",
+    "duration": "1-2 giờ",
+    "tips": [
+      "Mang theo GPS để định vị chính xác",
+      "Chụp ảnh với cột mốc làm điểm nhấn",
+      "Cẩn thận khi di chuyển trên địa hình núi cao",
+      "Mang áo ấm vì thời tiết thay đổi nhanh"
+    ],
+    "images": [
+      "/Attractions/co_t_mo_c_ta_xu_a/co_t_mo_c_ta_xu_a_01.webp",
+      "/Attractions/co_t_mo_c_ta_xu_a/co_t_mo_c_ta_xu_a_02.webp"
+    ],
+    "coordinates": {
+      "lat": 21.32,
+      "lng": 104.42
+    },
+    "category": "viewpoint"
+  },
+  {
+    "id": "i-nh-gio-ta-xu-a",
+    "name": "Đỉnh Gió Tà Xùa",
+    "description": "Một điểm cao giữa núi rừng, nơi gió lộng thổi quanh năm. Từ đây có thể phóng tầm mắt ngắm nhìn biển mây bồng bềnh cuồn cuộn dưới thung lũng, đặc biệt vào sáng sớm.",
+    "shortDescription": "Cửa ngõ săn mây của Tà Xùa với khung cảnh núi non trùng điệp",
+    "location": "Trên đường đi vào trung tâm xã Tà Xùa, cách thị trấn Bắc Yên khoảng 10km",
+    "highlights": [
+      "Điểm ngắm biển mây lý tưởng",
+      "Khung cảnh núi non trùng điệp, bầu trời trong xanh",
+      "Gió thổi lồng lộng tạo cảm giác tự do và hùng vĩ",
+      "Điểm dừng chân đầu tiên trước khi chinh phục các địa điểm khác"
+    ],
+    "bestTime": "Tháng 10 - tháng 4, sáng sớm để săn mây",
+    "difficulty": "easy",
+    "duration": "1-2 giờ",
+    "tips": [
+      "Dừng lại uống trà, cà phê tại các quán nhỏ ven đường",
+      "Chụp ảnh với background tự nhiên tuyệt đẹp",
+      "Mùa hoa (tháng 12-3) có thêm sắc hồng của hoa đào, hoa mận",
+      "Mang áo ấm vì trên núi khá lạnh"
+    ],
+    "images": [
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_01.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_02.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_03.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_04.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_05.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_06.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_07.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_08.webp",
+      "/Attractions/i_nh_gio_ta_xu_a/i_nh_gio_ta_xu_a_09.webp"
+    ],
+    "coordinates": {
+      "lat": 21.32,
+      "lng": 104.42
+    },
+    "category": "viewpoint"
+  },
+  {
+    "id": "o-i-che-shan-tuye-t-ta-xu-a",
+    "name": "Đồi Chè Shan Tuyết Tà Xùa",
+    "description": "Những đồi chè Shan Tuyết cổ thụ trải dài trên sườn núi, với những cây chè hàng trăm năm tuổi tạo nên cảnh quan độc đáo và thơ mộng.",
+    "shortDescription": "Đồi chè Shan Tuyết cổ thụ với cảnh quan thơ mộng",
+    "location": "Các sườn núi cao xã Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Cây chè Shan Tuyết cổ thụ hàng trăm năm tuổi",
+      "Cảnh quan đồi chè xanh mướt trải dài",
+      "Trải nghiệm hái chè và pha trà truyền thống",
+      "Tìm hiểu văn hóa trà của người Mông"
+    ],
+    "bestTime": "Tháng 3 - tháng 5 và tháng 9 - tháng 11 (mùa hái chè)",
+    "difficulty": "easy",
+    "duration": "2-3 giờ",
+    "tips": [
+      "Tham gia hoạt động hái chè cùng người dân địa phương",
+      "Thưởng thức trà Shan Tuyết tươi ngon",
+      "Tìm hiểu quy trình chế biến trà truyền thống",
+      "Mua trà Shan Tuyết làm quà lưu niệm"
+    ],
+    "images": [
+      "/Attractions/o_i_che_shan_tuye_t_ta_xu_a/o_i_che_shan_tuye_t_ta_xu_a_01.webp",
+      "/Attractions/o_i_che_shan_tuye_t_ta_xu_a/o_i_che_shan_tuye_t_ta_xu_a_02.webp",
+      "/Attractions/o_i_che_shan_tuye_t_ta_xu_a/o_i_che_shan_tuye_t_ta_xu_a_03.webp",
+      "/Attractions/o_i_che_shan_tuye_t_ta_xu_a/o_i_che_shan_tuye_t_ta_xu_a_04.webp",
+      "/Attractions/o_i_che_shan_tuye_t_ta_xu_a/o_i_che_shan_tuye_t_ta_xu_a_05.webp"
+    ],
+    "coordinates": {
+      "lat": 21.314,
+      "lng": 104.414
+    },
+    "category": "cultural"
+  },
+  {
+    "id": "mo-m-ca-heo",
+    "name": "Mỏm Cá Heo",
+    "description": "Một mỏm đá nhô ra khỏi vách núi, hình dáng giống đầu cá heo. Nổi bật trên vùng núi cao, tạo cảm giác \"lơ lửng giữa trời\" khi đứng trên mỏm đá.",
+    "shortDescription": "Mỏm đá hình cá heo độc đáo, điểm check-in nổi tiếng của giới trẻ",
+    "location": "Xã Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Hình dáng tự nhiên kỳ thú như \"cá heo vươn mình giữa biển mây\"",
+      "Cảnh quan xung quanh hùng vĩ với nhiều mây vào buổi sáng",
+      "Điểm check-in được giới trẻ yêu thích",
+      "Cảm giác \"lơ lửng giữa trời\" khi đứng trên mỏm đá"
+    ],
+    "bestTime": "Tháng 11 - tháng 4, sáng sớm 5h30-7h để săn mây",
+    "difficulty": "medium",
+    "duration": "2-3 giờ",
+    "tips": [
+      "Mang giày thể thao đế bám tốt, trang phục gọn nhẹ",
+      "Mang áo ấm vì sáng sớm trên núi lạnh",
+      "Cẩn thận khi chụp ảnh ở mép mỏm đá, không tạo dáng mạo hiểm",
+      "Mang theo đồ ăn nhẹ, nước uống",
+      "Giữ vệ sinh, không xả rác"
+    ],
+    "images": [
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_01.webp",
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_02.webp",
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_03.webp",
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_04.webp",
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_05.webp",
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_06.webp",
+      "/Attractions/mo_m_ca_heo/mo_m_ca_heo_07.webp"
+    ],
+    "coordinates": {
+      "lat": 21.315,
+      "lng": 104.415
+    },
+    "category": "viewpoint"
+  },
+  {
+    "id": "mo-m-a-u-ru-a",
+    "name": "Mỏm Đầu Rùa",
+    "description": "Mỏm đá có hình dáng giống đầu rùa khổng lồ nhô ra từ vách núi, tạo nên một cảnh quan độc đáo và hùng vĩ giữa núi rừng Tà Xùa.",
+    "shortDescription": "Mỏm đá hình đầu rùa khổng lồ với cảnh quan kỳ vĩ",
+    "location": "Khu vực núi cao Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Hình dáng độc đáo như đầu rùa khổng lồ",
+      "Cảnh quan núi rừng hùng vĩ xung quanh",
+      "Điểm ngắm cảnh và chụp ảnh tuyệt đẹp",
+      "Trải nghiệm cảm giác đứng trên \"đầu rùa\" giữa trời"
+    ],
+    "bestTime": "Tháng 10 - tháng 4, tránh mùa mưa",
+    "difficulty": "medium",
+    "duration": "2-3 giờ",
+    "tips": [
+      "Đi giày leo núi có độ bám tốt",
+      "Cẩn thận khi tiếp cận mép mỏm đá",
+      "Mang theo nước uống và đồ ăn nhẹ",
+      "Kiểm tra thời tiết trước khi đi"
+    ],
+    "images": [
+      "/Attractions/mo_m_a_u_ru_a/mo_m_a_u_ru_a_01.webp",
+      "/Attractions/mo_m_a_u_ru_a/mo_m_a_u_ru_a_02.webp",
+      "/Attractions/mo_m_a_u_ru_a/mo_m_a_u_ru_a_03.webp",
+      "/Attractions/mo_m_a_u_ru_a/mo_m_a_u_ru_a_04.webp"
+    ],
+    "coordinates": {
+      "lat": 21.312,
+      "lng": 104.412
+    },
+    "category": "viewpoint"
+  },
+  {
+    "id": "ru-ng-nguye-n-sinh",
+    "name": "Rừng Nguyên Sinh Tà Xùa",
+    "description": "Khu rừng nguyên sinh với hệ sinh thái đa dạng, nhiều loài gỗ quý, cây dương xỉ, phong lan rừng. Được mệnh danh là \"vương quốc rêu xanh\" với thảm rêu phủ kín thân cây.",
+    "shortDescription": "Vương quốc rêu xanh với hệ sinh thái nguyên sinh độc đáo",
+    "location": "Khu vực núi cao Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Hệ sinh thái nguyên sinh đa dạng với nhiều loài gỗ quý",
+      "Vương quốc rêu xanh độc đáo hiếm thấy ở Việt Nam",
+      "Khí hậu mát mẻ 18-25°C, nhiều sương mù huyền bí",
+      "Trải nghiệm trekking và cắm trại giữa núi rừng"
+    ],
+    "bestTime": "Tháng 9 - tháng 3 (mùa khô) để hạn chế mưa trơn trượt",
+    "difficulty": "hard",
+    "duration": "1-2 ngày",
+    "tips": [
+      "Bắt buộc có người dẫn đường bản địa (người Mông)",
+      "Chuẩn bị giày leo núi chống trơn, áo mưa, găng tay",
+      "Mang đèn pin, thuốc chống côn trùng",
+      "Giữ gìn môi trường, tuyệt đối không xả rác hay phá cây rừng"
+    ],
+    "images": [
+      "/Attractions/ru_ng_nguye_n_sinh/ru_ng_nguye_n_sinh_01.webp",
+      "/Attractions/ru_ng_nguye_n_sinh/ru_ng_nguye_n_sinh_02.webp",
+      "/Attractions/ru_ng_nguye_n_sinh/ru_ng_nguye_n_sinh_03.webp",
+      "/Attractions/ru_ng_nguye_n_sinh/ru_ng_nguye_n_sinh_04.webp",
+      "/Attractions/ru_ng_nguye_n_sinh/ru_ng_nguye_n_sinh_05.webp"
+    ],
+    "coordinates": {
+      "lat": 21.31,
+      "lng": 104.41
+    },
+    "category": "forest"
+  },
+  {
+    "id": "so-ng-lu-ng-khu-ng-long",
+    "name": "Sống Lưng Khủng Long",
+    "description": "Dải núi nhọn kéo dài với hình dáng giống sống lưng khủng long khổng lồ. Hai bên là vực sâu hun hút, đi trên cảm giác như đang bước trên lưng khủng long.",
+    "shortDescription": "Dải núi hình sống lưng khủng long với trải nghiệm mạo hiểm",
+    "location": "Khu vực xã Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Hình dáng độc đáo như sống lưng khủng long khổng lồ",
+      "Cảnh quan kỳ vĩ với biển mây bao quanh buổi sáng",
+      "Trải nghiệm thử thách với con đường hẹp chỉ đủ một người đi",
+      "Điểm check-in nổi tiếng của phượt thủ và dân trekking"
+    ],
+    "bestTime": "Tháng 11 - tháng 4, sáng sớm để săn mây và chiều muộn ngắm hoàng hôn",
+    "difficulty": "hard",
+    "duration": "3-4 giờ",
+    "tips": [
+      "Trang phục thoải mái, gọn nhẹ với giày leo núi có độ bám tốt",
+      "Chuẩn bị gậy trekking để giữ thăng bằng",
+      "Không nên đi vào ngày mưa to vì dễ trơn trượt",
+      "Cẩn trọng khi chụp ảnh vì hai bên là vực sâu",
+      "Mang theo áo khoác, nước uống, đồ ăn nhẹ"
+    ],
+    "images": [
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_01.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_02.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_03.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_04.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_05.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_06.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_07.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_08.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_09.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_10.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_11.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_12.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_13.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_14.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_15.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_16.webp",
+      "/Attractions/so_ng_lu_ng_khu_ng_long/so_ng_lu_ng_khu_ng_long_17.webp"
+    ],
+    "coordinates": {
+      "lat": 21.308,
+      "lng": 104.408
+    },
+    "category": "mountain"
+  },
+  {
+    "id": "tha-c-ha-ng-e-cho",
+    "name": "Thác Háng Đề Chơ",
+    "description": "Thác nước hùng vĩ ẩn mình trong rừng nguyên sinh Tà Xùa, với dòng nước trong vắt đổ từ độ cao lớn tạo nên âm thanh du dương giữa núi rừng.",
+    "shortDescription": "Thác nước hùng vĩ ẩn mình trong rừng nguyên sinh",
+    "location": "Rừng nguyên sinh Tà Xùa, huyện Bắc Yên, tỉnh Sơn La",
+    "highlights": [
+      "Thác nước hùng vĩ với độ cao ấn tượng",
+      "Dòng nước trong vắt giữa rừng nguyên sinh",
+      "Âm thanh du dương của nước đổ tạo cảm giác thư giãn",
+      "Không khí trong lành, mát mẻ quanh năm"
+    ],
+    "bestTime": "Tháng 5 - tháng 10 (mùa mưa) để thác có nhiều nước",
+    "difficulty": "medium",
+    "duration": "3-4 giờ",
+    "tips": [
+      "Mang giày chống trượt vì đường đi ẩm ướt",
+      "Chuẩn bị áo mưa và túi chống nước cho đồ đạc",
+      "Không tắm dưới thác vì dòng nước mạnh",
+      "Mang theo đồ ăn và nước uống đầy đủ"
+    ],
+    "images": [
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_01.webp",
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_02.webp",
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_03.webp",
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_04.webp",
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_05.webp",
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_06.webp",
+      "/Attractions/tha_c_ha_ng_e_cho/tha_c_ha_ng_e_cho_07.webp"
+    ],
+    "coordinates": {
+      "lat": 21.306,
+      "lng": 104.406
+    },
+    "category": "forest"
+  }
+];
+
+export const getAttractionById = (id: string): Attraction | undefined => {
+  return ATTRACTIONS_DATA.find(attraction => attraction.id === id);
+};
+
+export const getAttractionsByCategory = (category: string): Attraction[] => {
+  return ATTRACTIONS_DATA.filter(attraction => attraction.category === category);
+};
+
+export const getAttractionsByDifficulty = (difficulty: string): Attraction[] => {
+  return ATTRACTIONS_DATA.filter(attraction => attraction.difficulty === difficulty);
+};

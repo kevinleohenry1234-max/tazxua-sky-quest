@@ -44,6 +44,7 @@ const SkyQuestEnergetic = lazy(() => import('./pages/SkyQuestEnergetic'));
 const Restaurant = lazy(() => import('./pages/Restaurant'));
 const Tour = lazy(() => import('./pages/Tour'));
 const Transport = lazy(() => import('./pages/Transport'));
+const SearchResults = lazy(() => import('./pages/SearchResults'));
 
 const queryClient = new QueryClient();
 
@@ -239,6 +240,11 @@ const App = () => (
             <Route path="/returning-dashboard" element={
               <Suspense fallback={<LoadingSpinner />}>
                 <ReturningUserDashboard />
+              </Suspense>
+            } />
+            <Route path="/search-results" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <SearchResults />
               </Suspense>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

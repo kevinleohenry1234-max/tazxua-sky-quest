@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LazyImage from '@/components/LazyImage';
+import { preloadImage } from '@/utils/imageOptimizer';
 
 interface AttractionImageSliderProps {
   images: string[];
@@ -22,6 +23,23 @@ const AttractionImageSlider: React.FC<AttractionImageSliderProps> = ({
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Preload next and previous images for smooth transitions
+  const preloadAdjacentImages = useCallback(() => {
+    if (images.length <= 1) return;
+    
+    const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+    const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+    
+    // Preload next and previous images
+    preloadImage(images[nextIndex]).catch(() => {});
+    preloadImage(images[prevIndex]).catch(() => {});
+  }, [images, currentIndex]);
+
+  // Preload adjacent images when current index changes
+  useEffect(() => {
+    preloadAdjacentImages();
+  }, [preloadAdjacentImages]);
+
   // Auto-play functionality
   useEffect(() => {
     if (!isPlaying || isHovered || images.length <= 1) return;
@@ -35,21 +53,21 @@ const AttractionImageSlider: React.FC<AttractionImageSliderProps> = ({
     return () => clearInterval(interval);
   }, [isPlaying, isHovered, images.length, autoPlayInterval]);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
-  };
+  }, [currentIndex, images.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
-  };
+  }, [currentIndex, images.length]);
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
-  };
+  }, []);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = useCallback(() => {
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
   if (!images || images.length === 0) {
     return (
@@ -61,7 +79,7 @@ const AttractionImageSlider: React.FC<AttractionImageSliderProps> = ({
 
   return (
     <div 
-      className={`relative h-48 rounded-lg overflow-hidden group ${className}`}
+      className={`relative h-48 sm:h-56 md:h-48 lg:h-56 xl:h-64 rounded-lg overflow-hidden group ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -71,15 +89,17 @@ const AttractionImageSlider: React.FC<AttractionImageSliderProps> = ({
           src={images[currentIndex]}
           alt={`${attractionName} - Hình ${currentIndex + 1}`}
           className="w-full h-full object-cover transition-all duration-500 ease-in-out"
+          priority={currentIndex === 0} // Priority for first image
+          quality={0.85} // Higher quality for attraction images
         />
         
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         
         {/* Attraction Name */}
-        <div className="absolute bottom-4 left-4 text-white">
-          <h3 className="font-playfair text-xl font-bold mb-1">{attractionName}</h3>
-          <p className="font-inter text-sm opacity-90">
+        <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 text-white">
+          <h3 className="font-playfair text-lg sm:text-xl font-bold mb-1">{attractionName}</h3>
+          <p className="font-inter text-xs sm:text-sm opacity-90">
             {currentIndex + 1} / {images.length}
           </p>
         </div>
@@ -91,19 +111,19 @@ const AttractionImageSlider: React.FC<AttractionImageSliderProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1 sm:p-2"
             onClick={goToPrevious}
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
           </Button>
           
           <Button
             variant="ghost"
             size="sm"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1 sm:p-2"
             onClick={goToNext}
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </Button>
         </>
       )}
