@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import Header from '@/components/Header';
+import { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import LoginModal, { LoginData } from '@/components/LoginModal';
@@ -162,14 +161,6 @@ const ExhibitionVideos = () => {
 
   return (
     <Layout>
-      <Header
-        isLoggedIn={isLoggedIn}
-        userName={userName}
-        onLoginClick={() => setIsLoginModalOpen(true)}
-        onRegisterClick={() => setIsRegisterModalOpen(true)}
-        onLogoutClick={handleLogout}
-      />
-
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

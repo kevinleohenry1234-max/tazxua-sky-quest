@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import LoginModal, { LoginData } from '@/components/LoginModal';
@@ -263,14 +262,6 @@ const ExhibitionCuisine = () => {
 
   return (
     <Layout>
-      <Header
-        isLoggedIn={isLoggedIn}
-        userName={userName}
-        onLoginClick={() => setIsLoginModalOpen(true)}
-        onRegisterClick={() => setIsRegisterModalOpen(true)}
-        onLogoutClick={handleLogout}
-      />
-
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

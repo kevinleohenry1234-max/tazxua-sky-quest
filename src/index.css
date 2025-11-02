@@ -6,6 +6,11 @@
 
 /* Tà Xùa Design System - Inspired by the natural beauty of Tà Xùa, Sơn La */
 
+/* Global smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Custom scrollbar hide utility */
 @layer utilities {
   .scrollbar-hide {

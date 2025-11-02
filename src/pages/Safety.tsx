@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getOptimizedImageUrl, preloadImage } from '@/utils/imageOptimizer';
-import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
-import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
+import Footer from '@/components/Footer';
 import SmartSafetyHub from '@/components/SmartSafetyHub';
 import WeatherWidget from '@/components/WeatherWidget';
 import CommunityReportForm from '@/components/CommunityReportForm';
@@ -17,7 +14,16 @@ const Safety = () => {
   const [heroImageUrl, setHeroImageUrl] = useState<string>('/images/safety/Hero Section Safety.png');
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const navigate = useNavigate();
+
+  // Smooth scroll function with navbar offset
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = -80; // offset for navbar height
+      const y = element.getBoundingClientRect().top + window.pageYOffset + offset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -64,9 +70,6 @@ const Safety = () => {
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-safety-mist to-safety-mist-light">
-        <MainNavigation />
-        <Header />
-        
         {/* Hero Section - Redesigned with Hero Section Safety.png */}
         <section className="relative min-h-[500px] md:min-h-[520px] sm:min-h-[420px] flex flex-col items-center justify-center overflow-hidden px-5 md:px-8">
           {/* Background Image with Parallax - Optimized for performance */}
@@ -128,7 +131,7 @@ const Safety = () => {
             {/* Action Buttons - Improved Spacing and Layout */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 max-w-4xl mx-auto">
               <button 
-                onClick={() => navigate('/safety/weather')}
+                onClick={() => scrollToSection('weather-section')}
                 className="flex flex-col items-center group cursor-pointer focus:outline-none focus:ring-4 focus:ring-amber-400/50 rounded-2xl p-4 md:p-6 bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-md hover:from-amber-400/30 hover:to-orange-400/30 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl border border-amber-200/30 min-w-[160px] md:min-w-[180px]"
                 aria-label="Xem cảnh báo và dự báo thời tiết"
               >
@@ -141,7 +144,7 @@ const Safety = () => {
               </button>
               
               <button 
-                onClick={() => navigate('/safety/map')}
+                onClick={() => scrollToSection('map-section')}
                 className="flex flex-col items-center group cursor-pointer focus:outline-none focus:ring-4 focus:ring-emerald-400/50 rounded-2xl p-4 md:p-6 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-md hover:from-emerald-400/30 hover:to-teal-400/30 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl border border-emerald-200/30 min-w-[160px] md:min-w-[180px]"
                 aria-label="Xem bản đồ an toàn"
               >
@@ -154,7 +157,7 @@ const Safety = () => {
               </button>
               
               <button 
-                onClick={() => navigate('/safety/report')}
+                onClick={() => scrollToSection('sos-section')}
                 className="flex flex-col items-center group cursor-pointer focus:outline-none focus:ring-4 focus:ring-red-400/50 rounded-2xl p-4 md:p-6 bg-gradient-to-br from-red-500/20 to-rose-500/20 backdrop-blur-md hover:from-red-400/30 hover:to-rose-400/30 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl border border-red-200/30 min-w-[160px] md:min-w-[180px]"
                 aria-label="Báo cáo và SOS khẩn cấp"
               >
@@ -174,12 +177,12 @@ const Safety = () => {
           {/* Main Content Grid - Responsive Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
             {/* Weather Widget */}
-            <div className="lg:col-span-1">
+            <div id="weather-section" className="lg:col-span-1">
               <WeatherWidget />
             </div>
             
             {/* Community Report Form */}
-            <div className="lg:col-span-1">
+            <div id="sos-section" className="lg:col-span-1">
               <CommunityReportForm onReportSubmitted={handleReportSubmitted} />
             </div>
             
@@ -195,7 +198,9 @@ const Safety = () => {
           </div>
 
           {/* Original Smart Safety Hub */}
-          <SmartSafetyHub />
+          <div id="map-section">
+            <SmartSafetyHub />
+          </div>
         </section>
         
         <Footer />

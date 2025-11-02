@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -72,16 +70,6 @@ const FirstTimeVisitor = () => {
 
   return (
     <Layout>
-      <MainNavigation />
-      <Header 
-        isLoggedIn={false}
-        userName=""
-        onLoginClick={() => {}}
-        onRegisterClick={() => {}}
-        onProfileClick={() => {}}
-        onLogoutClick={() => {}}
-      />
-      
       <div className="min-h-screen pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Welcome Section */}

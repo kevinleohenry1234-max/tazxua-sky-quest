@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import ContactForm from '@/components/ContactForm';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Facebook, Instagram, Youtube, Twitter, Mountain, Heart, Star, Users, Globe, Camera, Leaf, Award, Lightbulb, PhoneCall } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
+import ContactForm from '@/components/ContactForm';
 import LoginModal, { LoginData } from '@/components/LoginModal';
 import RegisterModal, { RegisterData } from '@/components/RegisterModal';
-import { MapPin, Mail, Phone, Clock, Facebook, Lightbulb, MessageCircle, PhoneCall } from 'lucide-react';
 
 const Contact = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -24,14 +28,8 @@ const Contact = () => {
 
   return (
     <Layout>
-      <Header 
-        onLoginClick={() => setShowLoginModal(true)}
-        onRegisterClick={() => setShowRegisterModal(true)}
-      />
-      <MainNavigation />
-
-      {/* Enhanced Hero Section - Reduced Height */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+      {/* Enhanced Hero Section - Adjusted for fixed nav */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-20">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-bg"

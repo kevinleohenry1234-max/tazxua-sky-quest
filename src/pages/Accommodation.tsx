@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import ImageSlider from '@/components/ImageSlider';
 import HotelGrid from '@/components/HotelGrid';
@@ -261,18 +259,9 @@ const Accommodation: React.FC = () => {
 
   if (selectedCategory === 'accommodation') {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#F9FAF9' }}>
-        <MainNavigation />
-        <Header
-          isLoggedIn={isLoggedIn}
-          userName={userName}
-          onLoginClick={() => setShowLoginModal(true)}
-          onRegisterClick={() => setShowRegisterModal(true)}
-          onProfileClick={() => setShowDashboard(true)}
-          onLogoutClick={handleLogout}
-        />
-        
-        <div className="pt-16">
+      <Layout isLoggedIn={isLoggedIn}>
+        <div className="min-h-screen" style={{ backgroundColor: '#F9FAF9' }}>
+          <div className="pt-16">
           {/* Back Button */}
           <div className="container mx-auto px-4 py-6">
             <Button 
@@ -313,31 +302,24 @@ const Accommodation: React.FC = () => {
           <div className="container mx-auto px-4 pb-16">
             <HotelGrid hotels={homestayRealData} />
           </div>
+          </div>
         </div>
         
         <Footer />
-      </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Preload critical images */}
-      <ImagePreloader 
-        images={['/images/service/HERO.png']} 
-        priority={true} 
-      />
-      
-      <Header
-        isLoggedIn={isLoggedIn}
-        userName={userName}
-        onLoginClick={() => setShowLoginModal(true)}
-        onRegisterClick={() => setShowRegisterModal(true)}
-        onProfileClick={() => setShowDashboard(true)}
-        onLogoutClick={handleLogout}
-      />
-      
-      <div className="pt-16">
+    <Layout isLoggedIn={isLoggedIn}>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        {/* Image Preloader */}
+        <ImagePreloader 
+          images={['/images/service/HERO.png']} 
+          priority={true} 
+        />
+        
+        <div className="pt-16">
         {/* Hero Section with Carousel */}
         <HeroCarousel 
           images={heroImages}
@@ -705,6 +687,7 @@ const Accommodation: React.FC = () => {
       </div>
       
       <Footer />
+      </div>
 
       {/* Detail Modal */}
       {showDetailModal && selectedHomestay && (
@@ -854,7 +837,7 @@ const Accommodation: React.FC = () => {
            animation: fade-up 0.4s ease-out;
          }
        `}</style>
-    </div>
+    </Layout>
   );
 };
 

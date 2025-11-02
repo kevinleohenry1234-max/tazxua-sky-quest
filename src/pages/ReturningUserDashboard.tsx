@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -145,16 +143,6 @@ const ReturningUserDashboard = () => {
 
   return (
     <Layout>
-      <MainNavigation />
-      <Header 
-        isLoggedIn={true}
-        userName={userName}
-        onLoginClick={() => {}}
-        onRegisterClick={() => {}}
-        onProfileClick={() => navigate('/profile')}
-        onLogoutClick={() => {}}
-      />
-      
       <div className="min-h-screen pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Welcome Back Section */}

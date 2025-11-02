@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
+import Layout from '@/components/Layout';
 import Footer from '@/components/Footer';
 import SearchDashboard from '@/components/shared/SearchDashboard';
 import ServiceCard from '@/components/shared/ServiceCard';
@@ -170,25 +169,16 @@ const TourPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F9FAF9' }}>
-      <MainNavigation />
-      <Header
-        isLoggedIn={false}
-        userName=""
-        onLoginClick={() => {}}
-        onRegisterClick={() => {}}
-        onProfileClick={() => {}}
-        onLogoutClick={() => {}}
-      />
-      
-      <div className="pt-16">
-        {/* Back Button */}
-        <div className="container mx-auto px-4 py-6">
-          <Button 
-            onClick={handleBackToServices}
-            variant="outline"
-            className="mb-4 text-gray-600 border-gray-300 hover:bg-gray-50"
-          >
+    <Layout isLoggedIn={false}>
+      <div className="min-h-screen" style={{ backgroundColor: '#F9FAF9' }}>
+        <div className="pt-16">
+          {/* Back Button */}
+          <div className="container mx-auto px-4 py-6">
+            <Button 
+              onClick={handleBackToServices}
+              variant="outline"
+              className="mb-4 text-gray-600 border-gray-300 hover:bg-gray-50"
+            >
             ← Quay lại Dịch vụ
           </Button>
           
@@ -367,10 +357,11 @@ const TourPage: React.FC = () => {
             </div>
           )}
         </div>
+        </div>
       </div>
       
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

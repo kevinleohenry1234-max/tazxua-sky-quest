@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
-import Footer from '@/components/Footer';
-import Layout from '@/components/Layout';
+import { BookOpen, CheckCircle, Lock, Play, Clock, Star, Trophy, Target, ArrowRight, ChevronRight, ChevronDown, ChevronUp, Users, Calendar, Award, Zap, Mountain, Leaf, Camera, Music, Palette, Heart, Gift, Sparkles, TrendingUp, Eye, Download, Share2, MapPin, Circle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { 
-  CheckCircle, 
-  Circle, 
-  ArrowRight, 
-  MapPin, 
-  Clock, 
-  Users, 
-  Mountain,
-  Camera,
-  BookOpen,
-  Play,
-  Star,
-  Award
-} from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 
 interface LearningStep {
   id: string;
@@ -210,15 +200,22 @@ const LearningPath = () => {
 
   return (
     <Layout>
-      <MainNavigation />
-      <Header 
-        isLoggedIn={false}
-        userName=""
-        onLoginClick={() => {}}
-        onRegisterClick={() => {}}
-        onProfileClick={() => {}}
-        onLogoutClick={() => {}}
-      />
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        {/* Hero Section */}
+        <div className="relative bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white py-20">
+          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-[url('/images/website background/mountain-pattern.svg')] opacity-10" />
+          
+          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="flex items-center justify-center mb-6">
+              <BookOpen className="w-12 h-12 mr-4" />
+              <h1 className="text-5xl font-bold">Lộ Trình Học Tập</h1>
+            </div>
+            <p className="text-xl opacity-90 max-w-3xl mx-auto">
+              Khám phá Tà Xùa qua hành trình học tập có hệ thống và thú vị
+            </p>
+          </div>
+        </div>
       
       <div className="min-h-screen pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,5 +1,3 @@
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -168,9 +166,6 @@ const Experience = () => {
 
   return (
     <Layout>
-      <MainNavigation />
-      <Header />
-      
       <main className="pt-30">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-b from-black/30 to-black/60 flex items-center justify-center">

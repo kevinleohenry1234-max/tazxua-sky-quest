@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Home, Eye, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
+import LoginModal from '@/components/LoginModal';
+import RegisterModal from '@/components/RegisterModal';
 import LazyImage from '@/components/LazyImage';
 
 const ExploreExhibition = () => {
@@ -75,22 +77,19 @@ const ExploreExhibition = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-        <MainNavigation />
+      <Layout>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Đang tải triển lãm...</p>
           </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <MainNavigation />
-      
+    <Layout>
       {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">

@@ -1,35 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
+import { Target, Trophy, Clock, Star, CheckCircle, Lock, Play, Users, Gift, Zap, Mountain, Leaf, Camera, Book, Music, Palette, Heart, Award, Crown, Medal, Sparkles, Calendar, TrendingUp, ArrowRight, ChevronRight, Filter, Search, SortAsc, SortDesc, MapPin, QrCode, Navigation, Building2, Badge, Globe } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge as UIBadge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 import { useGamification } from '../hooks/useGamification';
 import { Challenge, ChallengeType, ChallengeSource, ChallengeVariant } from '../types/gamification';
 import { EXPANDED_CHALLENGES } from '../data/gamificationData';
-import { 
-  Target, 
-  Users, 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  Camera, 
-  QrCode, 
-  CheckCircle,
-  Star,
-  Trophy,
-  Filter,
-  Play,
-  Award,
-  Sparkles,
-  Mountain,
-  Leaf,
-  Search,
-  Navigation,
-  Building2,
-  Heart,
-  TrendingUp,
-  Gift,
-  Badge,
-  Zap,
-  Globe
-} from 'lucide-react';
 
 const ChallengesPage: React.FC = () => {
   const { challenges, userChallenges, joinChallenge, completeChallenge, awardPoints } = useGamification();
@@ -406,19 +390,17 @@ const ChallengesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
-      {/* Main Website Navigation */}
-      <Header />
-      
-      {/* Add padding for mobile bottom navigation */}
-      <div className="pb-20 md:pb-0">
-        {/* Hero Section with Ta Xua Theme */}
-        <div className="relative bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white py-20">
-          <div className="absolute inset-0 bg-black/20" />
-          <div className="absolute inset-0 bg-[url('/images/website background/mountain-pattern.svg')] opacity-10" />
-          
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="flex items-center justify-center mb-6">
+    <Layout>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        {/* Add padding for mobile bottom navigation */}
+        <div className="pb-20 md:pb-0">
+          {/* Hero Section with Ta Xua Theme */}
+          <div className="relative bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white py-20">
+            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-[url('/images/website background/mountain-pattern.svg')] opacity-10" />
+            
+            <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <div className="flex items-center justify-center mb-6">
               <Mountain className="w-12 h-12 mr-4" />
               <h1 className="text-5xl font-bold">Thử Thách Tà Xùa</h1>
               <Leaf className="w-12 h-12 ml-4" />
@@ -672,7 +654,7 @@ const ChallengesPage: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </Layout>
   );
 };
 

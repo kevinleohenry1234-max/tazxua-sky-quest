@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import LoginModal, { LoginData } from '@/components/LoginModal';
@@ -167,14 +166,6 @@ const ExhibitionGallery = () => {
 
   return (
     <Layout>
-      <Header
-        isLoggedIn={isLoggedIn}
-        userName={userName}
-        onLoginClick={() => setIsLoginModalOpen(true)}
-        onRegisterClick={() => setIsRegisterModalOpen(true)}
-        onLogoutClick={handleLogout}
-      />
-
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

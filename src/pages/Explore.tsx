@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -223,8 +221,6 @@ const Explore = () => {
 
   return (
     <Layout>
-      <MainNavigation />
-      <Header />
       <main className="min-h-screen overflow-x-hidden relative bg-gray-50">
         {/* Hero Section - Reduced Height */}
         <section 

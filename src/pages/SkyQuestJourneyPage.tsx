@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
 import { useSkyQuest } from '../contexts/SkyQuestContext';
 import { 
   Mountain, 
@@ -96,8 +95,6 @@ const SkyQuestJourneyPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <Header />
-      
       <div className="pb-20 md:pb-0">
         {/* Progress Header */}
         <div className={`relative py-16 overflow-hidden ${

@@ -1,7 +1,5 @@
-import Header from '@/components/Header';
-import MainNavigation from '@/components/MainNavigation';
-import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
+import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -100,9 +98,6 @@ const Attractions = () => {
 
   return (
     <Layout>
-      <MainNavigation />
-      <Header />
-      
       <main className="pt-16">
         {/* Hero Section */}
         <section 

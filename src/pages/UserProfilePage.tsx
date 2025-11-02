@@ -9,7 +9,6 @@ import useEmotionalFeedback from '../hooks/useEmotionalFeedback';
 import EmotionalFeedback from '../components/EmotionalFeedback';
 import ProgressToast from '../components/ProgressToast';
 import MicroInteractions from '../components/gamification/MicroInteractions';
-import Header from '../components/Header';
 import JourneyTimeline from '../components/JourneyTimeline';
 import HallOfStories from '../components/HallOfStories';
 import InteractiveMoments from '../components/InteractiveMoments';
@@ -96,9 +95,6 @@ const UserProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-      {/* Main Website Navigation */}
-      <Header />
-      
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -41,10 +41,16 @@ const ReturningUserDashboard = lazy(() => import('./pages/ReturningUserDashboard
 const SkyQuest = lazy(() => import('./pages/SkyQuest'));
 const SkyQuestCalm = lazy(() => import('./pages/SkyQuestCalm'));
 const SkyQuestEnergetic = lazy(() => import('./pages/SkyQuestEnergetic'));
+const SkyQuestMaySuong = lazy(() => import('./pages/SkyQuestMaySuong'));
+const SkyQuestHangSay = lazy(() => import('./pages/SkyQuestHangSay'));
+const SkyQuestQuests = lazy(() => import('./pages/SkyQuestQuests'));
+const SkyQuestRewards = lazy(() => import('./pages/SkyQuestRewards'));
 const Restaurant = lazy(() => import('./pages/Restaurant'));
 const Tour = lazy(() => import('./pages/Tour'));
 const Transport = lazy(() => import('./pages/Transport'));
 const SearchResults = lazy(() => import('./pages/SearchResults'));
+const Services = lazy(() => import('./pages/Services'));
+const Settings = lazy(() => import('./pages/Settings'));
 
 const queryClient = new QueryClient();
 
@@ -132,6 +138,21 @@ const App = () => (
                 <SkyQuest />
               </Suspense>
             } />
+            <Route path="/skyquest/maysuong" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <SkyQuestMaySuong />
+              </Suspense>
+            } />
+            <Route path="/skyquest/hangsay" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <SkyQuestHangSay />
+              </Suspense>
+            } />
+            <Route path="/skyquest/quests" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <SkyQuestQuests />
+              </Suspense>
+            } />
             <Route path="/trien-lam" element={
               <Suspense fallback={<LoadingSpinner />}>
                 <DigitalExhibition />
@@ -204,7 +225,7 @@ const App = () => (
             } />
             <Route path="/sky-quest/rewards" element={
               <Suspense fallback={<LoadingSpinner />}>
-                <RewardShop />
+                <SkyQuestRewards />
               </Suspense>
             } />
             <Route path="/leaderboard" element={
@@ -245,6 +266,16 @@ const App = () => (
             <Route path="/search-results" element={
               <Suspense fallback={<LoadingSpinner />}>
                 <SearchResults />
+              </Suspense>
+            } />
+            <Route path="/services" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Services />
+              </Suspense>
+            } />
+            <Route path="/settings" element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Settings />
               </Suspense>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

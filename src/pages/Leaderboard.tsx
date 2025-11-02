@@ -6,7 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { useGamification } from '../hooks/useGamification';
 import { LeaderboardEntry, Leaderboard as LeaderboardType } from '../types/gamification';
 import { getUserLevel } from '../data/gamificationData';
-import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Layout from '@/components/Layout';
 import { 
   Trophy, 
   Medal, 
@@ -300,18 +301,16 @@ const Leaderboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
-      {/* Main Website Navigation */}
-      <Header />
-      
-      {/* Add padding for mobile bottom navigation */}
-      <div className="pb-20 md:pb-0">
-        {/* Hero Section with Ta Xua Theme */}
-        <div className="relative bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white py-20">
-          <div className="absolute inset-0 bg-black/20" />
-          <div className="absolute inset-0 bg-[url('/images/website background/mountain-pattern.svg')] opacity-10" />
-          
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <Layout>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        {/* Add padding for mobile bottom navigation */}
+        <div className="pb-20 md:pb-0">
+          {/* Hero Section with Ta Xua Theme */}
+          <div className="relative bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white py-20">
+            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-[url('/images/website background/mountain-pattern.svg')] opacity-10" />
+            
+            <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="flex items-center justify-center mb-6">
               <Trophy className="w-12 h-12 mr-4 animate-bounce" />
               <h1 className="text-5xl font-bold">Bảng Xếp Hạng Tà Xùa</h1>
@@ -647,7 +646,7 @@ const Leaderboard: React.FC = () => {
         </div>
       </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

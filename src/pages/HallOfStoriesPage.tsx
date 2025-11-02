@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
 import HallOfStories from '../components/HallOfStories';
 import { StoryCard, StoryWish } from '../types/journey';
 import { 
@@ -109,9 +108,6 @@ const HallOfStoriesPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
-      {/* Main Website Navigation */}
-      <Header />
-      
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0">
         {/* Hero Section - Warm and inviting */}

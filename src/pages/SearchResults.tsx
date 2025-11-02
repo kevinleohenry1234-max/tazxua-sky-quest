@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Filter, MapPin, Star, Clock, Users, ArrowLeft, ChevronLeft, ChevronRight, Grid, List, SlidersHorizontal, Loader2, Grid3X3, AlertCircle } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Search, Filter, MapPin, Star, Clock, Users, ArrowLeft, Grid, List, SortAsc, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
-import MainNavigation from '@/components/MainNavigation';
-import Header from '@/components/Header';
-import Layout from '@/components/Layout';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import Footer from '@/components/Footer';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import LazyImage from '@/components/LazyImage';
+import Layout from '@/components/Layout';
 
 interface SearchResult {
   id: string;
@@ -189,13 +184,12 @@ const SearchResults: React.FC = () => {
     return colorMap[type] || 'bg-gray-100 text-gray-800';
   };
 
-  if (isLoading && results.length === 0) {
+  if (isLoading) {
     return (
       <Layout>
-        <Header />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+            <div className="w-8 h-8 animate-spin mx-auto mb-4 border-2 border-primary border-t-transparent rounded-full"></div>
             <p className="text-gray-600">Đang tìm kiếm...</p>
           </div>
         </div>
@@ -205,8 +199,6 @@ const SearchResults: React.FC = () => {
 
   return (
     <Layout>
-      <Header />
-      
       <main className="min-h-screen bg-gray-50 pt-16">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}

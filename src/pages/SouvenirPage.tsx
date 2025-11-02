@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
 import JourneySouvenirs from '../components/JourneySouvenirs';
 import { Badge, Voucher } from '../types/gamification';
 import { SouvenirCard } from '../types/journey';
@@ -117,9 +116,6 @@ const SouvenirPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
-      {/* Main Website Navigation */}
-      <Header />
-      
       {/* Add padding for mobile bottom navigation */}
       <div className="pb-20 md:pb-0">
         {/* Hero Section */}
