@@ -17,9 +17,9 @@ const RankDashboard: React.FC<RankDashboardProps> = ({
   compact = false
 }) => {
   const { currentRank, nextRank } = userProgress;
-  const currentRankData = getRankByLevel(currentRank);
-  const nextRankData = nextRank ? getRankByLevel(nextRank) : null;
-  const theme = RANK_THEMES[currentRank];
+  const currentRankData = getRankByLevel(currentRank.level);
+  const nextRankData = nextRank ? getRankByLevel(nextRank.level) : null;
+  const theme = RANK_THEMES[currentRank.level];
 
   return (
     <div 
@@ -103,7 +103,7 @@ const RankDashboard: React.FC<RankDashboardProps> = ({
         {nextRankData && !compact && (
           <div 
             className="rounded-lg p-3 border-2 border-dashed"
-            style={{ borderColor: `${RANK_THEMES[nextRank!].primary}40` }}
+            style={{ borderColor: `${RANK_THEMES[nextRank!.level].primary}40` }}
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
@@ -115,7 +115,7 @@ const RankDashboard: React.FC<RankDashboardProps> = ({
                 />
                 <span 
                   className="font-medium text-sm"
-                  style={{ color: RANK_THEMES[nextRank!].textColor }}
+                  style={{ color: RANK_THEMES[nextRank!.level].textColor }}
                 >
                   {nextRankData.name}
                 </span>
@@ -137,7 +137,7 @@ const RankDashboard: React.FC<RankDashboardProps> = ({
                   >
                     <div 
                       className="w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: RANK_THEMES[nextRank!].primary }}
+                      style={{ backgroundColor: RANK_THEMES[nextRank!.level].primary }}
                     />
                     <span>{benefit}</span>
                   </div>

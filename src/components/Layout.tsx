@@ -41,13 +41,13 @@ const Layout = ({ children, className = '', isLoggedIn = false }: LayoutProps) =
   const currentImage = backgroundImages[currentBgIndex];
 
   // Handle login and register functions
-  const handleLogin = (data: LoginData) => {
+  const handleLogin = async (data: LoginData): Promise<void> => {
     console.log('Login data:', data);
     setShowLoginModal(false);
     // Add your login logic here
   };
 
-  const handleRegister = (data: RegisterData) => {
+  const handleRegister = async (data: RegisterData): Promise<void> => {
     console.log('Register data:', data);
     setShowRegisterModal(false);
     // Add your register logic here
@@ -58,8 +58,8 @@ const Layout = ({ children, className = '', isLoggedIn = false }: LayoutProps) =
       {/* Global Navigation */}
       <Navbar
         isLoggedIn={isLoggedIn}
-        onLoginClick={() => setShowLoginModal(true)}
-        onRegisterClick={() => setShowRegisterModal(true)}
+        onLogin={() => setShowLoginModal(true)}
+        onRegister={() => setShowRegisterModal(true)}
       />
 
       {/* Main Content */}

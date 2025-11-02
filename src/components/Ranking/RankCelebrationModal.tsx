@@ -55,7 +55,7 @@ const RankCelebrationModal: React.FC<RankCelebrationModalProps> = ({
         <div 
           className="absolute inset-0 opacity-10"
           style={{
-            background: `linear-gradient(135deg, ${theme.primaryColor} 0%, ${theme.secondaryColor} 100%)`
+            background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`
           }}
         />
 
@@ -67,7 +67,7 @@ const RankCelebrationModal: React.FC<RankCelebrationModalProps> = ({
                 key={i}
                 className="absolute w-2 h-2 rounded-full animate-bounce"
                 style={{
-                  backgroundColor: i % 2 === 0 ? theme.primaryColor : '#FFD700',
+                  backgroundColor: i % 2 === 0 ? theme.primary : '#FFD700',
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
                   animationDelay: `${Math.random() * 2}s`,
@@ -94,7 +94,7 @@ const RankCelebrationModal: React.FC<RankCelebrationModalProps> = ({
               <div 
                 className="absolute inset-0 rounded-full animate-ping"
                 style={{
-                  background: `radial-gradient(circle, ${theme.primaryColor}40 0%, transparent 70%)`,
+                  background: `radial-gradient(circle, ${theme.primary}40 0%, transparent 70%)`,
                   transform: 'scale(1.5)'
                 }}
               />
@@ -137,7 +137,7 @@ const RankCelebrationModal: React.FC<RankCelebrationModalProps> = ({
                       </span>
                     </div>
                     <span className="text-sm text-gray-500">
-                      {reward.pointsCost} điểm
+                      {reward.description}
                     </span>
                   </div>
                 ))}
@@ -166,8 +166,8 @@ const RankCelebrationModal: React.FC<RankCelebrationModalProps> = ({
               }}
               className="flex-1 px-4 py-2 text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg"
               style={{
-                backgroundColor: theme.primaryColor,
-                boxShadow: `0 4px 12px ${theme.primaryColor}40`
+                backgroundColor: theme.primary,
+            boxShadow: `0 4px 12px ${theme.primary}40`
               }}
             >
               Khám phá quyền lợi

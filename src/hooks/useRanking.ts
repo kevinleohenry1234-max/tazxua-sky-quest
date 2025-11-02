@@ -48,12 +48,17 @@ export const useRanking = (userId?: string): UseRankingReturn => {
         setUserProgress(progress);
       } else {
         // Tạo progress mới cho user lần đầu
+        const explorerRank = getRankByPoints(0);
+        const inspirationRank = getNextRank(0);
+        
         const initialProgress: UserRankProgress = {
           userId,
-          currentRank: 'Explorer',
+          currentRank: explorerRank,
           currentPoints: 0,
-          nextRank: 'Inspiration',
-          pointsToNext: 1000,
+          totalPoints: 0,
+          nextRank: inspirationRank,
+          pointsToNext: inspirationRank ? inspirationRank.minPoints : 0,
+          progressToNext: 0,
           progressPercentage: 0,
           rankAchievedAt: new Date(),
           totalPointsEarned: 0,
@@ -117,19 +122,21 @@ export const useRanking = (userId?: string): UseRankingReturn => {
       const updatedProgress: UserRankProgress = {
         ...userProgress,
         currentPoints: newTotalPoints,
-        currentRank: newRank.level,
-        nextRank: progressData.next?.level || null,
+        totalPoints: newTotalPoints, // Added totalPoints property
+        currentRank: newRank,
+        nextRank: progressData.next || null,
         pointsToNext: progressData.pointsToNext,
+        progressToNext: progressData.progressPercentage, // Added progressToNext property
         progressPercentage: progressData.progressPercentage,
         totalPointsEarned: userProgress.totalPointsEarned + multipliedPoints
       };
 
       // Kiểm tra thăng hạng
-      if (newRank.level !== userProgress.currentRank) {
+      if (newRank.level !== userProgress.currentRank.level) {
         const rankUpEntry = {
           id: `history_${Date.now()}`,
           userId,
-          fromRank: userProgress.currentRank,
+          fromRank: userProgress.currentRank.level,
           toRank: newRank.level,
           achievedAt: new Date(),
           pointsAtTime: newTotalPoints,

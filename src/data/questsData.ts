@@ -10,6 +10,7 @@ export interface Quest {
 }
 
 export interface Level {
+  id: string;
   level: string;
   points: number;
   title: string;
@@ -176,30 +177,35 @@ export const hangsayQuests: Quest[] = [
 // Hệ thống cấp độ
 export const levels: Level[] = [
   {
+    id: "F0",
     level: "F0",
     points: 0,
     title: "Người mới",
     description: "Chào mừng bạn đến với Sky Quest!"
   },
   {
+    id: "F1",
     level: "F1", 
     points: 300,
     title: "Người khám phá",
     description: "Bạn đã bắt đầu hành trình khám phá Tà Xùa"
   },
   {
+    id: "F2",
     level: "F2",
     points: 700, 
     title: "Người cống hiến",
     description: "Bạn đã có những đóng góp tích cực"
   },
   {
+    id: "F3",
     level: "F3",
     points: 1200,
     title: "Nhà thám hiểm", 
     description: "Bạn là một nhà thám hiểm thực thụ"
   },
   {
+    id: "F4",
     level: "F4",
     points: 2000,
     title: "Đại sứ Sky Quest",

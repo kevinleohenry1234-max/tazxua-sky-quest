@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Search, Filter, MapPin, Star, Clock, Users, ArrowLeft, Grid, List, SortAsc, SortDesc } from 'lucide-react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Search, Filter, MapPin, Star, Clock, Users, ArrowLeft, Grid, List, SortAsc, SortDesc, Grid3X3, SlidersHorizontal, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { LazyImage } from '@/components/ui/lazy-image';
 import Footer from '@/components/Footer';
 import Layout from '@/components/Layout';
 

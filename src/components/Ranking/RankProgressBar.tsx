@@ -53,7 +53,7 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
         {/* Background Track */}
         <div 
           className="w-full h-3 rounded-full overflow-hidden"
-          style={{ backgroundColor: `${currentTheme.primaryColor}20` }}
+          style={{ backgroundColor: `${currentTheme.primary}20` }}
         >
           {/* Progress Fill */}
           <div
@@ -64,8 +64,8 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
             style={{
               width: `${Math.min(progressToNext, 100)}%`,
               background: nextRank 
-                ? `linear-gradient(90deg, ${currentTheme.primaryColor} 0%, ${nextTheme.primaryColor} 100%)`
-                : currentTheme.primaryColor
+                ? `linear-gradient(90deg, ${currentTheme.primary} 0%, ${nextTheme.primary} 100%)`
+                : currentTheme.primary
             }}
           >
             {/* Shimmer Effect */}
@@ -105,7 +105,7 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
           <span 
             className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold"
             style={{ 
-              backgroundColor: `${currentTheme.primaryColor}20`,
+              backgroundColor: `${currentTheme.primary}20`,
               color: currentTheme.textColor 
             }}
           >

@@ -38,13 +38,16 @@ export class RankingApi {
         .order('achieved_at', { ascending: false });
 
       const progressData = calculateProgressToNext(member.sky_points);
+      const currentRank = getRankByPoints(member.sky_points);
 
       return {
         userId: member.user_id,
-        currentRank: member.rank,
+        currentRank: currentRank,
         currentPoints: member.sky_points,
-        nextRank: progressData.next?.level || null,
+        totalPoints: member.sky_points,
+        nextRank: progressData.next || null,
         pointsToNext: progressData.pointsToNext,
+        progressToNext: progressData.progressPercentage,
         progressPercentage: progressData.progressPercentage,
         rankAchievedAt: new Date(member.rank_achieved_at),
         totalPointsEarned: member.total_points_earned,
@@ -95,12 +98,17 @@ export class RankingApi {
           celebration_shown: true
         }]);
 
+      const explorerRank = getRankByPoints(0);
+      const inspirationRank = calculateProgressToNext(0).next;
+
       return {
         userId,
-        currentRank: 'Explorer',
+        currentRank: explorerRank,
         currentPoints: 0,
-        nextRank: 'Inspiration',
-        pointsToNext: 1000,
+        totalPoints: 0,
+        nextRank: inspirationRank,
+        pointsToNext: inspirationRank ? inspirationRank.minPoints : 0,
+        progressToNext: 0,
         progressPercentage: 0,
         rankAchievedAt: new Date(),
         totalPointsEarned: 0,
@@ -130,7 +138,7 @@ export class RankingApi {
 
       const newTotalPoints = currentProgress.currentPoints + points;
       const newRank = getRankByPoints(newTotalPoints);
-      const rankUp = newRank.level !== currentProgress.currentRank;
+      const rankUp = newRank.level !== currentProgress.currentRank.level;
 
       // Cập nhật điểm trong database
       const { error: updateError } = await supabase

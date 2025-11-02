@@ -32,10 +32,12 @@ export interface RankReward {
 
 export interface UserRankProgress {
   userId: string;
-  currentRank: RankLevel;
+  currentRank: MemberRank; // Changed from RankLevel to MemberRank to include name, minPoints
   currentPoints: number;
-  nextRank: RankLevel | null;
+  totalPoints: number; // Added totalPoints property
+  nextRank: MemberRank | null; // Changed from RankLevel to MemberRank
   pointsToNext: number;
+  progressToNext: number; // Added progressToNext property
   progressPercentage: number;
   rankAchievedAt: Date;
   totalPointsEarned: number;
