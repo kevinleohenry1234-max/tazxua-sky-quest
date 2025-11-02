@@ -255,7 +255,7 @@ const ExploreExhibition = () => {
       </section>
 
       <Footer />
-    </div>
+    </Layout>
   );
 };
 

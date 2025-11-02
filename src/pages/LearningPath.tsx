@@ -216,8 +216,8 @@ const LearningPath = () => {
             </p>
           </div>
         </div>
-      
-      <div className="min-h-screen pt-28 pb-16">
+
+        <div className="min-h-screen pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
@@ -328,6 +328,7 @@ const LearningPath = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       
       <Footer />

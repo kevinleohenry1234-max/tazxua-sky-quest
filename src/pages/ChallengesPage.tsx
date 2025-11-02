@@ -401,10 +401,10 @@ const ChallengesPage: React.FC = () => {
             
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <div className="flex items-center justify-center mb-6">
-              <Mountain className="w-12 h-12 mr-4" />
-              <h1 className="text-5xl font-bold">Thử Thách Tà Xùa</h1>
-              <Leaf className="w-12 h-12 ml-4" />
-            </div>
+                <Mountain className="w-12 h-12 mr-4" />
+                <h1 className="text-5xl font-bold">Thử Thách Tà Xùa</h1>
+                <Leaf className="w-12 h-12 ml-4" />
+              </div>
             <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
               Khám phá vẻ đẹp thiên nhiên Tà Xùa qua những thử thách thú vị từ 3 nguồn khác nhau. 
               Tích lũy điểm, nhận huy hiệu và trở thành Đại sứ xanh của núi rừng Tây Bắc!
@@ -653,6 +653,7 @@ const ChallengesPage: React.FC = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </Layout>
   );

@@ -311,11 +311,11 @@ const Leaderboard: React.FC = () => {
             <div className="absolute inset-0 bg-[url('/images/website background/mountain-pattern.svg')] opacity-10" />
             
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="flex items-center justify-center mb-6">
-              <Trophy className="w-12 h-12 mr-4 animate-bounce" />
-              <h1 className="text-5xl font-bold">Bảng Xếp Hạng Tà Xùa</h1>
-              <Crown className="w-12 h-12 ml-4 animate-bounce" />
-            </div>
+              <div className="flex items-center justify-center mb-6">
+                <Trophy className="w-12 h-12 mr-4 animate-bounce" />
+                <h1 className="text-5xl font-bold">Bảng Xếp Hạng Tà Xùa</h1>
+                <Crown className="w-12 h-12 ml-4 animate-bounce" />
+              </div>
             <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
               Những chiến binh xanh dẫn đầu trong hành trình khám phá và bảo vệ thiên nhiên Tà Xùa
             </p>
@@ -644,7 +644,8 @@ const Leaderboard: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+        </div>
       </div>
     </Layout>
   );
